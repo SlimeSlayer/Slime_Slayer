@@ -81,6 +81,12 @@
     <ClCompile Include="j1Collisions.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="j1EntitiesManager.cpp">
+      <Filter>Modules\EntitiesManager</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseEntities.cpp">
+      <Filter>Modules\EntitiesManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -175,11 +181,14 @@
     <ClInclude Include="j1Collisions.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="j1EntitiesManager.h">
+      <Filter>Modules\EntitiesManager</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseEntities.h">
+      <Filter>Modules\EntitiesManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Modules">
-      <UniqueIdentifier>{244722d1-90ce-423d-8e7a-556211865a32}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scenes">
       <UniqueIdentifier>{e07660eb-d36f-4cc9-af59-324d31c2f2f6}</UniqueIdentifier>
     </Filter>
@@ -200,6 +209,12 @@
     </Filter>
     <Filter Include="UI\UI_Elements">
       <UniqueIdentifier>{284cbc2b-c97f-4e37-9735-d7d07abfd941}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules">
+      <UniqueIdentifier>{244722d1-90ce-423d-8e7a-556211865a32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\EntitiesManager">
+      <UniqueIdentifier>{c3fdcd08-8ee7-43bb-b863-0a367e721999}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

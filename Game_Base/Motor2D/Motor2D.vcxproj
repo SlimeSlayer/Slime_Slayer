@@ -77,8 +77,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseEntities.cpp" />
     <ClCompile Include="j1Animator.cpp" />
     <ClCompile Include="j1Collisions.cpp" />
+    <ClCompile Include="j1EntitiesManager.cpp" />
     <ClCompile Include="j1FileSystem.cpp" />
     <ClCompile Include="j1Fonts.cpp" />
     <ClCompile Include="j1Gui.cpp" />
@@ -107,8 +109,10 @@
     <ClCompile Include="j1Video.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseEntities.h" />
     <ClInclude Include="j1Animator.h" />
     <ClInclude Include="j1Collisions.h" />
+    <ClInclude Include="j1EntitiesManager.h" />
     <ClInclude Include="j1FileSystem.h" />
     <ClInclude Include="j1Fonts.h" />
     <ClInclude Include="j1Gui.h" />
