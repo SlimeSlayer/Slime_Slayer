@@ -66,9 +66,6 @@
     <ClCompile Include="UI_Popup_Menu.cpp">
       <Filter>UI\UI_Elements</Filter>
     </ClCompile>
-    <ClCompile Include="Iso_Primitives.cpp">
-      <Filter>Tools</Filter>
-    </ClCompile>
     <ClCompile Include="UI_Fixed_Button.cpp">
       <Filter>UI\UI_Elements</Filter>
     </ClCompile>
@@ -79,6 +76,9 @@
       <Filter>Tools\Theora%28Video CODEC lib%29</Filter>
     </ClCompile>
     <ClCompile Include="j1Video.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Collisions.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>
@@ -157,9 +157,6 @@
     <ClInclude Include="UI_Popup_Menu.h">
       <Filter>UI\UI_Elements</Filter>
     </ClInclude>
-    <ClInclude Include="Iso_Primitives.h">
-      <Filter>Tools</Filter>
-    </ClInclude>
     <ClInclude Include="UI_Fixed_Button.h">
       <Filter>UI\UI_Elements</Filter>
     </ClInclude>
@@ -173,6 +170,9 @@
       <Filter>Tools\Theora%28Video CODEC lib%29</Filter>
     </ClInclude>
     <ClInclude Include="j1Video.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Collisions.h">
       <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>

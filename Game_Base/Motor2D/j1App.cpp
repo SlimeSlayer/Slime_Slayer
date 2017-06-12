@@ -18,6 +18,7 @@
 #include "j1Gui.h"
 #include "j1Animator.h"
 #include "j1Video.h"
+#include "j1Collisions.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -31,11 +32,13 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	render = new j1Render();
 	tex = new j1Textures();
 	audio = new j1Audio();
-	scene = new j1Scene();
 	fs = new j1FileSystem();
 	font = new j1Fonts();
 	gui = new j1Gui();
 	video = new j1Video();
+	collisions = new j1Collisions();
+
+	scene = new j1Scene();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -47,6 +50,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(font);
 	AddModule(gui);
 	AddModule(video);
+	AddModule(collisions);
 
 	// scene last
 	AddModule(scene);

@@ -37,7 +37,7 @@ class j1FogOfWar;
 class j1InputManager;
 class j1Video;
 class j1Intro;
-
+class j1Collisions;
 class j1App
 {
 public:
@@ -115,24 +115,16 @@ public:
 	j1Render*			render = NULL;
 	j1Textures*			tex = NULL;
 	j1Audio*			audio = NULL;
-	j1Scene*			scene = NULL;
-	j1Menu*				menu = NULL;
 	j1FileSystem*		fs = NULL;
-	j1Map*				map = NULL;
+	j1Collisions*		collisions = NULL;
 	j1Fonts*			font = NULL;
 	j1Gui*				gui = NULL;
-	j1Animator*			animator = NULL;
-	j1SoundManager*		sound = NULL;
-	j1GroupMovement*	group_move = NULL;
-	j1EntitiesManager*	entities_manager = NULL;
-	j1BuffManager*		buff_manager = NULL;
-	j1ActionManager*	action_manager = NULL;
-	j1Player*			player = NULL;
-	j1AI*				AI = NULL;
-	j1Pathfinding*		pathfinding = NULL;
-	j1FogOfWar*			fog_of_war = NULL;
 	j1Video*			video = NULL;
-	j1Intro*			intro = NULL;
+	j1Animator*			animator = NULL;
+
+	// Scenes
+	j1Scene*			scene = NULL;
+	
 
 	// Add a new module to handle
 	void		AddModule(j1Module* module);

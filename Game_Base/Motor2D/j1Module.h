@@ -6,6 +6,7 @@
 #include <list>
 #include "PugiXml\src\pugixml.hpp"
 
+class Collider;
 class j1App;
 class UI_Element;
 enum GUI_INPUT;
@@ -98,6 +99,12 @@ public:
 	virtual void GUI_Input(UI_Element* target, GUI_INPUT input)
 	{
 
+	}
+
+	//Collisions functions -------------
+	virtual void OnCollision(Collider* A, Collider* B)
+	{
+	
 	}
 
 public:

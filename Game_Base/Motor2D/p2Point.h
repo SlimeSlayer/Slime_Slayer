@@ -7,7 +7,7 @@
 
 #include "p2Defs.h"
 #include <math.h>
-#define OCTANEVALUE 0,4142
+
 template<class TYPE>
 class p2Point
 {
