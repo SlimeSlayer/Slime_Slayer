@@ -15,6 +15,7 @@ public:
 	void Init();
 
 	bool Enable();
+	void Disable();
 
 	// Called before render is available
 	bool Awake(pugi::xml_node& config);
@@ -38,6 +39,11 @@ public:
 
 	//Map Folders
 	std::vector <std::string> map_folder;
+
+private:
+
+	//Scene Data ------------
+	Collider* floor_collider = nullptr;
 
 };
 

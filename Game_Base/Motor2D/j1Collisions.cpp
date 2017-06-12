@@ -3,12 +3,15 @@
 #include "p2Log.h"
 #include "j1App.h"
 #include "j1Render.h"
-
+#include "j1InputManager.h"
 
 j1Collisions::j1Collisions()
 {
-	for (uint i = 0; i < MAX_COLLIDERS; ++i)
+	uint size = colliders.size();
+	for (uint i = 0; i < size; ++i)
+	{
 		colliders[i] = nullptr;
+	}
 
 	//WALL
 	matrix[COLLIDER_WALL][COLLIDER_WALL] = false;
@@ -27,7 +30,8 @@ j1Collisions::~j1Collisions()
 bool j1Collisions::PreUpdate()
 {
 	// Remove all colliders scheduled for deletion
-	for (uint i = 0; i < MAX_COLLIDERS; ++i)
+	uint size = colliders.size();
+	for (uint i = 0; i < size; ++i)
 	{
 		if (colliders[i] != nullptr && colliders[i]->to_delete == true)
 		{
@@ -42,10 +46,19 @@ bool j1Collisions::PreUpdate()
 // Called before render is available
 bool j1Collisions::Update(float dt)
 {
+	//DEBUG -------------------------------------
+	if (App->input_manager->GetEvent(COLLIDERS_DEBUG_MODE) == INPUT_DOWN)
+	{
+		App->collisions_debug = !App->collisions_debug;
+	}
+	// ------------------------------------------
+
+
 	Collider* c1 = nullptr;
 	Collider* c2 = nullptr;
 
-	for (uint i = 0; i < MAX_COLLIDERS; ++i)
+	uint size = colliders.size();
+	for (uint i = 0; i < size; ++i)
 	{
 		// skip empty colliders
 		if (colliders[i] == nullptr)
@@ -54,7 +67,8 @@ bool j1Collisions::Update(float dt)
 		c1 = colliders[i];
 
 		// avoid checking collisions already checked
-		for (uint k = i + 1; k < MAX_COLLIDERS; ++k)
+		uint size = colliders.size();
+		for (uint k = i + 1; k < size; ++k)
 		{
 			// skip empty colliders
 			if (colliders[k] == nullptr)
@@ -73,7 +87,7 @@ bool j1Collisions::Update(float dt)
 		}
 	}
 
-	DebugDraw();
+	if(App->collisions_debug)DebugDraw();
 
 	return true;
 }
@@ -81,7 +95,8 @@ bool j1Collisions::Update(float dt)
 void j1Collisions::DebugDraw()
 {
 	Uint8 alpha = 80;
-	for (uint i = 0; i < MAX_COLLIDERS; ++i)
+	uint size = colliders.size();
+	for (uint i = 0; i < size; ++i)
 	{
 		if (colliders[i] == nullptr)
 			continue;
@@ -92,7 +107,7 @@ void j1Collisions::DebugDraw()
 			App->render->DrawQuad(colliders[i]->rect, 255, 255, 255, alpha);
 			break;
 		case COLLIDER_WALL: // blue
-			App->render->DrawQuad(colliders[i]->rect, 0, 0, 255, alpha);
+			App->render->DrawQuad(colliders[i]->rect, 0, 50, 250, alpha);
 			break;
 		case COLLIDER_PLAYER: // green
 			App->render->DrawQuad(colliders[i]->rect, 0, 255, 0, alpha);
@@ -105,8 +120,8 @@ void j1Collisions::DebugDraw()
 bool j1Collisions::CleanUp()
 {
 	LOG("Freeing all colliders");
-
-	for (uint i = 0; i < MAX_COLLIDERS; ++i)
+	uint size = colliders.size();
+	for (uint i = 0; i < size; ++i)
 	{
 		if (colliders[i] != nullptr)
 		{
@@ -120,16 +135,9 @@ bool j1Collisions::CleanUp()
 
 Collider* j1Collisions::AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* callback)
 {
-	Collider* ret = nullptr;
+	Collider* ret = new Collider(rect, type, callback);;
 
-	for (uint i = 0; i < MAX_COLLIDERS; ++i)
-	{
-		if (colliders[i] == nullptr)
-		{
-			ret = colliders[i] = new Collider(rect, type, callback);
-			break;
-		}
-	}
+	colliders.push_back(ret);
 
 	return ret;
 }
@@ -139,7 +147,8 @@ bool j1Collisions::EraseCollider(Collider* collider)
 	if (collider != nullptr)
 	{
 		// we still search for it in case we received a dangling pointer
-		for (uint i = 0; i < MAX_COLLIDERS; ++i)
+		uint size = colliders.size();
+		for (uint i = 0; i < size; ++i)
 		{
 			if (colliders[i] == collider)
 			{
@@ -149,16 +158,7 @@ bool j1Collisions::EraseCollider(Collider* collider)
 		}
 	}
 
-
 	return false;
 }
 
 // -----------------------------------------------------
-
-bool Collider::CheckCollision(const SDL_Rect& r) const
-{
-	return (rect.x < r.x + r.w &&
-		rect.x + rect.w > r.x &&
-		rect.y < r.y + r.h &&
-		rect.h + rect.y > r.y);
-}

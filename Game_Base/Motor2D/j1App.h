@@ -183,6 +183,8 @@ public:
 	void SetQuit();
 	bool GetQuit()const;
 
+	bool collisions_debug = false;
+
 };
 
 extern j1App* App;

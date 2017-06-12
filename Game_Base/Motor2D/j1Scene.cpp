@@ -11,6 +11,7 @@
 #include "j1FileSystem.h"
 #include "j1InputManager.h"
 #include "j1Audio.h"
+#include "j1Collisions.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -35,6 +36,12 @@ bool j1Scene::Enable()
 	return true;
 }
 
+void j1Scene::Disable()
+{
+	active = false;
+	enabled = false;
+}
+
 // Called before render is available
 bool j1Scene::Awake(pugi::xml_node& config)
 {
@@ -53,7 +60,8 @@ bool j1Scene::Awake(pugi::xml_node& config)
 bool j1Scene::Start()
 {
 	//Map build -------------------------------------------
-	//Load_Current_Map();
+	//Floor collider --------
+	floor_collider = App->collisions->AddCollider({ 0,1000,5000,25 }, COLLIDER_WALL);
 
 	return true;
 }
@@ -77,13 +85,19 @@ bool j1Scene::Update(float dt)
 		App->audio->VolumeDown();
 	}
 	// ------------------------------------------
+
+	//EXIT --------------------------------------
+	else if (App->input_manager->GetEvent(ESCAPE) == INPUT_DOWN)
+	{
+		App->SetQuit();
+	}
+	// ------------------------------------------
 	return true;
 }
 
 // Called each loop iteration
 bool j1Scene::PostUpdate()
 {
-	bool ret = true;
 
 	if (App->input_manager->GetEvent(FULL_SCREEN) == INPUT_DOWN)
 	{
@@ -99,7 +113,7 @@ bool j1Scene::PostUpdate()
 		}
 	}
 
-	return ret;
+	return true;
 }
 
 // Called before quitting

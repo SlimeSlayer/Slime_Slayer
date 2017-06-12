@@ -14,18 +14,18 @@ enum COLLIDER_TYPE
 	COLLIDER_MAX // Used to initialize the matrix
 };
 
+/// Collider ----------------------------------------------
 struct Collider
 {
-	SDL_Rect rect;
+	SDL_Rect rect = { 0,0,0,0 };
 	bool to_delete = false;
-	COLLIDER_TYPE type;
+	COLLIDER_TYPE type = COLLIDER_NONE;
 	j1Module* callback = nullptr;
 
-	Collider(SDL_Rect rectangle, COLLIDER_TYPE type, j1Module* callback = nullptr) :
-		rect(rectangle),
-		type(type),
-		callback(callback)
-	{}
+	Collider(SDL_Rect rectangle, COLLIDER_TYPE type, j1Module* callback = nullptr): rect(rectangle), type(type), callback(callback)
+	{
+	
+	}
 
 	void SetPos(int x, int y)
 	{
@@ -33,9 +33,15 @@ struct Collider
 		rect.y = y;
 	}
 
-	bool CheckCollision(const SDL_Rect& r) const;
+	bool CheckCollision(const SDL_Rect& r) const
+	{
+		return (rect.x < r.x + r.w &&
+			rect.x + rect.w > r.x &&
+			rect.y < r.y + r.h &&
+			rect.h + rect.y > r.y);
+	}
 };
-
+/// -------------------------------------------------------
 class j1Collisions : public j1Module
 {
 public:
@@ -57,10 +63,9 @@ public:
 
 private:
 
-	Collider* colliders[MAX_COLLIDERS];
-	bool matrix[COLLIDER_MAX][COLLIDER_MAX];
-	bool debug = true;
-
+	std::vector<Collider*>	colliders;
+	bool		matrix[COLLIDER_MAX][COLLIDER_MAX];
+	
 };
 
 #endif // __j1ModuleCollisions_H__
