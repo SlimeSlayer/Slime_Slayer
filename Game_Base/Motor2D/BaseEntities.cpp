@@ -1,6 +1,6 @@
 #include "BaseEntities.h"
 #include "j1Animator.h"
-#include "j1Collisions.h"
+#include "j1Physics.h"
 
 /// Entity --------------------------------------
 //Base class where the entity pillars are defined

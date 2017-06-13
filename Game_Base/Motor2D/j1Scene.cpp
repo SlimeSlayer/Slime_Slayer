@@ -11,7 +11,7 @@
 #include "j1FileSystem.h"
 #include "j1InputManager.h"
 #include "j1Audio.h"
-#include "j1Collisions.h"
+#include "j1Physics.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -60,9 +60,7 @@ bool j1Scene::Awake(pugi::xml_node& config)
 bool j1Scene::Start()
 {
 	//Map build -------------------------------------------
-	//Floor collider --------
-	floor_collider = App->collisions->AddCollider({ 0,1000,5000,25 }, COLLIDER_WALL);
-
+	
 	return true;
 }
 

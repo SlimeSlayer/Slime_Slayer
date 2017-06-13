@@ -68,5 +68,7 @@ inline const char* const PATH(const char* folder, const char* file)
 //Geometry macros
 #define RADTOGRAD (x) x*= 57.29577
 #define GRADTORAD (y) y*= 0.017453
+#define DEGTORAD 0.0174532925199432957f
+#define RADTODEG 57.295779513082320876f
 
 #endif

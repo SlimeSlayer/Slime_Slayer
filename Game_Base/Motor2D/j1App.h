@@ -37,7 +37,7 @@ class j1FogOfWar;
 class j1InputManager;
 class j1Video;
 class j1Intro;
-class j1Collisions;
+class j1Physics;
 class j1App
 {
 public:
@@ -116,7 +116,7 @@ public:
 	j1Textures*			tex = NULL;
 	j1Audio*			audio = NULL;
 	j1FileSystem*		fs = NULL;
-	j1Collisions*		collisions = NULL;
+	j1Physics*			physics = NULL;
 	j1Fonts*			font = NULL;
 	j1Gui*				gui = NULL;
 	j1Video*			video = NULL;

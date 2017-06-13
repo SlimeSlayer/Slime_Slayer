@@ -211,3 +211,14 @@ void j1Input::GetMouseMotion(int& x, int& y)
 	x = mouse_motion_x;
 	y = mouse_motion_y;
 }
+
+int j1Input::GetMouseX() const
+{
+	return mouse_x;
+}
+
+int j1Input::GetMouseY() const
+{
+	return mouse_y;
+}
+

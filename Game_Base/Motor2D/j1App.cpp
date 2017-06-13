@@ -18,7 +18,7 @@
 #include "j1Gui.h"
 #include "j1Animator.h"
 #include "j1Video.h"
-#include "j1Collisions.h"
+#include "j1Physics.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -36,7 +36,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	font = new j1Fonts();
 	gui = new j1Gui();
 	video = new j1Video();
-	collisions = new j1Collisions();
+	physics = new j1Physics();
 
 	scene = new j1Scene();
 
@@ -50,7 +50,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(font);
 	AddModule(gui);
 	AddModule(video);
-	AddModule(collisions);
+	AddModule(physics);
 
 	// scene last
 	AddModule(scene);

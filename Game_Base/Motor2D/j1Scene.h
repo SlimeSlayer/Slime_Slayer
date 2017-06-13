@@ -3,6 +3,8 @@
 
 #include "j1Module.h"
 
+class PhysBody;
+
 class j1Scene : public j1Module
 {
 public:
@@ -43,7 +45,7 @@ public:
 private:
 
 	//Scene Data ------------
-	Collider* floor_collider = nullptr;
+	PhysBody* floor_collider = nullptr;
 
 };
 

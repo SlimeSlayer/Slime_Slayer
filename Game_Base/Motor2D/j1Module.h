@@ -6,7 +6,7 @@
 #include <list>
 #include "PugiXml\src\pugixml.hpp"
 
-class Collider;
+class PhysBody;
 class j1App;
 class UI_Element;
 enum GUI_INPUT;
@@ -102,7 +102,7 @@ public:
 	}
 
 	//Collisions functions -------------
-	virtual void OnCollision(Collider* A, Collider* B)
+	virtual void OnCollision(PhysBody* A, PhysBody* B)
 	{
 	
 	}
