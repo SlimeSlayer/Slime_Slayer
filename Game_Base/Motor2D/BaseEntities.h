@@ -69,7 +69,7 @@ private:
 
 	uint life = 0;
 	uint attack = 0;
-	uint mov_speed = 0;
+	float mov_speed = 0;
 
 public:
 
@@ -77,12 +77,12 @@ public:
 	void SetCreatureType(CREATURE_TYPE new_creature_type);
 	void SetLife(uint new_life);
 	void SetAttack(uint new_attack);
-	void SetMovSpeed(uint new_mov_speed);
+	void SetMovSpeed(float new_mov_speed);
 
 	//Get Methods -----------
 	CREATURE_TYPE	GetCreatureType()const;
 	uint			GetLife()const;
 	uint			GetAttack()const;
-	uint			GetMovSpeed()const;
+	float			GetMovSpeed()const;
 };
 /// ---------------------------------------------

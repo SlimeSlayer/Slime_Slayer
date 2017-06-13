@@ -3,7 +3,12 @@
 
 #include "j1Module.h"
 
+#define MID_PARALLAX_VAL 0.065
+#define BACK_PARALLAX_VAL 0.8
+
+class Parallax;
 class PhysBody;
+struct SDL_Texture;
 
 class j1Scene : public j1Module
 {
@@ -44,8 +49,17 @@ public:
 
 private:
 
-	//Scene Data ------------
+	//Private Scene Data ----
 	PhysBody* floor_collider = nullptr;
+
+	Parallax*	front_parallax = nullptr;
+	Parallax*	mid_parallax = nullptr;
+	Parallax*	back_parallax = nullptr;
+
+public:
+
+	//Functionality ---------
+	void UpdateParallax(float disp);
 
 };
 

@@ -3,6 +3,8 @@
 
 #include "j1Module.h"
 
+#define PLAYER_CAMERA_X 500
+#define PLAYER_CAMERA_Y 800
 class Creature;
 
 class j1Player : public j1Module
@@ -20,7 +22,7 @@ public:
 	// Called each loop iteration
 	bool Update(float dt);
 
-private:
+public:
 
 	Creature* avatar = nullptr;
 

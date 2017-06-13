@@ -52,11 +52,11 @@ bool j1Physics::Start()
 bool j1Physics::PreUpdate()
 {
 	//This update the physics world
-	if (physics_update_timer.Read() > SIMULATE_RATE)
-	{
+	/*if (physics_update_timer.ReadTicks() > SIMULATE_RATE)
+	{*/
 		world->Step(1.0f / 60.0f, 6, 2);
 		physics_update_timer.Start();
-	}
+	//}
 
 	for (b2Contact* c = world->GetContactList(); c; c = c->GetNext())
 	{

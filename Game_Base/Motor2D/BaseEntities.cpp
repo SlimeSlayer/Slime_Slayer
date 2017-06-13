@@ -98,7 +98,7 @@ void Creature::SetAttack(uint new_attack)
 	attack = new_attack;
 }
 
-void Creature::SetMovSpeed(uint new_mov_speed)
+void Creature::SetMovSpeed(float new_mov_speed)
 {
 	mov_speed = new_mov_speed;
 }
@@ -119,7 +119,7 @@ uint Creature::GetAttack() const
 	return attack;
 }
 
-uint Creature::GetMovSpeed() const
+float Creature::GetMovSpeed() const
 {
 	return mov_speed;
 }

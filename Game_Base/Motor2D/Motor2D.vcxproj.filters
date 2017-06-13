@@ -193,6 +193,9 @@
     <ClInclude Include="j1Player.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Parallax.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scenes">

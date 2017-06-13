@@ -2,7 +2,7 @@
 #define _J1PHYSICS_H_
 
 #include "j1Module.h"
-#include "j1Timer.h"
+#include "j1PerfTimer.h"
 
 #include "Box2D/Box2D/Box2D.h"
 
@@ -15,7 +15,7 @@
 #define METERS_TO_PIXELS(m) ((int) floor(PIXELS_PER_METER * m))
 #define PIXEL_TO_METERS(p)  ((float) METER_PER_PIXEL * p)
 
-#define SIMULATE_RATE 16.6666
+#define SIMULATE_RATE 16000 
 
 enum collision_type
 {
@@ -118,6 +118,6 @@ private:
 
 	std::list<b2Body*> bodys_to_delete;
 
-	j1Timer physics_update_timer;
+	j1PerfTimer physics_update_timer;
 };
 #endif

@@ -4,6 +4,8 @@
 #include "j1EntitiesManager.h"
 #include "j1InputManager.h"
 #include "j1Physics.h"
+#include "j1Render.h"
+#include "j1Scene.h"
 
 // Constructors =================================
 j1Player::j1Player()
@@ -21,6 +23,8 @@ j1Player::~j1Player()
 bool j1Player::Start()
 {
 	avatar = App->entities_manager->GenerateCreature(PLAYER_CREATURE);
+	avatar->GetBody()->SetPosition(1500, 900);
+	avatar->SetMovSpeed(500.0f);
 
 	return true;
 }
@@ -34,15 +38,33 @@ bool j1Player::Update(float dt)
 	
 	b2Vec2 linear_vel = avatar->GetBody()->body->GetLinearVelocity();
 
-	if (!avatar->GetBody()->IsInContact())return true;
+	int x_pos = 0, y_pos = 0;
+	avatar->GetBody()->GetPosition(x_pos, y_pos);
+	App->render->camera.x = -x_pos + PLAYER_CAMERA_X;
+	App->render->camera.y = -y_pos + PLAYER_CAMERA_Y;
+
+	if (!avatar->GetBody()->IsInContact())
+	{
+		if (linear_vel.x < 0)
+		{
+			App->scene->UpdateParallax(-avatar->GetMovSpeed() * App->GetDT());
+		}
+		else if (linear_vel.x > 0)
+		{
+			App->scene->UpdateParallax(avatar->GetMovSpeed() * App->GetDT());
+		}
+		return true;
+	}
 
 	if (go_left_input_state == INPUT_REPEAT)
 	{
-		avatar->GetBody()->body->SetLinearVelocity(b2Vec2(-5.0f, linear_vel.y));
+		avatar->GetBody()->body->SetLinearVelocity(b2Vec2(-avatar->GetMovSpeed() * App->GetDT(), linear_vel.y));
+		App->scene->UpdateParallax(-avatar->GetMovSpeed() * App->GetDT());
 	}
 	else if (go_right_input_state == INPUT_REPEAT)
 	{
-		avatar->GetBody()->body->SetLinearVelocity(b2Vec2(5.0f, linear_vel.y));
+		avatar->GetBody()->body->SetLinearVelocity(b2Vec2(avatar->GetMovSpeed() * App->GetDT(), linear_vel.y));
+		App->scene->UpdateParallax(avatar->GetMovSpeed() * App->GetDT());
 	}
 	else
 	{
@@ -52,6 +74,8 @@ bool j1Player::Update(float dt)
 	{
 		avatar->GetBody()->body->ApplyForceToCenter(b2Vec2(0.0f, -30.0f), true);
 	}
+
+
 
 	return true;
 }

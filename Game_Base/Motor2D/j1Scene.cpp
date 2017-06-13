@@ -13,6 +13,8 @@
 #include "j1Audio.h"
 #include "j1Physics.h"
 
+#include "Parallax.h"
+
 j1Scene::j1Scene() : j1Module()
 {
 	name = "scene";
@@ -61,21 +63,50 @@ bool j1Scene::Start()
 {
 	//Map build -------------------------------------------
 	//Floor -----------------
-	floor_collider = App->physics->CreateRectangle(2500, 1000, 5000, 15, collision_type::MAP_COLLISION, BODY_TYPE::MAP_BODY);
+	floor_collider = App->physics->CreateRectangle(2500, 955, 50000, 15, collision_type::MAP_COLLISION, BODY_TYPE::MAP_BODY);
 	floor_collider->body->SetType(b2BodyType::b2_staticBody);
 
+
+
+	//Load Scene Textures ---
+	//back_texture = ;
+
+	//Front Parallax --------
+	front_parallax = new Parallax(3);
+	front_parallax->SetTexture(App->tex->Load("scene/ground_texture.jpg"));
+	front_parallax->SetTextureRect({ 0,0,800,100 });
+	front_parallax->SetPosition(0, 900);
+
+	//Mid Parallax ----------
+	mid_parallax = new Parallax(5);
+	mid_parallax->SetTexture(App->tex->Load("scene/mid_texture.png"));
+	mid_parallax->SetTextureRect({ 0,0,400,450 });
+	mid_parallax->SetPosition(0, 450);
+
+	//Back Parallax ---------
+	back_parallax = new Parallax(2);
+	back_parallax->SetTexture(App->tex->Load("scene/skyline_texture.jpg"));
+	back_parallax->SetTextureRect({ 0,0,1600,900 });
+	back_parallax->SetPosition(0, 0);
 	return true;
 }
 
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
+
 	return true;
 }
 
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
+	//Blit scene Parallax -----------------------
+	back_parallax->Draw(-30);
+	mid_parallax->Draw(-40);
+	front_parallax->Draw(-30);
+	// ------------------------------------------
+
 	//VOLUME ------------------------------------
 	if (App->input_manager->GetEvent(VOLUME_UP) == INPUT_DOWN)
 	{
@@ -124,5 +155,16 @@ bool j1Scene::CleanUp()
 	
 	delete floor_collider;
 	
+	delete front_parallax;
+	delete mid_parallax;
+	delete back_parallax;
+	
 	return true;
+}
+
+// Functionality ================================
+void j1Scene::UpdateParallax(float disp)
+{
+	mid_parallax->Displace(disp * MID_PARALLAX_VAL);
+	back_parallax->Displace(disp * BACK_PARALLAX_VAL);
 }
