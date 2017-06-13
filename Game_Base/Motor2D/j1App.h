@@ -19,25 +19,17 @@ class j1Textures;
 class j1Audio;
 class j1FileSystem;
 class j1Scene;
-class j1Menu;
-class j1Map;
 class j1Fonts;
 class j1Gui;
 class j1Module;
 class j1Animator;
-class j1SoundManager;
-class j1GroupMovement;
 class j1EntitiesManager;
-class j1BuffManager;
-class j1ActionManager;
-class j1Player;
-class j1AI;
-class j1Pathfinding;
-class j1FogOfWar;
 class j1InputManager;
 class j1Video;
 class j1Intro;
 class j1Physics;
+class j1Player;
+
 class j1App
 {
 public:
@@ -120,7 +112,9 @@ public:
 	j1Fonts*			font = NULL;
 	j1Gui*				gui = NULL;
 	j1Video*			video = NULL;
+	j1EntitiesManager*	entities_manager = NULL;
 	j1Animator*			animator = NULL;
+	j1Player*			player = NULL;
 
 	// Scenes
 	j1Scene*			scene = NULL;
@@ -183,7 +177,7 @@ public:
 	void SetQuit();
 	bool GetQuit()const;
 
-	bool collisions_debug = false;
+	bool collisions_debug = true;
 
 };
 

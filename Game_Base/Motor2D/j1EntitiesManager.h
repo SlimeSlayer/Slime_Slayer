@@ -2,6 +2,7 @@
 #define __j1ENTITIES_MANAGER_H__
 
 #include "j1Module.h"
+#include "BaseEntities.h"
 
 class j1EntitiesManager : public j1Module
 {
@@ -20,6 +21,15 @@ public:
 
 	// Called before quitting
 	bool CleanUp();
+
+private:
+
+	std::list<Creature*> current_creatures;
+
+public:
+
+	// Functionality --------
+	Creature* GenerateCreature(CREATURE_TYPE creature_type);
 
 };
 #endif

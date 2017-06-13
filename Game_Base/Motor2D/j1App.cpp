@@ -19,6 +19,8 @@
 #include "j1Animator.h"
 #include "j1Video.h"
 #include "j1Physics.h"
+#include "j1EntitiesManager.h"
+#include "j1Player.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -37,6 +39,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	gui = new j1Gui();
 	video = new j1Video();
 	physics = new j1Physics();
+	entities_manager = new j1EntitiesManager();
+	player = new j1Player();
 
 	scene = new j1Scene();
 
@@ -51,6 +55,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(gui);
 	AddModule(video);
 	AddModule(physics);
+	AddModule(entities_manager);
+	AddModule(player);
 
 	// scene last
 	AddModule(scene);

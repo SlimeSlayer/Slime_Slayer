@@ -36,7 +36,12 @@
     <!--Escape-->
     <key id ="Escape" event ="escape"/>   
     <!--Full Screen-->
-    <key id ="F"  event="full_screen"/>
+    <key id ="F"  event ="full_screen"/>
+    <!--Player-->
+    <key id ="A"  event ="go_left"/>
+    <key id ="D"  event ="go_right"/>
+    <key id ="W"  event ="jump"/>
+    <key id ="S"  event ="crouch"/>
   </input_manager>
   
   <file_system>

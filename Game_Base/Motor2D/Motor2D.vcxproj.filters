@@ -87,6 +87,9 @@
     <ClCompile Include="j1Physics.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="j1Player.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -185,6 +188,9 @@
       <Filter>Modules\EntitiesManager</Filter>
     </ClInclude>
     <ClInclude Include="j1Physics.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Player.h">
       <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>

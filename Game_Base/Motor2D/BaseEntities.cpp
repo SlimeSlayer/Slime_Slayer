@@ -11,7 +11,7 @@ Entity::Entity()
 
 }
 
-Entity::Entity(const Entity & copy) : entity_type(copy.entity_type), name(copy.name), description(copy.description), position(copy.position), speed(copy.speed)
+Entity::Entity(const Entity & copy) : entity_type(copy.entity_type), name(copy.name), description(copy.description), body(copy.body)
 {
 
 }
@@ -19,7 +19,7 @@ Entity::Entity(const Entity & copy) : entity_type(copy.entity_type), name(copy.n
 //Destructors =========================
 Entity::~Entity()
 {
-
+	delete body;
 }
 
 //Set Methods =========================
@@ -38,14 +38,9 @@ void Entity::SetDescription(string new_description)
 	description = new_description;
 }
 
-void Entity::SetPosition(fPoint new_position)
+void Entity::SetBody(PhysBody * new_body)
 {
-	position = new_position;
-}
-
-void Entity::SetSpeed(fPoint new_speed)
-{
-	speed = new_speed;
+	body = new_body;
 }
 
 //Get Methods =========================
@@ -64,14 +59,67 @@ const char* Entity::GetDescription() const
 	return description.c_str();
 }
 
-fPoint Entity::GetPosition() const
+PhysBody * Entity::GetBody() const
 {
-	return position;
+	return body;
 }
 
-fPoint Entity::GetSpeed() const
+/// Creature ------------------------------------
+// Constructors =======================
+Creature::Creature()
 {
-	return speed;
+
 }
 
+Creature::Creature(const Creature & copy) : Entity(copy), life(copy.life), attack(copy.attack), mov_speed(copy.mov_speed)
+{
 
+}
+
+// Destructors ========================
+Creature::~Creature()
+{
+
+}
+
+//Set Methods =========================
+void Creature::SetCreatureType(CREATURE_TYPE new_creature_type)
+{
+	creature_type = new_creature_type;
+}
+
+void Creature::SetLife(uint new_life)
+{
+	life = new_life;
+}
+
+void Creature::SetAttack(uint new_attack)
+{
+	attack = new_attack;
+}
+
+void Creature::SetMovSpeed(uint new_mov_speed)
+{
+	mov_speed = new_mov_speed;
+}
+
+//Get Methods =========================
+CREATURE_TYPE Creature::GetCreatureType() const
+{
+	return creature_type;
+}
+
+uint Creature::GetLife() const
+{
+	return life;
+}
+
+uint Creature::GetAttack() const
+{
+	return attack;
+}
+
+uint Creature::GetMovSpeed() const
+{
+	return mov_speed;
+}

@@ -19,7 +19,13 @@ enum INPUT_EVENT
 
 	//Audio Volume
 	VOLUME_UP,
-	VOLUME_DOWN
+	VOLUME_DOWN,
+
+	//Player
+	GO_LEFT,
+	GO_RIGHT,
+	JUMP,
+	CROUCH
 };
 
 enum INPUT_STATE

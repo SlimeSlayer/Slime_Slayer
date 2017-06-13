@@ -2,6 +2,8 @@
 #define _J1PHYSICS_H_
 
 #include "j1Module.h"
+#include "j1Timer.h"
+
 #include "Box2D/Box2D/Box2D.h"
 
 #define GRAVITY_X 0.0f
@@ -12,6 +14,8 @@
 
 #define METERS_TO_PIXELS(m) ((int) floor(PIXELS_PER_METER * m))
 #define PIXEL_TO_METERS(p)  ((float) METER_PER_PIXEL * p)
+
+#define SIMULATE_RATE 16.6666
 
 enum collision_type
 {
@@ -108,12 +112,12 @@ public:
 
 private:
 
-	bool			debug = false;
 	b2World*		world = nullptr;
 	b2MouseJoint*	mouse_joint = nullptr;
 	b2Body*			ground = nullptr;
 
 	std::list<b2Body*> bodys_to_delete;
 
+	j1Timer physics_update_timer;
 };
 #endif

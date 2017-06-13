@@ -81,6 +81,10 @@ INPUT_EVENT j1InputManager::StrToInputEvent(const char * str) const
 	if (strcmp(str, "full_screen") == 0)			return INPUT_EVENT::FULL_SCREEN;
 	if (strcmp(str, "volume_up") == 0)				return INPUT_EVENT::VOLUME_UP;
 	if (strcmp(str, "volume_down") == 0)			return INPUT_EVENT::VOLUME_DOWN;
+	if (strcmp(str, "go_left") == 0)				return INPUT_EVENT::GO_LEFT;
+	if (strcmp(str, "go_right") == 0)				return INPUT_EVENT::GO_RIGHT;
+	if (strcmp(str, "jump") == 0)					return INPUT_EVENT::JUMP;
+	if (strcmp(str, "crouch") == 0)					return INPUT_EVENT::CROUCH;
 	return UNKNOWN_INPUT;
 }
 
