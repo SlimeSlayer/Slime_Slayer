@@ -53,9 +53,7 @@ bool j1Scene::Awake(pugi::xml_node& config)
 		map_folder.push_back(std::string(map_tmx.child_value()));
 
 	}
-
-	bool ret = true;
-	return ret;
+	return true;
 }
 
 // Called before the first frame
@@ -66,10 +64,6 @@ bool j1Scene::Start()
 	floor_collider = App->physics->CreateRectangle(2500, 955, 50000, 15, collision_type::MAP_COLLISION, BODY_TYPE::MAP_BODY);
 	floor_collider->body->SetType(b2BodyType::b2_staticBody);
 	floor_collider->body->GetFixtureList()->SetFriction(0.0f);
-
-
-	//Load Scene Textures ---
-	//back_texture = ;
 
 	//Front Parallax --------
 	front_parallax = new Parallax(3);
@@ -88,6 +82,7 @@ bool j1Scene::Start()
 	back_parallax->SetTexture(App->tex->Load("scene/skyline_texture.jpg"));
 	back_parallax->SetTextureRect({ 0,0,1600,900 });
 	back_parallax->SetPosition(0, 0);
+
 	return true;
 }
 
@@ -124,6 +119,7 @@ bool j1Scene::Update(float dt)
 		App->SetQuit();
 	}
 	// ------------------------------------------
+
 	return true;
 }
 
@@ -165,6 +161,6 @@ bool j1Scene::CleanUp()
 // Functionality ================================
 void j1Scene::UpdateParallax(float disp)
 {
-	mid_parallax->Displace(disp * MID_PARALLAX_VAL);
-	back_parallax->Displace(disp * BACK_PARALLAX_VAL);
+	mid_parallax->Displace(disp * MID_PARALLAX_VAL * App->GetDT());
+	back_parallax->Displace(disp * BACK_PARALLAX_VAL * App->GetDT());
 }

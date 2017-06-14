@@ -5,6 +5,8 @@
 
 #define PLAYER_CAMERA_X 500
 #define PLAYER_CAMERA_Y 800
+#define PLAYER_JUMP_IMPULSE 25
+
 class Creature;
 
 class j1Player : public j1Module

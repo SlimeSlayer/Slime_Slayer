@@ -12,10 +12,12 @@
 #define PIXELS_PER_METER 50.0f // if touched change METER_PER_PIXEL too
 #define METER_PER_PIXEL 0.02f // this is 1 / PIXELS_PER_METER !
 
-#define METERS_TO_PIXELS(m) ((int) floor(PIXELS_PER_METER * m))
+#define METERS_TO_PIXELS(m) ((float) PIXELS_PER_METER * m)
 #define PIXEL_TO_METERS(p)  ((float) METER_PER_PIXEL * p)
 
 #define SIMULATE_RATE 16666
+#define FIXED_TIMESTEP 0.016666
+#define MAX_STEPS 5
 
 enum collision_type
 {
@@ -53,8 +55,9 @@ public:
 	//Set body data ---------------------------------------
 	void	Move(int x_vel, int y_vel);
 	void	FixedRotation(bool value);
-	void	SetPosition(int x, int y);
-
+	void	SetPosition(float x, float y);
+	void	Interpolate();
+	void	ResetInterpolation();
 
 	//Collide functionality -------------------------------
 	bool		Contains(int x, int y) const;
@@ -106,9 +109,14 @@ public:
 
 	bool DeleteBody(PhysBody* target);
 
-	// b2ContactListener ---
+	// b2ContactListener --------------
 	void BeginContact(b2Contact* contact);
 	void If_Sensor_contact(PhysBody* bodyA, PhysBody* bodyB);
+
+	// Time step smooth methods -------
+	void			SmoothStates();
+	void			ResetSmoothStates();
+	unsigned short	GetFixedTimestepAcRatio()const;
 
 private:
 
@@ -117,6 +125,10 @@ private:
 	b2Body*			ground = nullptr;
 
 	std::list<b2Body*> bodys_to_delete;
+
+	//Fixed physics time-step for free frame rate
+	float fixed_timestep_accumulator = 0;
+	unsigned short fixed_timestep_accumulator_ratio = 0;
 
 	j1PerfTimer physics_update_timer;
 };

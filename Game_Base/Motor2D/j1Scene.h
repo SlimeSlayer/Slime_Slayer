@@ -3,8 +3,8 @@
 
 #include "j1Module.h"
 
-#define MID_PARALLAX_VAL 0.065
-#define BACK_PARALLAX_VAL 0.15
+#define MID_PARALLAX_VAL 15
+#define BACK_PARALLAX_VAL 30
 class Parallax;
 class PhysBody;
 struct SDL_Texture;

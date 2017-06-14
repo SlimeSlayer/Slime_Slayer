@@ -8,6 +8,7 @@
 #include "j1Audio.h"
 #include "j1Scene.h"
 #include "p2Log.h"
+#include <assert.h>
 
 #ifdef _DEBUG
 #pragma comment( lib, "Box2D/libx86/Debug/Box2D.lib" )
@@ -39,9 +40,12 @@ bool j1Physics::Start()
 {
 	LOG("Creating Physics 2D environment");
 
+	// Create physic world ------------
 	world = new b2World(b2Vec2(GRAVITY_X, -GRAVITY_Y));
+	world->SetAutoClearForces(false);
 	world->SetContactListener(this);
 
+	// Create world ground ------------
 	b2BodyDef bd;
 	ground = world->CreateBody(&bd);
 
@@ -51,13 +55,32 @@ bool j1Physics::Start()
 // 
 bool j1Physics::PreUpdate()
 {
-	//This update the physics world
-	if (physics_update_timer.ReadTicks() > SIMULATE_RATE)
+	//Track timming values to generate a fixed time step ------------
+	fixed_timestep_accumulator += App->GetDT();
+
+	const int steps_number = static_cast<int> (std::floor(fixed_timestep_accumulator / FIXED_TIMESTEP)); /*static_cast is used here because the conversion is safe (no need run-time check)*/
+
+	if (steps_number > 0)
 	{
-		world->Step(1.0f / 60.0f, 8, 3);
-		physics_update_timer.Start();
+		fixed_timestep_accumulator -= steps_number * FIXED_TIMESTEP;
 	}
 
+	assert("Low Framerate",fixed_timestep_accumulator < FIXED_TIMESTEP); /*If the framerate is lower than the needed for Physics simulation breakpoints*/
+
+	const int steps_clamped = MIN(steps_number, MAX_STEPS);
+
+	for (uint k = 0; k < steps_clamped; k++)
+	{
+		world->Step(FIXED_TIMESTEP, 8, 4);
+	}
+	
+	if(steps_clamped)world->ClearForces(); /*Finally we clear the world forces*/
+
+	SmoothStates(); /*Interpolate the world bodies to smooth the frames without physics step*/
+	// --------------------------------------------------------------
+	
+
+	// Iterates all the world contact to call the listeners --
 	for (b2Contact* c = world->GetContactList(); c; c = c->GetNext())
 	{
 		if (c->GetFixtureA()->IsSensor() && c->IsTouching())
@@ -68,8 +91,7 @@ bool j1Physics::PreUpdate()
 				pb1->listener->OnCollision(pb1, pb2);
 		}
 	}
-
-
+	// --------------------------------------------------------------
 
 	return true;
 }
@@ -192,11 +214,8 @@ bool j1Physics::PostUpdate()
 			//Handle mouse input to check if a body is selected
 			if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 			{
-				b2Vec2 f_pos = f->GetBody()->GetPosition();
-				LOG("%f f_X %f f_Y || %f m_X %f m_Y", f_pos.x, f_pos.y, m_pos.x, m_pos.y);
 				if (f->TestPoint(m_pos))
 				{
-					
 					click_body = f->GetBody();
 					body_clicked = true;
 				}
@@ -557,12 +576,18 @@ void PhysBody::FixedRotation(bool value)
 	body->SetFixedRotation(value);
 }
 
-void PhysBody::SetPosition(int x, int y)
+void PhysBody::SetPosition(float x, float y)
 {
 	float x_meters = PIXEL_TO_METERS(x);
 	float y_meters = PIXEL_TO_METERS(y);
 	b2Vec2 position((float32)x_meters, (float32)y_meters);
 	body->SetTransform(position, body->GetAngle());
+}
+
+void PhysBody::Interpolate()
+{
+	b2Vec2 new_pos = body->GetPosition() + App->GetDT() * body->GetLinearVelocity();
+	body->SetTransform(new_pos, body->GetAngle());
 }
 
 bool PhysBody::Contains(int x, int y) const
@@ -733,4 +758,26 @@ void j1Physics::BeginContact(b2Contact* contact)
 void j1Physics::If_Sensor_contact(PhysBody* bodyA, PhysBody* bodyB)
 {
 
+}
+
+void j1Physics::SmoothStates()
+{
+	const float oneMinusRatio = 1.f - fixed_timestep_accumulator_ratio;
+
+	for (b2Body * b = world->GetBodyList(); b != NULL; b = b->GetNext())
+	{
+		if (b->GetType() == b2_staticBody)
+		{
+			continue;
+		}
+
+		PhysBody* phys_bdy = (PhysBody*)b->GetUserData();
+		
+		phys_bdy->Interpolate();
+	}
+}
+
+unsigned short j1Physics::GetFixedTimestepAcRatio() const
+{
+	return fixed_timestep_accumulator_ratio;
 }
