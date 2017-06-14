@@ -52,19 +52,11 @@ public:
 
 	void Draw(int priority)
 	{
-		uint count = 0;
 		for (uint k = 0; k < cells_num; k++)
 		{
-			//Only draw the textures inside the viewport
-			if(!(parallax_cells[k].x + texture_rect.w < -App->render->camera.x || parallax_cells[k].x > -App->render->camera.x + App->render->camera.w))
-			{
-				float x = parallax_cells[k].x;
-				x = (x > (floor(x) + 0.5f)) ? ceil(x) : floor(x);
-				App->render->CallBlit(texture, x, parallax_cells[k].y, &texture_rect, false, priority);
-				count++;
-			}
-			else
-			{
+			App->render->CallBlit(texture, parallax_cells[k].x, parallax_cells[k].y, &texture_rect, false, priority);
+		}
+
 				//Move parallax cells when moving right
 				if (parallax_cells[0].x + texture_rect.w < -App->render->camera.x)
 				{
@@ -75,15 +67,15 @@ public:
 					
 				}
 				//Move parallax cells when moving left
-				else if (parallax_cells[cells_num - 1].x > -App->render->camera.x )
+				else if (parallax_cells[cells_num - 1].x > -App->render->camera.x + App->render->camera.w )
 				{
 					for (uint g = 0; g < cells_num; g++)
 					{
 						parallax_cells[g].x -= texture_rect.w;
 					}
 				}
-			}
-		}
+			
+		
 	}
 
 	//Set Methods =====================

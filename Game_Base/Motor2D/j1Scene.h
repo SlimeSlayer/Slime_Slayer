@@ -4,8 +4,7 @@
 #include "j1Module.h"
 
 #define MID_PARALLAX_VAL 0.065
-#define BACK_PARALLAX_VAL 0.8
-
+#define BACK_PARALLAX_VAL 0.15
 class Parallax;
 class PhysBody;
 struct SDL_Texture;

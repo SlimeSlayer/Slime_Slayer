@@ -65,7 +65,7 @@ bool j1Scene::Start()
 	//Floor -----------------
 	floor_collider = App->physics->CreateRectangle(2500, 955, 50000, 15, collision_type::MAP_COLLISION, BODY_TYPE::MAP_BODY);
 	floor_collider->body->SetType(b2BodyType::b2_staticBody);
-
+	floor_collider->body->GetFixtureList()->SetFriction(0.0f);
 
 
 	//Load Scene Textures ---

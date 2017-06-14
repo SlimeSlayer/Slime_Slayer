@@ -52,11 +52,11 @@ bool j1Physics::Start()
 bool j1Physics::PreUpdate()
 {
 	//This update the physics world
-	/*if (physics_update_timer.ReadTicks() > SIMULATE_RATE)
-	{*/
-		world->Step(1.0f / 60.0f, 6, 2);
+	if (physics_update_timer.ReadTicks() > SIMULATE_RATE)
+	{
+		world->Step(1.0f / 60.0f, 8, 3);
 		physics_update_timer.Start();
-	//}
+	}
 
 	for (b2Contact* c = world->GetContactList(); c; c = c->GetNext())
 	{
@@ -118,6 +118,7 @@ bool j1Physics::PostUpdate()
 	//Iterate all world bodies for draw & active player mouse input
 	bool body_clicked = false;
 	b2Body* click_body = nullptr;
+	b2Vec2 m_pos = { PIXEL_TO_METERS(App->input->GetMouseX()) - PIXEL_TO_METERS(App->render->camera.x) ,PIXEL_TO_METERS(App->input->GetMouseY()) + PIXEL_TO_METERS(-App->render->camera.y) };
 
 	for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
 	{
@@ -191,11 +192,13 @@ bool j1Physics::PostUpdate()
 			//Handle mouse input to check if a body is selected
 			if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 			{
-
-				if (f->TestPoint({ PIXEL_TO_METERS(App->input->GetMouseX()), PIXEL_TO_METERS(App->input->GetMouseY()) }))
+				b2Vec2 f_pos = f->GetBody()->GetPosition();
+				LOG("%f f_X %f f_Y || %f m_X %f m_Y", f_pos.x, f_pos.y, m_pos.x, m_pos.y);
+				if (f->TestPoint(m_pos))
 				{
-					body_clicked = true;
+					
 					click_body = f->GetBody();
+					body_clicked = true;
 				}
 			}
 
@@ -209,7 +212,7 @@ bool j1Physics::PostUpdate()
 	{
 		def.bodyA = ground;
 		def.bodyB = click_body;
-		def.target = { PIXEL_TO_METERS(App->input->GetMouseX()), PIXEL_TO_METERS(App->input->GetMouseY()) };
+		def.target = m_pos;
 		def.dampingRatio = 0.5f;
 		def.frequencyHz = 2.0f;
 		def.maxForce = 100.0f * click_body->GetMass();
@@ -219,8 +222,8 @@ bool j1Physics::PostUpdate()
 
 	if (mouse_joint && App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
 	{
-		mouse_joint->SetTarget({ PIXEL_TO_METERS(App->input->GetMouseX()), PIXEL_TO_METERS(App->input->GetMouseY()) });
-		App->render->DrawLine((App->input->GetMouseX()), (App->input->GetMouseY()), METERS_TO_PIXELS(mouse_joint->GetAnchorB().x), METERS_TO_PIXELS(mouse_joint->GetAnchorB().y), 255, 0, 0);
+		mouse_joint->SetTarget(m_pos);
+		App->render->DrawLine((App->input->GetMouseX()) - App->render->camera.x, (App->input->GetMouseY()) - App->render->camera.y, METERS_TO_PIXELS(mouse_joint->GetAnchorB().x), METERS_TO_PIXELS(mouse_joint->GetAnchorB().y), 255, 0, 0);
 	}
 
 	if (mouse_joint && App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)

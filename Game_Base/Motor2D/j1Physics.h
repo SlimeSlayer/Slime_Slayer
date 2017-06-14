@@ -15,7 +15,7 @@
 #define METERS_TO_PIXELS(m) ((int) floor(PIXELS_PER_METER * m))
 #define PIXEL_TO_METERS(p)  ((float) METER_PER_PIXEL * p)
 
-#define SIMULATE_RATE 16000 
+#define SIMULATE_RATE 16666
 
 enum collision_type
 {
