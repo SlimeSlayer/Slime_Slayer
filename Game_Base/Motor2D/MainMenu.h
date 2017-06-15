@@ -31,10 +31,15 @@ public:
 private:
 
 	// MENU DATA
+	//Main
 	UI_Element*	menu_branch = nullptr;
 	UI_Button*	start_button = nullptr;
 	UI_Button*	settings_button = nullptr;
+	UI_Button*	quit_button = nullptr;
+
+	//Settings
 	UI_Image*	settings_menu = nullptr;
+	UI_Button*	settings_quit = nullptr;
 
 };
 #endif
