@@ -20,7 +20,7 @@ public:
 
 	void Init();
 
-	void Active();
+	bool Enable();
 
 	// Called before render is available
 	bool Awake(pugi::xml_node& config);

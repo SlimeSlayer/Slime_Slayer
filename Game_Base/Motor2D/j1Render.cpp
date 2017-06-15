@@ -3,6 +3,7 @@
 #include "p2Log.h"
 #include "j1App.h"
 #include "j1Window.h"
+#include "j1Audio.h"
 
 #include <math.h>
 
@@ -185,6 +186,7 @@ bool j1Render::PostUpdate()
 		if (App->fade_out)
 		{
 			App->alpha += (App->GetDT() * 255.0f) / FADE_OUT_TIME;
+			App->audio->FadeMusicOut(FADE_OUT_TIME);
 			if (App->alpha > 255.0f)
 			{
 				App->fade_in = true;
@@ -194,6 +196,7 @@ bool j1Render::PostUpdate()
 		else if (App->fade_in)
 		{
 			App->alpha -= (App->GetDT() * 255.0f) / FADE_IN_TIME;
+			App->audio->FadeMusicIn(FADE_IN_TIME);
 			if (App->alpha < 0.0f)
 			{
 				App->fade_in = false;

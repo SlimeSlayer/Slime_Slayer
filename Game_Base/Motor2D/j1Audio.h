@@ -7,7 +7,7 @@
 struct _Mix_Music;
 struct Mix_Chunk;
 
-#define DEFAULT_MUSIC_FADE_TIME 0.5f
+#define DEFAULT_MUSIC_FADE_TIME 1.0f
 
 enum MUSIC_ID
 {
@@ -48,8 +48,6 @@ public:
 
 	// Called before render is available
 	bool Awake(pugi::xml_node&);
-	// Called each loop iteration
-	bool PostUpdate();
 	// Called before quitting
 	bool CleanUp();
 
@@ -63,13 +61,17 @@ public:
 	//Play the music with the selected id
 	void PlayMusic(MUSIC_ID music_to_play_id);
 	
+	//Used with the scenes transition (App fade)
+	void FadeMusicOut(float total_time);
+	void FadeMusicIn(float total_time);
+
 private:
 
 	//Used when load audio blocks
 	MUSIC_ID		StrToMusicID(const char* str)const;
 	FX_ID			StrToFXID(const char* str)const;
 	// Play a music file
-	bool			PlayMusic(const char* path, float fade_time = DEFAULT_MUSIC_FADE_TIME);
+	bool			PlayMusic(const char* path);
 	// Load a WAV in memory
 	unsigned int	LoadFx(const char* path);
 	// Play a previously loaded WAV
@@ -82,9 +84,8 @@ private:
 	_Mix_Music*					current_music = NULL;
 
 	std::list<Mix_Chunk*>	fx;
-	j1Timer					go_down_time;
-	bool					go_down = false;
-	uint					volume = 65;
+
+	float 					current_volume = 65.0f;
 
 };
 

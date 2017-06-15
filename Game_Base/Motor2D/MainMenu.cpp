@@ -31,7 +31,6 @@ void MainMenu::Init()
 void MainMenu::Active()
 {
 	active = true;
-	App->audio->PlayMusic(MUSIC_ID::MUSIC_MENU);
 }
 
 bool MainMenu::Enable()
@@ -42,7 +41,7 @@ bool MainMenu::Enable()
 	menu_branch->ActivateChilds();
 	settings_menu->Desactivate();
 	settings_menu->DesactivateChids();
-
+	App->audio->PlayMusic(MUSIC_ID::MUSIC_MENU);
 	return true;
 }
 

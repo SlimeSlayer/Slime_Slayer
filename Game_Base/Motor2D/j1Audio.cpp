@@ -25,7 +25,7 @@ bool j1Audio::Awake(pugi::xml_node& config)
 	bool ret = true;
 	SDL_Init(0);
 
-	if(SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
+	if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
 	{
 		LOG("SDL_INIT_AUDIO could not initialize! SDL_Error: %s\n", SDL_GetError());
 		active = false;
@@ -36,7 +36,7 @@ bool j1Audio::Awake(pugi::xml_node& config)
 	int flags = MIX_INIT_OGG;
 	int init = Mix_Init(flags);
 
-	if((init & flags) != flags)
+	if ((init & flags) != flags)
 	{
 		LOG("Could not initialize Mixer lib. Mix_Init: %s", Mix_GetError());
 		active = false;
@@ -44,13 +44,13 @@ bool j1Audio::Awake(pugi::xml_node& config)
 	}
 
 	//Initialize SDL_mixer
-	if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
 	{
 		LOG("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
 		active = false;
 		ret = true;
 	}
-	
+
 	// Load all the musics folders
 	std::string musics_folder = config.child("audio_data").attribute("file").as_string();
 
@@ -63,7 +63,7 @@ bool j1Audio::Awake(pugi::xml_node& config)
 	{
 		Music_Block new_music_block;
 		std::string music_folder = "audio/";
-		new_music_block.music_folder = music_folder+=music_node.attribute("folder").as_string();
+		new_music_block.music_folder = music_folder += music_node.attribute("folder").as_string();
 		new_music_block.music_id = StrToMusicID(music_node.attribute("id").as_string());
 		musics.push_back(new_music_block);
 
@@ -73,19 +73,6 @@ bool j1Audio::Awake(pugi::xml_node& config)
 	audio_data_doc.reset();
 
 	return ret;
-}
-
-bool j1Audio::PostUpdate()
-{
-	if (go_down && go_down_time.Read() > 250)
-	{
-		volume = 1;
-		Mix_Volume(-1, volume);
-		Mix_VolumeMusic(volume);
-		go_down = false;
-	}
-
-	return true;
 }
 
 // Called before quitting
@@ -114,7 +101,7 @@ bool j1Audio::CleanUp()
 }
 
 // Play a music file
-bool j1Audio::PlayMusic(const char* path, float fade_time)
+bool j1Audio::PlayMusic(const char* path)
 {
 	bool ret = true;
 
@@ -123,16 +110,6 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 
 	if(current_music != NULL)
 	{
-		if(fade_time > 0.0f)
-		{
-			Mix_FadeOutMusic(int(fade_time * 1000.0f));
-		}
-		else
-		{
-			Mix_HaltMusic();
-		}
-
-		// this call blocks until fade out is done
 		Mix_FreeMusic(current_music);
 	}
 
@@ -145,21 +122,10 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 	}
 	else
 	{
-		if(fade_time > 0.0f)
+		if(Mix_PlayMusic(current_music, -1) < 0)
 		{
-			if(Mix_FadeInMusic(current_music, -1, (int) (fade_time * 1000.0f)) < 0)
-			{
-				LOG("Cannot fade in music %s. Mix_GetError(): %s", path, Mix_GetError());
-				ret = false;
-			}
-		}
-		else
-		{
-			if(Mix_PlayMusic(current_music, -1) < 0)
-			{
-				LOG("Cannot play in music %s. Mix_GetError(): %s", path, Mix_GetError());
-				ret = false;
-			}
+			LOG("Cannot play in music %s. Mix_GetError(): %s", path, Mix_GetError());
+			ret = false;
 		}
 	}
 
@@ -213,16 +179,16 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 
 void j1Audio::VolumeUp()
 {
-	volume = MIN(volume + 10, 128);
-	Mix_Volume(-1, volume);
-	Mix_VolumeMusic(volume);
+	current_volume = MIN(current_volume + 10, 128);
+	Mix_Volume(-1, current_volume);
+	Mix_VolumeMusic(current_volume);
 }
 
 void j1Audio::VolumeDown()
 {
-	volume = MAX(volume - MIN(volume,10), 1);
-	Mix_Volume(-1, volume);
-	Mix_VolumeMusic(volume);
+	current_volume = MAX(current_volume - MIN(current_volume,10), 1);
+	Mix_Volume(-1, current_volume);
+	Mix_VolumeMusic(current_volume);
 }
 
 void j1Audio::ResetAudioSystem()
@@ -262,6 +228,20 @@ void j1Audio::PlayMusic(MUSIC_ID music_to_play_id)
 			PlayMusic(musics[i].music_folder.c_str());
 		}
 	}
+}
+
+void j1Audio::FadeMusicOut(float total_time)
+{
+	current_volume = MAX(0.0f, current_volume - ((App->GetDT() * 128) / total_time));
+	Mix_Volume(-1, current_volume);
+	Mix_VolumeMusic(current_volume);
+}
+
+void j1Audio::FadeMusicIn(float total_time)
+{
+	current_volume = MIN(128.0f, current_volume + ((App->GetDT() * 128) / total_time));
+	Mix_Volume(-1, current_volume);
+	Mix_VolumeMusic(current_volume);
 }
 
 MUSIC_ID j1Audio::StrToMusicID(const char * str) const
