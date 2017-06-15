@@ -6,9 +6,11 @@
 #include "PugiXml\src\pugixml.hpp"
 #include <list>
 #include <vector>
+#include "SDL_image/include/SDL_image.h"
 
 #define TIME_TO_ENABLE 10
-#define FADE_TIME 0.5f
+#define FADE_OUT_TIME 1.5f
+#define FADE_IN_TIME 4.0f
 
 struct SDL_Texture;
 
@@ -95,10 +97,7 @@ private:
 	bool SavegameNow();
 
 public:
-
-	// Load the default game
-	bool LoadDefaultGame(const char* folder_str);
-	void LoadDefaultGameNow();
+	
 	void EnableActiveModules();
 
 public:
@@ -143,21 +142,24 @@ private:
 	pugi::xml_node config_node;
 
 	std::list<j1Module*>	modules;
+
+	std::vector<j1Module*>	modules_to_disable;
 	std::vector<j1Module*>	modules_to_enable;
+
 	uint enable_index = 0;
 
-	int						argc = 0;
-	char**					args = nullptr;
+	int					argc = 0;
+	char**				args = nullptr;
 
-	std::string				title;
-	std::string				organization;
+	std::string			title;
+	std::string			organization;
 
 public:
 
-	mutable bool			want_to_save = false;	/*True when save function called*/
-	bool					want_to_load = false;	/*True when load function called*/
-	std::string				load_game;	/*Folder where the game is loaded*/
-	std::string				save_game;	/*Folder where the game is saved*/
+	mutable bool		want_to_save = false;	/*True when save function called*/
+	bool				want_to_load = false;	/*True when load function called*/
+	std::string			load_game;	/*Folder where the game is loaded*/
+	std::string			save_game;	/*Folder where the game is saved*/
 
 private:
 
@@ -174,6 +176,13 @@ private:
 	bool				want_to_quit = false;
 	bool				want_to_enable = false;
 	SDL_Texture*		load_screen = nullptr;
+
+public:
+
+	bool				fade_out = false;
+	bool				fade_in = false;
+	SDL_Color			fade_color = { 0,0,0,0 };
+	float				alpha = 0.0f;
 
 public:
 

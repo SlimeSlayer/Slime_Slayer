@@ -34,6 +34,26 @@ void MainMenu::Active()
 	App->audio->PlayMusic(MUSIC_ID::MUSIC_MENU);
 }
 
+bool MainMenu::Enable()
+{
+	active = true;
+	enabled = true;
+	menu_branch->Activate();
+	menu_branch->ActivateChilds();
+	settings_menu->Desactivate();
+	settings_menu->DesactivateChids();
+
+	return true;
+}
+
+void MainMenu::Disable()
+{
+	active = false;
+	enabled = false;
+	menu_branch->Desactivate();
+	menu_branch->DesactivateChids();
+}
+
 bool MainMenu::Start()
 {
 	//Build menu UI ---------
@@ -156,10 +176,11 @@ void MainMenu::GUI_Input(UI_Element * target, GUI_INPUT input)
 		if(target == start_button)App->ActiveScene();
 		else if (target == settings_button)
 		{
-			//Deactivate start & settings buttons
+			//Deactivate start, settings & quit buttons
 			start_button->Desactivate();
 			settings_button->Desactivate();
-			
+			quit_button->Desactivate();
+
 			//Activate settings menu and all the childs
 			settings_menu->Activate();
 			settings_menu->ActivateChilds();
@@ -178,6 +199,7 @@ void MainMenu::GUI_Input(UI_Element * target, GUI_INPUT input)
 			//Activate menu buttons
 			start_button->Activate();
 			settings_button->Activate();
+			quit_button->Activate();
 		}
 	}
 }

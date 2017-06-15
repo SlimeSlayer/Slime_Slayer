@@ -178,8 +178,35 @@ bool j1Render::Update(float dt)
 
 bool j1Render::PostUpdate()
 {
+	// Fade System ------------------------------
+	if (App->fade_out || App->fade_in)
+	{
+		App->render->DrawQuad(App->render->viewport, App->fade_color.r, App->fade_color.g, App->fade_color.b, App->alpha, true, false);
+		if (App->fade_out)
+		{
+			App->alpha += (App->GetDT() * 255.0f) / FADE_OUT_TIME;
+			if (App->alpha > 255.0f)
+			{
+				App->fade_in = true;
+				App->fade_out = false;
+			}
+		}
+		else if (App->fade_in)
+		{
+			App->alpha -= (App->GetDT() * 255.0f) / FADE_IN_TIME;
+			if (App->alpha < 0.0f)
+			{
+				App->fade_in = false;
+				App->fade_out = false;
+				App->alpha = 0.0f;
+			}
+		}
+	}
+
+	// Render Present ---------------------------
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.g, background.a);
 	SDL_RenderPresent(renderer);
+
 	return true;
 }
 

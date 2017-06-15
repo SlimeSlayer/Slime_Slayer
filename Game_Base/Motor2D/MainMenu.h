@@ -15,8 +15,9 @@ public:
 public:
 
 	void Init();
-
 	void Active();
+	bool Enable();
+	void Disable();
 
 	// Called before the first frame
 	bool Start();

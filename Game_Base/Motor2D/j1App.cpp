@@ -159,7 +159,7 @@ bool j1App::Update()
 {
 	bool ret = true;
 
-	if (want_to_enable)
+	if (want_to_enable && !fade_out)
 	{
 		EnableActiveModulesNow();
 	}
@@ -192,9 +192,16 @@ bool j1App::Update()
 
 void j1App::EnableActiveModulesNow()
 {
+	uint size = modules_to_disable.size();
+	for (uint k = 0; k < size; k++)
+	{
+		modules_to_disable[k]->Disable();
+	}
+	modules_to_disable.clear();
+
 	if (modules_to_enable[enable_index]->Enable())enable_index++;
 
-	uint size = modules_to_enable.size();
+	size = modules_to_enable.size();
 
 	if (enable_index == size)
 	{
@@ -584,7 +591,7 @@ bool j1App::GetQuit() const
 void j1App::ActiveScene()
 {
 	// Deactivate the Main Menu
-	App->main_menu->Disable();
+	modules_to_disable.push_back(main_menu);
 
 	// Active all the necessary scene modules
 	App->player->Active();
@@ -595,22 +602,26 @@ void j1App::ActiveScene()
 
 	want_to_enable = true;
 	EnableActiveModules();
+
+	fade_out = true;
 }
 
 void j1App::ActiveMainMenu()
 {
 	// Deactivate the Main Menu
-	App->player->Disable();
-	//App->animator->Active();
-	App->entities_manager->Disable();
-	App->scene->Disable();
-	App->physics->Disable();
+	modules_to_disable.push_back(player);
+	modules_to_disable.push_back(entities_manager);
+	modules_to_disable.push_back(scene);
+	modules_to_disable.push_back(physics);
+	//modules_to_disable.push_back(animator);
 
 	// Active all the necessary scene modules
 	App->main_menu->Active();
 
 	want_to_enable = true;
 	EnableActiveModules();
+
+	fade_out = true;
 }
 
 

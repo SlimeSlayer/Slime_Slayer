@@ -32,6 +32,7 @@ public:
 	{
 		active = true;
 	}
+
 	virtual bool Enable()
 	{
 		active = true;
