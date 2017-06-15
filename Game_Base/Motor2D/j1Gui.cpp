@@ -33,21 +33,22 @@ j1Gui::~j1Gui()
 bool j1Gui::Awake(pugi::xml_node& conf)
 {
 	LOG("Loading GUI atlas");
-	bool ret = true;
 
-	//atlas_file_name = conf.child("atlas").attribute("file").as_string("");
+	pugi::xml_node atlas_node = conf.child("atlas");
 
-	/*background_file_name = conf.child("background").attribute("file").as_string("");
-	mainmenu_file_name = conf.child("menu").attribute("file").as_string("");
-	standardmenu_file_name = conf.child("standard").attribute("file").as_string("");
-	icons_file_name = conf.child("icons").attribute("file").as_string("");
-	hud_file_name = conf.child("hud").attribute("file").as_string("");
-	champions_file_name = conf.child("champion").attribute("file").as_string("");
-	menu_pause_file_name = conf.child("menu_pause").attribute("file").as_string("");
-	final_menu_file_name = conf.child("final_menu").attribute("file").as_string("");
-	load_screen_file_name = conf.child("load_screen").attribute("file").as_string("");
-	*/
-	return ret;
+	while (atlas_node != NULL)
+	{
+		atlas_file_names.push_back(atlas_node.attribute("file").as_string(""));
+
+		//Generate an empty texture_ui with the loaded ID
+		Texture_UI new_texture_ui;
+		new_texture_ui.texture_id = StrToTextureID(atlas_node.attribute("id").as_string(""));
+		ui_textures.push_back(new_texture_ui);
+
+		atlas_node = atlas_node.next_sibling();
+	}
+
+	return true;
 }
 
 // Called before the first frame
@@ -55,18 +56,14 @@ bool j1Gui::Start()
 {
 	j1Timer time;
 
-	//Add textures to Ui_textures
-	/*ui_textures.push_back(App->tex->Load(background_file_name.c_str()));
-	ui_textures.push_back(App->tex->Load(mainmenu_file_name.c_str()));
-	ui_textures.push_back(App->tex->Load(standardmenu_file_name.c_str()));
-	ui_textures.push_back(App->tex->Load(icons_file_name.c_str()));
-	ui_textures.push_back(App->tex->Load(hud_file_name.c_str()));
-	ui_textures.push_back(App->tex->Load(champions_file_name.c_str()));
-	ui_textures.push_back(App->tex->Load(menu_pause_file_name.c_str()));
-	ui_textures.push_back(App->tex->Load(final_menu_file_name.c_str()));
-	ui_textures.push_back(App->tex->Load(load_screen_file_name.c_str()));
-	*/
-	
+	//Load Textures & from loaded texture_ui
+	uint size = atlas_file_names.size();
+	for (uint k = 0; k < size; k++)
+	{
+		ui_textures[k].texture = App->tex->Load(atlas_file_names[k].c_str());
+	}
+
+	atlas_file_names.clear();
 	
 	//LoadCursorTypes();
 	//ChangeMouseTexture(DEFAULT);
@@ -144,30 +141,36 @@ bool j1Gui::CleanUp()
 	}
 	gui_elements.clear();
 
-	std::list<SDL_Texture*>::iterator text_ui = ui_textures.begin();
-	while (text_ui != ui_textures.end())
+	uint size = ui_textures.size();
+	for (uint k = 0; k < size; k++)
 	{
-		if (!App->tex->UnLoad(text_ui._Ptr->_Myval))LOG("Tex unload error");
-		text_ui++;
+		App->tex->UnLoad(ui_textures[k].texture);
 	}
 	ui_textures.clear();
 
 	return true;
 }
 
+TEXTURE_ID j1Gui::StrToTextureID(const char * str)
+{
+	if (strcmp(str, "atlas") == 0)			return ATLAS;
+	if (strcmp(str, "atlas_test") == 0)		return ATLAS_TEST;
+	return TEXTURE_NONE;
+}
+
 
 
 
 // =================================================================
-SDL_Texture * j1Gui::Get_UI_Texture(uint tex_id)
+SDL_Texture * j1Gui::Get_UI_Texture(TEXTURE_ID tex_id)
 {
-	if (tex_id >= ui_textures.size())return nullptr;
+	uint size = ui_textures.size();
+	for (uint k = 0; k < size; k++)
+	{
+		if (ui_textures[k].texture_id == tex_id)return ui_textures[k].texture;
+	}
 
-	std::list<SDL_Texture*>::iterator item = ui_textures.begin();
-	for (uint k = 0; k < tex_id; k++)
-		item++;
-
-	return item._Ptr->_Myval;
+	return nullptr;
 }
 
 uint j1Gui::PushScreen(const UI_Element* new_screen)
@@ -305,7 +308,7 @@ void j1Gui::DrawMouseTexture()
 {
 	int x = 0, y = 0;
 	App->input->GetMousePosition(x, y);
-	App->render->Blit(App->gui->Get_UI_Texture(ICONS), x - cursor_pivot.x - App->render->camera.x, y - cursor_pivot.y - App->render->camera.y, &cursor_rect);
+	//App->render->Blit(App->gui->Get_UI_Texture(ICONS), x - cursor_pivot.x - App->render->camera.x, y - cursor_pivot.y - App->render->camera.y, &cursor_rect);
 }
 
 void j1Gui::SetDefaultInputTarget(j1Module * target)

@@ -45,18 +45,20 @@ enum CURSOR_TARGET
 
 enum TEXTURE_ID
 {
-	BACKGROUND,
-	MAINMENU,
-	STANDARD,
-	ICONS,
-	HUD,
-	CHAMPION_SKILL,
-	MENU_PAUSE,
-	FINAL_MENU,
-	LOAD_SCREEN
+	TEXTURE_NONE = 0,
+	ATLAS,
+	ATLAS_TEST
 };
-
 // ---------------------------------------------------
+
+/// TEXTURE_UI ---------------------------------------
+struct Texture_UI
+{
+	TEXTURE_ID		texture_id = TEXTURE_NONE;
+	SDL_Texture*	texture = nullptr;
+};
+/// --------------------------------------------------
+
 class j1Gui : public j1Module
 {
 public:
@@ -83,15 +85,14 @@ public:
 
 private:
 
-	//UI elements
+	//UI elements ---------------------
 	std::list<UI_Element*>  gui_elements;
-
 	std::list<UI_Element*>	screens;
 
-	//UI Textures
-	std::list<SDL_Texture*>	ui_textures;
-
-	std::string				atlas_file_name;
+	//UI Textures ---------------------
+	std::vector<Texture_UI>		ui_textures;
+	std::vector<std::string>	atlas_file_names;
+	TEXTURE_ID					StrToTextureID(const char* str);
 
 	//Target Module of gui input
 	j1Module*				default_input_target = nullptr;
@@ -106,11 +107,11 @@ private:
 
 public:
 
-	mutable UI_Element*			ItemSelected = nullptr;
-	mutable uint				upper_element = 0;
+	mutable UI_Element*	ItemSelected = nullptr;
+	mutable uint		upper_element = 0;
 
 	//UI textures functions
-	SDL_Texture*		Get_UI_Texture(uint tex_id);
+	SDL_Texture*		Get_UI_Texture(TEXTURE_ID tex_id);
 
 	//UI elements functions
 	uint				PushScreen(const UI_Element* new_screen);

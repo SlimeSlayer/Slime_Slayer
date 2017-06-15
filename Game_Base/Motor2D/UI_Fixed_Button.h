@@ -38,11 +38,11 @@ public:
 	//Functionality ===========================================
 	FIX_BUTTON_STATE	Change_State(FIX_BUTTON_STATE new_button_state);
 	FIX_BUTTON_STATE	Get_State()const;
-	void				SetTexUP(SDL_Rect img_rect, iPoint pivot = { 0,0 }, int text_id = -1);
-	void				SetTexDOWN(SDL_Rect img_rect, iPoint pivot = { 0,0 }, int text_id = -1);
-	void				SetTexOVERUP(SDL_Rect img_rect, iPoint pivot = { 0,0 }, int text_id = -1);
-	void				SetTexOVERDOWN(SDL_Rect img_rect, iPoint pivot = { 0,0 }, int text_id = -1);
-	void				SetTexFromXML(const pugi::xml_node&	conf, int text_id = -1);
+	void				SetTexUP(SDL_Rect img_rect, iPoint pivot = { 0,0 }, TEXTURE_ID text_id = TEXTURE_NONE);
+	void				SetTexDOWN(SDL_Rect img_rect, iPoint pivot = { 0,0 }, TEXTURE_ID text_id = TEXTURE_NONE);
+	void				SetTexOVERUP(SDL_Rect img_rect, iPoint pivot = { 0,0 }, TEXTURE_ID text_id = TEXTURE_NONE);
+	void				SetTexOVERDOWN(SDL_Rect img_rect, iPoint pivot = { 0,0 }, TEXTURE_ID text_id = TEXTURE_NONE);
+	void				SetTexFromXML(const pugi::xml_node&	conf, TEXTURE_ID text_id = TEXTURE_NONE);
 
 };
 

@@ -45,8 +45,8 @@ public:
 	void			SetOptionSelection(UI_String* new_item);
 	void			SetOptionSelectionArrows(bool go_down);
 	char*			GetOptionSelected() const;
-	void			SetTexSelection(SDL_Rect img_rect, int text_id = -1);
-	void			SetTexMenu(SDL_Rect img_rect, int text_id = -1);
+	void			SetTexSelection(SDL_Rect img_rect, TEXTURE_ID text_id = TEXTURE_NONE);
+	void			SetTexMenu(SDL_Rect img_rect, TEXTURE_ID text_id = TEXTURE_NONE);
 
 };
 

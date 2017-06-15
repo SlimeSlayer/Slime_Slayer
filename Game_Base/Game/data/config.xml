@@ -17,7 +17,8 @@
   </font>
 
   <gui>
-    <!--<atlas file="gui/atlas.png"/>-->
+    <atlas file="gui/atlas.png"       id="atlas"/>
+    <atlas file="gui/atlas_test.png"  id="atlas_test"/>
   </gui>
     
   <window>

@@ -122,27 +122,27 @@ FIX_BUTTON_STATE UI_Fixed_Button::Get_State() const
 	return button_state;
 }
 
-void UI_Fixed_Button::SetTexUP(SDL_Rect img_rect, iPoint pivot, int text_id)
+void UI_Fixed_Button::SetTexUP(SDL_Rect img_rect, iPoint pivot, TEXTURE_ID text_id)
 {
 	tex_up = UI_Image({ 0,0,0,0 }, pivot, img_rect, text_id);
 }
 
-void UI_Fixed_Button::SetTexDOWN(SDL_Rect img_rect, iPoint pivot, int text_id)
+void UI_Fixed_Button::SetTexDOWN(SDL_Rect img_rect, iPoint pivot, TEXTURE_ID text_id)
 {
 	tex_down = UI_Image({ 0,0,0,0 }, pivot, img_rect, text_id);
 }
 
-void UI_Fixed_Button::SetTexOVERUP(SDL_Rect img_rect, iPoint pivot, int text_id)
+void UI_Fixed_Button::SetTexOVERUP(SDL_Rect img_rect, iPoint pivot, TEXTURE_ID text_id)
 {
 	tex_over = UI_Image({ 0,0,0,0 }, pivot, img_rect, text_id);
 }
 
-void UI_Fixed_Button::SetTexOVERDOWN(SDL_Rect img_rect, iPoint pivot, int text_id)
+void UI_Fixed_Button::SetTexOVERDOWN(SDL_Rect img_rect, iPoint pivot, TEXTURE_ID text_id)
 {
 	tex_over_down = UI_Image({ 0,0,0,0 }, pivot, img_rect, text_id);
 }
 
-void UI_Fixed_Button::SetTexFromXML(const pugi::xml_node & conf, int texture_id)
+void UI_Fixed_Button::SetTexFromXML(const pugi::xml_node & conf, TEXTURE_ID texture_id)
 {
 	int x = 0;
 	pugi::xml_node img = conf.first_child();

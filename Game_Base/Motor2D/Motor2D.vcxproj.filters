@@ -16,9 +16,6 @@
     <ClCompile Include="j1Textures.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="j1Scene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="j1FileSystem.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -90,6 +87,9 @@
     <ClCompile Include="j1Player.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -106,9 +106,6 @@
     </ClInclude>
     <ClInclude Include="j1Textures.h">
       <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Scene.h">
-      <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="j1FileSystem.h">
       <Filter>Modules</Filter>
@@ -195,6 +192,12 @@
     </ClInclude>
     <ClInclude Include="Parallax.h">
       <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

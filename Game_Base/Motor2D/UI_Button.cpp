@@ -130,17 +130,17 @@ BUTTON_STATE UI_Button::Get_State() const
 	return button_state;
 }
 
-void UI_Button::SetTexON(SDL_Rect img_rect, int text_id)
+void UI_Button::SetTexON(SDL_Rect img_rect, TEXTURE_ID text_id)
 {
 	tex_on = UI_Image({0,0,0,0}, { 0,0 }, img_rect, text_id);
 }
 
-void UI_Button::SetTexOFF(SDL_Rect img_rect, int text_id)
+void UI_Button::SetTexOFF(SDL_Rect img_rect, TEXTURE_ID text_id)
 {
 	tex_off = UI_Image({ 0,0,0,0 }, { 0,0 }, img_rect, text_id);
 }
 
-void UI_Button::SetTexOVER(SDL_Rect img_rect, int text_id)
+void UI_Button::SetTexOVER(SDL_Rect img_rect, TEXTURE_ID text_id)
 {
 	tex_over = UI_Image({ 0,0,0,0 }, { 0,0 }, img_rect, text_id);
 }

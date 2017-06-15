@@ -7,7 +7,7 @@
 class UI_Image : public UI_Element {
 public:
 
-	UI_Image(const SDL_Rect& box, const iPoint pivot, const SDL_Rect& texture_rect = {0,0,0,0}, int texture_id = -1);
+	UI_Image(const SDL_Rect& box, const iPoint pivot, const SDL_Rect& texture_rect = {0,0,0,0}, TEXTURE_ID texture_id = TEXTURE_NONE);
 	UI_Image(const UI_Image* copy);
 	UI_Image();
 
@@ -15,9 +15,10 @@ public:
 
 private:
 
-	SDL_Rect	texture_rect = { 0,0,0,0 };
-	iPoint		pivot = { 0,0 };
-	int			texture_id = 0;
+	SDL_Rect		texture_rect = { 0,0,0,0 };
+	iPoint			pivot = { 0,0 };
+	TEXTURE_ID		texture_id = TEXTURE_NONE;
+	SDL_Texture*	texture = nullptr;
 
 public:
 
@@ -28,7 +29,7 @@ public:
 	SDL_Rect			AdjustBox();
 	void				DrawAt(int x, int y)const;
 	void				ChangeTextureRect(SDL_Rect new_rect);
-	void				ChangeTextureId(int id);
+	void				ChangeTextureId(TEXTURE_ID texture_id);
 	iPoint				GetPivot()const;
 	SDL_Rect			GetTextureBox()const;
 };

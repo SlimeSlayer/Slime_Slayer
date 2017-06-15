@@ -58,8 +58,8 @@ public:
 	
 
 	//Functionality
-	void		SetScrollableItem(const iPoint position, const SDL_Rect rect, int id = -1);
-	void		SetScrollableBack(const iPoint position, const SDL_Rect rect, int id = -1);
+	void		SetScrollableItem(const iPoint position, const SDL_Rect rect, TEXTURE_ID id = TEXTURE_NONE);
+	void		SetScrollableBack(const iPoint position, const SDL_Rect rect, TEXTURE_ID id = TEXTURE_NONE);
 	void		SetContentWindow(const SDL_Rect rect);
 
 	void		SetScrollMaxValue(int maxvalue);

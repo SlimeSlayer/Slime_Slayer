@@ -12,7 +12,6 @@
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "j1Audio.h"
-#include "j1Scene.h"
 #include "j1FileSystem.h"
 #include "j1Fonts.h"
 #include "j1Gui.h"
@@ -21,6 +20,8 @@
 #include "j1Physics.h"
 #include "j1EntitiesManager.h"
 #include "j1Player.h"
+
+#include "Scene.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -42,7 +43,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	entities_manager = new j1EntitiesManager();
 	player = new j1Player();
 
-	scene = new j1Scene();
+	scene = new Scene();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp

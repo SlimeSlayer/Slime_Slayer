@@ -58,12 +58,12 @@ bool UI_Scroll::CleanUp()
 	return ret;
 }
 
-void UI_Scroll::SetScrollableItem(const iPoint position, const SDL_Rect rect, int id)
+void UI_Scroll::SetScrollableItem(const iPoint position, const SDL_Rect rect, TEXTURE_ID id)
 {
 	ScrollItem = UI_Image({ position.x,position.y,rect.w,rect.h }, {0,0}, rect, id);
 }
 
-void UI_Scroll::SetScrollableBack(const iPoint position, const SDL_Rect rect, int id)
+void UI_Scroll::SetScrollableBack(const iPoint position, const SDL_Rect rect, TEXTURE_ID id)
 {
 	ScrollBack = UI_Image({ position.x,position.y,rect.w,rect.h }, {0,0}, rect, id);
 }

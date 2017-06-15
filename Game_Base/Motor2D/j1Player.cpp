@@ -5,7 +5,7 @@
 #include "j1InputManager.h"
 #include "j1Physics.h"
 #include "j1Render.h"
-#include "j1Scene.h"
+#include "Scene.h"
 
 // Constructors =================================
 j1Player::j1Player()

@@ -6,7 +6,7 @@
 #include "p2Point.h"
 #include "math.h"
 #include "j1Audio.h"
-#include "j1Scene.h"
+#include "Scene.h"
 #include "p2Log.h"
 #include <assert.h>
 

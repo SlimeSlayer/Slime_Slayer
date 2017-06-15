@@ -18,7 +18,6 @@ class j1Render;
 class j1Textures;
 class j1Audio;
 class j1FileSystem;
-class j1Scene;
 class j1Fonts;
 class j1Gui;
 class j1Module;
@@ -29,6 +28,8 @@ class j1Video;
 class j1Intro;
 class j1Physics;
 class j1Player;
+
+class Scene;
 
 class j1App
 {
@@ -117,7 +118,7 @@ public:
 	j1Player*			player = NULL;
 
 	// Scenes
-	j1Scene*			scene = NULL;
+	Scene*			scene = NULL;
 	
 
 	// Add a new module to handle

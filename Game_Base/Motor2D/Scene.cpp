@@ -1,4 +1,4 @@
-#include "j1Scene.h"
+#include "Scene.h"
 
 #include "p2Log.h"
 #include "j1App.h"
@@ -15,37 +15,37 @@
 
 #include "Parallax.h"
 
-j1Scene::j1Scene() : j1Module()
+Scene::Scene() : j1Module()
 {
 	name = "scene";
 }
 
 // Destructor
-j1Scene::~j1Scene()
+Scene::~Scene()
 {
 
 }
 
-void j1Scene::Init()
+void Scene::Init()
 {
 	active = true;
 	enabled = true;
 }
 
-bool j1Scene::Enable()
+bool Scene::Enable()
 {
 	active = true;
 	return true;
 }
 
-void j1Scene::Disable()
+void Scene::Disable()
 {
 	active = false;
 	enabled = false;
 }
 
 // Called before render is available
-bool j1Scene::Awake(pugi::xml_node& config)
+bool Scene::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene");
 	for (pugi::xml_node map_tmx = config.child("map_folder"); map_tmx; map_tmx = map_tmx.next_sibling("map_folder")) {
@@ -57,7 +57,7 @@ bool j1Scene::Awake(pugi::xml_node& config)
 }
 
 // Called before the first frame
-bool j1Scene::Start()
+bool Scene::Start()
 {
 	//Map build -------------------------------------------
 	//Floor -----------------
@@ -87,14 +87,14 @@ bool j1Scene::Start()
 }
 
 // Called each loop iteration
-bool j1Scene::PreUpdate()
+bool Scene::PreUpdate()
 {
 
 	return true;
 }
 
 // Called each loop iteration
-bool j1Scene::Update(float dt)
+bool Scene::Update(float dt)
 {
 	//Blit scene Parallax -----------------------
 	back_parallax->Draw(-30);
@@ -124,7 +124,7 @@ bool j1Scene::Update(float dt)
 }
 
 // Called each loop iteration
-bool j1Scene::PostUpdate()
+bool Scene::PostUpdate()
 {
 
 	if (App->input_manager->GetEvent(FULL_SCREEN) == INPUT_DOWN)
@@ -145,7 +145,7 @@ bool j1Scene::PostUpdate()
 }
 
 // Called before quitting
-bool j1Scene::CleanUp()
+bool Scene::CleanUp()
 {
 	LOG("Freeing scene");
 	
@@ -159,7 +159,7 @@ bool j1Scene::CleanUp()
 }
 
 // Functionality ================================
-void j1Scene::UpdateParallax(float disp)
+void Scene::UpdateParallax(float disp)
 {
 	mid_parallax->Displace(disp * MID_PARALLAX_VAL * App->GetDT());
 	back_parallax->Displace(disp * BACK_PARALLAX_VAL * App->GetDT());

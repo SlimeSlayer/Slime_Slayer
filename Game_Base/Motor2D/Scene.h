@@ -9,14 +9,14 @@ class Parallax;
 class PhysBody;
 struct SDL_Texture;
 
-class j1Scene : public j1Module
+class Scene : public j1Module
 {
 public:
 
-	j1Scene();
+	Scene();
 
 	// Destructor
-	virtual ~j1Scene();
+	virtual ~Scene();
 
 	void Init();
 

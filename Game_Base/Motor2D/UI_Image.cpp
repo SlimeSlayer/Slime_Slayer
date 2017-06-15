@@ -2,7 +2,10 @@
 #include "j1Render.h"
 
 //Constructors ============================================
-UI_Image::UI_Image(const SDL_Rect& box, const iPoint pivot, const SDL_Rect& texture_rect, int texture_id) : UI_Element(box, IMG), pivot(pivot), texture_rect(texture_rect), texture_id(texture_id) {}
+UI_Image::UI_Image(const SDL_Rect& box, const iPoint pivot, const SDL_Rect& texture_rect, TEXTURE_ID texture_id) : UI_Element(box, IMG), pivot(pivot), texture_rect(texture_rect), texture_id(texture_id)
+{
+	texture = App->gui->Get_UI_Texture(texture_id);
+}
 
 UI_Image::UI_Image(const UI_Image* copy) : UI_Element(copy->box, IMG), pivot(copy->pivot), texture_rect(copy->texture_rect), texture_id(copy->texture_id) {}
 
@@ -25,9 +28,9 @@ void UI_Image::Draw(bool debug) const
 	else {
 		
 		//Undefined draw size
-		if (texture_rect.w == 0 || texture_rect.h == 0)App->render->Blit(App->gui->Get_UI_Texture(texture_id), box.x - App->render->camera.x - pivot.x, box.y - App->render->camera.y - pivot.y);
+		if (texture_rect.w == 0 || texture_rect.h == 0)App->render->Blit(texture, box.x - App->render->camera.x - pivot.x, box.y - App->render->camera.y - pivot.y);
 		//Defined draw size
-		else App->render->Blit(App->gui->Get_UI_Texture(texture_id), box.x - App->render->camera.x - pivot.x, box.y - App->render->camera.y - pivot.y, &texture_rect);
+		else App->render->Blit(texture, box.x - App->render->camera.x - pivot.x, box.y - App->render->camera.y - pivot.y, &texture_rect);
 
 	}
 
@@ -45,7 +48,7 @@ SDL_Rect UI_Image::AdjustBox()
 	if (box.w == 0 || box.h == 0) {
 	
 		int w, h;
-		SDL_QueryTexture(App->gui->Get_UI_Texture(this->texture_id), NULL, NULL, &w, &h);
+		SDL_QueryTexture(texture, NULL, NULL, &w, &h);
 
 		box.w = w;
 		box.h = h;
@@ -60,9 +63,9 @@ void UI_Image::DrawAt(int x, int y) const
 	y += this->box.y;
 
 	//Undefined draw size
-	if (texture_rect.w == 0 || texture_rect.h == 0)App->render->Blit(App->gui->Get_UI_Texture(texture_id), x - App->render->camera.x - pivot.x, y - App->render->camera.y - pivot.y);
+	if (texture_rect.w == 0 || texture_rect.h == 0)App->render->Blit(texture, x - App->render->camera.x - pivot.x, y - App->render->camera.y - pivot.y);
 	//Defined draw size
-	else App->render->Blit(App->gui->Get_UI_Texture(texture_id), x - App->render->camera.x - pivot.x, y - App->render->camera.y - pivot.y, &texture_rect);
+	else App->render->Blit(texture, x - App->render->camera.x - pivot.x, y - App->render->camera.y - pivot.y, &texture_rect);
 		
 }
 
@@ -71,9 +74,10 @@ void UI_Image::ChangeTextureRect(SDL_Rect new_rect)
 	texture_rect = new_rect;
 }
 
-void UI_Image::ChangeTextureId(int id)
+void UI_Image::ChangeTextureId(TEXTURE_ID texture_id)
 {
-	texture_id = id;
+	this->texture_id = texture_id;
+	texture = App->gui->Get_UI_Texture(texture_id);
 }
 
 iPoint UI_Image::GetPivot() const
