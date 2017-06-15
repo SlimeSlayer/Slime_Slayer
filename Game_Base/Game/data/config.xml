@@ -20,7 +20,11 @@
     <atlas file="gui/atlas.png"       id="atlas"/>
     <atlas file="gui/atlas_test.png"  id="atlas_test"/>
   </gui>
-    
+
+  <audio>
+    <audio_data file ="audio/audio_data.xml"/>
+  </audio>
+  
   <window>
     <resolution width="1600" height="1024" scale="1"/>
     <fullscreen value="false"/>

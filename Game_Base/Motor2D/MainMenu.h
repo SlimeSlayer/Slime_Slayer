@@ -16,6 +16,8 @@ public:
 
 	void Init();
 
+	void Active();
+
 	// Called before the first frame
 	bool Start();
 

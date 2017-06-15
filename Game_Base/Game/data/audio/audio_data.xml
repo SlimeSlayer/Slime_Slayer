@@ -1,0 +1,12 @@
+<data>
+  <musics>
+    <block folder="in_game_song.ogg" id="music_in_game"/>
+    <block folder="menu_song.ogg" id="music_menu"/>
+  </musics>
+  
+  <fx>
+    <!-- <block folder="in_game_song.ogg" id="music_in_game"/>
+    <block folder="menu_song.ogg" id="music_menu"/>-->
+  </fx>
+  
+</data>

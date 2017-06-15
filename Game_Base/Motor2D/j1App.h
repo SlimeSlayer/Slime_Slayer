@@ -8,6 +8,7 @@
 #include <vector>
 
 #define TIME_TO_ENABLE 10
+#define FADE_TIME 0.5f
 
 struct SDL_Texture;
 

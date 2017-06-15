@@ -32,16 +32,10 @@ void Scene::Init()
 	enabled = false;
 }
 
-bool Scene::Enable()
+void Scene::Active()
 {
 	active = true;
-	return true;
-}
-
-void Scene::Disable()
-{
-	active = false;
-	enabled = false;
+	App->audio->PlayMusic(MUSIC_ID::MUSIC_IN_GAME);
 }
 
 // Called before render is available

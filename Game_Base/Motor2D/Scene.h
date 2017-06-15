@@ -14,14 +14,13 @@ class Scene : public j1Module
 public:
 
 	Scene();
+	~Scene();
 
-	// Destructor
-	virtual ~Scene();
+public:
 
 	void Init();
 
-	bool Enable();
-	void Disable();
+	void Active();
 
 	// Called before render is available
 	bool Awake(pugi::xml_node& config);

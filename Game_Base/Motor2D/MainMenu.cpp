@@ -28,6 +28,12 @@ void MainMenu::Init()
 	enabled = true;
 }
 
+void MainMenu::Active()
+{
+	active = true;
+	App->audio->PlayMusic(MUSIC_ID::MUSIC_MENU);
+}
+
 bool MainMenu::Start()
 {
 	//Build menu UI ---------
@@ -96,6 +102,8 @@ bool MainMenu::Start()
 
 	//Add the built branch at the GUI 
 	App->gui->PushScreen(menu_branch);
+
+	App->audio->PlayMusic(MUSIC_ID::MUSIC_MENU);
 
 	return true;
 }

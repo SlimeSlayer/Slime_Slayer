@@ -10,7 +10,7 @@
 
 j1Audio::j1Audio() : j1Module()
 {
-	music = NULL;
+	current_music = NULL;
 	name = "audio";
 }
 
@@ -51,6 +51,27 @@ bool j1Audio::Awake(pugi::xml_node& config)
 		ret = true;
 	}
 	
+	// Load all the musics folders
+	std::string musics_folder = config.child("audio_data").attribute("file").as_string();
+
+	pugi::xml_document audio_data_doc;
+	App->fs->LoadXML(musics_folder.c_str(), &audio_data_doc);
+
+	pugi::xml_node music_node = audio_data_doc.child("data").child("musics").first_child();
+
+	while (music_node != NULL)
+	{
+		Music_Block new_music_block;
+		std::string music_folder = "audio/";
+		new_music_block.music_folder = music_folder+=music_node.attribute("folder").as_string();
+		new_music_block.music_id = StrToMusicID(music_node.attribute("id").as_string());
+		musics.push_back(new_music_block);
+
+		music_node = music_node.next_sibling();
+	}
+
+	audio_data_doc.reset();
+
 	return ret;
 }
 
@@ -75,9 +96,9 @@ bool j1Audio::CleanUp()
 
 	//LOG("Freeing sound FX, closing Mixer and Audio subsystem");
 
-	if(music != NULL)
+	if(current_music != NULL)
 	{
-		Mix_FreeMusic(music);
+		Mix_FreeMusic(current_music);
 	}
 
 	for(std::list<Mix_Chunk*>::iterator item = fx.begin(); item != fx.end();  item++)
@@ -100,7 +121,7 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 	if(!active)
 		return false;
 
-	if(music != NULL)
+	if(current_music != NULL)
 	{
 		if(fade_time > 0.0f)
 		{
@@ -112,12 +133,12 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 		}
 
 		// this call blocks until fade out is done
-		Mix_FreeMusic(music);
+		Mix_FreeMusic(current_music);
 	}
 
-	music = Mix_LoadMUS_RW(App->fs->Load(path), 1);
+	current_music = Mix_LoadMUS_RW(App->fs->Load(path), 1);
 
-	if(music == NULL)
+	if(current_music == NULL)
 	{
 		LOG("Cannot load music %s. Mix_GetError(): %s\n", path, Mix_GetError());
 		ret = false;
@@ -126,7 +147,7 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 	{
 		if(fade_time > 0.0f)
 		{
-			if(Mix_FadeInMusic(music, -1, (int) (fade_time * 1000.0f)) < 0)
+			if(Mix_FadeInMusic(current_music, -1, (int) (fade_time * 1000.0f)) < 0)
 			{
 				LOG("Cannot fade in music %s. Mix_GetError(): %s", path, Mix_GetError());
 				ret = false;
@@ -134,7 +155,7 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 		}
 		else
 		{
-			if(Mix_PlayMusic(music, -1) < 0)
+			if(Mix_PlayMusic(current_music, -1) < 0)
 			{
 				LOG("Cannot play in music %s. Mix_GetError(): %s", path, Mix_GetError());
 				ret = false;
@@ -229,4 +250,28 @@ void j1Audio::ResetAudioSystem()
 		LOG("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
 		active = false;
 	}
+}
+
+void j1Audio::PlayMusic(MUSIC_ID music_to_play_id)
+{
+	uint size = musics.size();
+	for (uint i = 0; i < size; i++)
+	{
+		if (musics[i].music_id  == music_to_play_id)
+		{
+			PlayMusic(musics[i].music_folder.c_str());
+		}
+	}
+}
+
+MUSIC_ID j1Audio::StrToMusicID(const char * str) const
+{
+	if (strcmp(str, "music_menu") == 0)		return MUSIC_MENU;
+	if (strcmp(str, "music_in_game") == 0)	return MUSIC_IN_GAME;
+	return MUSIC_NONE;
+}
+
+FX_ID j1Audio::StrToFXID(const char * str) const
+{
+	return FX_NONE;
 }
