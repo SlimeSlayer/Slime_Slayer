@@ -7,6 +7,7 @@
 #include "j1Fonts.h"
 #include "j1Input.h"
 #include "j1FileSystem.h"
+#include "j1InputManager.h"
 
 //UI_Elements
 #include "UI_Element.h"
@@ -96,6 +97,11 @@ bool j1Gui::PreUpdate()
 bool j1Gui::PostUpdate()
 {
 	
+	if (App->input_manager->GetEvent(UI_DEBUG_MODE) == INPUT_DOWN)
+	{
+		App->ui_debug = !App->ui_debug;
+	}
+
 	/*if (App->debug_mode)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
@@ -113,7 +119,7 @@ bool j1Gui::PostUpdate()
 	while (item != screens.end()) {
 
 		if (item._Ptr->_Myval->GetActiveState() && item._Ptr->_Myval->GetInputTarget()->active)
-			item._Ptr->_Myval->Draw(false);
+			item._Ptr->_Myval->Draw(App->ui_debug);
 
 		item++;
 	}

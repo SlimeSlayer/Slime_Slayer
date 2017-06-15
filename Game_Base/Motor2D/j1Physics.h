@@ -84,6 +84,7 @@ public:
 
 public:
 
+	void Init();
 	bool Awake(pugi::xml_node&);
 	bool Start();
 	bool PreUpdate();

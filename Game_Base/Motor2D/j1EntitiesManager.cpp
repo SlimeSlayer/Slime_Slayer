@@ -16,7 +16,14 @@ j1EntitiesManager::~j1EntitiesManager()
 
 }
 
+
 // Game Loop ====================================
+void j1EntitiesManager::Init()
+{
+	active = false;
+	enabled = false;
+}
+
 bool j1EntitiesManager::Awake(pugi::xml_node & node)
 {
 	return true;

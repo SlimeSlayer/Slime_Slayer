@@ -18,6 +18,8 @@ public:
 
 public:
 
+	void Init();
+
 	// Called before the first frame
 	bool Start();
 

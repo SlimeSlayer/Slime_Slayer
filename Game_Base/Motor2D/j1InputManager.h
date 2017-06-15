@@ -13,6 +13,7 @@ enum INPUT_EVENT
 
 	//Debug
 	COLLIDERS_DEBUG_MODE,
+	UI_DEBUG_MODE,
 
 	//Full Screen
 	FULL_SCREEN,

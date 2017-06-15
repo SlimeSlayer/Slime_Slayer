@@ -13,6 +13,8 @@ public:
 
 public:
 
+	void Init();
+
 	// Called before render is available
 	bool Awake(pugi::xml_node& node);
 

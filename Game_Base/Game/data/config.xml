@@ -31,6 +31,7 @@
   <input_manager>
     <!--Debug-->
     <key id ="F1"  event="colliders_debug"/>
+    <key id ="F2"  event="ui_debug"/>
     <!--Volume UP/DOWN-->
     <key id ="Keypad +"  event="volume_up"/>
     <key id ="Keypad -"  event="volume_down"/>

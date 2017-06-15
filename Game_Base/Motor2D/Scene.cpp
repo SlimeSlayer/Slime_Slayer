@@ -28,8 +28,8 @@ Scene::~Scene()
 
 void Scene::Init()
 {
-	active = true;
-	enabled = true;
+	active = false;
+	enabled = false;
 }
 
 bool Scene::Enable()
@@ -116,7 +116,7 @@ bool Scene::Update(float dt)
 	//EXIT --------------------------------------
 	else if (App->input_manager->GetEvent(ESCAPE) == INPUT_DOWN)
 	{
-		App->SetQuit();
+		App->ActiveMainMenu();
 	}
 	// ------------------------------------------
 

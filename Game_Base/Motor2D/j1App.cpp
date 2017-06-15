@@ -21,6 +21,7 @@
 #include "j1EntitiesManager.h"
 #include "j1Player.h"
 
+#include "MainMenu.h"
 #include "Scene.h"
 
 // Constructor
@@ -43,6 +44,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	entities_manager = new j1EntitiesManager();
 	player = new j1Player();
 
+	main_menu = new MainMenu();
 	scene = new Scene();
 
 	// Ordered for awake / Start / Update
@@ -60,6 +62,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(player);
 
 	// scene last
+	AddModule(main_menu);
 	AddModule(scene);
 	
 	// render last to swap buffer
@@ -245,11 +248,6 @@ void j1App::FinishUpdate()
 	if (want_to_load == true && !want_to_enable)
 	{
 		LoadGameNow();
-	}
-
-	if (want_to_load_default && !want_to_enable)
-	{
-		LoadDefaultGameNow();
 	}
 
 	// Framerate calculations --
@@ -524,63 +522,6 @@ bool j1App::SavegameNow()
 	return ret;
 }
 
-bool j1App::LoadDefaultGame(const char* folder_str)
-{
-	//Clean all the previous data
-	App->gui->ChangeMouseTexture(DEFAULT);
-	App->video->Disable();
-
-	App->video->Active();
-
-	App->scene->Enable();
-
-	App->EnableActiveModules();
-
-	load_game = folder_str;
-	want_to_load_default = true;
-
-	return true;
-}
-
-void j1App::LoadDefaultGameNow()
-{
-	bool ret = true;
-	pugi::xml_document scene_doc;
-	if (!App->fs->LoadXML(load_game.c_str(), &scene_doc))
-	{
-		LOG("Error Loading Scene!");
-		return;
-	}
-
-	if (scene_doc != NULL)
-	{
-
-		pugi::xml_node game_node = scene_doc.child("game_state");
-
-		LOG("Loading new Game State from %s...", load_game.c_str());
-
-		std::list<j1Module*>::const_iterator item = modules.begin();
-		ret = true;
-
-		while (item != modules.end() && ret == true)
-		{
-			ret = item._Ptr->_Myval->Load(game_node.child(item._Ptr->_Myval->name.c_str()));
-			item++;
-		}
-
-		scene_doc.reset();
-
-		if (ret == true)
-			LOG("...finished loading");
-		else
-			LOG("...loading process interrupted with error on module %s", (item._Ptr->_Myval != NULL) ? item._Ptr->_Myval->name.c_str() : "unknown");
-	}
-	else
-		LOG("Could not load game state xml file %s", load_game.c_str());
-
-	want_to_load_default = false;
-}
-
 void j1App::EnableActiveModules()
 {
 	std::list<j1Module*>::const_iterator item = modules.begin();
@@ -638,6 +579,38 @@ void j1App::SetQuit()
 bool j1App::GetQuit() const
 {
 	return want_to_quit;
+}
+
+void j1App::ActiveScene()
+{
+	// Deactivate the Main Menu
+	App->main_menu->Disable();
+
+	// Active all the necessary scene modules
+	App->player->Active();
+	//App->animator->Active();
+	App->entities_manager->Active();
+	App->scene->Active();
+	App->physics->Active();
+
+	want_to_enable = true;
+	EnableActiveModules();
+}
+
+void j1App::ActiveMainMenu()
+{
+	// Deactivate the Main Menu
+	App->player->Disable();
+	//App->animator->Active();
+	App->entities_manager->Disable();
+	App->scene->Disable();
+	App->physics->Disable();
+
+	// Active all the necessary scene modules
+	App->main_menu->Active();
+
+	want_to_enable = true;
+	EnableActiveModules();
 }
 
 

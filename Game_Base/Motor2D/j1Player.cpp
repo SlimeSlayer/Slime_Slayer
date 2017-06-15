@@ -20,6 +20,12 @@ j1Player::~j1Player()
 }
 
 // Game Loop ====================================
+void j1Player::Init()
+{
+	enabled = false;
+	active = false;
+}
+
 bool j1Player::Start()
 {
 	avatar = App->entities_manager->GenerateCreature(PLAYER_CREATURE);

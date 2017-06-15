@@ -22,9 +22,9 @@ class j1Video : public j1Module
 public:
 
 	j1Video();
+	~j1Video();
 
-	// Destructor
-	virtual ~j1Video();
+	void Init();
 
 	void Disable();
 

@@ -42,6 +42,12 @@ j1Video::j1Video() : j1Module()
 j1Video::~j1Video()
 {}
 
+void j1Video::Init()
+{
+	enabled = false;
+	active = false;
+}
+
 void j1Video::Disable()
 {
 	enabled = active = false;

@@ -30,6 +30,12 @@ j1Physics::~j1Physics()
 {
 }
 
+void j1Physics::Init()
+{
+	active = false;
+	enabled = false;
+}
+
 bool j1Physics::Awake(pugi::xml_node& config) {
 
 	LOG("ModulePhysics Configuration Loaded!");

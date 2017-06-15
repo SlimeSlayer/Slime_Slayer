@@ -29,6 +29,7 @@ class j1Intro;
 class j1Physics;
 class j1Player;
 
+class MainMenu;
 class Scene;
 
 class j1App
@@ -118,6 +119,7 @@ public:
 	j1Player*			player = NULL;
 
 	// Scenes
+	MainMenu*		main_menu = NULL;
 	Scene*			scene = NULL;
 	
 
@@ -153,7 +155,6 @@ public:
 
 	mutable bool			want_to_save = false;	/*True when save function called*/
 	bool					want_to_load = false;	/*True when load function called*/
-	bool					want_to_load_default = false;
 	std::string				load_game;	/*Folder where the game is loaded*/
 	std::string				save_game;	/*Folder where the game is saved*/
 
@@ -177,8 +178,12 @@ public:
 
 	void SetQuit();
 	bool GetQuit()const;
+	
+	void ActiveScene();
+	void ActiveMainMenu();
 
 	bool collisions_debug = true;
+	bool ui_debug = false;
 
 };
 

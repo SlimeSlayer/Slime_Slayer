@@ -5,14 +5,16 @@
 class UI_Button;
 class UI_Image;
 
-class Menu : public j1Module
+class MainMenu : public j1Module
 {
 public:
 
-	Menu();
-	~Menu();
+	MainMenu();
+	~MainMenu();
 
 public:
+
+	void Init();
 
 	// Called before the first frame
 	bool Start();
@@ -29,6 +31,7 @@ public:
 private:
 
 	// MENU DATA
+	UI_Element*	menu_branch = nullptr;
 	UI_Button*	start_button = nullptr;
 	UI_Button*	settings_button = nullptr;
 	UI_Image*	settings_menu = nullptr;
