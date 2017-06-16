@@ -61,5 +61,9 @@
   <animator>
     
   </animator>
+
+  <entities_manager>
+    <entities_data file="entities_manager/entities_defs.xml"/>
+  </entities_manager>
   
 </config>

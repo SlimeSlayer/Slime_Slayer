@@ -26,12 +26,17 @@ void j1Player::Init()
 	active = false;
 }
 
-bool j1Player::Start()
+bool j1Player::Enable()
 {
 	avatar = App->entities_manager->GenerateCreature(PLAYER_CREATURE);
 	avatar->GetBody()->SetPosition(1500, 900);
-	avatar->SetMovSpeed(5.0f);
 	avatar->GetBody()->body->GetFixtureList()->SetFriction(0.0f);
+	return true;
+}
+
+bool j1Player::Start()
+{
+
 
 	return true;
 }
@@ -88,7 +93,7 @@ bool j1Player::Update(float dt)
 	// JUMP INPUT -------------------------------
 	if (jump_input_state == INPUT_DOWN)
 	{
-		avatar->GetBody()->body->ApplyForceToCenter(b2Vec2(0.0f, -PLAYER_JUMP_IMPULSE), true);
+		avatar->GetBody()->body->ApplyForceToCenter(b2Vec2(0.0f, -avatar->GetJumpForce()), true);
 	}
 
 	return true;

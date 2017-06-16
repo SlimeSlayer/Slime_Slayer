@@ -5,7 +5,6 @@
 
 #define PLAYER_CAMERA_X 500
 #define PLAYER_CAMERA_Y 800
-#define PLAYER_JUMP_IMPULSE 25
 
 class Creature;
 
@@ -19,6 +18,7 @@ public:
 public:
 
 	void Init();
+	bool Enable();
 
 	// Called before the first frame
 	bool Start();

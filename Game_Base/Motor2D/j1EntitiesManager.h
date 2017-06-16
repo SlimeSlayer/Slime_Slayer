@@ -14,6 +14,8 @@ public:
 public:
 
 	void Init();
+	bool Enable();
+	void Disable();
 
 	// Called before render is available
 	bool Awake(pugi::xml_node& node);
@@ -26,12 +28,28 @@ public:
 
 private:
 
+	// Data used during the segmented enable process
+	pugi::xml_document	definitions_doc;
+	pugi::xml_node		current_enable_group;
+	pugi::xml_node		current_enble_node;
+	ENTITY_TYPE			current_entity_type = NO_ENTITY;
+
+	//Add definitions methods
+	void AddCreatureDefinition(const pugi::xml_node* data_node);
+	
+	// Vector with all the creatures definitions
+	std::vector<Creature*>	creatures_defs;
+
+	// List with all the alive creatures
 	std::list<Creature*> current_creatures;
 
 public:
 
-	// Functionality --------
-	Creature* GenerateCreature(CREATURE_TYPE creature_type);
+	//Enums Methods ---------
+	ENTITY_TYPE		StrToEntityType(const char* str)const;
+	CREATURE_TYPE	StrToCreatureType(const char* str)const;
 
+	// Functionality --------
+	Creature*	GenerateCreature(CREATURE_TYPE creature_type);
 };
 #endif

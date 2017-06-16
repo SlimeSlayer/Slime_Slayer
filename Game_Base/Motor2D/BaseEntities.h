@@ -9,7 +9,6 @@ class Animation;
 enum ENTITY_TYPE
 {
 	NO_ENTITY = 0,
-	PLATFORM,
 	CREATURE,
 	ITEM
 };
@@ -19,6 +18,12 @@ enum CREATURE_TYPE
 	NO_CREATURE = 0,
 	PLAYER_CREATURE
 };
+
+enum ITEM_TYPE
+{
+	NO_ITEM = 0
+};
+
 /// Entity --------------------------------------
 //Base class where the entity pillars are defined
 class Entity
@@ -69,7 +74,8 @@ private:
 
 	uint life = 0;
 	uint attack = 0;
-	float mov_speed = 0;
+	float mov_speed = 0.0f;
+	float jump_force = 0.0f;
 
 public:
 
@@ -78,11 +84,14 @@ public:
 	void SetLife(uint new_life);
 	void SetAttack(uint new_attack);
 	void SetMovSpeed(float new_mov_speed);
+	void SetJumpForce(float new_jump_force);
 
 	//Get Methods -----------
 	CREATURE_TYPE	GetCreatureType()const;
 	uint			GetLife()const;
 	uint			GetAttack()const;
 	float			GetMovSpeed()const;
+	float			GetJumpForce()const;
+
 };
 /// ---------------------------------------------

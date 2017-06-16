@@ -1,0 +1,26 @@
+<data>
+  <!--Definitions of all the items-->
+  <item>
+    
+  </item>
+  <!--Definitions of all the creatures-->
+  <creature>
+    <!--Player-->
+    <entity             
+      body_type="player_body"
+      collision_type="player_collision"
+      listener="player"
+      body_shape="square"
+      width ="50"
+      height="70"
+      
+      creature_type="player_creature"
+      name="Insert Player Name"
+      description="Insert epic description here"
+      life="100"
+      attack="5"
+      mov_speed="5"
+      jump_force="25"
+      />
+  </creature>
+</data>

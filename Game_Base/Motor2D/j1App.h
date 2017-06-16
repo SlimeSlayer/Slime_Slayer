@@ -8,7 +8,7 @@
 #include <vector>
 #include "SDL_image/include/SDL_image.h"
 
-#define TIME_TO_ENABLE 10
+#define TIME_TO_ENABLE 5
 #define FADE_OUT_TIME 1.5f
 #define FADE_IN_TIME 4.0f
 
@@ -126,7 +126,7 @@ public:
 	// Add a new module to handle
 	void		AddModule(j1Module* module);
 	//Get Module pointer by name
-	j1Module*	GetModule(const  std::string* module_name);
+	j1Module*	GetModule(const char* module_name);
 	//Get number of modules
 	uint		GetModulesNum()const;
 	//Get module of position x in array

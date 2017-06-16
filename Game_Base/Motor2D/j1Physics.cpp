@@ -36,6 +36,21 @@ void j1Physics::Init()
 	enabled = false;
 }
 
+void j1Physics::Disable()
+{
+	b2Body* bdy = world->GetBodyList();
+	while (bdy != nullptr)
+	{
+		b2Body* bdy_next = bdy->GetNext();
+		if(bdy != ground)world->DestroyBody(bdy);
+		bdy = bdy_next;
+	}
+
+	bodys_to_delete.clear();
+
+	enabled = active = false;
+}
+
 bool j1Physics::Awake(pugi::xml_node& config) {
 
 	LOG("ModulePhysics Configuration Loaded!");
@@ -272,7 +287,7 @@ bool j1Physics::CleanUp()
 }
 
 
-PhysBody* j1Physics::CreateCircle(int x, int y, int radius, collision_type type, BODY_TYPE b_type, uint restitution)
+PhysBody* j1Physics::CreateCircle(int x, int y, int radius, COLLISION_TYPE type, BODY_TYPE b_type, uint restitution)
 {
 	//Body
 	b2BodyDef body;
@@ -302,7 +317,7 @@ PhysBody* j1Physics::CreateCircle(int x, int y, int radius, collision_type type,
 	return pbody;
 }
 
-PhysBody* j1Physics::CreateStaticCircle(int x, int y, int radius, collision_type type, BODY_TYPE b_type, uint restitution)
+PhysBody* j1Physics::CreateStaticCircle(int x, int y, int radius, COLLISION_TYPE type, BODY_TYPE b_type, uint restitution)
 {
 	//Body
 	b2BodyDef body;
@@ -332,7 +347,7 @@ PhysBody* j1Physics::CreateStaticCircle(int x, int y, int radius, collision_type
 	return pbody;
 }
 
-PhysBody* j1Physics::CreateRectangle(int x, int y, int width, int height, collision_type type, BODY_TYPE b_type, uint restitution)
+PhysBody* j1Physics::CreateRectangle(int x, int y, int width, int height, COLLISION_TYPE type, BODY_TYPE b_type, uint restitution)
 {
 	//Body
 	b2BodyDef body;
@@ -363,7 +378,7 @@ PhysBody* j1Physics::CreateRectangle(int x, int y, int width, int height, collis
 	return pbody;
 }
 
-PhysBody* j1Physics::CreateRectangleSensor(int x, int y, int width, int height, collision_type type, BODY_TYPE b_type, uint restitution)
+PhysBody* j1Physics::CreateRectangleSensor(int x, int y, int width, int height, COLLISION_TYPE type, BODY_TYPE b_type, uint restitution)
 {
 	//Body
 	b2BodyDef body;
@@ -396,7 +411,7 @@ PhysBody* j1Physics::CreateRectangleSensor(int x, int y, int width, int height, 
 	return pbody;
 }
 
-PhysBody* j1Physics::CreateChain(int x, int y, int* points, int size, collision_type type, BODY_TYPE b_type, uint restitution)
+PhysBody* j1Physics::CreateChain(int x, int y, int* points, int size, COLLISION_TYPE type, BODY_TYPE b_type, uint restitution)
 {
 	//Body
 	b2BodyDef body;
@@ -433,7 +448,7 @@ PhysBody* j1Physics::CreateChain(int x, int y, int* points, int size, collision_
 	return pbody;
 }
 
-PhysBody* j1Physics::CreateSensorChain(int x, int y, int* points, int size, collision_type type, BODY_TYPE b_type, uint restitution)
+PhysBody* j1Physics::CreateSensorChain(int x, int y, int* points, int size, COLLISION_TYPE type, BODY_TYPE b_type, uint restitution)
 {
 	b2BodyDef body;
 	body.type = b2_staticBody;
@@ -472,7 +487,7 @@ PhysBody* j1Physics::CreateSensorChain(int x, int y, int* points, int size, coll
 	return pbody;
 }
 
-void j1Physics::SetFixture(b2FixtureDef& fixture, collision_type type)
+void j1Physics::SetFixture(b2FixtureDef& fixture, COLLISION_TYPE type)
 {
 	fixture.filter.categoryBits = type;
 	switch (type)
@@ -531,6 +546,37 @@ bool j1Physics::CreateRevoluteJoint(b2Body* A, b2Body* B)
 	return true;
 }
 
+PhysBody * j1Physics::CopyBody(const PhysBody* target)
+{
+	//Body
+	b2BodyDef body;
+	body.type = target->body->GetType();
+	body.position.Set(0,0);
+	b2Body* b = world->CreateBody(&body);
+
+	//Shape
+	b2BlockAllocator alloc;
+	b2Shape* shape = target->body->GetFixtureList()->GetShape()->Clone(&alloc);
+	
+	//Fixture
+	b2FixtureDef fixture;
+	fixture.shape = shape;
+	fixture.density = 0.1f;
+	fixture.restitution = target->body->GetFixtureList()->GetRestitution();
+	SetFixture(fixture, ((COLLISION_TYPE)target->body->GetFixtureList()->GetFilterData().categoryBits));
+	b->CreateFixture(&fixture);
+
+	//PhysBody
+	PhysBody* pbody = new PhysBody();
+	pbody->collide_type = target->collide_type;
+	pbody->body = b;
+	b->SetUserData(pbody);
+	pbody->width = target->width * 0.5f;
+	pbody->height = target->height * 0.5f;
+
+	return pbody;
+}
+
 bool j1Physics::DeleteBody(PhysBody * target)
 {
 	if (target->body == nullptr)
@@ -542,6 +588,11 @@ bool j1Physics::DeleteBody(PhysBody * target)
 	bodys_to_delete.push_back(target->body);
 
 	return true;
+}
+
+PhysBody::~PhysBody()
+{
+	App->physics->DeleteBody(this);
 }
 
 void PhysBody::GetPosition(int& x, int &y) const
@@ -786,4 +837,26 @@ void j1Physics::SmoothStates()
 unsigned short j1Physics::GetFixedTimestepAcRatio() const
 {
 	return fixed_timestep_accumulator_ratio;
+}
+
+b2Shape::Type j1Physics::StrToBodyShape(const char * str) const
+{
+	if (strcmp(str, "circle") == 0)		return b2Shape::Type::e_circle;
+	if (strcmp(str, "edge") == 0)		return b2Shape::Type::e_edge;
+	if (strcmp(str, "square") == 0)		return b2Shape::Type::e_polygon;
+	if (strcmp(str, "chain") == 0)		return b2Shape::Type::e_chain;
+	if (strcmp(str, "type_count") == 0)	return b2Shape::Type::e_typeCount;
+}
+
+COLLISION_TYPE j1Physics::StrToCollisionType(const char * str) const
+{
+	if (strcmp(str, "player_collision") == 0)	return COLLISION_TYPE::PLAYER_COLLISION;
+	if (strcmp(str, "map_collision") == 0)		return COLLISION_TYPE::MAP_COLLISION;
+}
+
+BODY_TYPE j1Physics::StrToBodyType(const char * str) const
+{
+	if (strcmp(str, "player_body") == 0)	return BODY_TYPE::PLAYER_BODY;
+	if (strcmp(str, "map_body") == 0)		return BODY_TYPE::MAP_BODY;
+	return NO_BODY;
 }

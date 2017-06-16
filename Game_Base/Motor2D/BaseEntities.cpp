@@ -1,4 +1,6 @@
 #include "BaseEntities.h"
+
+#include "j1App.h"
 #include "j1Animator.h"
 #include "j1Physics.h"
 
@@ -11,9 +13,9 @@ Entity::Entity()
 
 }
 
-Entity::Entity(const Entity & copy) : entity_type(copy.entity_type), name(copy.name), description(copy.description), body(copy.body)
+Entity::Entity(const Entity & copy) : entity_type(copy.entity_type), name(copy.name), description(copy.description)
 {
-
+	body = App->physics->CopyBody(copy.body);
 }
 
 //Destructors =========================
@@ -71,9 +73,9 @@ Creature::Creature()
 
 }
 
-Creature::Creature(const Creature & copy) : Entity(copy), life(copy.life), attack(copy.attack), mov_speed(copy.mov_speed)
+Creature::Creature(const Creature & copy) : Entity(copy), creature_type(copy.creature_type), life(copy.life), attack(copy.attack), mov_speed(copy.mov_speed), jump_force(copy.jump_force)
 {
-
+	entity_type = CREATURE;
 }
 
 // Destructors ========================
@@ -103,6 +105,11 @@ void Creature::SetMovSpeed(float new_mov_speed)
 	mov_speed = new_mov_speed;
 }
 
+void Creature::SetJumpForce(float new_jump_force)
+{
+	jump_force = new_jump_force;
+}
+
 //Get Methods =========================
 CREATURE_TYPE Creature::GetCreatureType() const
 {
@@ -122,4 +129,9 @@ uint Creature::GetAttack() const
 float Creature::GetMovSpeed() const
 {
 	return mov_speed;
+}
+
+float Creature::GetJumpForce() const
+{
+	return jump_force;
 }

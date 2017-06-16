@@ -34,10 +34,23 @@ void Scene::Init()
 
 bool Scene::Enable()
 {
+	//Map build -------------------------------------------
+	//Floor -----------------
+	floor_collider = App->physics->CreateRectangle(2500, 955, 50000, 15, COLLISION_TYPE::MAP_COLLISION, BODY_TYPE::MAP_BODY);
+	floor_collider->body->SetType(b2BodyType::b2_staticBody);
+	floor_collider->body->GetFixtureList()->SetFriction(0.0f);
+
 	active = true;
 	enabled = true;
 	App->audio->PlayMusic(MUSIC_ID::MUSIC_IN_GAME);
 	return true;
+}
+
+void Scene::Disable()
+{
+	delete floor_collider;
+
+	enabled = active = false;
 }
 
 // Called before render is available
@@ -55,12 +68,6 @@ bool Scene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool Scene::Start()
 {
-	//Map build -------------------------------------------
-	//Floor -----------------
-	floor_collider = App->physics->CreateRectangle(2500, 955, 50000, 15, collision_type::MAP_COLLISION, BODY_TYPE::MAP_BODY);
-	floor_collider->body->SetType(b2BodyType::b2_staticBody);
-	floor_collider->body->GetFixtureList()->SetFriction(0.0f);
-
 	//Front Parallax --------
 	front_parallax = new Parallax(3);
 	front_parallax->SetTexture(App->tex->Load("scene/ground_texture.jpg"));
@@ -144,8 +151,6 @@ bool Scene::PostUpdate()
 bool Scene::CleanUp()
 {
 	LOG("Freeing scene");
-	
-	delete floor_collider;
 	
 	delete front_parallax;
 	delete mid_parallax;

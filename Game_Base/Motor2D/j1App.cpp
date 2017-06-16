@@ -542,13 +542,13 @@ void j1App::EnableActiveModules()
 	want_to_enable = true;
 }
 
-j1Module * j1App::GetModule(const std::string* module_name)
+j1Module * j1App::GetModule(const char* module_name)
 {
 	std::list<j1Module*>::const_iterator item = modules.begin();
 
 	while (item != modules.end())
 	{
-		if (*module_name == item._Ptr->_Myval->name.c_str())
+		if (strcmp(item._Ptr->_Myval->name.c_str(),module_name) == 0)
 		{
 			return item._Ptr->_Myval;
 		}
