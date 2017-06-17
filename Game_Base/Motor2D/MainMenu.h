@@ -53,5 +53,12 @@ private:
 	UI_Scroll_Bar*	master_audio_scroll = nullptr;
 	UI_Scroll_Bar*	music_audio_scroll = nullptr;
 	UI_Scroll_Bar*	fx_audio_scroll = nullptr;
+
+	//Video Menu
+	UI_Image*		video_menu = nullptr;
+	UI_Button*		video_quit_button = nullptr;
+	UI_Button*		vsync_video_button = nullptr;
+	UI_Button*		fullscreen_video_button = nullptr;
+
 };
 #endif

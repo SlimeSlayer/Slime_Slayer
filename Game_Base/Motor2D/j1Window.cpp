@@ -114,3 +114,17 @@ uint j1Window::GetScale() const
 {
 	return scale;
 }
+
+void j1Window::ChangeFullscreen()
+{
+	if (fullscreen)
+	{
+		SDL_SetWindowFullscreen(App->win->window, NULL);
+		fullscreen = false;
+	}
+	else
+	{
+		SDL_SetWindowFullscreen(App->win->window, SDL_WINDOW_FULLSCREEN);
+		fullscreen = true;
+	}
+}

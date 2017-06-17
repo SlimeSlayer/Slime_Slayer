@@ -32,6 +32,9 @@ public:
 	// Retrieve window scale
 	uint GetScale() const;
 
+	//Toggle fullscreen
+	void ChangeFullscreen();
+
 public:
 
 	//The window we'll be rendering to

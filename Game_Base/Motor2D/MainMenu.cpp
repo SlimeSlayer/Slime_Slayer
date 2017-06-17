@@ -6,6 +6,7 @@
 #include "j1InputManager.h"
 #include "j1Audio.h"
 #include "j1Input.h"
+#include "j1Window.h"
 
 #include "UI_Element.h"
 #include "UI_Button.h"
@@ -46,6 +47,8 @@ bool MainMenu::Enable()
 	settings_menu->DesactivateChids();
 	audio_menu->Desactivate();
 	audio_menu->DesactivateChids();
+	video_menu->Desactivate();
+	video_menu->DesactivateChids();
 	App->audio->PlayMusic(MUSIC_ID::MUSIC_MENU);
 	return true;
 }
@@ -159,6 +162,7 @@ bool MainMenu::Start()
 	audio_menu->Desactivate();
 	audio_menu->DesactivateChids();
 	menu_branch->AddChild(audio_menu);
+	audio_menu->SetLayer(0);
 
 	//Quit button
 	audio_quit_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
@@ -207,6 +211,52 @@ bool MainMenu::Start()
 	fx_audio_scroll->SetInputTarget(this);
 	audio_menu->AddChild(fx_audio_scroll);
 	
+	//Build Video Menu --------------------------
+	//Video menu base
+	video_menu = (UI_Image*)App->gui->GenerateUI_Element(UI_TYPE::IMG);
+	video_menu->SetInputTarget(this);
+	video_menu->SetParent(settings_button);
+	video_menu->SetBox({ 100,100,500,700 });
+	video_menu->ChangeTextureId(ATLAS);
+	video_menu->ChangeTextureRect({ 100,100,500,700 });
+	video_menu->Desactivate();
+	video_menu->DesactivateChids();
+	menu_branch->AddChild(video_menu);
+	video_menu->SetLayer(0);
+
+	//Quit button
+	video_quit_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
+	video_quit_button->SetInputTarget(this);
+	video_quit_button->SetParent(settings_menu);
+	video_quit_button->SetBox({ 450,20,130,95 });
+	video_quit_button->SetTexOFF({ 0,766,126,93 }, ATLAS);
+	video_quit_button->SetTexON({ 0,266,126,93 }, ATLAS);
+	video_quit_button->SetTexOVER({ 0,266,126,93 }, ATLAS);
+	video_quit_button->Desactivate();
+	video_menu->AddChild(video_quit_button);
+
+	//Vsync button
+	vsync_video_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
+	vsync_video_button->SetBox({ 200,200,570,170 });
+	vsync_video_button->SetTexOFF({ 0,199,564,165 }, ATLAS);
+	vsync_video_button->SetTexOVER({ 0,598,564,165 }, ATLAS_TEST);
+	vsync_video_button->SetTexON({ 0,598,564,165 }, ATLAS);
+	vsync_video_button->SetInputTarget(this);
+	vsync_video_button->SetParent(menu_branch);
+	vsync_video_button->Desactivate();
+	video_menu->AddChild(vsync_video_button);
+
+	//Fullscreen button
+	fullscreen_video_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
+	fullscreen_video_button->SetBox({ 200,350,570,170 });
+	fullscreen_video_button->SetTexOFF({ 0,199,564,165 }, ATLAS);
+	fullscreen_video_button->SetTexOVER({ 0,598,564,165 }, ATLAS_TEST);
+	fullscreen_video_button->SetTexON({ 0,598,564,165 }, ATLAS);
+	fullscreen_video_button->SetInputTarget(this);
+	fullscreen_video_button->SetParent(menu_branch);
+	fullscreen_video_button->Desactivate();
+	video_menu->AddChild(fullscreen_video_button);
+
 	//Add the built branch at the GUI 
 	App->gui->PushScreen(menu_branch);
 
@@ -302,6 +352,15 @@ void MainMenu::GUI_Input(UI_Element * target, GUI_INPUT input)
 			audio_menu->Activate();
 			audio_menu->ActivateChilds();
 		}
+		else if (target == settings_video_button)
+		{
+			//Deactivate settings menu
+			settings_menu->Desactivate();
+			settings_menu->DesactivateChids();
+			//Activate audio menu
+			video_menu->Activate();
+			video_menu->ActivateChilds();
+		}
 		//Audio Buttons ---------------
 		else if (target == audio_quit_button)
 		{
@@ -311,6 +370,20 @@ void MainMenu::GUI_Input(UI_Element * target, GUI_INPUT input)
 			//Activate settings menu
 			settings_menu->Activate();
 			settings_menu->ActivateChilds();
+		}
+		//Video Buttons ---------------
+		else if (target == video_quit_button)
+		{
+			//Deactivate audio menu
+			video_menu->Desactivate();
+			video_menu->DesactivateChids();
+			//Activate settings menu
+			settings_menu->Activate();
+			settings_menu->ActivateChilds();
+		}
+		else if (target == fullscreen_video_button)
+		{
+			App->win->ChangeFullscreen();
 		}
 	}
 	else if (input == GUI_INPUT::MOUSE_LEFT_BUTTON_REPEAT)
