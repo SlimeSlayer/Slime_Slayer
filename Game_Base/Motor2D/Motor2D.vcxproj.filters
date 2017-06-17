@@ -93,6 +93,7 @@
     <ClCompile Include="MainMenu.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="UI_Scroll_Bar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -201,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Scroll_Bar.h">
+      <Filter>UI\UI_Elements</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

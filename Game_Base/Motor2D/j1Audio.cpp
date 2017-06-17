@@ -179,16 +179,35 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 
 void j1Audio::VolumeUp()
 {
-	current_volume = MIN(current_volume + 10, 128);
-	Mix_Volume(-1, current_volume);
-	Mix_VolumeMusic(current_volume);
+	current_music_volume = current_fx_volume = MIN(current_music_volume + 10, 128);
+	Mix_Volume(-1, current_fx_volume);
+	Mix_VolumeMusic(current_music_volume);
 }
 
 void j1Audio::VolumeDown()
 {
-	current_volume = MAX(current_volume - MIN(current_volume,10), 1);
-	Mix_Volume(-1, current_volume);
-	Mix_VolumeMusic(current_volume);
+	current_music_volume = current_fx_volume = MAX(current_music_volume - MIN(current_music_volume,10), 1);
+	Mix_Volume(-1, current_fx_volume);
+	Mix_VolumeMusic(current_music_volume);
+}
+
+void j1Audio::SetMasterVolume(float volume)
+{
+	current_music_volume = current_fx_volume = volume;
+	Mix_Volume(-1, volume);
+	Mix_VolumeMusic(volume);
+}
+
+void j1Audio::SetMusicVolume(float volume)
+{
+	current_music_volume = volume;
+	Mix_VolumeMusic(volume);
+}
+
+void j1Audio::SetFXVolume(float volume)
+{
+	current_fx_volume = volume;
+	Mix_Volume(-1, volume);
 }
 
 void j1Audio::ResetAudioSystem()
@@ -230,18 +249,26 @@ void j1Audio::PlayMusic(MUSIC_ID music_to_play_id)
 	}
 }
 
+void j1Audio::StartMusicFade()
+{
+	current_fx_fade_volume = current_fx_volume;
+	current_music_fade_volume = current_music_volume;
+}
+
 void j1Audio::FadeMusicOut(float total_time)
 {
-	current_volume = MAX(0.0f, current_volume - ((App->GetDT() * 128) / total_time));
-	Mix_Volume(-1, current_volume);
-	Mix_VolumeMusic(current_volume);
+	current_music_fade_volume = MAX(0.0f, current_music_fade_volume - ((App->GetDT() * 128) / total_time));
+	Mix_VolumeMusic(current_music_fade_volume);
+	current_fx_fade_volume = MAX(0.0f, current_fx_fade_volume - ((App->GetDT() * 128) / total_time));
+	Mix_Volume(-1, current_fx_fade_volume);
 }
 
 void j1Audio::FadeMusicIn(float total_time)
 {
-	current_volume = MIN(128.0f, current_volume + ((App->GetDT() * 128) / total_time));
-	Mix_Volume(-1, current_volume);
-	Mix_VolumeMusic(current_volume);
+	current_music_fade_volume = MIN(current_music_volume, current_music_fade_volume + ((App->GetDT() * 128) / total_time));
+	Mix_VolumeMusic(current_music_fade_volume);
+	current_fx_fade_volume = MIN(current_fx_volume, current_fx_fade_volume + ((App->GetDT() * 128) / total_time));
+	Mix_Volume(-1, current_fx_fade_volume);
 }
 
 MUSIC_ID j1Audio::StrToMusicID(const char * str) const

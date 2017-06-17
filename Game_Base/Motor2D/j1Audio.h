@@ -54,6 +54,9 @@ public:
 	//Turn UP/DOWN music volume
 	void VolumeUp();
 	void VolumeDown();
+	void SetMasterVolume(float volume);
+	void SetMusicVolume(float volume);
+	void SetFXVolume(float volume);
 
 	//Used with theoraplay audio system
 	void ResetAudioSystem();
@@ -62,6 +65,7 @@ public:
 	void PlayMusic(MUSIC_ID music_to_play_id);
 	
 	//Used with the scenes transition (App fade)
+	void StartMusicFade();
 	void FadeMusicOut(float total_time);
 	void FadeMusicIn(float total_time);
 
@@ -85,8 +89,10 @@ private:
 
 	std::list<Mix_Chunk*>	fx;
 
-	float 					current_volume = 65.0f;
-
+	float 					current_music_volume = 65.0f;
+	float					current_fx_volume = 65.0f;
+	float					current_music_fade_volume = 0.0f;
+	float					current_fx_fade_volume = 0.0f;
 };
 
 #endif // __j1AUDIO_H__

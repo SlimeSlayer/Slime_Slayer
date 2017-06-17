@@ -22,7 +22,7 @@ UI_Scroll::~UI_Scroll()
 //Game Loop ===============================================
 void UI_Scroll::Draw(bool debug) const
 {
-	//Draw Scroll & Content View Area Qwad -
+	//Draw Scroll & Content View Area Quad -
 	if (debug)
 	{
 		App->render->DrawQuad({ box.x - App->render->camera.x, box.y - App->render->camera.y, box.w, box.h }, 150, 150, 0);
@@ -83,7 +83,7 @@ void UI_Scroll::SetScrollValue(float scrollvalue)
 	Value = scrollvalue;
 }
 
-// Functionality =========================================
+// Functionality ==========================================
 iPoint UI_Scroll::CalculateScrollDesp()
 {
 	float loc = 0, desp_x = 0, desp_y = 0;

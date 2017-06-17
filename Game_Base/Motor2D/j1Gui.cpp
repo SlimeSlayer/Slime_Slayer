@@ -14,6 +14,7 @@
 #include "UI_Button.h"
 #include "UI_Image.h"
 #include "UI_Scroll.h"
+#include "UI_Scroll_Bar.h"
 #include "UI_String.h"
 #include "UI_Text_Box.h"
 #include "UI_Popup_Menu.h"
@@ -212,6 +213,10 @@ UI_Element* j1Gui::GenerateUI_Element(UI_TYPE element_type)
 
 	case SCROLL:
 		new_element = new UI_Scroll();
+		break;
+
+	case SCROLL_BAR:
+		new_element = new UI_Scroll_Bar();
 		break;
 
 	case POPUP_MENU:

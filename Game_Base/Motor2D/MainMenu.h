@@ -4,6 +4,7 @@
 #include "j1Module.h"
 class UI_Button;
 class UI_Image;
+class UI_Scroll_Bar;
 
 class MainMenu : public j1Module
 {
@@ -34,15 +35,23 @@ public:
 private:
 
 	// MENU DATA
-	//Main
+	//Main Menu
 	UI_Element*	menu_branch = nullptr;
 	UI_Button*	start_button = nullptr;
 	UI_Button*	settings_button = nullptr;
 	UI_Button*	quit_button = nullptr;
 
-	//Settings
+	//Settings Menu
 	UI_Image*	settings_menu = nullptr;
-	UI_Button*	settings_quit = nullptr;
+	UI_Button*	settings_quit_button = nullptr;
+	UI_Button*	settings_audio_button = nullptr;
+	UI_Button*	settings_video_button = nullptr;
+
+	//Audio Menu
+	UI_Image*		audio_menu = nullptr;
+	UI_Button*		audio_quit_button = nullptr;
+	UI_Scroll_Bar*	master_audio_scroll = nullptr;
+
 
 };
 #endif

@@ -604,6 +604,7 @@ void j1App::ActiveScene()
 	EnableActiveModules();
 
 	fade_out = true;
+	App->audio->StartMusicFade();
 }
 
 void j1App::ActiveMainMenu()
@@ -622,6 +623,7 @@ void j1App::ActiveMainMenu()
 	EnableActiveModules();
 
 	fade_out = true;
+	App->audio->StartMusicFade();
 }
 
 

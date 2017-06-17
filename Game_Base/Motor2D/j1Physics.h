@@ -81,13 +81,13 @@ public:
 public:
 
 	// Non built physbodies only have the definition
-	PhysBodyDef*		body_def = nullptr;
+	PhysBodyDef*	body_def = nullptr;
 
 	// Built body data
-	b2Body*				body = nullptr;
-	int					width = 0, height = 0;
-	j1Module*			listener = nullptr;
-	BODY_TYPE			collide_type = NO_BODY;
+	b2Body*			body = nullptr;
+	int				width = 0, height = 0;
+	j1Module*		listener = nullptr;
+	BODY_TYPE		collide_type = NO_BODY;
 
 };
 /// -------------------------------------------------------
