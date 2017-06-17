@@ -193,9 +193,7 @@ void j1Audio::VolumeDown()
 
 void j1Audio::SetMasterVolume(float volume)
 {
-	current_music_volume = current_fx_volume = volume;
-	Mix_Volume(-1, volume);
-	Mix_VolumeMusic(volume);
+	master_volume = volume;
 }
 
 void j1Audio::SetMusicVolume(float volume)

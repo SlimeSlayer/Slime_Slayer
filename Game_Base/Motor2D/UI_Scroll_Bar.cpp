@@ -54,6 +54,7 @@ void UI_Scroll_Bar::SetScrollableBack(const iPoint position, const SDL_Rect rect
 void UI_Scroll_Bar::SetScrollMaxValue(int maxvalue)
 {
 	MaxValue = maxvalue;
+	if (Value > MaxValue)Value = MaxValue;
 }
 
 void UI_Scroll_Bar::SetScrollValue(float scrollvalue)
@@ -156,4 +157,16 @@ void UI_Scroll_Bar::GoBottom()
 void UI_Scroll_Bar::UnselectScroll()
 {
 	ScrollSelected = false;
+}
+
+void UI_Scroll_Bar::RecalculateScrollValue()
+{
+	if (Scroll_Type == VERTICAL_BAR || Scroll_Type == VERTICAL_INV_BAR)
+	{
+		Value = ((ScrollItem.GetBox()->y - ScrollBack.GetBox()->y) * MaxValue) / (float)(ScrollBack.GetBox()->h - ScrollItem.GetBox()->h);
+	}
+	else
+	{
+		Value = ((ScrollItem.GetBox()->x - ScrollBack.GetBox()->x) * MaxValue) / (float)(ScrollBack.GetBox()->w - ScrollItem.GetBox()->w);
+	}
 }

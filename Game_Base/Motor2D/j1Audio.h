@@ -89,6 +89,7 @@ private:
 
 	std::list<Mix_Chunk*>	fx;
 
+	float					master_volume = 65.0f;
 	float 					current_music_volume = 65.0f;
 	float					current_fx_volume = 65.0f;
 	float					current_music_fade_volume = 0.0f;

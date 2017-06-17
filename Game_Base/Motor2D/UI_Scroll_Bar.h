@@ -56,5 +56,6 @@ public:
 	bool MoveScroll(int mouse_y_motion, int mouse_x_motion);
 	void GoBottom();
 	void UnselectScroll();
+	void RecalculateScrollValue();
 };
 #endif

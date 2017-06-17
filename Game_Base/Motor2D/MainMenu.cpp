@@ -182,6 +182,30 @@ bool MainMenu::Start()
 	master_audio_scroll->Desactivate();
 	master_audio_scroll->SetInputTarget(this);
 	audio_menu->AddChild(master_audio_scroll);
+
+	//Music scroll
+	music_audio_scroll = (UI_Scroll_Bar*)App->gui->GenerateUI_Element(UI_TYPE::SCROLL_BAR);
+	music_audio_scroll->SetScrollBarType(SCROLL_BAR_TYPE::LATERAL_BAR);
+	music_audio_scroll->SetBox({ 50,200,400,100 });
+	music_audio_scroll->SetScrollMaxValue(128);
+	music_audio_scroll->SetScrollableBack({ 40,50 }, { 0,0,350,50 }, ATLAS);
+	music_audio_scroll->SetScrollableItem({ 50,40 }, { 0,500,30,70 }, ATLAS);
+	music_audio_scroll->SetScrollValue(65.0f);
+	music_audio_scroll->Desactivate();
+	music_audio_scroll->SetInputTarget(this);
+	audio_menu->AddChild(music_audio_scroll);
+
+	//FX scroll
+	fx_audio_scroll = (UI_Scroll_Bar*)App->gui->GenerateUI_Element(UI_TYPE::SCROLL_BAR);
+	fx_audio_scroll->SetScrollBarType(SCROLL_BAR_TYPE::LATERAL_BAR);
+	fx_audio_scroll->SetBox({ 50,350,400,100 });
+	fx_audio_scroll->SetScrollMaxValue(128);
+	fx_audio_scroll->SetScrollableBack({ 40,50 }, { 0,0,350,50 }, ATLAS);
+	fx_audio_scroll->SetScrollableItem({ 50,40 }, { 0,500,30,70 }, ATLAS);
+	fx_audio_scroll->SetScrollValue(65.0f);
+	fx_audio_scroll->Desactivate();
+	fx_audio_scroll->SetInputTarget(this);
+	audio_menu->AddChild(fx_audio_scroll);
 	
 	//Add the built branch at the GUI 
 	App->gui->PushScreen(menu_branch);
@@ -291,10 +315,30 @@ void MainMenu::GUI_Input(UI_Element * target, GUI_INPUT input)
 	}
 	else if (input == GUI_INPUT::MOUSE_LEFT_BUTTON_REPEAT)
 	{
+		//Audio Scrolls ---------------
 		if (target == master_audio_scroll)
 		{
+			//Master
 			master_audio_scroll->MoveScroll(y_vel, x_vel);
 			App->audio->SetMasterVolume(master_audio_scroll->GetValue());
+			//Music
+			music_audio_scroll->SetScrollMaxValue(master_audio_scroll->GetValue());
+			music_audio_scroll->RecalculateScrollValue();
+			App->audio->SetMusicVolume(music_audio_scroll->GetValue());
+			//FX
+			fx_audio_scroll->SetScrollMaxValue(master_audio_scroll->GetValue());
+			fx_audio_scroll->RecalculateScrollValue();
+			App->audio->SetFXVolume(fx_audio_scroll->GetValue());
+		}
+		else if (target == music_audio_scroll)
+		{
+			music_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->audio->SetMusicVolume(music_audio_scroll->GetValue());
+		}
+		else if (target == fx_audio_scroll)
+		{
+			fx_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->audio->SetFXVolume(fx_audio_scroll->GetValue());
 		}
 	}
 }

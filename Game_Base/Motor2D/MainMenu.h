@@ -51,7 +51,7 @@ private:
 	UI_Image*		audio_menu = nullptr;
 	UI_Button*		audio_quit_button = nullptr;
 	UI_Scroll_Bar*	master_audio_scroll = nullptr;
-
-
+	UI_Scroll_Bar*	music_audio_scroll = nullptr;
+	UI_Scroll_Bar*	fx_audio_scroll = nullptr;
 };
 #endif
