@@ -15,7 +15,7 @@ Entity::Entity()
 
 Entity::Entity(const Entity & copy) : entity_type(copy.entity_type), name(copy.name), description(copy.description)
 {
-	body = App->physics->CopyBody(copy.body);
+	body = App->physics->TransformDefToBuilt(copy.body);
 }
 
 //Destructors =========================

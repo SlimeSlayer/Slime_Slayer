@@ -16,7 +16,242 @@
 #pragma comment( lib, "Box2D/libx86/Release/Box2D.lib" )
 #endif
 
+/// PhysBody ----------------------------------------------
+// Constructors =================================
+PhysBody::PhysBody() : listener(NULL), body(NULL)
+{
 
+}
+
+// Destructors ==================================
+PhysBody::~PhysBody()
+{
+	App->physics->DeleteBody(this);
+	if (body_def != nullptr)delete body_def;
+}
+
+// Get Methods ==================================
+void PhysBody::GetPosition(int& x, int &y) const
+{
+	b2Vec2 pos = body->GetPosition();
+	x = METERS_TO_PIXELS(pos.x) - (width);
+	y = METERS_TO_PIXELS(pos.y) - (height);
+}
+
+float PhysBody::GetRotation() const
+{
+	return RADTODEG * body->GetAngle();
+}
+
+int PhysBody::GetWidth() const
+{
+	return width;
+}
+
+int PhysBody::GetHeight() const
+{
+	return height;
+}
+
+// Set Methods ==================================
+void PhysBody::Move(int x_vel, int y_vel)
+{
+	int x, y;
+	GetPosition(x, y);
+	x += x_vel;
+	y += y_vel;
+	x = PIXEL_TO_METERS(x);
+	y = PIXEL_TO_METERS(y);
+	SetPosition(x, y);
+}
+
+void PhysBody::FixedRotation(bool value)
+{
+	body->SetFixedRotation(value);
+}
+
+void PhysBody::SetPosition(float x, float y)
+{
+	float x_meters = PIXEL_TO_METERS(x);
+	float y_meters = PIXEL_TO_METERS(y);
+	b2Vec2 position((float32)x_meters, (float32)y_meters);
+	body->SetTransform(position, body->GetAngle());
+}
+
+void PhysBody::Interpolate()
+{
+	b2Vec2 new_pos = body->GetPosition() + App->GetDT() * body->GetLinearVelocity();
+	body->SetTransform(new_pos, body->GetAngle());
+}
+
+// Collision Methods ============================
+bool PhysBody::Contains(int x, int y) const
+{
+	b2Vec2 p(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
+
+	const b2Fixture* fixture = body->GetFixtureList();
+
+	while (fixture != NULL)
+	{
+		if (fixture->GetShape()->TestPoint(body->GetTransform(), p) == true)
+			return true;
+		fixture = fixture->GetNext();
+	}
+
+	return false;
+}
+
+int PhysBody::RayCast(int x1, int y1, int x2, int y2, float& normal_x, float& normal_y) const
+{
+	int ret = -1;
+
+	b2RayCastInput input;
+	b2RayCastOutput output;
+
+	input.p1.Set(PIXEL_TO_METERS(x1), PIXEL_TO_METERS(y1));
+	input.p2.Set(PIXEL_TO_METERS(x2), PIXEL_TO_METERS(y2));
+	input.maxFraction = 1.0f;
+
+	const b2Fixture* fixture = body->GetFixtureList();
+
+	while (fixture != NULL)
+	{
+		if (fixture->GetShape()->RayCast(&output, input, body->GetTransform(), 0) == true)
+		{
+
+			float fx = x2 - x1;
+			float fy = y2 - y1;
+			float dist = sqrtf((fx*fx) + (fy*fy));
+
+			normal_x = output.normal.x;
+			normal_y = output.normal.y;
+
+			return output.fraction * dist;
+		}
+		fixture = fixture->GetNext();
+	}
+
+	return ret;
+}
+
+bool PhysBody::IsInContact()const
+{
+	return  (body->GetContactList() != nullptr);
+}
+
+inline void PhysBody::HandleContact(PhysBody* contact_body)
+{
+	/*//Check if collided body is in the bottom
+	b2Vec2 this_location = this->body->GetWorldPoint(b2Vec2(0, PIXEL_TO_METERS(this->height)));
+	b2Vec2 contact_location = contact_body->body->GetWorldPoint(b2Vec2(0, 0));
+	bool at_bottom = (this_location.y < contact_location.y);
+
+
+
+	b2Vec2 body_vel = body->GetLinearVelocity();
+	switch (contact_body->collide_type)
+	{
+	case none:		return;		break;
+
+	case map:
+	break;
+	case mini_blob:
+	if (collide_type == player_mouth)
+	{
+	(((j1Scene*)App->current_scene))->BlobContact();
+	LOG("K");
+	}
+	break;
+
+	case map_item:
+	if (collide_type == player && at_bottom)
+	{
+	App->player->Impact();
+	}
+	break;
+
+	case player_mouth:
+	if (collide_type == bullet)
+	{
+	App->player->PickBullet(App->player->FindBullet(this));
+	}
+	break;
+
+	case platform_black:
+	if (collide_type == player && at_bottom)
+	{
+	App->player->Die();
+	}
+	else if (collide_type == mini_blob && at_bottom)
+	{
+	((j1Scene*)App->current_scene)->Reset();
+	}
+	else if (collide_type == bullet)
+	{
+	App->player->DeleteBullet(App->player->FindBullet(this));
+	}
+	break;
+
+	case platform_blue:
+	break;
+
+	case platform_green:
+	if (at_bottom)
+	{
+	body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, -App->player->GetVerticalAcceleration()));
+	}
+	break;
+
+	case platform_yellow:
+	if (at_bottom)
+	{
+	body_vel *= 1.05f;
+	body->SetLinearVelocity(body_vel);
+	}
+	break;
+
+	case platform_purple:
+	if (collide_type == player && at_bottom)
+	{
+	App->player->Impact();
+	App->player->Regenerate();
+	}
+	break;
+
+	case platform_red:
+	if (collide_type == player && at_bottom)
+	{
+	App->player->Impact();
+	App->player->Bleed();
+	}
+	break;
+
+	case platform_orange:
+	if (body_vel.y < 0 && at_bottom)
+	{
+	body_vel.y *= 0;
+	body->SetLinearVelocity(body_vel);
+	App->player->Impact();
+	}
+	break;
+	}*/
+}
+
+void j1Physics::BeginContact(b2Contact* contact)
+{
+
+	PhysBody* physA = (PhysBody*)contact->GetFixtureA()->GetBody()->GetUserData();
+	PhysBody* physB = (PhysBody*)contact->GetFixtureB()->GetBody()->GetUserData();
+
+	if (physA != nullptr && physA->listener != NULL)
+		physA->listener->OnCollision(physA, physB);
+
+	if (physB != nullptr && physB->listener != NULL)
+		physB->listener->OnCollision(physB, physA);
+}
+/// -------------------------------------------------------
+
+/// Module ------------------------------------------------
 j1Physics::j1Physics() : j1Module()
 {
 	name = "physics";
@@ -487,6 +722,80 @@ PhysBody* j1Physics::CreateSensorChain(int x, int y, int* points, int size, COLL
 	return pbody;
 }
 
+PhysBody * j1Physics::CreateRectangleDef(int width, int height, b2Shape::Type shape, b2BodyType interaction_type, COLLISION_TYPE type, BODY_TYPE b_type, float restitution, j1Module* listener)
+{
+	//PhysBody
+	PhysBody* pbody = new PhysBody();
+	//PhysBodyDef
+	pbody->body_def = new PhysBodyDef();
+
+	//Sets all the body_def stats
+	pbody->body_def->listener = listener;
+	pbody->body_def->collision_type = type;
+	pbody->body_def->body_type = b_type;
+	pbody->body_def->width = width;
+	pbody->body_def->height = height;
+	pbody->body_def->shape_type = shape;
+	pbody->body_def->body_interaction_type = interaction_type;
+	pbody->body_def->restitution = restitution;
+
+	return pbody;
+}
+
+PhysBody * j1Physics::TransformDefToBuilt(PhysBody* target)
+{
+	//Body
+	b2BodyDef body;
+	body.type = target->body_def->body_interaction_type;
+	body.position.Set(0, 0);
+	b2Body* b = world->CreateBody(&body);
+
+	b2Shape* shape = nullptr;
+
+	switch (target->body_def->shape_type)
+	{
+	case b2Shape::Type::e_polygon:
+	{
+		//Square shape
+		b2PolygonShape* box = new b2PolygonShape();
+
+		box->SetAsBox(PIXEL_TO_METERS(target->body_def->width) * 0.5f, PIXEL_TO_METERS(target->body_def->height) * 0.5f);
+		shape = box;
+	}
+	break;
+
+	case b2Shape::Type::e_circle:
+	{
+		//Circle shape
+		b2CircleShape* circle = new b2CircleShape();
+		circle->m_radius = PIXEL_TO_METERS(target->body_def->width);
+		shape = circle;
+	}
+	break;
+	}
+
+	//Fixture
+	b2FixtureDef fixture;
+	fixture.shape = shape;
+	fixture.density = 0.1f;
+	fixture.restitution = target->body_def->restitution;
+	SetFixture(fixture, target->body_def->collision_type);
+	b->CreateFixture(&fixture);
+
+	//PhysBody
+	PhysBody* pbody = new PhysBody();
+	pbody->collide_type = target->body_def->body_type;
+	pbody->body = b;
+	b->SetUserData(pbody);
+	pbody->width = target->body_def->width * 0.5f;
+	pbody->height = target->body_def->height * 0.5f;
+	pbody->listener = target->body_def->listener;
+
+	if(shape != nullptr)delete shape;
+
+	return pbody;
+}
+
 void j1Physics::SetFixture(b2FixtureDef& fixture, COLLISION_TYPE type)
 {
 	fixture.filter.categoryBits = type;
@@ -590,228 +899,6 @@ bool j1Physics::DeleteBody(PhysBody * target)
 	return true;
 }
 
-PhysBody::~PhysBody()
-{
-	App->physics->DeleteBody(this);
-}
-
-void PhysBody::GetPosition(int& x, int &y) const
-{
-	b2Vec2 pos = body->GetPosition();
-	x = METERS_TO_PIXELS(pos.x) - (width);
-	y = METERS_TO_PIXELS(pos.y) - (height);
-}
-
-float PhysBody::GetRotation() const
-{
-	return RADTODEG * body->GetAngle();
-}
-
-int PhysBody::GetWidth() const
-{
-	return width;
-}
-
-int PhysBody::GetHeight() const
-{
-	return height;
-}
-
-void PhysBody::Move(int x_vel, int y_vel)
-{
-	int x, y;
-	GetPosition(x, y);
-	x += x_vel;
-	y += y_vel;
-	x = PIXEL_TO_METERS(x);
-	y = PIXEL_TO_METERS(y);
-	SetPosition(x, y);
-}
-
-void PhysBody::FixedRotation(bool value)
-{
-	body->SetFixedRotation(value);
-}
-
-void PhysBody::SetPosition(float x, float y)
-{
-	float x_meters = PIXEL_TO_METERS(x);
-	float y_meters = PIXEL_TO_METERS(y);
-	b2Vec2 position((float32)x_meters, (float32)y_meters);
-	body->SetTransform(position, body->GetAngle());
-}
-
-void PhysBody::Interpolate()
-{
-	b2Vec2 new_pos = body->GetPosition() + App->GetDT() * body->GetLinearVelocity();
-	body->SetTransform(new_pos, body->GetAngle());
-}
-
-bool PhysBody::Contains(int x, int y) const
-{
-	b2Vec2 p(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
-
-	const b2Fixture* fixture = body->GetFixtureList();
-
-	while (fixture != NULL)
-	{
-		if (fixture->GetShape()->TestPoint(body->GetTransform(), p) == true)
-			return true;
-		fixture = fixture->GetNext();
-	}
-
-	return false;
-}
-
-int PhysBody::RayCast(int x1, int y1, int x2, int y2, float& normal_x, float& normal_y) const
-{
-	int ret = -1;
-
-	b2RayCastInput input;
-	b2RayCastOutput output;
-
-	input.p1.Set(PIXEL_TO_METERS(x1), PIXEL_TO_METERS(y1));
-	input.p2.Set(PIXEL_TO_METERS(x2), PIXEL_TO_METERS(y2));
-	input.maxFraction = 1.0f;
-
-	const b2Fixture* fixture = body->GetFixtureList();
-
-	while (fixture != NULL)
-	{
-		if (fixture->GetShape()->RayCast(&output, input, body->GetTransform(), 0) == true)
-		{
-
-			float fx = x2 - x1;
-			float fy = y2 - y1;
-			float dist = sqrtf((fx*fx) + (fy*fy));
-
-			normal_x = output.normal.x;
-			normal_y = output.normal.y;
-
-			return output.fraction * dist;
-		}
-		fixture = fixture->GetNext();
-	}
-
-	return ret;
-}
-
-bool PhysBody::IsInContact()const
-{
-	return  (body->GetContactList() != nullptr);
-}
-
-inline void PhysBody::HandleContact(PhysBody* contact_body)
-{
-	/*//Check if collided body is in the bottom
-	b2Vec2 this_location = this->body->GetWorldPoint(b2Vec2(0, PIXEL_TO_METERS(this->height)));
-	b2Vec2 contact_location = contact_body->body->GetWorldPoint(b2Vec2(0, 0));
-	bool at_bottom = (this_location.y < contact_location.y);
-
-
-
-	b2Vec2 body_vel = body->GetLinearVelocity();
-	switch (contact_body->collide_type)
-	{
-	case none:		return;		break;
-
-	case map:
-		break;
-	case mini_blob:
-		if (collide_type == player_mouth)
-		{
-			(((j1Scene*)App->current_scene))->BlobContact();
-			LOG("K");
-		}
-		break;
-
-	case map_item:
-		if (collide_type == player && at_bottom)
-		{
-			App->player->Impact();
-		}
-		break;
-
-	case player_mouth:
-		if (collide_type == bullet)
-		{
-			App->player->PickBullet(App->player->FindBullet(this));
-		}
-		break;
-
-	case platform_black:
-		if (collide_type == player && at_bottom)
-		{
-			App->player->Die();
-		}
-		else if (collide_type == mini_blob && at_bottom)
-		{
-			((j1Scene*)App->current_scene)->Reset();
-		}
-		else if (collide_type == bullet)
-		{
-			App->player->DeleteBullet(App->player->FindBullet(this));
-		}
-		break;
-
-	case platform_blue:
-		break;
-
-	case platform_green:
-		if (at_bottom)
-		{
-			body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, -App->player->GetVerticalAcceleration()));
-		}
-		break;
-
-	case platform_yellow:
-		if (at_bottom)
-		{
-			body_vel *= 1.05f;
-			body->SetLinearVelocity(body_vel);
-		}
-		break;
-
-	case platform_purple:
-		if (collide_type == player && at_bottom)
-		{
-			App->player->Impact();
-			App->player->Regenerate();
-		}
-		break;
-
-	case platform_red:
-		if (collide_type == player && at_bottom)
-		{
-			App->player->Impact();
-			App->player->Bleed();
-		}
-		break;
-
-	case platform_orange:
-		if (body_vel.y < 0 && at_bottom)
-		{
-			body_vel.y *= 0;
-			body->SetLinearVelocity(body_vel);
-			App->player->Impact();
-		}
-		break;
-	}*/
-}
-
-void j1Physics::BeginContact(b2Contact* contact)
-{
-
-	PhysBody* physA = (PhysBody*)contact->GetFixtureA()->GetBody()->GetUserData();
-	PhysBody* physB = (PhysBody*)contact->GetFixtureB()->GetBody()->GetUserData();
-
-	if (physA != nullptr && physA->listener != NULL)
-		physA->listener->OnCollision(physA, physB);
-
-	if (physB != nullptr && physB->listener != NULL)
-		physB->listener->OnCollision(physB, physA);
-}
-
 void j1Physics::If_Sensor_contact(PhysBody* bodyA, PhysBody* bodyB)
 {
 
@@ -860,3 +947,10 @@ BODY_TYPE j1Physics::StrToBodyType(const char * str) const
 	if (strcmp(str, "map_body") == 0)		return BODY_TYPE::MAP_BODY;
 	return NO_BODY;
 }
+b2BodyType j1Physics::StrToInteractionType(const char * str) const
+{
+	if (strcmp(str, "dynamic") == 0)	return b2BodyType::b2_dynamicBody;
+	if (strcmp(str, "kinematic") == 0)	return b2BodyType::b2_kinematicBody;
+	if (strcmp(str, "static") == 0)		return b2BodyType::b2_staticBody;
+}
+/// -------------------------------------------------------

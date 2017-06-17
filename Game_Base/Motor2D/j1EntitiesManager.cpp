@@ -141,27 +141,18 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	
 	//Load the new creature body data
 	PhysBody* new_body = nullptr;
-	b2Shape::Type body_shape = App->physics->StrToBodyShape(data_node->attribute("body_shape").as_string());
-	switch (body_shape)
-	{
-	case b2Shape::e_circle:
-		break;
-
-	case b2Shape::e_polygon:
-		new_body = App->physics->CreateRectangle(	0,
-													0,
-													data_node->attribute("width").as_int(),
-													data_node->attribute("height").as_int(),
-													App->physics->StrToCollisionType(data_node->attribute("collision_type").as_string()),
-													App->physics->StrToBodyType(data_node->attribute("body_type").as_string())
+	new_body = App->physics->CreateRectangleDef(
+		data_node->attribute("width").as_int(),
+		data_node->attribute("height").as_int(),
+		App->physics->StrToBodyShape(data_node->attribute("body_shape").as_string()),
+		App->physics->StrToInteractionType(data_node->attribute("interaction_type").as_string()),
+		App->physics->StrToCollisionType(data_node->attribute("collision_type").as_string()),
+		App->physics->StrToBodyType(data_node->attribute("body_type").as_string()),
+		data_node->attribute("restitution").as_float(),
+		App->GetModule(data_node->attribute("listener").as_string())
 												);
-		new_body->listener = App->GetModule(data_node->attribute("listener").as_string());
-		new_creature->SetBody(new_body);
-		break;
 
-	case b2Shape::e_chain:
-		break;
-	}
+	new_creature->SetBody(new_body);
 
 	//Load the new creature states
 	/*Entity Type*/		new_creature->SetEntityType(CREATURE);

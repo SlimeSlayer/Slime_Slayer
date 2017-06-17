@@ -19,6 +19,8 @@
 #define FIXED_TIMESTEP 0.016666
 #define MAX_STEPS 5
 
+class PhysBody;
+
 enum COLLISION_TYPE
 {
 	PLAYER_COLLISION = 1,
@@ -34,21 +36,30 @@ enum BODY_TYPE
 
 };
 
+/// PhysBodyDef -------------------------------------------
+struct PhysBodyDef
+{
+	b2Shape::Type	shape_type = b2Shape::Type::e_polygon;
+	COLLISION_TYPE	collision_type = COLLISION_TYPE::MAP_COLLISION;
+	BODY_TYPE		body_type = BODY_TYPE::NO_BODY;
+	b2BodyType		body_interaction_type = b2BodyType::b2_staticBody;
+	float			restitution = 0.0f;
+	int				width = 0, height = 0;
+	j1Module*		listener = nullptr;
+};
+/// -------------------------------------------------------
+
 /// PhysBody ----------------------------------------------
 // Small class to return to other modules to track position and rotation of physics bodies
 class PhysBody
 {
 public:
 
-	PhysBody() : listener(NULL), body(NULL)
-	{
-	
-	}
-
+	PhysBody();
 	~PhysBody();
 
 public:
-
+	
 	//Get data from body ----------------------------------
 	void	GetPosition(int& x, int &y) const;
 	float	GetRotation() const;
@@ -60,7 +71,6 @@ public:
 	void	FixedRotation(bool value);
 	void	SetPosition(float x, float y);
 	void	Interpolate();
-	void	ResetInterpolation();
 
 	//Collide functionality -------------------------------
 	bool		Contains(int x, int y) const;
@@ -70,11 +80,15 @@ public:
 
 public:
 
-	int					width = 0, height = 0;
+	// Non built physbodies only have the definition
+	PhysBodyDef*		body_def = nullptr;
+
+	// Built body data
 	b2Body*				body = nullptr;
+	int					width = 0, height = 0;
 	j1Module*			listener = nullptr;
 	BODY_TYPE			collide_type = NO_BODY;
-	b2RevoluteJoint*	joint = nullptr;
+
 };
 /// -------------------------------------------------------
 
@@ -105,6 +119,10 @@ public:
 	PhysBody* CreateRectangleSensor(int x, int y, int width, int height, COLLISION_TYPE type, BODY_TYPE b_type = NO_BODY, uint restitution = 0);
 	PhysBody* CreateChain(int x, int y, int* points, int size, COLLISION_TYPE type, BODY_TYPE b_type = NO_BODY, uint restitution = 0);
 	PhysBody* CreateSensorChain(int x, int y, int* points, int size, COLLISION_TYPE type, BODY_TYPE b_type = NO_BODY, uint restitution = 0);
+	
+	// Definitions Creations ----------
+	PhysBody* CreateRectangleDef(int width, int height, b2Shape::Type shape, b2BodyType interaction_type,  COLLISION_TYPE type, BODY_TYPE b_type, float restitution, j1Module* listener);
+	PhysBody* TransformDefToBuilt(PhysBody* target);
 
 	//Fixture Creations ---------------
 	void SetFixture(b2FixtureDef& fixture, COLLISION_TYPE type);
@@ -113,6 +131,7 @@ public:
 	bool CreateWeldJoint(PhysBody* A, PhysBody* B);
 	bool CreateRevoluteJoint(b2Body* A, b2Body* B);
 
+	// Built bodies management --------
 	PhysBody*	CopyBody(const PhysBody* target);
 	bool		DeleteBody(PhysBody* target);
 
@@ -122,13 +141,13 @@ public:
 
 	// Time step smooth methods -------
 	void			SmoothStates();
-	void			ResetSmoothStates();
 	unsigned short	GetFixedTimestepAcRatio()const;
 
 	//Enums Methods -------------------
 	b2Shape::Type	StrToBodyShape(const char* str)const;
 	COLLISION_TYPE	StrToCollisionType(const char* str)const;
 	BODY_TYPE		StrToBodyType(const char* str)const;
+	b2BodyType		StrToInteractionType(const char* str)const;
 
 private:
 
