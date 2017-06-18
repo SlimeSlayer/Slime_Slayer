@@ -578,6 +578,11 @@ pugi::xml_node j1App::GetConfigXML() const
 	return config_node;
 }
 
+uint j1App::GetCurrentFrameTime() const
+{
+	return frame_time.Read();
+}
+
 void j1App::SetQuit()
 {
 	want_to_quit = true;

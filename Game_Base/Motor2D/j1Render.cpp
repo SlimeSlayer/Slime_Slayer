@@ -209,12 +209,24 @@ bool j1Render::PostUpdate()
 	}
 
 	
+	if (App->render->vsync && App->win->fullscreen)
+	{
+		float delay = 0;
+		float current_time = (float)App->GetCurrentFrameTime();
+		if (current_time < FULLSCREEN_MS_VSYNC)
+		{
+			delay = FULLSCREEN_MS_VSYNC - current_time;
+			delay = (delay > (floor(delay) + 0.5f)) ? ceil(delay) : floor(delay);
+			SDL_Delay(delay);
+		}
+	}
 
 	// Render Present ---------------------------
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.g, background.a);
 	SDL_RenderPresent(renderer);
 
-	if(App->render->vsync)SDL_GL_SwapWindow(App->win->window);
+	if (App->render->vsync && !App->win->fullscreen)SDL_GL_SwapWindow(App->win->window);
+
 
 	return true;
 }

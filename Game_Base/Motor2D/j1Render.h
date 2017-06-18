@@ -6,6 +6,8 @@
 #include "j1Module.h"
 #include <queue>
 
+#define FULLSCREEN_MS_VSYNC 16
+
 ///Class Blit_Call ------------------------------
 //Little class to save all blit calls and organize them in a priority queue
 class Blit_Call

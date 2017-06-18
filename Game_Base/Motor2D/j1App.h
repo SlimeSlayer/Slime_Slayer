@@ -186,6 +186,8 @@ public:
 
 public:
 
+	uint GetCurrentFrameTime()const;
+
 	void SetQuit();
 	bool GetQuit()const;
 	
