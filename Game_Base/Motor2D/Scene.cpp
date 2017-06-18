@@ -129,21 +129,6 @@ bool Scene::Update(float dt)
 // Called each loop iteration
 bool Scene::PostUpdate()
 {
-
-	if (App->input_manager->GetEvent(FULL_SCREEN) == INPUT_DOWN)
-	{
-		if (App->win->fullscreen)
-		{
-			SDL_SetWindowFullscreen(App->win->window, NULL);
-			App->win->fullscreen = false;
-		}
-		else
-		{
-			SDL_SetWindowFullscreen(App->win->window, SDL_WINDOW_FULLSCREEN);
-			App->win->fullscreen = true;
-		}
-	}
-
 	return true;
 }
 

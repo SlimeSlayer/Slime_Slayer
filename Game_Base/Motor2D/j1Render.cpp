@@ -109,8 +109,8 @@ bool j1Render::Awake(pugi::xml_node& config)
 
 	if(config.child("vsync").attribute("value").as_bool(true) == true)
 	{
-		flags |= SDL_RENDERER_PRESENTVSYNC;
-		
+		vsync = true;
+				
 		LOG("Using vsync");
 	}
 
@@ -127,6 +127,8 @@ bool j1Render::Awake(pugi::xml_node& config)
 		camera.h = App->win->screen_surface->h;
 		camera.x = 0;
 		camera.y = 0;
+
+		SDL_GL_SetSwapInterval(vsync);
 	}
 
 	return ret;
@@ -206,9 +208,13 @@ bool j1Render::PostUpdate()
 		}
 	}
 
+	
+
 	// Render Present ---------------------------
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.g, background.a);
 	SDL_RenderPresent(renderer);
+
+	if(App->render->vsync)SDL_GL_SwapWindow(App->win->window);
 
 	return true;
 }
@@ -248,13 +254,8 @@ void j1Render::SetBackgroundColor(SDL_Color color)
 
 void j1Render::ChangeVSYNCstate(bool state)
 {
-	//Choose renderer vsync related flag
-	Uint32 renderer_flag = SDL_RENDERER_PRESENTVSYNC;
-	if (!state)renderer_flag |= SDL_RENDERER_ACCELERATED;
-	
-	//Generate renderer whit the new vsync state
-	SDL_DestroyRenderer(renderer);
-	renderer = SDL_CreateRenderer(App->win->window, -1, renderer_flag);
+	vsync = state;
+	SDL_GL_SetSwapInterval(state);
 }
 
 bool j1Render::CallBlit(SDL_Texture * texture, int x, int y, const SDL_Rect * section, bool horizontal_flip, int priority, uint opacity, int pivot_x, int pivot_y, SDL_Color color, double angle)

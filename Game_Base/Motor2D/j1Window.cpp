@@ -31,8 +31,9 @@ bool j1Window::Awake(pugi::xml_node& config)
 	}
 	else
 	{
+		
 		//Create window
-		Uint32 flags = SDL_WINDOW_SHOWN;
+		Uint32 flags = SDL_WINDOW_OPENGL;
 		fullscreen = config.child("fullscreen").attribute("value").as_bool(false);
 		bool borderless = config.child("borderless").attribute("value").as_bool(false);
 		bool resizable = config.child("resizable").attribute("value").as_bool(false);
@@ -52,7 +53,7 @@ bool j1Window::Awake(pugi::xml_node& config)
 		}
 
 		window = SDL_CreateWindow(App->GetTitle(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
-
+		
 		if(window == NULL)
 		{
 			LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -60,6 +61,8 @@ bool j1Window::Awake(pugi::xml_node& config)
 		}
 		else
 		{
+			SDL_GLContext window_context = SDL_GL_CreateContext(window);
+
 			//Get window surface
 			
 			screen_surface = SDL_CreateRGBSurface(0, this->width, this->height, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);

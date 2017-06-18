@@ -7,6 +7,7 @@
 #include "j1Audio.h"
 #include "j1Input.h"
 #include "j1Window.h"
+#include "j1Render.h"
 
 #include "UI_Element.h"
 #include "UI_Button.h"
@@ -384,6 +385,10 @@ void MainMenu::GUI_Input(UI_Element * target, GUI_INPUT input)
 		else if (target == fullscreen_video_button)
 		{
 			App->win->ChangeFullscreen();
+		}
+		else if (target == vsync_video_button)
+		{
+			App->render->ChangeVSYNCstate(!App->render->vsync);
 		}
 	}
 	else if (input == GUI_INPUT::MOUSE_LEFT_BUTTON_REPEAT)
