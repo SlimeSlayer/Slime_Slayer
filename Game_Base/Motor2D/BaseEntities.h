@@ -1,3 +1,6 @@
+#ifndef _BASE_ENTITIES_H_
+#define _BASE_ENTITIES_H_
+
 #include "p2Point.h"
 #include "p2Defs.h"
 #include <string>
@@ -21,7 +24,9 @@ enum CREATURE_TYPE
 
 enum ITEM_TYPE
 {
-	NO_ITEM = 0
+	NO_ITEM = 0,
+	COIN_ITEM,
+	JAR_ITEM
 };
 
 /// Entity --------------------------------------
@@ -59,6 +64,30 @@ public:
 };
 /// ---------------------------------------------
 
+/// Item ----------------------------------------
+class Item : public Entity
+{
+public:
+
+	Item();
+	Item(const Item& copy);
+	~Item();
+
+protected:
+
+	ITEM_TYPE item_type = NO_ITEM;
+
+public:
+
+	//Set Methods -----------
+	void SetItemType(ITEM_TYPE new_item_type);
+
+	//Get Methods -----------
+	ITEM_TYPE GetItemType()const;
+
+};
+/// ---------------------------------------------
+
 /// Creature ------------------------------------
 class Creature : public Entity
 {
@@ -68,7 +97,7 @@ public:
 	Creature(const Creature& copy);
 	~Creature();
 
-private:
+protected:
 
 	CREATURE_TYPE creature_type = NO_CREATURE;
 
@@ -95,3 +124,4 @@ public:
 
 };
 /// ---------------------------------------------
+#endif

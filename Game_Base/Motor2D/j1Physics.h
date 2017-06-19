@@ -20,11 +20,13 @@
 #define MAX_STEPS 5
 
 class PhysBody;
+class Entity;
 
 enum COLLISION_TYPE
 {
 	PLAYER_COLLISION = 1,
-	MAP_COLLISION = 2
+	MAP_COLLISION = 2,
+	ITEM_COLLISION = 4
 	/*4,8,16,32,...*/
 };
 
@@ -32,8 +34,8 @@ enum BODY_TYPE
 {
 	NO_BODY,
 	PLAYER_BODY,
-	MAP_BODY
-
+	MAP_BODY,
+	ITEM_BODY
 };
 
 /// PhysBodyDef -------------------------------------------
@@ -88,7 +90,7 @@ public:
 	int				width = 0, height = 0;
 	j1Module*		listener = nullptr;
 	BODY_TYPE		collide_type = NO_BODY;
-
+	Entity*			entity_related = nullptr;
 };
 /// -------------------------------------------------------
 

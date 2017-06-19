@@ -12,6 +12,7 @@
 #include "j1InputManager.h"
 #include "j1Audio.h"
 #include "j1Physics.h"
+#include "j1EntitiesManager.h"
 
 #include "Parallax.h"
 
@@ -123,6 +124,13 @@ bool Scene::Update(float dt)
 	}
 	// ------------------------------------------
 
+	//TEST ZONE ---------------------------------
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	{
+		Item* jar = App->entities_manager->GenerateItem(JAR_ITEM);
+		jar->GetBody()->SetPosition(App->input->GetMouseX() - App->render->camera.x, App->input->GetMouseY() - App->render->camera.y);
+	}
+	// ------------------------------------------
 	return true;
 }
 

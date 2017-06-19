@@ -3,6 +3,7 @@
 
 #include "j1Module.h"
 #include "BaseEntities.h"
+#include "Items.h"
 
 class j1EntitiesManager : public j1Module
 {
@@ -35,21 +36,26 @@ private:
 	ENTITY_TYPE			current_entity_type = NO_ENTITY;
 
 	//Add definitions methods
+	void AddItemDefinition(const pugi::xml_node* data_node);
 	void AddCreatureDefinition(const pugi::xml_node* data_node);
 	
-	// Vector with all the creatures definitions
+	// Vectors with all the definitions
 	std::vector<Creature*>	creatures_defs;
+	std::vector<Item*>		items_defs;
 
 	// List with all the alive creatures
-	std::list<Creature*> current_creatures;
+	std::list<Entity*> current_entities;
 
 public:
 
 	//Enums Methods ---------
 	ENTITY_TYPE		StrToEntityType(const char* str)const;
 	CREATURE_TYPE	StrToCreatureType(const char* str)const;
+	ITEM_TYPE		StrToItemType(const char* str)const;
 
 	// Functionality --------
 	Creature*	GenerateCreature(CREATURE_TYPE creature_type);
+	Item*		GenerateItem(ITEM_TYPE item_type);
+
 };
 #endif

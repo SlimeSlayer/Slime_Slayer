@@ -1,8 +1,41 @@
 <data>
   <!--Definitions of all the items-->
   <item>
-    
+    <!--Jar-->
+    <entity
+      body_type="item_body"
+      collision_type="item_collision"
+      listener="entities_manager"
+      body_shape="square"
+      width ="50"
+      height="30"
+      restitution="0.0"
+      interaction_type="static"
+      
+      item_type="jar_item"
+      name="Jar"
+      description="Contain coins"      
+      
+      items_in="coin_item/coin_item"       
+      />
+        <!--Coin-->
+    <entity
+      body_type="item_body"
+      collision_type="item_collision"
+      listener="entities_manager"
+      body_shape="square"
+      width ="10"
+      height="10"
+      restitution="0.2"
+      interaction_type="dynamic"
+      
+      item_type="coin_item"
+      name="Coin"
+      description="Use it to buy items"
+      value="5"
+      />
   </item>
+  
   <!--Definitions of all the creatures-->
   <creature>
     <!--Player-->

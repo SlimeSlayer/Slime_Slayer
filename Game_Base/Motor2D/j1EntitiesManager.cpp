@@ -47,8 +47,8 @@ bool j1EntitiesManager::Enable()
 		{
 			switch (current_entity_type)
 			{
-			case ITEM:	break;
-			case CREATURE:	AddCreatureDefinition(&current_enble_node); break;
+			case ITEM:		AddItemDefinition(&current_enble_node);			break;
+			case CREATURE:	AddCreatureDefinition(&current_enble_node);		break;
 			}
 
 			current_enble_node = current_enble_node.next_sibling();
@@ -79,14 +79,22 @@ void j1EntitiesManager::Disable()
 	}
 	creatures_defs.clear();
 
-	// Clean all the current creatures ----------
-	std::list<Creature*>::iterator cur_creatures_item = current_creatures.begin();
-	while (cur_creatures_item != current_creatures.end())
+	// Clean all the items definitions ------
+	size = items_defs.size();
+	for (uint k = 0; k < size; k++)
 	{
-		delete cur_creatures_item._Ptr->_Myval;
-		cur_creatures_item++;
+		delete items_defs[k];
 	}
-	current_creatures.clear();
+	items_defs.clear();
+
+	// Clean all the current entitites ----------
+	std::list<Entity*>::iterator cur_entities_item = current_entities.begin();
+	while (cur_entities_item != current_entities.end())
+	{
+		delete cur_entities_item._Ptr->_Myval;
+		cur_entities_item++;
+	}
+	current_entities.clear();
 
 	enabled = active = false;
 }
@@ -118,14 +126,22 @@ bool j1EntitiesManager::CleanUp()
 	}
 	creatures_defs.clear();
 
-	// Clean all the current creatures ----------
-	std::list<Creature*>::iterator cur_creatures_item = current_creatures.begin();
-	while (cur_creatures_item != current_creatures.end())
+	// Clean all the items definitions ------
+	size = items_defs.size();
+	for (uint k = 0; k < size; k++)
 	{
-		delete cur_creatures_item._Ptr->_Myval;
-		cur_creatures_item++;
+		delete items_defs[k];
 	}
-	current_creatures.clear();
+	items_defs.clear();
+
+	// Clean all the current entitites ----------
+	std::list<Entity*>::iterator cur_entities_item = current_entities.begin();
+	while (cur_entities_item != current_entities.end())
+	{
+		delete cur_entities_item._Ptr->_Myval;
+		cur_entities_item++;
+	}
+	current_entities.clear();
 
 	
 	definitions_doc.reset();
@@ -134,6 +150,54 @@ bool j1EntitiesManager::CleanUp()
 }
 
 // Functionality ================================
+void j1EntitiesManager::AddItemDefinition(const pugi::xml_node * data_node)
+{
+	//General pointer to the new undefined item
+	Item* new_item = nullptr; 
+	//Get the new item type
+	ITEM_TYPE item_type = StrToItemType(data_node->attribute("item_type").as_string());
+	//Allocate the correct class checking the item type
+	switch (item_type)
+	{
+	case COIN_ITEM:	new_item = new Coin();			break;
+	case JAR_ITEM:	new_item = new Items_Tank();	break;
+	}
+	
+	//Load the new item body data
+	PhysBody* new_body = nullptr;
+	new_body = App->physics->CreateRectangleDef(
+		data_node->attribute("width").as_int(),
+		data_node->attribute("height").as_int(),
+		App->physics->StrToBodyShape(data_node->attribute("body_shape").as_string()),
+		App->physics->StrToInteractionType(data_node->attribute("interaction_type").as_string()),
+		App->physics->StrToCollisionType(data_node->attribute("collision_type").as_string()),
+		App->physics->StrToBodyType(data_node->attribute("body_type").as_string()),
+		data_node->attribute("restitution").as_float(),
+		App->GetModule(data_node->attribute("listener").as_string())
+	);
+
+	new_item->SetBody(new_body);
+
+	//Set new item general stats
+	/*Entity Type*/		new_item->SetEntityType(ITEM);
+	/*Item Type*/		new_item->SetItemType(item_type);
+	/*Name*/			new_item->SetName(data_node->attribute("name").as_string());
+	/*Description*/		new_item->SetDescription(data_node->attribute("description").as_string());
+
+	//Set new item specific stats
+	if (item_type == COIN_ITEM)
+	{
+		/*Value*/	((Coin*)new_item)->SetValue(data_node->attribute("value").as_uint());
+	}
+	else if (item_type == JAR_ITEM)
+	{
+		/*Coins In*/	((Items_Tank*)new_item)->AddItem(GenerateItem(COIN_ITEM));
+	}
+
+	//Add the built item definition at the items definitions vector
+	items_defs.push_back(new_item);
+}
+
 void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 {
 	//Allocate the new creature
@@ -182,6 +246,14 @@ CREATURE_TYPE j1EntitiesManager::StrToCreatureType(const char * str) const
 	return NO_CREATURE;
 }
 
+ITEM_TYPE j1EntitiesManager::StrToItemType(const char * str) const
+{
+	if (strcmp(str, "jar_item") == 0)	return JAR_ITEM;
+	if (strcmp(str, "coin_item") == 0)	return COIN_ITEM;
+	return NO_ITEM;
+}
+
+//Functionality =================================
 Creature * j1EntitiesManager::GenerateCreature(CREATURE_TYPE creature_type)
 {
 	Creature* new_creature = nullptr;
@@ -193,12 +265,42 @@ Creature * j1EntitiesManager::GenerateCreature(CREATURE_TYPE creature_type)
 		if (creatures_defs[k]->GetCreatureType() == creature_type)
 		{
 			new_creature = new Creature(*creatures_defs[k]);
+			new_creature->GetBody()->entity_related = new_creature;
 			break;
 		}
 	}
 
 	// Add  the generated creature at the current creatures list
-	current_creatures.push_back(new_creature);
+	current_entities.push_back(new_creature);
 
 	return new_creature;
+}
+
+Item* j1EntitiesManager::GenerateItem(ITEM_TYPE item_type)
+{
+	Item* new_item = nullptr;
+
+	//Iterate the creatures definitions and copy the correct def
+	uint size = items_defs.size();
+	for (uint k = 0; k < size; k++)
+	{
+		if (items_defs[k]->GetItemType() == item_type)
+		{
+			switch (item_type)
+			{
+			case COIN_ITEM:
+				new_item = new Coin(*(Coin*)items_defs[k]);
+				break;
+			case JAR_ITEM:
+				new_item = new Items_Tank(*(Items_Tank*)items_defs[k]);
+				break;
+			}
+			new_item->GetBody()->entity_related = new_item;
+		}
+	}
+
+	// Add  the generated creature at the current creatures list
+	current_entities.push_back(new_item);
+
+	return new_item;
 }

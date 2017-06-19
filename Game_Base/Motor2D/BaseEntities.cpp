@@ -66,6 +66,37 @@ PhysBody * Entity::GetBody() const
 	return body;
 }
 
+/// Item ----------------------------------------
+// Constructors =======================
+Item::Item()
+{
+
+}
+
+Item::Item(const Item & copy) :Entity(copy), item_type(copy.item_type)
+{
+
+}
+
+// Destructors ========================
+Item::~Item()
+{
+
+}
+
+//Set Methods =========================
+void Item::SetItemType(ITEM_TYPE new_item_type)
+{
+	item_type = new_item_type;
+}
+
+//Get Methods =========================
+ITEM_TYPE Item::GetItemType() const
+{
+	return item_type;
+}
+/// ---------------------------------------------
+
 /// Creature ------------------------------------
 // Constructors =======================
 Creature::Creature()
