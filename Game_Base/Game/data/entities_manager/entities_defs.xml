@@ -1,6 +1,22 @@
 <data>
   <!--Definitions of all the items-->
   <item>
+    <!--Coin-->
+    <entity
+      body_type="item_body"
+      collision_type="item_collision"
+      listener="entities_manager"
+      body_shape="square"
+      width ="10"
+      height="10"
+      restitution="0.2"
+      interaction_type="dynamic"
+      
+      item_type="coin_item"
+      name="Coin"
+      description="Use it to buy items"
+      value="5"
+      />
     <!--Jar-->
     <entity
       body_type="item_body"
@@ -18,22 +34,6 @@
       
       items_in="coin_item/coin_item"       
       />
-        <!--Coin-->
-    <entity
-      body_type="item_body"
-      collision_type="item_collision"
-      listener="entities_manager"
-      body_shape="square"
-      width ="10"
-      height="10"
-      restitution="0.2"
-      interaction_type="dynamic"
-      
-      item_type="coin_item"
-      name="Coin"
-      description="Use it to buy items"
-      value="5"
-      />
   </item>
   
   <!--Definitions of all the creatures-->
@@ -50,7 +50,7 @@
       interaction_type="dynamic"
       
       creature_type="player_creature"
-      name="Insert Player Name"
+      name="Player"
       description="Insert epic description here"
       life="100"
       attack="5"

@@ -79,7 +79,7 @@ void j1EntitiesManager::Disable()
 	}
 	creatures_defs.clear();
 
-	// Clean all the items definitions ------
+	// Clean all the items definitions ----------
 	size = items_defs.size();
 	for (uint k = 0; k < size; k++)
 	{
@@ -87,7 +87,7 @@ void j1EntitiesManager::Disable()
 	}
 	items_defs.clear();
 
-	// Clean all the current entitites ----------
+	// Clean all the current entities -----------
 	std::list<Entity*>::iterator cur_entities_item = current_entities.begin();
 	while (cur_entities_item != current_entities.end())
 	{
@@ -113,7 +113,16 @@ bool j1EntitiesManager::Awake(pugi::xml_node & node)
 
 bool j1EntitiesManager::Update(float dt)
 {
-	return true;
+	bool ret = true;
+
+	std::list<Entity*>::const_iterator list_item = current_entities.begin();
+	while (list_item != current_entities.end())
+	{
+		ret = list_item._Ptr->_Myval->Update();
+		list_item++;
+	}
+
+	return ret;
 }
 
 bool j1EntitiesManager::CleanUp()
@@ -147,6 +156,16 @@ bool j1EntitiesManager::CleanUp()
 	definitions_doc.reset();
 
 	return true;
+}
+
+void j1EntitiesManager::OnCollision(PhysBody * A, PhysBody * B)
+{
+	if (A->entity_related == nullptr || B->entity_related == nullptr)return;
+	
+	if (strcmp(A->entity_related->GetName(),"Jar") == 0 && strcmp(B->entity_related->GetName(),"Player") == 0)
+	{
+		((Items_Tank*)A->entity_related)->SetReadyToDrop();
+	}
 }
 
 // Functionality ================================
@@ -191,7 +210,7 @@ void j1EntitiesManager::AddItemDefinition(const pugi::xml_node * data_node)
 	}
 	else if (item_type == JAR_ITEM)
 	{
-		/*Coins In*/	((Items_Tank*)new_item)->AddItem(GenerateItem(COIN_ITEM));
+		///*Coins In*/	((Items_Tank*)new_item)->AddItem(GenerateItem(COIN_ITEM, false));
 	}
 
 	//Add the built item definition at the items definitions vector
@@ -254,7 +273,7 @@ ITEM_TYPE j1EntitiesManager::StrToItemType(const char * str) const
 }
 
 //Functionality =================================
-Creature * j1EntitiesManager::GenerateCreature(CREATURE_TYPE creature_type)
+Creature * j1EntitiesManager::GenerateCreature(CREATURE_TYPE creature_type, bool generate_body)
 {
 	Creature* new_creature = nullptr;
 
@@ -264,7 +283,7 @@ Creature * j1EntitiesManager::GenerateCreature(CREATURE_TYPE creature_type)
 	{
 		if (creatures_defs[k]->GetCreatureType() == creature_type)
 		{
-			new_creature = new Creature(*creatures_defs[k]);
+			new_creature = new Creature(*creatures_defs[k], generate_body);
 			new_creature->GetBody()->entity_related = new_creature;
 			break;
 		}
@@ -276,7 +295,7 @@ Creature * j1EntitiesManager::GenerateCreature(CREATURE_TYPE creature_type)
 	return new_creature;
 }
 
-Item* j1EntitiesManager::GenerateItem(ITEM_TYPE item_type)
+Item* j1EntitiesManager::GenerateItem(ITEM_TYPE item_type, bool generate_body)
 {
 	Item* new_item = nullptr;
 
@@ -289,18 +308,26 @@ Item* j1EntitiesManager::GenerateItem(ITEM_TYPE item_type)
 			switch (item_type)
 			{
 			case COIN_ITEM:
-				new_item = new Coin(*(Coin*)items_defs[k]);
+				new_item = new Coin(*(Coin*)items_defs[k], generate_body);
 				break;
 			case JAR_ITEM:
-				new_item = new Items_Tank(*(Items_Tank*)items_defs[k]);
+				new_item = new Items_Tank(*(Items_Tank*)items_defs[k], generate_body);
+				((Items_Tank*)new_item)->AddItem(GenerateItem(COIN_ITEM, false));
 				break;
 			}
-			new_item->GetBody()->entity_related = new_item;
+			if(generate_body)new_item->GetBody()->entity_related = new_item;
+			
+			break;
 		}
 	}
 
 	// Add  the generated creature at the current creatures list
-	current_entities.push_back(new_item);
+	if(generate_body)current_entities.push_back(new_item);
 
 	return new_item;
+}
+
+void j1EntitiesManager::AddEntity(const Entity * target)
+{
+	current_entities.push_back((Entity*)target);
 }

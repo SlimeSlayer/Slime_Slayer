@@ -27,6 +27,9 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	// Collisions functions
+	void OnCollision(PhysBody* A, PhysBody* B);
+
 private:
 
 	// Data used during the segmented enable process
@@ -54,8 +57,9 @@ public:
 	ITEM_TYPE		StrToItemType(const char* str)const;
 
 	// Functionality --------
-	Creature*	GenerateCreature(CREATURE_TYPE creature_type);
-	Item*		GenerateItem(ITEM_TYPE item_type);
+	Creature*	GenerateCreature(CREATURE_TYPE creature_type, bool generate_body = true);
+	Item*		GenerateItem(ITEM_TYPE item_type, bool generate_body = true);
 
+	void		AddEntity(const Entity* target);
 };
 #endif

@@ -39,8 +39,13 @@ enum BODY_TYPE
 };
 
 /// PhysBodyDef -------------------------------------------
-struct PhysBodyDef
+class PhysBodyDef
 {
+public:
+
+	PhysBodyDef() {}
+	~PhysBodyDef() {}
+
 	b2Shape::Type	shape_type = b2Shape::Type::e_polygon;
 	COLLISION_TYPE	collision_type = COLLISION_TYPE::MAP_COLLISION;
 	BODY_TYPE		body_type = BODY_TYPE::NO_BODY;
@@ -157,7 +162,7 @@ private:
 	b2MouseJoint*	mouse_joint = nullptr;
 	b2Body*			ground = nullptr;
 
-	std::list<b2Body*> bodys_to_delete;
+	std::list<PhysBody*> bodys_to_delete;
 
 	//Fixed physics time-step for free frame rate
 	float fixed_timestep_accumulator = 0;

@@ -49,7 +49,7 @@ bool Scene::Enable()
 
 void Scene::Disable()
 {
-	delete floor_collider;
+	App->physics->DeleteBody(floor_collider);
 
 	enabled = active = false;
 }

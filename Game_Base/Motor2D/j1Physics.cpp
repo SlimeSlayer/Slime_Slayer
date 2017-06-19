@@ -26,8 +26,7 @@ PhysBody::PhysBody() : listener(NULL), body(NULL)
 // Destructors ==================================
 PhysBody::~PhysBody()
 {
-	App->physics->DeleteBody(this);
-	if (body_def != nullptr)delete body_def;
+
 }
 
 // Get Methods ==================================
@@ -273,15 +272,36 @@ void j1Physics::Init()
 
 void j1Physics::Disable()
 {
+	//Clean the bodies to delete list ---------------------
+	if (!bodys_to_delete.empty())
+	{
+		std::list<PhysBody*>::iterator item = bodys_to_delete.begin();
+		while (item != bodys_to_delete.end())
+		{
+			if (item._Ptr->_Myval->body != nullptr)
+			{
+				world->DestroyBody(item._Ptr->_Myval->body);
+				item._Ptr->_Myval->body == nullptr;
+			}
+			if (item._Ptr->_Myval->body_def != nullptr)
+			{
+				delete item._Ptr->_Myval->body_def;
+				item._Ptr->_Myval->body_def == nullptr;
+			}
+			delete item._Ptr->_Myval;
+
+			item++;
+		}
+		bodys_to_delete.clear();
+	}
+
 	b2Body* bdy = world->GetBodyList();
 	while (bdy != nullptr)
 	{
 		b2Body* bdy_next = bdy->GetNext();
-		if(bdy != ground)world->DestroyBody(bdy);
+		world->DestroyBody(bdy);
 		bdy = bdy_next;
 	}
-
-	bodys_to_delete.clear();
 
 	enabled = active = false;
 }
@@ -358,13 +378,18 @@ bool j1Physics::PostUpdate()
 	//Clean the bodies to delete list ---------------------
 	if (!bodys_to_delete.empty())
 	{
-		std::list<b2Body*>::iterator item = bodys_to_delete.begin();
+		std::list<PhysBody*>::iterator item = bodys_to_delete.begin();
 		while (item != bodys_to_delete.end())
 		{
-			world->DestroyBody(item._Ptr->_Myval);
-			bodys_to_delete.pop_front();
-			item = bodys_to_delete.begin();
+			world->DestroyBody(item._Ptr->_Myval->body);
+			if (item._Ptr->_Myval->body_def != nullptr) delete item._Ptr->_Myval->body_def;
+			item._Ptr->_Myval->body = nullptr;
+			item._Ptr->_Myval->body_def = nullptr;
+			delete item._Ptr->_Myval;
+
+			item++;
 		}
+		bodys_to_delete.clear();
 	}
 
 	//Iterate all world bodies to apply contact effects ---
@@ -515,6 +540,23 @@ bool j1Physics::PostUpdate()
 bool j1Physics::CleanUp()
 {
 	LOG("Destroying physics world");
+
+	//Clean the bodies to delete list ---------------------
+	if (!bodys_to_delete.empty())
+	{
+		std::list<PhysBody*>::iterator item = bodys_to_delete.begin();
+		while (item != bodys_to_delete.end())
+		{
+			world->DestroyBody(item._Ptr->_Myval->body);
+			if (item._Ptr->_Myval->body_def != nullptr) delete item._Ptr->_Myval->body_def;
+			item._Ptr->_Myval->body = nullptr;
+			item._Ptr->_Myval->body_def = nullptr;
+			delete item._Ptr->_Myval;
+
+			item++;
+		}
+		bodys_to_delete.clear();
+	}
 
 	delete world;
 
@@ -802,10 +844,13 @@ void j1Physics::SetFixture(b2FixtureDef& fixture, COLLISION_TYPE type)
 	switch (type)
 	{
 	case PLAYER_COLLISION:
-		fixture.filter.maskBits = MAP_COLLISION;
+		fixture.filter.maskBits = MAP_COLLISION | ITEM_COLLISION;
 		break;
 	case MAP_COLLISION:
-		fixture.filter.maskBits = PLAYER_COLLISION /*| BULLET | MAP_ITEM | MINI_BLOB*/;
+		fixture.filter.maskBits = PLAYER_COLLISION | ITEM_COLLISION/*| BULLET | MAP_ITEM | MINI_BLOB*/;
+		break;
+	case ITEM_COLLISION:
+		fixture.filter.maskBits = PLAYER_COLLISION | MAP_COLLISION;
 		break;
 	}
 	return;
@@ -888,13 +933,7 @@ PhysBody * j1Physics::CopyBody(const PhysBody* target)
 
 bool j1Physics::DeleteBody(PhysBody * target)
 {
-	if (target->body == nullptr)
-	{
-		LOG("Invalid PhysBody to delete");
-		return false;
-	}
-
-	bodys_to_delete.push_back(target->body);
+	bodys_to_delete.push_back(target);
 
 	return true;
 }
@@ -939,12 +978,14 @@ COLLISION_TYPE j1Physics::StrToCollisionType(const char * str) const
 {
 	if (strcmp(str, "player_collision") == 0)	return COLLISION_TYPE::PLAYER_COLLISION;
 	if (strcmp(str, "map_collision") == 0)		return COLLISION_TYPE::MAP_COLLISION;
+	if (strcmp(str, "item_collision") == 0)		return COLLISION_TYPE::ITEM_COLLISION;
 }
 
 BODY_TYPE j1Physics::StrToBodyType(const char * str) const
 {
 	if (strcmp(str, "player_body") == 0)	return BODY_TYPE::PLAYER_BODY;
 	if (strcmp(str, "map_body") == 0)		return BODY_TYPE::MAP_BODY;
+	if (strcmp(str, "item_body") == 0)		return BODY_TYPE::ITEM_BODY;
 	return NO_BODY;
 }
 b2BodyType j1Physics::StrToInteractionType(const char * str) const

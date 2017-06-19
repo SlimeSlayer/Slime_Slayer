@@ -36,8 +36,13 @@ class Entity
 public:
 
 	Entity();
-	Entity(const Entity& copy);
+	Entity(const Entity& copy, bool generate_body = true);
 	virtual ~Entity();
+
+public:
+
+	//Game Loop -------------
+	virtual bool Update();
 
 protected:
 
@@ -50,10 +55,11 @@ protected:
 public:
 
 	//Set Methods -----------
-	void SetEntityType(ENTITY_TYPE type);
-	void SetName(string new_name);
-	void SetDescription(string new_description);
-	void SetBody(PhysBody* new_body);
+	void			SetEntityType(ENTITY_TYPE type);
+	void			SetName(string new_name);
+	void			SetDescription(string new_description);
+	void			SetBody(PhysBody* new_body);
+	virtual void	SetPosition(float x, float y);
 
 	//Get Methods -----------
 	ENTITY_TYPE	GetEntityType()const;
@@ -70,7 +76,7 @@ class Item : public Entity
 public:
 
 	Item();
-	Item(const Item& copy);
+	Item(const Item& copy, bool generate_body = true);
 	~Item();
 
 protected:
@@ -94,7 +100,7 @@ class Creature : public Entity
 public:
 
 	Creature();
-	Creature(const Creature& copy);
+	Creature(const Creature& copy, bool generate_body = true);
 	~Creature();
 
 protected:

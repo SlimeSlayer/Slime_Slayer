@@ -1,5 +1,6 @@
 #include "BaseEntities.h"
 
+#include "p2Log.h"
 #include "j1App.h"
 #include "j1Animator.h"
 #include "j1Physics.h"
@@ -13,15 +14,23 @@ Entity::Entity()
 
 }
 
-Entity::Entity(const Entity & copy) : entity_type(copy.entity_type), name(copy.name), description(copy.description)
+Entity::Entity(const Entity & copy, bool generate_body) : entity_type(copy.entity_type), name(copy.name), description(copy.description)
 {
-	body = App->physics->TransformDefToBuilt(copy.body);
+	if(generate_body)body = App->physics->TransformDefToBuilt(copy.body);
+	else body = copy.body;
 }
 
 //Destructors =========================
 Entity::~Entity()
 {
-	delete body;
+	if (body != nullptr)App->physics->DeleteBody(body);
+	LOG("DEL");
+}
+
+//Game Loop ===========================
+bool Entity::Update()
+{
+	return true;
 }
 
 //Set Methods =========================
@@ -43,6 +52,11 @@ void Entity::SetDescription(string new_description)
 void Entity::SetBody(PhysBody * new_body)
 {
 	body = new_body;
+}
+
+void Entity::SetPosition(float x, float y)
+{
+	body->SetPosition(x, y);
 }
 
 //Get Methods =========================
@@ -73,7 +87,7 @@ Item::Item()
 
 }
 
-Item::Item(const Item & copy) :Entity(copy), item_type(copy.item_type)
+Item::Item(const Item & copy, bool generate_body) :Entity(copy, generate_body), item_type(copy.item_type)
 {
 
 }
@@ -104,7 +118,7 @@ Creature::Creature()
 
 }
 
-Creature::Creature(const Creature & copy) : Entity(copy), creature_type(copy.creature_type), life(copy.life), attack(copy.attack), mov_speed(copy.mov_speed), jump_force(copy.jump_force)
+Creature::Creature(const Creature & copy, bool generate_body) : Entity(copy, generate_body), creature_type(copy.creature_type), life(copy.life), attack(copy.attack), mov_speed(copy.mov_speed), jump_force(copy.jump_force)
 {
 	entity_type = CREATURE;
 }
