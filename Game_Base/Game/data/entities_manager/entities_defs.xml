@@ -56,6 +56,9 @@
       attack="5"
       mov_speed="5"
       jump_force="25"
+      
+      money="12"
+      
       />
   </creature>
 </data>

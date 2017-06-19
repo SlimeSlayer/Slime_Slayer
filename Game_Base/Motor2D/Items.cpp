@@ -73,11 +73,16 @@ void Items_Tank::DropItems()
 	while (list_item != items.end())
 	{
 		list_item._Ptr->_Myval->SetBody(App->physics->TransformDefToBuilt(list_item._Ptr->_Myval->GetBody()));
+		list_item._Ptr->_Myval->GetBody()->entity_related = list_item._Ptr->_Myval;
+
 		int x = 0, y = 0;
 		this->body->GetPosition(x, y);
 		list_item._Ptr->_Myval->GetBody()->SetPosition(x, y);
+		
 		list_item._Ptr->_Myval->GetBody()->body->SetLinearVelocity({ 0,-5 });
+		
 		App->entities_manager->AddEntity(list_item._Ptr->_Myval);
+		
 		list_item++;
 	}
 	items.clear();

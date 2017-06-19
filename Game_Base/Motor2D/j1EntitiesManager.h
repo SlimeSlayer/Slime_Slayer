@@ -4,6 +4,7 @@
 #include "j1Module.h"
 #include "BaseEntities.h"
 #include "Items.h"
+#include "Creatures.h"
 
 class j1EntitiesManager : public j1Module
 {
@@ -49,8 +50,10 @@ private:
 	// List with all the alive creatures
 	std::list<Entity*> current_entities;
 
-	//Vector with all the entities ready to be deleted
-	std::vector<Entity*> entitites_to_delete;
+	//List with all the entities ready to be deleted
+	std::list<Entity*> entitites_to_delete;
+	//Vecto with all the entities generated in the last frame
+	std::vector<Entity*> entities_to_add;
 
 public:
 

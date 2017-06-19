@@ -78,6 +78,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseEntities.cpp" />
+    <ClCompile Include="Creatures.cpp" />
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="j1Animator.cpp" />
     <ClCompile Include="j1Physics.cpp" />
@@ -114,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseEntities.h" />
+    <ClInclude Include="Creatures.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="j1Animator.h" />
     <ClInclude Include="j1Physics.h" />

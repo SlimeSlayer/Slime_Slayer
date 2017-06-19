@@ -99,6 +99,7 @@
     <ClCompile Include="UI_Scroll_Bar.cpp">
       <Filter>UI\UI_Elements</Filter>
     </ClCompile>
+    <ClCompile Include="Creatures.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -212,6 +213,9 @@
       <Filter>UI\UI_Elements</Filter>
     </ClInclude>
     <ClInclude Include="Items.h">
+      <Filter>Modules\EntitiesManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Creatures.h">
       <Filter>Modules\EntitiesManager</Filter>
     </ClInclude>
   </ItemGroup>

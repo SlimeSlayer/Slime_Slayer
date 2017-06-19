@@ -6,7 +6,7 @@
 #define PLAYER_CAMERA_X 500
 #define PLAYER_CAMERA_Y 800
 
-class Creature;
+class Intelligent_Creature;
 
 class j1Player : public j1Module
 {
@@ -28,7 +28,7 @@ public:
 
 public:
 
-	Creature* avatar = nullptr;
+	Intelligent_Creature* avatar = nullptr;
 
 };
 #endif // !_J1PLAYER_H_

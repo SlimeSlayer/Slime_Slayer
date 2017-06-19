@@ -114,7 +114,16 @@ bool j1EntitiesManager::Awake(pugi::xml_node & node)
 bool j1EntitiesManager::Update(float dt)
 {
 	bool ret = true;
+	//Add all the entities generated in the last frame
+	uint size = entities_to_add.size();
+	for (uint k = 0; k < size; k++)
+	{
+		current_entities.push_back(entities_to_add[k]);
+		LOG("%s added(%i)", entities_to_add[k]->GetName(),current_entities.size());
+	}
+	entities_to_add.clear();
 
+	//Iterate all the entities to update them
 	std::list<Entity*>::const_iterator list_item = current_entities.begin();
 	while (list_item != current_entities.end())
 	{
@@ -122,13 +131,16 @@ bool j1EntitiesManager::Update(float dt)
 		list_item++;
 	}
 
-	uint size = entitites_to_delete.size();
-	for (uint k = 0; k < size; k++)
+	//Iterate & delete all the entities ready to be deleted
+	std::list<Entity*>::const_iterator del_list_item = entitites_to_delete.begin();
+	while (del_list_item != entitites_to_delete.end())
 	{
-		delete entitites_to_delete[k];
+		current_entities.remove(del_list_item._Ptr->_Myval);
+		delete del_list_item._Ptr->_Myval;
+		del_list_item++;
 	}
 	entitites_to_delete.clear();
-
+	
 	return ret;
 }
 
@@ -169,9 +181,18 @@ void j1EntitiesManager::OnCollision(PhysBody * A, PhysBody * B)
 {
 	if (A->entity_related == nullptr || B->entity_related == nullptr)return;
 	
-	if (strcmp(A->entity_related->GetName(),"Jar") == 0 && strcmp(B->entity_related->GetName(),"Player") == 0)
+	if (strcmp(B->entity_related->GetName(), "Player") == 0)
 	{
-		((Items_Tank*)A->entity_related)->SetReadyToDrop();
+		if (strcmp(A->entity_related->GetName(), "Jar") == 0)
+		{
+			((Items_Tank*)A->entity_related)->SetReadyToDrop();
+		}
+		else if (strcmp(A->entity_related->GetName(), "Coin") == 0)
+		{
+			((Intelligent_Creature*)B->entity_related)->AddMoney(((Coin*)A->entity_related)->GetValue());
+			App->entities_manager->DeleteEntity(A->entity_related);
+			LOG("Player Money: %i", ((Intelligent_Creature*)B->entity_related)->GetMoney());
+		}
 	}
 }
 
@@ -223,8 +244,16 @@ void j1EntitiesManager::AddItemDefinition(const pugi::xml_node * data_node)
 void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 {
 	//Allocate the new creature
-	Creature* new_creature = new Creature();
-	
+	Creature* new_creature = nullptr;
+	//Get the new item type
+	CREATURE_TYPE creature_type = StrToCreatureType(data_node->attribute("creature_type").as_string());
+	//Allocate the correct class checking the creature type
+	switch (creature_type)
+	{
+	case PLAYER_CREATURE:	new_creature = new Intelligent_Creature();	break;
+	case NO_CREATURE:		new_creature = new Creature();				break;
+	}
+
 	//Load the new creature body data
 	PhysBody* new_body = nullptr;
 	new_body = App->physics->CreateRectangleDef(
@@ -240,15 +269,21 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 
 	new_creature->SetBody(new_body);
 
-	//Load the new creature states
+	//Set the new creature general states
 	/*Entity Type*/		new_creature->SetEntityType(CREATURE);
-	/*Creature Type*/	new_creature->SetCreatureType(App->entities_manager->StrToCreatureType(data_node->attribute("creature_type").as_string()));
+	/*Creature Type*/	new_creature->SetCreatureType(creature_type);
 	/*Name*/			new_creature->SetName(data_node->attribute("name").as_string());
 	/*Description*/		new_creature->SetDescription(data_node->attribute("description").as_string());
 	/*Life*/			new_creature->SetLife(data_node->attribute("life").as_uint());
 	/*Attack*/			new_creature->SetAttack(data_node->attribute("attack").as_uint());
 	/*Mov Speed*/		new_creature->SetMovSpeed(data_node->attribute("mov_speed").as_float());
 	/*Jump Force*/		new_creature->SetJumpForce(data_node->attribute("jump_force").as_float());
+
+	//Set new creature specific stats
+	if (creature_type == PLAYER_CREATURE)
+	{
+		/*Money*/	((Intelligent_Creature*)new_creature)->SetMoney(data_node->attribute("money").as_uint(0));
+	}
 
 	//Add the built creature at the definitions vector
 	creatures_defs.push_back(new_creature);
@@ -286,14 +321,27 @@ Creature * j1EntitiesManager::GenerateCreature(CREATURE_TYPE creature_type, bool
 	{
 		if (creatures_defs[k]->GetCreatureType() == creature_type)
 		{
-			new_creature = new Creature(*creatures_defs[k], generate_body);
-			new_creature->GetBody()->entity_related = new_creature;
+			switch (creature_type)
+			{
+			case PLAYER_CREATURE:
+				new_creature = new Intelligent_Creature(*(Intelligent_Creature*)creatures_defs[k], generate_body);
+				break;
+			default:
+				new_creature = new Creature(*creatures_defs[k], generate_body);
+				break;
+			}
+
+			if(generate_body)new_creature->GetBody()->entity_related = new_creature;
+			
 			break;
 		}
 	}
 
 	// Add  the generated creature at the current creatures list
-	current_entities.push_back(new_creature);
+	if (generate_body)
+	{
+		AddEntity(new_creature);
+	}
 
 	return new_creature;
 }
@@ -321,7 +369,11 @@ Item* j1EntitiesManager::GenerateItem(ITEM_TYPE item_type, bool generate_body)
 				((Items_Tank*)new_item)->AddItem(GenerateItem(COIN_ITEM, false));
 				((Items_Tank*)new_item)->AddItem(GenerateItem(COIN_ITEM, false));
 				break;
+			default:
+				new_item = new Item(*items_defs[k], generate_body);
+				break;
 			}
+
 			if(generate_body)new_item->GetBody()->entity_related = new_item;
 			
 			break;
@@ -329,18 +381,21 @@ Item* j1EntitiesManager::GenerateItem(ITEM_TYPE item_type, bool generate_body)
 	}
 
 	// Add  the generated creature at the current creatures list
-	if(generate_body)current_entities.push_back(new_item);
+	if (generate_body)
+	{
+		AddEntity(new_item);
+	}
 
 	return new_item;
 }
 
 void j1EntitiesManager::AddEntity(const Entity * target)
 {
-	current_entities.push_back((Entity*)target);
+	entities_to_add.push_back((Entity*)target);
 }
 
 void j1EntitiesManager::DeleteEntity(Entity * target)
 {
-	current_entities.remove(target);
+	entitites_to_delete.remove(target);
 	entitites_to_delete.push_back(target);
 }
