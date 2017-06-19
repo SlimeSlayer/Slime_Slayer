@@ -20,7 +20,7 @@
     <!--Jar-->
     <entity
       body_type="item_body"
-      collision_type="item_collision"
+      collision_type="static_item_collision"
       listener="entities_manager"
       body_shape="square"
       width ="50"

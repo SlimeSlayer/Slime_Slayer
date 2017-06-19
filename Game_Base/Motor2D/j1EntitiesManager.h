@@ -49,6 +49,9 @@ private:
 	// List with all the alive creatures
 	std::list<Entity*> current_entities;
 
+	//Vector with all the entities ready to be deleted
+	std::vector<Entity*> entitites_to_delete;
+
 public:
 
 	//Enums Methods ---------
@@ -61,5 +64,7 @@ public:
 	Item*		GenerateItem(ITEM_TYPE item_type, bool generate_body = true);
 
 	void		AddEntity(const Entity* target);
+	void		DeleteEntity(Entity* target);
+
 };
 #endif

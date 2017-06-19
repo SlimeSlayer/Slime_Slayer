@@ -844,13 +844,16 @@ void j1Physics::SetFixture(b2FixtureDef& fixture, COLLISION_TYPE type)
 	switch (type)
 	{
 	case PLAYER_COLLISION:
-		fixture.filter.maskBits = MAP_COLLISION | ITEM_COLLISION;
+		fixture.filter.maskBits = MAP_COLLISION | ITEM_COLLISION | STATIC_ITEM_COLLISION;
 		break;
 	case MAP_COLLISION:
 		fixture.filter.maskBits = PLAYER_COLLISION | ITEM_COLLISION/*| BULLET | MAP_ITEM | MINI_BLOB*/;
 		break;
 	case ITEM_COLLISION:
-		fixture.filter.maskBits = PLAYER_COLLISION | MAP_COLLISION;
+		fixture.filter.maskBits = PLAYER_COLLISION | MAP_COLLISION | ITEM_COLLISION;
+		break;
+	case STATIC_ITEM_COLLISION:
+		fixture.filter.maskBits = PLAYER_COLLISION;
 		break;
 	}
 	return;
@@ -976,9 +979,10 @@ b2Shape::Type j1Physics::StrToBodyShape(const char * str) const
 
 COLLISION_TYPE j1Physics::StrToCollisionType(const char * str) const
 {
-	if (strcmp(str, "player_collision") == 0)	return COLLISION_TYPE::PLAYER_COLLISION;
-	if (strcmp(str, "map_collision") == 0)		return COLLISION_TYPE::MAP_COLLISION;
-	if (strcmp(str, "item_collision") == 0)		return COLLISION_TYPE::ITEM_COLLISION;
+	if (strcmp(str, "player_collision") == 0)		return COLLISION_TYPE::PLAYER_COLLISION;
+	if (strcmp(str, "map_collision") == 0)			return COLLISION_TYPE::MAP_COLLISION;
+	if (strcmp(str, "item_collision") == 0)			return COLLISION_TYPE::ITEM_COLLISION;
+	if (strcmp(str, "static_item_collision") == 0)	return COLLISION_TYPE::STATIC_ITEM_COLLISION;
 }
 
 BODY_TYPE j1Physics::StrToBodyType(const char * str) const

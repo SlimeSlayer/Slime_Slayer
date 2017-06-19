@@ -81,6 +81,7 @@ void Items_Tank::DropItems()
 		list_item++;
 	}
 	items.clear();
+	App->entities_manager->DeleteEntity(this);
 }
 /// ---------------------------------------------
 

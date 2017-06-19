@@ -122,6 +122,13 @@ bool j1EntitiesManager::Update(float dt)
 		list_item++;
 	}
 
+	uint size = entitites_to_delete.size();
+	for (uint k = 0; k < size; k++)
+	{
+		delete entitites_to_delete[k];
+	}
+	entitites_to_delete.clear();
+
 	return ret;
 }
 
@@ -207,10 +214,6 @@ void j1EntitiesManager::AddItemDefinition(const pugi::xml_node * data_node)
 	if (item_type == COIN_ITEM)
 	{
 		/*Value*/	((Coin*)new_item)->SetValue(data_node->attribute("value").as_uint());
-	}
-	else if (item_type == JAR_ITEM)
-	{
-		///*Coins In*/	((Items_Tank*)new_item)->AddItem(GenerateItem(COIN_ITEM, false));
 	}
 
 	//Add the built item definition at the items definitions vector
@@ -313,6 +316,10 @@ Item* j1EntitiesManager::GenerateItem(ITEM_TYPE item_type, bool generate_body)
 			case JAR_ITEM:
 				new_item = new Items_Tank(*(Items_Tank*)items_defs[k], generate_body);
 				((Items_Tank*)new_item)->AddItem(GenerateItem(COIN_ITEM, false));
+				((Items_Tank*)new_item)->AddItem(GenerateItem(COIN_ITEM, false));
+				((Items_Tank*)new_item)->AddItem(GenerateItem(COIN_ITEM, false));
+				((Items_Tank*)new_item)->AddItem(GenerateItem(COIN_ITEM, false));
+				((Items_Tank*)new_item)->AddItem(GenerateItem(COIN_ITEM, false));
 				break;
 			}
 			if(generate_body)new_item->GetBody()->entity_related = new_item;
@@ -330,4 +337,10 @@ Item* j1EntitiesManager::GenerateItem(ITEM_TYPE item_type, bool generate_body)
 void j1EntitiesManager::AddEntity(const Entity * target)
 {
 	current_entities.push_back((Entity*)target);
+}
+
+void j1EntitiesManager::DeleteEntity(Entity * target)
+{
+	current_entities.remove(target);
+	entitites_to_delete.push_back(target);
 }

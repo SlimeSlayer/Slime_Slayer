@@ -24,7 +24,6 @@ Entity::Entity(const Entity & copy, bool generate_body) : entity_type(copy.entit
 Entity::~Entity()
 {
 	if (body != nullptr)App->physics->DeleteBody(body);
-	LOG("DEL");
 }
 
 //Game Loop ===========================
