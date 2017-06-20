@@ -18,7 +18,9 @@
       item_type="coin_item"
       name="Coin"
       description="Use it to buy items"
+      
       value="5"
+      time_to_delete="5500"
       />
     <!--Jar-->
     <entity

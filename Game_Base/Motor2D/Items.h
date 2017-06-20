@@ -6,6 +6,7 @@
 #endif 
 
 #include <list>
+#include "j1Timer.h"
 
 /// Items_Tank ----------------------------------
 class Items_Tank : public Item
@@ -40,8 +41,38 @@ public:
 };
 /// ---------------------------------------------
 
+/// Volatile_Item -------------------------------
+class Volatile_Item : public Item
+{
+public:
+
+	Volatile_Item();
+	Volatile_Item(const Volatile_Item& copy, bool generate_body = true);
+	~Volatile_Item();
+
+public:
+
+	//Game Loop -------------
+	bool Update();
+
+protected:
+
+	uint	time_to_delete = 0;
+	j1Timer	delete_timer;
+
+public:
+
+	// Set Methods ----------
+	void SetTimeToDelete(uint time);
+
+	// Get Methods ----------
+	uint GetTimeToDelete()const;
+
+};
+/// ---------------------------------------------
+
 /// Coin ----------------------------------------
-class Coin : public Item
+class Coin : public Volatile_Item
 {
 public:
 

@@ -100,6 +100,47 @@ void Items_Tank::DropItems()
 }
 /// ---------------------------------------------
 
+/// Volatile_Item -------------------------------
+//Constructors ========================
+Volatile_Item::Volatile_Item()
+{
+
+}
+
+Volatile_Item::Volatile_Item(const Volatile_Item & copy, bool generate_body) :Item(copy, generate_body), time_to_delete(copy.time_to_delete)
+{
+
+}
+
+//Destructors =========================
+Volatile_Item::~Volatile_Item()
+{
+
+}
+
+//Game Loop ===========================
+bool Volatile_Item::Update()
+{
+	if (delete_timer.Read() > time_to_delete)
+	{
+		App->entities_manager->DeleteEntity(this);
+	}
+
+	return true;
+}
+
+//Set Methods =========================
+void Volatile_Item::SetTimeToDelete(uint time)
+{
+	time_to_delete = time;
+}
+
+uint Volatile_Item::GetTimeToDelete() const
+{
+	return time_to_delete;
+}
+/// ---------------------------------------------
+
 /// Coin ----------------------------------------
 //Constructors ========================
 Coin::Coin()
@@ -107,7 +148,7 @@ Coin::Coin()
 
 }
 
-Coin::Coin(const Coin & copy, bool generate_body) :Item(copy, generate_body), value(copy.value)
+Coin::Coin(const Coin & copy, bool generate_body) :Volatile_Item(copy, generate_body), value(copy.value)
 {
 
 }
@@ -130,5 +171,3 @@ uint Coin::GetValue() const
 	return value;
 }
 /// ---------------------------------------------
-
-

@@ -248,7 +248,8 @@ void j1EntitiesManager::AddItemDefinition(const pugi::xml_node * data_node)
 	//Set new item specific stats
 	if (item_type == COIN_ITEM)
 	{
-		/*Value*/	((Coin*)new_item)->SetValue(data_node->attribute("value").as_uint());
+		/*Value*/		((Coin*)new_item)->SetValue(data_node->attribute("value").as_uint());
+		/*Delete Time*/	((Coin*)new_item)->SetTimeToDelete(data_node->attribute("time_to_delete").as_uint());
 	}
 
 	//Add the built item definition at the items definitions vector
