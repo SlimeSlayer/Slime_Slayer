@@ -23,7 +23,7 @@ PhysBodyDef::PhysBodyDef()
 
 }
 
-PhysBodyDef::PhysBodyDef(const PhysBodyDef & copy) :shape_type(copy.shape_type), collision_type(copy.collision_type), body_type(copy.body_type), body_interaction_type(copy.body_interaction_type), restitution(copy.restitution), width(copy.width), height(copy.height), listener(copy.listener)
+PhysBodyDef::PhysBodyDef(const PhysBodyDef & copy) :shape_type(copy.shape_type), collision_type(copy.collision_type), body_type(copy.body_type), body_interaction_type(copy.body_interaction_type), restitution(copy.restitution), friction(copy.friction), density(copy.density), width(copy.width), height(copy.height), fixed_rotation(copy.fixed_rotation), listener(copy.listener)
 {
 
 }
@@ -782,31 +782,12 @@ PhysBody* j1Physics::CreateSensorChain(int x, int y, int* points, int size, COLL
 	return pbody;
 }
 
-PhysBody * j1Physics::CreateRectangleDef(int width, int height, b2Shape::Type shape, b2BodyType interaction_type, COLLISION_TYPE type, BODY_TYPE b_type, float restitution, j1Module* listener)
-{
-	//PhysBody
-	PhysBody* pbody = new PhysBody();
-	//PhysBodyDef
-	pbody->body_def = new PhysBodyDef();
-
-	//Sets all the body_def stats
-	pbody->body_def->listener = listener;
-	pbody->body_def->collision_type = type;
-	pbody->body_def->body_type = b_type;
-	pbody->body_def->width = width;
-	pbody->body_def->height = height;
-	pbody->body_def->shape_type = shape;
-	pbody->body_def->body_interaction_type = interaction_type;
-	pbody->body_def->restitution = restitution;
-
-	return pbody;
-}
-
 PhysBody * j1Physics::TransformDefToBuilt(PhysBody* target)
 {
 	//Body
 	b2BodyDef body;
 	body.type = target->body_def->body_interaction_type;
+	body.fixedRotation = target->body_def->fixed_rotation;
 	body.position.Set(0, 0);
 	b2Body* b = world->CreateBody(&body);
 
@@ -839,6 +820,8 @@ PhysBody * j1Physics::TransformDefToBuilt(PhysBody* target)
 	fixture.shape = shape;
 	fixture.density = 0.1f;
 	fixture.restitution = target->body_def->restitution;
+	fixture.friction = target->body_def->friction;
+	fixture.density = target->body_def->density;
 	SetFixture(fixture, target->body_def->collision_type);
 	b->CreateFixture(&fixture);
 

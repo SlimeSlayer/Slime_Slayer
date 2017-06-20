@@ -221,18 +221,22 @@ void j1EntitiesManager::AddItemDefinition(const pugi::xml_node * data_node)
 	}
 	
 	//Load the new item body data
-	PhysBody* new_body = nullptr;
-	new_body = App->physics->CreateRectangleDef(
-		data_node->attribute("width").as_int(),
-		data_node->attribute("height").as_int(),
-		App->physics->StrToBodyShape(data_node->attribute("body_shape").as_string()),
-		App->physics->StrToInteractionType(data_node->attribute("interaction_type").as_string()),
-		App->physics->StrToCollisionType(data_node->attribute("collision_type").as_string()),
-		App->physics->StrToBodyType(data_node->attribute("body_type").as_string()),
-		data_node->attribute("restitution").as_float(),
-		App->GetModule(data_node->attribute("listener").as_string())
-	);
+	PhysBody* new_body = new PhysBody();
+	new_body->body_def = new PhysBodyDef();
 
+	/*Width*/			new_body->body_def->width = data_node->attribute("width").as_int();
+	/*Height*/			new_body->body_def->height = data_node->attribute("height").as_int();
+	/*Shape*/			new_body->body_def->shape_type = App->physics->StrToBodyShape(data_node->attribute("body_shape").as_string());
+	/*Interact.Type*/	new_body->body_def->body_interaction_type = App->physics->StrToInteractionType(data_node->attribute("interaction_type").as_string());
+	/*Collision.Type*/	new_body->body_def->collision_type = App->physics->StrToCollisionType(data_node->attribute("collision_type").as_string());
+	/*Body.Type*/		new_body->body_def->body_type = App->physics->StrToBodyType(data_node->attribute("body_type").as_string());
+	/*Restitution*/		new_body->body_def->restitution = data_node->attribute("restitution").as_float();
+	/*Listener*/		new_body->body_def->listener = App->GetModule(data_node->attribute("listener").as_string());
+	/*Friction*/		new_body->body_def->friction = data_node->attribute("friction").as_float();
+	/*Mass*/			new_body->body_def->density = data_node->attribute("density").as_float();
+	/*Fixed Rotation*/	new_body->body_def->fixed_rotation = data_node->attribute("fixed_rotation").as_bool();
+
+	//Set the generated body at the new item
 	new_item->SetBody(new_body);
 
 	//Set new item general stats
@@ -265,18 +269,22 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	}
 
 	//Load the new creature body data
-	PhysBody* new_body = nullptr;
-	new_body = App->physics->CreateRectangleDef(
-		data_node->attribute("width").as_int(),
-		data_node->attribute("height").as_int(),
-		App->physics->StrToBodyShape(data_node->attribute("body_shape").as_string()),
-		App->physics->StrToInteractionType(data_node->attribute("interaction_type").as_string()),
-		App->physics->StrToCollisionType(data_node->attribute("collision_type").as_string()),
-		App->physics->StrToBodyType(data_node->attribute("body_type").as_string()),
-		data_node->attribute("restitution").as_float(),
-		App->GetModule(data_node->attribute("listener").as_string())
-												);
+	PhysBody* new_body = new PhysBody();
+	new_body->body_def = new PhysBodyDef();
 
+	/*Width*/			new_body->body_def->width = data_node->attribute("width").as_int();
+	/*Height*/			new_body->body_def->height = data_node->attribute("height").as_int();
+	/*Shape*/			new_body->body_def->shape_type = App->physics->StrToBodyShape(data_node->attribute("body_shape").as_string());
+	/*Interact.Type*/	new_body->body_def->body_interaction_type = App->physics->StrToInteractionType(data_node->attribute("interaction_type").as_string());
+	/*Collision.Type*/	new_body->body_def->collision_type = App->physics->StrToCollisionType(data_node->attribute("collision_type").as_string());
+	/*Body.Type*/		new_body->body_def->body_type = App->physics->StrToBodyType(data_node->attribute("body_type").as_string());
+	/*Restitution*/		new_body->body_def->restitution = data_node->attribute("restitution").as_float();
+	/*Listener*/		new_body->body_def->listener = App->GetModule(data_node->attribute("listener").as_string());
+	/*Friction*/		new_body->body_def->friction = data_node->attribute("friction").as_float();
+	/*Mass*/			new_body->body_def->density = data_node->attribute("density").as_float();
+	/*Fixed Rotation*/	new_body->body_def->fixed_rotation = data_node->attribute("fixed_rotation").as_bool();
+
+	//Set the generated body at the new creature
 	new_creature->SetBody(new_body);
 
 	//Set the new creature general states

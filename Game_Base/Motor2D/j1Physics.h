@@ -53,7 +53,10 @@ public:
 	BODY_TYPE		body_type = BODY_TYPE::NO_BODY;
 	b2BodyType		body_interaction_type = b2BodyType::b2_staticBody;
 	float			restitution = 0.0f;
+	float			friction = 0.0f;
+	float			density = 0.0f;
 	int				width = 0, height = 0;
+	bool			fixed_rotation = false;
 	j1Module*		listener = nullptr;
 };
 /// -------------------------------------------------------
@@ -131,7 +134,6 @@ public:
 	PhysBody* CreateSensorChain(int x, int y, int* points, int size, COLLISION_TYPE type, BODY_TYPE b_type = NO_BODY, uint restitution = 0);
 	
 	// Definitions Creations ----------
-	PhysBody* CreateRectangleDef(int width, int height, b2Shape::Type shape, b2BodyType interaction_type,  COLLISION_TYPE type, BODY_TYPE b_type, float restitution, j1Module* listener);
 	PhysBody* TransformDefToBuilt(PhysBody* target);
 
 	//Fixture Creations ---------------
