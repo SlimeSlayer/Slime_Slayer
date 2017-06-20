@@ -44,8 +44,9 @@ class PhysBodyDef
 {
 public:
 
-	PhysBodyDef() {}
-	~PhysBodyDef() {}
+	PhysBodyDef();
+	PhysBodyDef(const PhysBodyDef& copy);
+	~PhysBodyDef();
 
 	b2Shape::Type	shape_type = b2Shape::Type::e_polygon;
 	COLLISION_TYPE	collision_type = COLLISION_TYPE::MAP_COLLISION;
@@ -64,6 +65,7 @@ class PhysBody
 public:
 
 	PhysBody();
+	PhysBody(const PhysBody& copy);
 	~PhysBody();
 
 public:
@@ -140,8 +142,8 @@ public:
 	bool CreateRevoluteJoint(b2Body* A, b2Body* B);
 
 	// Built bodies management --------
-	PhysBody*	CopyBody(const PhysBody* target);
-	bool		DeleteBody(PhysBody* target);
+	b2Body*		CopyBody(const b2Body* target);
+	bool		DeleteBody(b2Body* target);
 
 	// b2ContactListener --------------
 	void BeginContact(b2Contact* contact);
@@ -163,7 +165,7 @@ private:
 	b2MouseJoint*	mouse_joint = nullptr;
 	b2Body*			ground = nullptr;
 
-	std::list<PhysBody*> bodys_to_delete;
+	std::list<b2Body*> bodys_to_delete;
 
 	//Fixed physics time-step for free frame rate
 	float fixed_timestep_accumulator = 0;

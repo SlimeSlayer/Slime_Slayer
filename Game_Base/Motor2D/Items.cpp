@@ -28,7 +28,7 @@ Items_Tank::~Items_Tank()
 	std::list<Item*>::iterator list_item = items.begin();
 	while(list_item!= items.end())
 	{
-		delete list_item._Ptr->_Myval;
+		RELEASE(list_item._Ptr->_Myval);
 		list_item++;
 	}
 	items.clear();

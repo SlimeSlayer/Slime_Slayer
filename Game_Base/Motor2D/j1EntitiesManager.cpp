@@ -162,7 +162,17 @@ bool j1EntitiesManager::CleanUp()
 	}
 	items_defs.clear();
 
-	// Clean all the current entitites ----------
+	//Iterate & delete all the entities ready to be deleted
+	std::list<Entity*>::const_iterator del_list_item = entitites_to_delete.begin();
+	while (del_list_item != entitites_to_delete.end())
+	{
+		current_entities.remove(del_list_item._Ptr->_Myval);
+		delete del_list_item._Ptr->_Myval;
+		del_list_item++;
+	}
+	entitites_to_delete.clear();
+
+	// Clean all the current entities ----------
 	std::list<Entity*>::iterator cur_entities_item = current_entities.begin();
 	while (cur_entities_item != current_entities.end())
 	{

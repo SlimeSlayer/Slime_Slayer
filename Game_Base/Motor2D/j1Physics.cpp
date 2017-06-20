@@ -16,6 +16,25 @@
 #pragma comment( lib, "Box2D/libx86/Release/Box2D.lib" )
 #endif
 
+/// PhysBodyDef -------------------------------------------
+// Constructors =================================
+PhysBodyDef::PhysBodyDef()
+{
+
+}
+
+PhysBodyDef::PhysBodyDef(const PhysBodyDef & copy) :shape_type(copy.shape_type), collision_type(copy.collision_type), body_type(copy.body_type), body_interaction_type(copy.body_interaction_type), restitution(copy.restitution), width(copy.width), height(copy.height), listener(copy.listener)
+{
+
+}
+
+// Destructors ==================================
+PhysBodyDef::~PhysBodyDef()
+{
+
+}
+/// -------------------------------------------------------
+
 /// PhysBody ----------------------------------------------
 // Constructors =================================
 PhysBody::PhysBody() : listener(NULL), body(NULL)
@@ -23,10 +42,28 @@ PhysBody::PhysBody() : listener(NULL), body(NULL)
 
 }
 
+PhysBody::PhysBody(const PhysBody & copy) : collide_type(copy.collide_type), width(copy.width), height(copy.height), listener(copy.listener), entity_related(copy.entity_related)
+{
+	if (copy.body != nullptr)
+	{
+		body = App->physics->CopyBody(copy.body);
+		body->SetUserData(this);
+	}
+	if (copy.body_def != nullptr)
+	{
+		body_def = new PhysBodyDef(*copy.body_def);
+	}
+}
+
 // Destructors ==================================
 PhysBody::~PhysBody()
 {
-
+	LOG("DEL");
+	if (body != nullptr)App->physics->DeleteBody(body);
+	if (body_def != nullptr)
+	{
+			RELEASE(body_def);
+	}
 }
 
 // Get Methods ==================================
@@ -275,20 +312,10 @@ void j1Physics::Disable()
 	//Clean the bodies to delete list ---------------------
 	if (!bodys_to_delete.empty())
 	{
-		std::list<PhysBody*>::iterator item = bodys_to_delete.begin();
+		std::list<b2Body*>::iterator item = bodys_to_delete.begin();
 		while (item != bodys_to_delete.end())
 		{
-			if (item._Ptr->_Myval->body != nullptr)
-			{
-				world->DestroyBody(item._Ptr->_Myval->body);
-				item._Ptr->_Myval->body == nullptr;
-			}
-			if (item._Ptr->_Myval->body_def != nullptr)
-			{
-				delete item._Ptr->_Myval->body_def;
-				item._Ptr->_Myval->body_def == nullptr;
-			}
-			delete item._Ptr->_Myval;
+			if(item._Ptr->_Myval != NULL)world->DestroyBody(item._Ptr->_Myval);
 
 			item++;
 		}
@@ -378,14 +405,10 @@ bool j1Physics::PostUpdate()
 	//Clean the bodies to delete list ---------------------
 	if (!bodys_to_delete.empty())
 	{
-		std::list<PhysBody*>::iterator item = bodys_to_delete.begin();
+		std::list<b2Body*>::iterator item = bodys_to_delete.begin();
 		while (item != bodys_to_delete.end())
 		{
-			world->DestroyBody(item._Ptr->_Myval->body);
-			if (item._Ptr->_Myval->body_def != nullptr) delete item._Ptr->_Myval->body_def;
-			item._Ptr->_Myval->body = nullptr;
-			item._Ptr->_Myval->body_def = nullptr;
-			delete item._Ptr->_Myval;
+			if (item._Ptr->_Myval != NULL)world->DestroyBody(item._Ptr->_Myval);
 
 			item++;
 		}
@@ -544,14 +567,10 @@ bool j1Physics::CleanUp()
 	//Clean the bodies to delete list ---------------------
 	if (!bodys_to_delete.empty())
 	{
-		std::list<PhysBody*>::iterator item = bodys_to_delete.begin();
+		std::list<b2Body*>::iterator item = bodys_to_delete.begin();
 		while (item != bodys_to_delete.end())
 		{
-			world->DestroyBody(item._Ptr->_Myval->body);
-			if (item._Ptr->_Myval->body_def != nullptr) delete item._Ptr->_Myval->body_def;
-			item._Ptr->_Myval->body = nullptr;
-			item._Ptr->_Myval->body_def = nullptr;
-			delete item._Ptr->_Myval;
+			if (item._Ptr->_Myval != NULL)world->DestroyBody(item._Ptr->_Myval);
 
 			item++;
 		}
@@ -833,7 +852,7 @@ PhysBody * j1Physics::TransformDefToBuilt(PhysBody* target)
 	pbody->height = target->body_def->height * 0.5f;
 	pbody->listener = target->body_def->listener;
 
-	if(shape != nullptr)delete shape;
+	if (shape != nullptr)RELEASE(shape);
 
 	return pbody;
 }
@@ -847,7 +866,7 @@ void j1Physics::SetFixture(b2FixtureDef& fixture, COLLISION_TYPE type)
 		fixture.filter.maskBits = MAP_COLLISION | ITEM_COLLISION | STATIC_ITEM_COLLISION;
 		break;
 	case MAP_COLLISION:
-		fixture.filter.maskBits = PLAYER_COLLISION | ITEM_COLLISION/*| BULLET | MAP_ITEM | MINI_BLOB*/;
+		fixture.filter.maskBits = PLAYER_COLLISION | ITEM_COLLISION;
 		break;
 	case ITEM_COLLISION:
 		fixture.filter.maskBits = PLAYER_COLLISION | MAP_COLLISION | ITEM_COLLISION;
@@ -903,38 +922,30 @@ bool j1Physics::CreateRevoluteJoint(b2Body* A, b2Body* B)
 	return true;
 }
 
-PhysBody * j1Physics::CopyBody(const PhysBody* target)
+b2Body * j1Physics::CopyBody(const b2Body* target)
 {
 	//Body
 	b2BodyDef body;
-	body.type = target->body->GetType();
+	body.type = target->GetType();
 	body.position.Set(0,0);
 	b2Body* b = world->CreateBody(&body);
 
 	//Shape
 	b2BlockAllocator alloc;
-	b2Shape* shape = target->body->GetFixtureList()->GetShape()->Clone(&alloc);
+	b2Shape* shape = target->GetFixtureList()->GetShape()->Clone(&alloc);
 	
 	//Fixture
 	b2FixtureDef fixture;
 	fixture.shape = shape;
 	fixture.density = 0.1f;
-	fixture.restitution = target->body->GetFixtureList()->GetRestitution();
-	SetFixture(fixture, ((COLLISION_TYPE)target->body->GetFixtureList()->GetFilterData().categoryBits));
+	fixture.restitution = target->GetFixtureList()->GetRestitution();
+	SetFixture(fixture, ((COLLISION_TYPE)target->GetFixtureList()->GetFilterData().categoryBits));
 	b->CreateFixture(&fixture);
 
-	//PhysBody
-	PhysBody* pbody = new PhysBody();
-	pbody->collide_type = target->collide_type;
-	pbody->body = b;
-	b->SetUserData(pbody);
-	pbody->width = target->width * 0.5f;
-	pbody->height = target->height * 0.5f;
-
-	return pbody;
+	return b;
 }
 
-bool j1Physics::DeleteBody(PhysBody * target)
+bool j1Physics::DeleteBody(b2Body * target)
 {
 	bodys_to_delete.push_back(target);
 

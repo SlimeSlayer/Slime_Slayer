@@ -17,13 +17,13 @@ Entity::Entity()
 Entity::Entity(const Entity & copy, bool generate_body) : entity_type(copy.entity_type), name(copy.name), description(copy.description)
 {
 	if(generate_body)body = App->physics->TransformDefToBuilt(copy.body);
-	else body = copy.body;
+	else body = new PhysBody(*copy.body);
 }
 
 //Destructors =========================
 Entity::~Entity()
 {
-	if (body != nullptr)App->physics->DeleteBody(body);
+	if (body != nullptr)RELEASE(body);
 }
 
 //Game Loop ===========================
