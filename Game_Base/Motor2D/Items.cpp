@@ -72,20 +72,30 @@ void Items_Tank::DropItems()
 	std::list<Item*>::const_iterator list_item = items.begin();
 	while (list_item != items.end())
 	{
+		// Physbody that contains only the items bodydef
+		PhysBody* old_physbody = list_item._Ptr->_Myval->GetBody();
+		//Generate a new built body with the old definition
 		list_item._Ptr->_Myval->SetBody(App->physics->TransformDefToBuilt(list_item._Ptr->_Myval->GetBody()));
 		list_item._Ptr->_Myval->GetBody()->entity_related = list_item._Ptr->_Myval;
 
+		//Delete the old physbody
+		RELEASE(old_physbody);
+
+		//Set the new body stats checking the items data
 		int x = 0, y = 0;
 		this->body->GetPosition(x, y);
 		list_item._Ptr->_Myval->GetBody()->SetPosition(x, y);
-		
 		list_item._Ptr->_Myval->GetBody()->body->SetLinearVelocity({ 0,-5 });
 		
+		//Add the dropped item at the entities manager 
 		App->entities_manager->AddEntity(list_item._Ptr->_Myval);
 		
 		list_item++;
 	}
+	//Clear the items to drop list
 	items.clear();
+
+	//Delete the "box" this is temporal
 	App->entities_manager->DeleteEntity(this);
 }
 /// ---------------------------------------------

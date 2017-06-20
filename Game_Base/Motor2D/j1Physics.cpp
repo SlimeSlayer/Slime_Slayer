@@ -58,7 +58,6 @@ PhysBody::PhysBody(const PhysBody & copy) : collide_type(copy.collide_type), wid
 // Destructors ==================================
 PhysBody::~PhysBody()
 {
-	LOG("DEL");
 	if (body != nullptr)App->physics->DeleteBody(body);
 	if (body_def != nullptr)
 	{
