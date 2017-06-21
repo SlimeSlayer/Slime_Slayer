@@ -20,6 +20,10 @@
 #include "UI_Image.h"
 #include "UI_Scroll_Bar.h"
 
+#include "MainMenu.h"
+#include "Tutorial.h"
+#include "Endless.h"
+
 // Constructor ==================================
 Scene::Scene() : j1Module()
 {
@@ -380,25 +384,39 @@ void Scene::GUI_Input(UI_Element * target, GUI_INPUT input)
 		if (target == master_audio_scroll)
 		{
 			//Master
-			master_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->main_menu->master_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->endless->master_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->tutorial->master_audio_scroll->MoveScroll(y_vel, x_vel);
 			App->audio->SetMasterVolume(master_audio_scroll->GetValue());
 			//Music
-			music_audio_scroll->SetScrollMaxValue(master_audio_scroll->GetValue());
-			music_audio_scroll->RecalculateScrollValue();
+			App->main_menu->music_audio_scroll->SetScrollMaxValue(master_audio_scroll->GetValue());
+			App->endless->music_audio_scroll->SetScrollMaxValue(master_audio_scroll->GetValue());
+			App->tutorial->music_audio_scroll->SetScrollMaxValue(master_audio_scroll->GetValue());
+			App->main_menu->music_audio_scroll->RecalculateScrollValue();
+			App->endless->music_audio_scroll->RecalculateScrollValue();
+			App->tutorial->music_audio_scroll->RecalculateScrollValue();
 			App->audio->SetMusicVolume(music_audio_scroll->GetValue());
 			//FX
-			fx_audio_scroll->SetScrollMaxValue(master_audio_scroll->GetValue());
-			fx_audio_scroll->RecalculateScrollValue();
+			App->main_menu->fx_audio_scroll->SetScrollMaxValue(master_audio_scroll->GetValue());
+			App->endless->fx_audio_scroll->SetScrollMaxValue(master_audio_scroll->GetValue());
+			App->tutorial->fx_audio_scroll->SetScrollMaxValue(master_audio_scroll->GetValue());
+			App->main_menu->fx_audio_scroll->RecalculateScrollValue();
+			App->endless->fx_audio_scroll->RecalculateScrollValue();
+			App->tutorial->fx_audio_scroll->RecalculateScrollValue();
 			App->audio->SetFXVolume(fx_audio_scroll->GetValue());
 		}
 		else if (target == music_audio_scroll)
 		{
-			music_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->main_menu->music_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->endless->music_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->tutorial->music_audio_scroll->MoveScroll(y_vel, x_vel);
 			App->audio->SetMusicVolume(music_audio_scroll->GetValue());
 		}
 		else if (target == fx_audio_scroll)
 		{
-			fx_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->main_menu->fx_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->endless->fx_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->tutorial->fx_audio_scroll->MoveScroll(y_vel, x_vel);
 			App->audio->SetFXVolume(fx_audio_scroll->GetValue());
 		}
 	}
