@@ -2,12 +2,17 @@
 
 #include "j1App.h"
 #include "j1Physics.h"
-#include "Parallax.h"
 #include "j1Audio.h"
 #include "j1InputManager.h"
 #include "j1EntitiesManager.h"
 #include "j1Input.h"
 #include "j1Player.h"
+
+#include "Parallax.h"
+#include "UI_Element.h"
+#include "UI_Button.h"
+#include "UI_Image.h"
+#include "UI_Scroll_Bar.h"
 
 // Constructor ==================================
 Tutorial::Tutorial()
@@ -24,6 +29,16 @@ Tutorial::~Tutorial()
 // Game Loop ====================================
 bool Tutorial::Enable()
 {
+	//UI Activation ---------------------------------------
+	menu_branch->Activate();
+	menu_branch->ActivateChilds();
+	settings_menu->Desactivate();
+	settings_menu->DesactivateChids();
+	audio_menu->Desactivate();
+	audio_menu->DesactivateChids();
+	video_menu->Desactivate();
+	video_menu->DesactivateChids();
+
 	//Map build -------------------------------------------
 	//Floor -----------------
 	floor_collider = App->physics->CreateRectangle(2500, 955, 5000, 15, COLLISION_TYPE::MAP_COLLISION, BODY_TYPE::MAP_BODY);
@@ -68,10 +83,16 @@ void Tutorial::Disable()
 {
 	LOG("Disabling Tutorial");
 
+	//UI Deactivation
+	menu_branch->Desactivate();
+	menu_branch->DesactivateChids();
+
+	//Release parallax system
 	if (front_parallax != nullptr) RELEASE(front_parallax);
 	if (mid_parallax != nullptr)RELEASE(mid_parallax);
 	if (back_parallax != nullptr)RELEASE(back_parallax);
 
+	//Release tutorial physic system
 	if (floor_collider != nullptr)RELEASE(floor_collider);
 	if (end_trigger != nullptr)RELEASE(end_trigger);
 
@@ -80,6 +101,8 @@ void Tutorial::Disable()
 
 bool Tutorial::Update(float dt)
 {
+	App->gui->CalculateUpperElement(menu_branch);
+
 	//Blit scene Parallax -----------------------
 	back_parallax->Draw(-30);
 	mid_parallax->Draw(-40);
@@ -89,7 +112,33 @@ bool Tutorial::Update(float dt)
 	//EXIT --------------------------------------
 	if (App->input_manager->GetEvent(ESCAPE) == INPUT_DOWN)
 	{
-		App->ActiveMainMenu();
+		if (settings_menu->GetActiveState())
+		{
+			//Deactivate settings menu
+			settings_menu->Desactivate();
+			settings_menu->DesactivateChids();
+			//Activate menu buttons
+			settings_button->Activate();
+		}
+		else if (video_menu->GetActiveState() || audio_menu->GetActiveState())
+		{
+			//Deactivate settings sub menus
+			video_menu->Desactivate();
+			video_menu->DesactivateChids();
+			audio_menu->Desactivate();
+			audio_menu->DesactivateChids();
+			//Activate settings menu
+			settings_menu->Activate();
+			settings_menu->ActivateChilds();
+		}
+		else
+		{
+			//Deactivate settings button
+			settings_button->Desactivate();
+			//Activate settings menu
+			settings_menu->Activate();
+			settings_menu->ActivateChilds();
+		}
 	}
 	// ------------------------------------------
 

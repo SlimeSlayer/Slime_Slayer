@@ -13,6 +13,7 @@ public:
 public:
 
 	bool Enable();
+	void Disable();
 
 	// Called each loop iteration
 	bool Update(float dt);

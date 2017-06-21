@@ -270,19 +270,8 @@ bool MainMenu::Update(float dt)
 {
 	App->gui->CalculateUpperElement(menu_branch);
 
-	//VOLUME ------------------------------------
-	if (App->input_manager->GetEvent(VOLUME_UP) == INPUT_DOWN)
-	{
-		App->audio->VolumeUp();
-	}
-	else if (App->input_manager->GetEvent(VOLUME_DOWN) == INPUT_DOWN)
-	{
-		App->audio->VolumeDown();
-	}
-	// ------------------------------------------
-
 	//EXIT --------------------------------------
-	else if (App->input_manager->GetEvent(ESCAPE) == INPUT_DOWN)
+	if (App->input_manager->GetEvent(ESCAPE) == INPUT_DOWN)
 	{
 		if (settings_menu->GetActiveState())
 		{
@@ -292,6 +281,17 @@ bool MainMenu::Update(float dt)
 			//Activate menu buttons
 			start_button->Activate();
 			settings_button->Activate();
+		}
+		else if (video_menu->GetActiveState() || audio_menu->GetActiveState())
+		{
+			//Deactivate settings sub menus
+			video_menu->Desactivate();
+			video_menu->DesactivateChids();
+			audio_menu->Desactivate();
+			audio_menu->DesactivateChids();
+			//Activate settings menu
+			settings_menu->Activate();
+			settings_menu->ActivateChilds();
 		}
 		else App->SetQuit();
 	}
