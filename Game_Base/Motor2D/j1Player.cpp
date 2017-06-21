@@ -29,8 +29,10 @@ void j1Player::Init()
 bool j1Player::Enable()
 {
 	avatar = (Intelligent_Creature*)App->entities_manager->GenerateCreature(PLAYER_CREATURE);
-	avatar->GetBody()->SetPosition(1500, 900);
 	avatar->GetBody()->body->GetFixtureList()->SetFriction(0.0f);
+
+	active = enabled = true;
+
 	return true;
 }
 

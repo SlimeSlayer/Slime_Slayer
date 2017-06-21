@@ -63,19 +63,8 @@ bool Endless::Update(float dt)
 	front_parallax->Draw(-30);
 	// ------------------------------------------
 
-	//VOLUME ------------------------------------
-	if (App->input_manager->GetEvent(VOLUME_UP) == INPUT_DOWN)
-	{
-		App->audio->VolumeUp();
-	}
-	else if (App->input_manager->GetEvent(VOLUME_DOWN) == INPUT_DOWN)
-	{
-		App->audio->VolumeDown();
-	}
-	// ------------------------------------------
-
 	//EXIT --------------------------------------
-	else if (App->input_manager->GetEvent(ESCAPE) == INPUT_DOWN)
+	if (App->input_manager->GetEvent(ESCAPE) == INPUT_DOWN)
 	{
 		App->ActiveMainMenu();
 	}

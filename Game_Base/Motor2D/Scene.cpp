@@ -65,6 +65,6 @@ bool Scene::CleanUp()
 // Functionality ================================
 void Scene::UpdateParallax(float disp)
 {
-	mid_parallax->Displace(disp * MID_PARALLAX_VAL * App->GetDT());
-	back_parallax->Displace(disp * BACK_PARALLAX_VAL * App->GetDT());
+	if(mid_parallax != nullptr)mid_parallax->Displace(disp * MID_PARALLAX_VAL * App->GetDT());
+	if (back_parallax != nullptr)back_parallax->Displace(disp * BACK_PARALLAX_VAL * App->GetDT());
 }
