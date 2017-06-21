@@ -79,6 +79,7 @@
   <ItemGroup>
     <ClCompile Include="BaseEntities.cpp" />
     <ClCompile Include="Creatures.cpp" />
+    <ClCompile Include="Endless.cpp" />
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="j1Animator.cpp" />
     <ClCompile Include="j1Physics.cpp" />
@@ -102,6 +103,7 @@
     <ClCompile Include="j1Window.cpp" />
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
     <ClCompile Include="theoraplay.c" />
+    <ClCompile Include="Tutorial.cpp" />
     <ClCompile Include="UI_Button.cpp" />
     <ClCompile Include="UI_Element.cpp" />
     <ClCompile Include="UI_Fixed_Button.cpp" />
@@ -116,6 +118,7 @@
   <ItemGroup>
     <ClInclude Include="BaseEntities.h" />
     <ClInclude Include="Creatures.h" />
+    <ClInclude Include="Endless.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="j1Animator.h" />
     <ClInclude Include="j1Physics.h" />
@@ -144,6 +147,7 @@
     <ClInclude Include="PugiXml\src\pugixml.hpp" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="theoraplay.h" />
+    <ClInclude Include="Tutorial.h" />
     <ClInclude Include="UI_Button.h" />
     <ClInclude Include="UI_Element.h" />
     <ClInclude Include="UI_Fixed_Button.h" />

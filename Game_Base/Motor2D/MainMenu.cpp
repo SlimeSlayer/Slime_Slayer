@@ -314,7 +314,7 @@ void MainMenu::GUI_Input(UI_Element * target, GUI_INPUT input)
 	if (input == GUI_INPUT::MOUSE_LEFT_BUTTON_DOWN)
 	{
 		//Main Buttons ----------------
-		if(target == start_button)App->ActiveScene();
+		if(target == start_button)App->ActiveTutorial();
 		else if (target == settings_button)
 		{
 			//Deactivate start, settings & quit buttons

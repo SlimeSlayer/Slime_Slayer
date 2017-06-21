@@ -65,11 +65,11 @@ bool j1Player::Update(float dt)
 	{
 		if (linear_vel.x < 0)
 		{
-			App->scene->UpdateParallax(-avatar->GetMovSpeed());
+			App->GetCurrentScene()->UpdateParallax(-avatar->GetMovSpeed());
 		}
 		else if (linear_vel.x > 0)
 		{
-			App->scene->UpdateParallax(avatar->GetMovSpeed());
+			App->GetCurrentScene()->UpdateParallax(avatar->GetMovSpeed());
 		}
 		return true;
 	}
@@ -78,12 +78,12 @@ bool j1Player::Update(float dt)
 	if (go_left_input_state == INPUT_REPEAT)
 	{
 		avatar->GetBody()->body->SetLinearVelocity(b2Vec2(-avatar->GetMovSpeed(), linear_vel.y));
-		App->scene->UpdateParallax(-avatar->GetMovSpeed());
+		App->GetCurrentScene()->UpdateParallax(-avatar->GetMovSpeed());
 	}
 	else if (go_right_input_state == INPUT_REPEAT)
 	{
 		avatar->GetBody()->body->SetLinearVelocity(b2Vec2(avatar->GetMovSpeed(), linear_vel.y));
-		App->scene->UpdateParallax(avatar->GetMovSpeed());
+		App->GetCurrentScene()->UpdateParallax(avatar->GetMovSpeed());
 	}
 	else
 	{

@@ -99,7 +99,15 @@
     <ClCompile Include="UI_Scroll_Bar.cpp">
       <Filter>UI\UI_Elements</Filter>
     </ClCompile>
-    <ClCompile Include="Creatures.cpp" />
+    <ClCompile Include="Tutorial.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Creatures.cpp">
+      <Filter>Modules\EntitiesManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Endless.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -217,6 +225,12 @@
     </ClInclude>
     <ClInclude Include="Creatures.h">
       <Filter>Modules\EntitiesManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Tutorial.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Endless.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -32,8 +32,10 @@ class j1Intro;
 class j1Physics;
 class j1Player;
 
-class MainMenu;
 class Scene;
+class MainMenu;
+class Tutorial;
+class Endless;
 
 class j1App
 {
@@ -120,8 +122,8 @@ public:
 
 	// Scenes
 	MainMenu*		main_menu = NULL;
-	Scene*			scene = NULL;
-	
+	Tutorial*		tutorial = NULL;
+	Endless*		endless = NULL;
 
 	// Add a new module to handle
 	void		AddModule(j1Module* module);
@@ -173,12 +175,14 @@ private:
 	float				dt = 0.0f;
 	int					capped_ms = 0;
 
+	//Modules management data ---------
+	Scene*				current_scene = nullptr;
 	bool				want_to_quit = false;
 	bool				want_to_enable = false;
-	SDL_Texture*		load_screen = nullptr;
-
+	
 public:
 
+	//Fade data -----------------------
 	bool				fade_out = false;
 	bool				fade_in = false;
 	SDL_Color			fade_color = { 0,0,0,0 };
@@ -191,8 +195,10 @@ public:
 	void SetQuit();
 	bool GetQuit()const;
 	
-	void ActiveScene();
-	void ActiveMainMenu();
+	Scene*	GetCurrentScene()const;
+	void	ActiveMainMenu();
+	void	ActiveTutorial();
+	void	ActiveEndless();
 
 	bool collisions_debug = true;
 	bool ui_debug = false;

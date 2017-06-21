@@ -22,7 +22,8 @@
 #include "j1Player.h"
 
 #include "MainMenu.h"
-#include "Scene.h"
+#include "Tutorial.h"
+#include "Endless.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -45,7 +46,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	player = new j1Player();
 
 	main_menu = new MainMenu();
-	scene = new Scene();
+	tutorial = new Tutorial();
+	endless = new Endless();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -63,8 +65,9 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 
 	// scene last
 	AddModule(main_menu);
-	AddModule(scene);
-	
+	AddModule(tutorial);
+	AddModule(endless);
+
 	// render last to swap buffer
 	AddModule(render);
 	AddModule(input_manager);
@@ -199,7 +202,7 @@ void j1App::EnableActiveModulesNow()
 	}
 	modules_to_disable.clear();
 
-	if (modules_to_enable[enable_index]->Enable())enable_index++;
+	if (modules_to_enable[enable_index]->enabled == false && modules_to_enable[enable_index]->Enable())enable_index++;
 
 	size = modules_to_enable.size();
 
@@ -338,9 +341,6 @@ bool j1App::PostUpdate()
 // Called before quitting
 bool j1App::CleanUp()
 {
-	tex->UnLoad(load_screen);
-
-
 	bool ret = true;
 	std::list<j1Module*>::const_iterator item = modules.end();
 	item--;
@@ -399,7 +399,7 @@ void j1App::LoadGame(const char* file,bool activate_modules)
 		App->video->Disable();
 
 		App->video->Active();
-		App->scene->Enable();
+		App->tutorial->Enable();
 		
 		want_to_enable = true;
 
@@ -593,31 +593,17 @@ bool j1App::GetQuit() const
 	return want_to_quit;
 }
 
-void j1App::ActiveScene()
+Scene * j1App::GetCurrentScene() const
 {
-	// Deactivate the Main Menu
-	modules_to_disable.push_back(main_menu);
-
-	// Active all the necessary scene modules
-	App->player->Active();
-	//App->animator->Active();
-	App->entities_manager->Active();
-	App->scene->Active();
-	App->physics->Active();
-
-	want_to_enable = true;
-	EnableActiveModules();
-
-	fade_out = true;
-	App->audio->StartMusicFade();
+	return current_scene;
 }
 
 void j1App::ActiveMainMenu()
 {
-	// Deactivate the Main Menu
+	// Deactivate the current scene
+	modules_to_disable.push_back(current_scene);
 	modules_to_disable.push_back(player);
 	modules_to_disable.push_back(entities_manager);
-	modules_to_disable.push_back(scene);
 	modules_to_disable.push_back(physics);
 	//modules_to_disable.push_back(animator);
 
@@ -628,7 +614,46 @@ void j1App::ActiveMainMenu()
 	EnableActiveModules();
 
 	fade_out = true;
+	current_scene = nullptr;
 	App->audio->StartMusicFade();
 }
 
+void j1App::ActiveTutorial()
+{
+	// Deactivate the Main Menu
+	modules_to_disable.push_back(main_menu);
 
+	// Active all the necessary scene modules
+	App->player->Active();
+	//App->animator->Active();
+	App->entities_manager->Active();
+	App->tutorial->Active();
+	App->physics->Active();
+
+	want_to_enable = true;
+	EnableActiveModules();
+
+	fade_out = true;
+	current_scene = App->tutorial;
+	App->audio->StartMusicFade();
+}
+
+void j1App::ActiveEndless()
+{
+	//Deactivate the tutorial if is activated or the main menu
+	modules_to_disable.push_back(current_scene);
+
+	// Active all the necessary scene modules
+	App->player->Active();
+	//App->animator->Active();
+	App->entities_manager->Active();
+	App->endless->Active();
+	App->physics->Active();
+
+	want_to_enable = true;
+	EnableActiveModules();
+
+	fade_out = true;
+	current_scene = App->endless;
+	App->audio->StartMusicFade();
+}
