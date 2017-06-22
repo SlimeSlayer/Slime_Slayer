@@ -55,10 +55,6 @@
     <path>data</path>
   </file_system>
 
-  <scene>
-  
-  </scene>
-
   <animator>
     
   </animator>
@@ -66,5 +62,12 @@
   <entities_manager>
     <entities_data file="entities_manager/entities_defs.xml"/>
   </entities_manager>
-  
+
+  <tutorial>
+    <data_folder>scenes/tutorial.xml</data_folder>
+  </tutorial>
+
+  <endless>
+    <data_folder>scenes/endless.xml</data_folder>
+  </endless>
 </config>

@@ -103,7 +103,7 @@ bool j1EntitiesManager::Awake(pugi::xml_node & node)
 {
 	LOG("Loading Entities Definitions Doc");
 	App->fs->LoadXML(node.child("entities_data").attribute("file").as_string(),&definitions_doc);
-	if (definitions_doc == NULL)
+	if (definitions_doc.root() == NULL)
 	{
 		LOG("Error Loading Entities Doc");
 	}

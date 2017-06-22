@@ -39,13 +39,12 @@ Scene::~Scene()
 // Game Loop ====================================
 void Scene::Init()
 {
-	active = false;
-	enabled = false;
+	active = enabled = base_enabled = false;
 }
 
 bool Scene::Enable()
 {
-	active = enabled = true;
+	active = enabled = base_enabled = true;
 
 	//UI Activation
 	menu_branch->Activate();
@@ -74,7 +73,20 @@ void Scene::Disable()
 	//Release scene physic system
 	if (floor_collider != nullptr)RELEASE(floor_collider);
 
-	enabled = active = false;
+	active = enabled = base_enabled = false;
+}
+
+bool Scene::Awake(pugi::xml_node& data_node)
+{
+	LOG("Loading %s Definition Doc",name.c_str());
+
+	//Load the data document used to generate the scene when is enabled
+	App->fs->LoadXML(data_node.child("data_folder").child_value(), &data_doc);
+	if (data_doc.root() == NULL)
+	{
+		LOG("Error Loading %s Doc", name.c_str());
+	}
+	return true;
 }
 
 bool Scene::Start()
@@ -292,6 +304,8 @@ bool Scene::CleanUp()
 	if (back_parallax != nullptr)delete back_parallax;
 	
 	if (floor_collider != nullptr)delete floor_collider;
+
+	data_doc.reset();
 
 	return true;
 }

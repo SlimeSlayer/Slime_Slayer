@@ -6,7 +6,7 @@
 #include "j1InputManager.h"
 #include "j1EntitiesManager.h"
 #include "j1Input.h"
-
+#include "j1Player.h"
 
 #include "Parallax.h"
 #include "UI_Element.h"
@@ -29,39 +29,91 @@ Endless::~Endless()
 // Game Loop ====================================
 bool Endless::Enable()
 {
-	//UI Activation ---------------------------------------
-	menu_branch->Activate();
-	menu_branch->ActivateChilds();
-	settings_menu->Desactivate();
-	settings_menu->DesactivateChids();
-	audio_menu->Desactivate();
-	audio_menu->DesactivateChids();
-	video_menu->Desactivate();
-	video_menu->DesactivateChids();
+	if (!base_enabled)
+	{
+		//UI Activation ---------------------------------------
+		menu_branch->Activate();
+		menu_branch->ActivateChilds();
+		settings_menu->Desactivate();
+		settings_menu->DesactivateChids();
+		audio_menu->Desactivate();
+		audio_menu->DesactivateChids();
+		video_menu->Desactivate();
+		video_menu->DesactivateChids();
 
-	//Map build -------------------------------------------
-	//Floor -----------------
-	floor_collider = App->physics->CreateRectangle(2500, 955, 50000, 15, COLLISION_TYPE::MAP_COLLISION, BODY_TYPE::MAP_BODY);
-	floor_collider->body->SetType(b2BodyType::b2_staticBody);
-	floor_collider->body->GetFixtureList()->SetFriction(0.0f);
+		//Map build -------------------------------------------
+		//Floor -----------------
+		current_enable_node = data_doc.root().first_child().child("floor_collider");
 
-	//Front Parallax --------
-	front_parallax = new Parallax(3);
-	front_parallax->SetTexture(App->tex->Load("scenes/ground_texture.jpg"));
-	front_parallax->SetTextureRect({ 0,0,800,100 });
-	front_parallax->SetPosition(0, 900);
+		floor_collider = App->physics->CreateRectangle(
+			current_enable_node.attribute("x").as_int(),
+			current_enable_node.attribute("y").as_int(),
+			current_enable_node.attribute("w").as_int(),
+			current_enable_node.attribute("h").as_int(),
+			COLLISION_TYPE::MAP_COLLISION, BODY_TYPE::MAP_BODY
+		);
+		floor_collider->body->SetType(b2BodyType::b2_staticBody);
+		floor_collider->body->GetFixtureList()->SetFriction(current_enable_node.attribute("friction").as_float());
 
-	//Mid Parallax ----------
-	mid_parallax = new Parallax(5);
-	mid_parallax->SetTexture(App->tex->Load("scenes/mid_texture.png"));
-	mid_parallax->SetTextureRect({ 0,0,400,450 });
-	mid_parallax->SetPosition(0, 450);
+		//Front Parallax --------
+		current_enable_node = data_doc.root().first_child().child("front_pllx");
 
-	//Back Parallax ---------
-	back_parallax = new Parallax(2);
-	back_parallax->SetTexture(App->tex->Load("scenes/skyline_texture.jpg"));
-	back_parallax->SetTextureRect({ 0,0,1600,900 });
-	back_parallax->SetPosition(0, 0);
+		front_parallax = new Parallax(current_enable_node.attribute("cells").as_uint());
+		front_parallax->SetTexture(App->tex->Load(current_enable_node.attribute("tex_folder").as_string()));
+		front_parallax->SetTextureRect({
+			current_enable_node.attribute("tex_x").as_int(),
+			current_enable_node.attribute("tex_y").as_int(),
+			current_enable_node.attribute("tex_w").as_int(),
+			current_enable_node.attribute("tex_h").as_int()
+		});
+		front_parallax->SetPosition(0, current_enable_node.attribute("pos_y").as_int());
+
+		//Mid Parallax ----------
+		current_enable_node = data_doc.root().first_child().child("mid_pllx");
+
+		mid_parallax = new Parallax(current_enable_node.attribute("cells").as_uint());
+		mid_parallax->SetTexture(App->tex->Load(current_enable_node.attribute("tex_folder").as_string()));
+		mid_parallax->SetTextureRect({
+			current_enable_node.attribute("tex_x").as_int(),
+			current_enable_node.attribute("tex_y").as_int(),
+			current_enable_node.attribute("tex_w").as_int(),
+			current_enable_node.attribute("tex_h").as_int()
+		});
+		mid_parallax->SetPosition(0, current_enable_node.attribute("pos_y").as_int());
+
+		//Back Parallax ---------
+		current_enable_node = data_doc.root().first_child().child("back_pllx");
+
+		back_parallax = new Parallax(current_enable_node.attribute("cells").as_uint());
+		back_parallax->SetTexture(App->tex->Load(current_enable_node.attribute("tex_folder").as_string()));
+		back_parallax->SetTextureRect({
+			current_enable_node.attribute("tex_x").as_int(),
+			current_enable_node.attribute("tex_y").as_int(),
+			current_enable_node.attribute("tex_w").as_int(),
+			current_enable_node.attribute("tex_h").as_int()
+		});
+		back_parallax->SetPosition(0, current_enable_node.attribute("pos_y").as_int());
+
+		//Prepare tutorial entities ---------------------------
+		current_enable_node = data_doc.root().first_child().child("player_avatar");
+
+		App->player->avatar->SetPosition(current_enable_node.attribute("pos_x").as_int(), current_enable_node.attribute("pos_y").as_int());
+
+		//Set enable node root at null
+		current_enable_node = current_enable_node.next_sibling();
+
+		//Set enable node root at null
+		current_enable_node = current_enable_node.next_sibling();
+
+		//Set boolean to check that base data has been loaded
+		base_enabled = true;
+
+		return false; /*This divide the first load step in one frame*/
+	}
+	else
+	{
+
+	}
 
 	//Play scene music
 	App->audio->PlayMusic(MUSIC_ID::MUSIC_IN_GAME);
@@ -87,7 +139,7 @@ void Endless::Disable()
 	//Release tutorial physic system
 	if (floor_collider != nullptr)RELEASE(floor_collider);
 	
-	active = enabled = false;
+	active = enabled = base_enabled = false;
 }
 
 bool Endless::Update(float dt)

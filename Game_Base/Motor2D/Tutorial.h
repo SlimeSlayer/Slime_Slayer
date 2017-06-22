@@ -28,5 +28,6 @@ private:
 
 	//DATA
 	PhysBody*	end_trigger = nullptr;
+
 };
 #endif // !_TUTORIAL_H_

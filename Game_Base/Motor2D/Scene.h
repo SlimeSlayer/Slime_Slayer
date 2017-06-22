@@ -26,6 +26,9 @@ public:
 	bool Enable();
 	void Disable();
 
+	// Called before render is available
+	bool Awake(pugi::xml_node& data_node);
+
 	// Called before the first frame
 	bool Start();
 
@@ -39,6 +42,11 @@ public:
 	void GUI_Input(UI_Element* target, GUI_INPUT input);
 
 protected:
+	
+	//Scene generation data -
+	pugi::xml_document	data_doc;
+	pugi::xml_node		current_enable_node;
+	bool				base_enabled = false;
 
 	//UI Data ---------------
 	//Main Menu
