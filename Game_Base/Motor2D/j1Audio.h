@@ -7,6 +7,8 @@
 struct _Mix_Music;
 struct Mix_Chunk;
 
+#define MAX_VOLUME 128.0f
+#define INITIAL_VOLUME 15.0f
 #define DEFAULT_MUSIC_FADE_TIME 1.0f
 
 enum MUSIC_ID
@@ -89,9 +91,9 @@ private:
 
 	std::list<Mix_Chunk*>	fx;
 
-	float					master_volume = 65.0f;
-	float 					current_music_volume = 65.0f;
-	float					current_fx_volume = 65.0f;
+	float					master_volume = INITIAL_VOLUME;
+	float 					current_music_volume = INITIAL_VOLUME;
+	float					current_fx_volume = INITIAL_VOLUME;
 	float					current_music_fade_volume = 0.0f;
 	float					current_fx_fade_volume = 0.0f;
 };

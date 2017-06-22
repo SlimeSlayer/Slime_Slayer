@@ -72,6 +72,10 @@ bool j1Audio::Awake(pugi::xml_node& config)
 
 	audio_data_doc.reset();
 
+	SetMasterVolume(INITIAL_VOLUME);
+	SetMusicVolume(INITIAL_VOLUME);
+	SetFXVolume(INITIAL_VOLUME);
+
 	return ret;
 }
 
@@ -179,7 +183,7 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 
 void j1Audio::VolumeUp()
 {
-	current_music_volume = current_fx_volume = MIN(current_music_volume + 10, 128);
+	current_music_volume = current_fx_volume = MIN(current_music_volume + 10, MAX_VOLUME);
 	Mix_Volume(-1, current_fx_volume);
 	Mix_VolumeMusic(current_music_volume);
 }
@@ -255,17 +259,17 @@ void j1Audio::StartMusicFade()
 
 void j1Audio::FadeMusicOut(float total_time)
 {
-	current_music_fade_volume = MAX(0.0f, current_music_fade_volume - ((App->GetDT() * 128) / total_time));
+	current_music_fade_volume = MAX(0.0f, current_music_fade_volume - ((App->GetDT() * MAX_VOLUME) / total_time));
 	Mix_VolumeMusic(current_music_fade_volume);
-	current_fx_fade_volume = MAX(0.0f, current_fx_fade_volume - ((App->GetDT() * 128) / total_time));
+	current_fx_fade_volume = MAX(0.0f, current_fx_fade_volume - ((App->GetDT() * MAX_VOLUME) / total_time));
 	Mix_Volume(-1, current_fx_fade_volume);
 }
 
 void j1Audio::FadeMusicIn(float total_time)
 {
-	current_music_fade_volume = MIN(current_music_volume, current_music_fade_volume + ((App->GetDT() * 128) / total_time));
+	current_music_fade_volume = MIN(current_music_volume, current_music_fade_volume + ((App->GetDT() * MAX_VOLUME) / total_time));
 	Mix_VolumeMusic(current_music_fade_volume);
-	current_fx_fade_volume = MIN(current_fx_volume, current_fx_fade_volume + ((App->GetDT() * 128) / total_time));
+	current_fx_fade_volume = MIN(current_fx_volume, current_fx_fade_volume + ((App->GetDT() * MAX_VOLUME) / total_time));
 	Mix_Volume(-1, current_fx_fade_volume);
 }
 
