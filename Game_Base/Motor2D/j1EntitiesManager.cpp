@@ -301,6 +301,18 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	//Set new creature specific stats
 	if (creature_type == PLAYER_CREATURE)
 	{
+		//Load the new creature vision area
+		PhysBody* new_vision_area = new PhysBody();
+		new_vision_area->body_def = new PhysBodyDef();
+		
+		/*Radius*/		new_vision_area->body_def->width = new_vision_area->body_def->height = data_node->attribute("vision_range").as_uint();
+		/*Shape*/		new_vision_area->body_def->shape_type = b2Shape::Type::e_circle;
+		/*Sensor*/		new_vision_area->body_def->is_sensor = true;
+		/*Listener*/	new_vision_area->body_def->listener = App->GetModule(data_node->attribute("listener").as_string());
+
+		//Set the generated vision are at the new creature
+		((Intelligent_Creature*)new_creature)->SetVisionArea(new_vision_area);
+
 		/*Money*/	((Intelligent_Creature*)new_creature)->SetMoney(data_node->attribute("money").as_uint(0));
 	}
 
@@ -348,10 +360,7 @@ Creature * j1EntitiesManager::GenerateCreature(CREATURE_TYPE creature_type, bool
 			default:
 				new_creature = new Creature(*creatures_defs[k], generate_body);
 				break;
-			}
-
-			if(generate_body)new_creature->GetBody()->entity_related = new_creature;
-			
+			}			
 			break;
 		}
 	}

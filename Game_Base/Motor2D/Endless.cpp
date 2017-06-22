@@ -97,7 +97,7 @@ bool Endless::Enable()
 		//Prepare tutorial entities ---------------------------
 		current_enable_node = data_doc.root().first_child().child("player_avatar");
 
-		App->player->avatar->SetPosition(current_enable_node.attribute("pos_x").as_int(), current_enable_node.attribute("pos_y").as_int());
+		App->player->avatar->SetPosition(current_enable_node.attribute("pos_x").as_float(), current_enable_node.attribute("pos_y").as_float());
 
 		//Set enable node root at null
 		current_enable_node = current_enable_node.next_sibling();
@@ -189,7 +189,7 @@ bool Endless::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		Item* jar = App->entities_manager->GenerateItem(JAR_ITEM);
-		jar->GetBody()->SetPosition(App->input->GetMouseX() - App->render->camera.x, App->input->GetMouseY() - App->render->camera.y);
+		jar->GetBody()->SetPosition((float)App->input->GetMouseX() - App->render->camera.x, (float)App->input->GetMouseY() - App->render->camera.y);
 	}
 	// ------------------------------------------
 	return true;

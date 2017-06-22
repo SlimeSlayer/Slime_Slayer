@@ -370,7 +370,7 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 
 bool j1Render::TileBlit(SDL_Texture * texture, int x, int y, const SDL_Rect* section)
 {
-	uint scale = App->win->GetScale();
+	int scale = App->win->GetScale();
 
 	SDL_Rect rect = { camera.x + x * scale ,camera.y + y * scale ,section->w * scale ,section->h * scale };
 
@@ -451,7 +451,7 @@ bool j1Render::DrawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 
 	return ret;
 }
 
-bool j1Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a, float x_angle, bool use_camera) const
+bool j1Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool use_camera) const
 {
 	bool ret = true;
 	uint scale = App->win->GetScale();
@@ -460,30 +460,29 @@ bool j1Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, U
 	SDL_SetRenderDrawColor(renderer, r, g, b, a);
 
 	int result = -1;
-	SDL_Point points[120];
+	SDL_Point points[240];
 
-	float factor = ((float)M_PI / 180.0f) * 3;
-	float sin_x_angle = sin(x_angle);
+	float factor = ((float)M_PI / 180.0f) * 2;
 	//In case that the circle is fixed at camera coordinates
 	if (!use_camera)
 	{
-		for (uint i = 0; i < 120; ++i)
+		for (uint i = 0; i < 240; ++i)
 		{
 			points[i].x = (int)(x + radius * cos(i * factor));
-			points[i].y = (int)((y + radius * sin(i * factor) * sin_x_angle));
+			points[i].y = (int)(y + radius * sin(i * factor));
 		}
 	}
 	//Else if the circle is not fixed
 	else
 	{
-		for (uint i = 0; i < 120; ++i)
+		for (uint i = 0; i < 240; ++i)
 		{
 			points[i].x = (int)(x + radius * cos(i * factor)) + camera.x;
-			points[i].y = (int)((y + radius * sin(i * factor) * sin_x_angle)) + camera.y;
+			points[i].y = (int)(y + radius * sin(i * factor)) + camera.y;
 		}
 	}
 
-	result = SDL_RenderDrawPoints(renderer, points, 120);
+	result = SDL_RenderDrawPoints(renderer, points, 240);
 
 	if(result != 0)
 	{

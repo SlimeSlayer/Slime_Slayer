@@ -110,7 +110,7 @@ bool Tutorial::Enable()
 		//Prepare tutorial entities ---------------------------
 		current_enable_node = data_doc.root().first_child().child("player_avatar");
 		
-		App->player->avatar->SetPosition(current_enable_node.attribute("pos_x").as_int(), current_enable_node.attribute("pos_y").as_int());
+		App->player->avatar->SetPosition(current_enable_node.attribute("pos_x").as_float(), current_enable_node.attribute("pos_y").as_float());
 
 		//Set enable node root at null
 		current_enable_node = current_enable_node.next_sibling();

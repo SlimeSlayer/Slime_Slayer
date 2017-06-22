@@ -60,12 +60,15 @@ public:
 	void			SetDescription(string new_description);
 	void			SetBody(PhysBody* new_body);
 	virtual void	SetPosition(float x, float y);
-
+	
 	//Get Methods -----------
 	ENTITY_TYPE	GetEntityType()const;
 	const char*	GetName()const;
 	const char*	GetDescription()const;
 	PhysBody*	GetBody()const;
+
+	//Functionality ---------
+	virtual void UpdatePosition();
 
 };
 /// ---------------------------------------------

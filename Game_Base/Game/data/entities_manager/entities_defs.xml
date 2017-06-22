@@ -68,6 +68,7 @@
       mov_speed="5"
       jump_force="100"
       
+      vision_range="450"
       money="12"
       
       />

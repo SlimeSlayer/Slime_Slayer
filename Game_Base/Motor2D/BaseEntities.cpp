@@ -16,7 +16,11 @@ Entity::Entity()
 
 Entity::Entity(const Entity & copy, bool generate_body) : entity_type(copy.entity_type), name(copy.name), description(copy.description)
 {
-	if(generate_body)body = App->physics->TransformDefToBuilt(copy.body);
+	if (generate_body)
+	{
+		body = App->physics->TransformDefToBuilt(copy.body);
+		body->entity_related = this;
+	}
 	else body = new PhysBody(*copy.body);
 }
 
@@ -77,6 +81,12 @@ const char* Entity::GetDescription() const
 PhysBody * Entity::GetBody() const
 {
 	return body;
+}
+
+// Functionality ======================
+void Entity::UpdatePosition()
+{
+
 }
 
 /// Item ----------------------------------------

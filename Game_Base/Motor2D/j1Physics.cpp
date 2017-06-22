@@ -23,7 +23,7 @@ PhysBodyDef::PhysBodyDef()
 
 }
 
-PhysBodyDef::PhysBodyDef(const PhysBodyDef & copy) :shape_type(copy.shape_type), collision_type(copy.collision_type), body_type(copy.body_type), body_interaction_type(copy.body_interaction_type), restitution(copy.restitution), friction(copy.friction), density(copy.density), width(copy.width), height(copy.height), fixed_rotation(copy.fixed_rotation), listener(copy.listener)
+PhysBodyDef::PhysBodyDef(const PhysBodyDef & copy) :shape_type(copy.shape_type), collision_type(copy.collision_type), body_type(copy.body_type), body_interaction_type(copy.body_interaction_type), restitution(copy.restitution), friction(copy.friction), density(copy.density), width(copy.width), height(copy.height), fixed_rotation(copy.fixed_rotation), is_sensor(copy.is_sensor), listener(copy.listener)
 {
 
 }
@@ -449,6 +449,21 @@ bool j1Physics::PostUpdate()
 	{
 		for (b2Fixture* f = b->GetFixtureList(); f; f = f->GetNext())
 		{
+			SDL_Color draw_color = { 255,255,255,255 };
+			switch (((PhysBody*)f->GetBody()->GetUserData())->collide_type)
+			{
+			case COLLISION_TYPE::ITEM_COLLISION:
+			case COLLISION_TYPE::STATIC_ITEM_COLLISION:
+				draw_color.r = 0;
+				break;
+			case COLLISION_TYPE::MAP_COLLISION:
+				draw_color.g = 0;
+				break;
+			case COLLISION_TYPE::PLAYER_COLLISION:
+				draw_color.b = 0;
+				break;
+			}
+
 			switch (f->GetType())
 			{
 				// Draw circles ------------------------------------------------
@@ -456,7 +471,7 @@ bool j1Physics::PostUpdate()
 			{
 				b2CircleShape* shape = (b2CircleShape*)f->GetShape();
 				b2Vec2 pos = f->GetBody()->GetPosition();
-				App->render->DrawCircle(METERS_TO_PIXELS(pos.x), METERS_TO_PIXELS(pos.y), METERS_TO_PIXELS(shape->m_radius), 255, 255, 255);
+				App->render->DrawCircle(METERS_TO_PIXELS(pos.x), METERS_TO_PIXELS(pos.y), METERS_TO_PIXELS(shape->m_radius), draw_color.r, draw_color.g, draw_color.b);
 			}
 			break;
 
@@ -471,13 +486,13 @@ bool j1Physics::PostUpdate()
 				{
 					v = b->GetWorldPoint(polygonShape->GetVertex(i));
 					if (i > 0)
-						App->render->DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), 255, 100, 100);
+						App->render->DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), draw_color.r, draw_color.g, draw_color.b);
 
 					prev = v;
 				}
 
 				v = b->GetWorldPoint(polygonShape->GetVertex(0));
-				App->render->DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), 255, 100, 100);
+				App->render->DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), draw_color.r, draw_color.g, draw_color.b);
 			}
 			break;
 
@@ -491,12 +506,12 @@ bool j1Physics::PostUpdate()
 				{
 					v = b->GetWorldPoint(shape->m_vertices[i]);
 					if (i > 0)
-						App->render->DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), 100, 255, 100);
+						App->render->DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), draw_color.r, draw_color.g, draw_color.b);
 					prev = v;
 				}
 
 				v = b->GetWorldPoint(shape->m_vertices[0]);
-				App->render->DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), 100, 255, 100);
+				App->render->DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), draw_color.r, draw_color.g, draw_color.b);
 			}
 			break;
 
@@ -508,7 +523,7 @@ bool j1Physics::PostUpdate()
 
 				v1 = b->GetWorldPoint(shape->m_vertex0);
 				v1 = b->GetWorldPoint(shape->m_vertex1);
-				App->render->DrawLine(METERS_TO_PIXELS(v1.x), METERS_TO_PIXELS(v1.y), METERS_TO_PIXELS(v2.x), METERS_TO_PIXELS(v2.y), 100, 100, 255);
+				App->render->DrawLine(METERS_TO_PIXELS(v1.x), METERS_TO_PIXELS(v1.y), METERS_TO_PIXELS(v2.x), METERS_TO_PIXELS(v2.y), draw_color.r, draw_color.g, draw_color.b);
 			}
 			break;
 			}
@@ -822,6 +837,7 @@ PhysBody * j1Physics::TransformDefToBuilt(PhysBody* target)
 	fixture.restitution = target->body_def->restitution;
 	fixture.friction = target->body_def->friction;
 	fixture.density = target->body_def->density;
+	fixture.isSensor = target->body_def->is_sensor;
 	SetFixture(fixture, target->body_def->collision_type);
 	b->CreateFixture(&fixture);
 

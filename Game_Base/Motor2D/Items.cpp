@@ -84,7 +84,7 @@ void Items_Tank::DropItems()
 		//Set the new body stats checking the items data
 		int x = 0, y = 0;
 		this->body->GetPosition(x, y);
-		list_item._Ptr->_Myval->GetBody()->SetPosition(x, y);
+		list_item._Ptr->_Myval->GetBody()->SetPosition((float)x, (float)y);
 		list_item._Ptr->_Myval->GetBody()->body->SetLinearVelocity({ 0,-5 });
 		
 		//Add the dropped item at the entities manager 

@@ -57,6 +57,8 @@ public:
 	float			density = 0.0f;
 	int				width = 0, height = 0;
 	bool			fixed_rotation = false;
+	
+	bool			is_sensor = false;
 	j1Module*		listener = nullptr;
 };
 /// -------------------------------------------------------
