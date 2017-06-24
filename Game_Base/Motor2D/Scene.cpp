@@ -73,6 +73,14 @@ void Scene::Disable()
 	//Release scene physic system
 	if (floor_collider != nullptr)RELEASE(floor_collider);
 
+	//Delete all the generated entities in the scene
+	uint size = entities_generated.size();
+	for (uint k = 0; k < size; k++)
+	{
+		App->entities_manager->DeleteEntity(entities_generated[k]);
+	}
+	entities_generated.clear();
+
 	active = enabled = base_enabled = false;
 }
 

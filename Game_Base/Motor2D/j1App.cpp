@@ -642,13 +642,16 @@ void j1App::ActiveEndless()
 {
 	//Deactivate the tutorial if is activated or the main menu
 	modules_to_disable.push_back(current_scene);
+	//modules_to_disable.push_back(entities_manager);
 
 	// Active all the necessary scene modules
 	App->player->Active();
 	//App->animator->Active();
+	
+	App->physics->Active();
 	App->entities_manager->Active();
 	App->endless->Active();
-	App->physics->Active();
+
 
 	want_to_enable = true;
 	EnableActiveModules();

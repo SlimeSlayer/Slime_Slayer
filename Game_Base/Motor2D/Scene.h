@@ -2,6 +2,7 @@
 #define __j1SCENE_H__
 
 #include "j1Module.h"
+#include <vector>
 
 class Parallax;
 class PhysBody;
@@ -9,6 +10,7 @@ struct SDL_Texture;
 class UI_Button;
 class UI_Image;
 class UI_Scroll_Bar;
+class Entity;
 
 #define MID_PARALLAX_VAL 15
 #define BACK_PARALLAX_VAL 30
@@ -86,6 +88,8 @@ protected:
 	Parallax*	front_parallax = nullptr;
 	Parallax*	mid_parallax = nullptr;
 	Parallax*	back_parallax = nullptr;
+	//Entities generated
+	std::vector<Entity*> entities_generated;
 
 public:
 

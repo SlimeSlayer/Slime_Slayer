@@ -28,6 +28,7 @@ void j1EntitiesManager::Init()
 
 bool j1EntitiesManager::Enable()
 {
+	
 	j1Timer process_timer;
 
 	if (current_enable_group.root() == NULL && current_entity_type == NO_ENTITY)
@@ -86,6 +87,15 @@ void j1EntitiesManager::Disable()
 		delete items_defs[k];
 	}
 	items_defs.clear();
+
+	// Clean all the entities to delete ---------
+	std::list<Entity*>::iterator entities_to_del_item = entitites_to_delete.begin();
+	while (entities_to_del_item != entitites_to_delete.end())
+	{
+		delete entities_to_del_item._Ptr->_Myval;
+		entities_to_del_item++;
+	}
+	entitites_to_delete.clear();
 
 	// Clean all the current entities -----------
 	std::list<Entity*>::iterator cur_entities_item = current_entities.begin();
@@ -265,7 +275,9 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	//Allocate the correct class checking the creature type
 	switch (creature_type)
 	{
-	case PLAYER_CREATURE:	new_creature = new Intelligent_Creature();	break;
+	case PLAYER_CREATURE:
+	case NPC_CREATURE:
+		new_creature = new Intelligent_Creature();	break;
 	case NO_CREATURE:		new_creature = new Creature();				break;
 	}
 
@@ -299,7 +311,7 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	/*Jump Force*/		new_creature->SetJumpForce(data_node->attribute("jump_force").as_float());
 
 	//Set new creature specific stats
-	if (creature_type == PLAYER_CREATURE)
+	if (creature_type == PLAYER_CREATURE | NPC_CREATURE)
 	{
 		//Load the new creature vision area
 		PhysBody* new_vision_area = new PhysBody();
@@ -309,6 +321,7 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 		/*Shape*/		new_vision_area->body_def->shape_type = b2Shape::Type::e_circle;
 		/*Sensor*/		new_vision_area->body_def->is_sensor = true;
 		/*Listener*/	new_vision_area->body_def->listener = App->GetModule(data_node->attribute("listener").as_string());
+		/*Collision*/	new_vision_area->body_def->collision_type = COLLISION_TYPE::SENSOR_COLLISION;
 
 		//Set the generated vision are at the new creature
 		((Intelligent_Creature*)new_creature)->SetVisionArea(new_vision_area);
@@ -331,6 +344,7 @@ ENTITY_TYPE j1EntitiesManager::StrToEntityType(const char * str) const
 CREATURE_TYPE j1EntitiesManager::StrToCreatureType(const char * str) const
 {
 	if (strcmp(str, "player_creature") == 0)	return PLAYER_CREATURE;
+	if (strcmp(str, "npc_creature") == 0)		return NPC_CREATURE;
 	return NO_CREATURE;
 }
 
@@ -354,6 +368,7 @@ Creature * j1EntitiesManager::GenerateCreature(CREATURE_TYPE creature_type, bool
 		{
 			switch (creature_type)
 			{
+			case NPC_CREATURE:
 			case PLAYER_CREATURE:
 				new_creature = new Intelligent_Creature(*(Intelligent_Creature*)creatures_defs[k], generate_body);
 				break;
@@ -424,6 +439,7 @@ void j1EntitiesManager::AddEntity(const Entity * target)
 
 void j1EntitiesManager::DeleteEntity(Entity * target)
 {
+	current_entities.remove(target);
 	entitites_to_delete.remove(target);
 	entitites_to_delete.push_back(target);
 }

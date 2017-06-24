@@ -23,7 +23,7 @@ Intelligent_Creature::Intelligent_Creature(const Intelligent_Creature & copy, bo
 // Destructors ========================
 Intelligent_Creature::~Intelligent_Creature()
 {
-
+	if (vision_area != nullptr)RELEASE(vision_area);
 }
 
 // Game Loop ==========================

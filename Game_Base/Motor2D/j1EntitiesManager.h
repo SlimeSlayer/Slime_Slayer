@@ -52,7 +52,7 @@ private:
 
 	//List with all the entities ready to be deleted
 	std::list<Entity*> entitites_to_delete;
-	//Vecto with all the entities generated in the last frame
+	//Vector with all the entities generated in the last frame
 	std::vector<Entity*> entities_to_add;
 
 public:

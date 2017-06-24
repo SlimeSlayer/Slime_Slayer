@@ -989,6 +989,7 @@ b2Shape::Type j1Physics::StrToBodyShape(const char * str) const
 COLLISION_TYPE j1Physics::StrToCollisionType(const char * str) const
 {
 	if (strcmp(str, "player_collision") == 0)		return COLLISION_TYPE::PLAYER_COLLISION;
+	if (strcmp(str, "npc_collision") == 0)			return COLLISION_TYPE::NPC_COLLISION;
 	if (strcmp(str, "map_collision") == 0)			return COLLISION_TYPE::MAP_COLLISION;
 	if (strcmp(str, "item_collision") == 0)			return COLLISION_TYPE::ITEM_COLLISION;
 	if (strcmp(str, "static_item_collision") == 0)	return COLLISION_TYPE::STATIC_ITEM_COLLISION;
@@ -997,6 +998,7 @@ COLLISION_TYPE j1Physics::StrToCollisionType(const char * str) const
 BODY_TYPE j1Physics::StrToBodyType(const char * str) const
 {
 	if (strcmp(str, "player_body") == 0)	return BODY_TYPE::PLAYER_BODY;
+	if (strcmp(str, "npc_body") == 0)		return BODY_TYPE::NPC_BODY;
 	if (strcmp(str, "map_body") == 0)		return BODY_TYPE::MAP_BODY;
 	if (strcmp(str, "item_body") == 0)		return BODY_TYPE::ITEM_BODY;
 	return NO_BODY;

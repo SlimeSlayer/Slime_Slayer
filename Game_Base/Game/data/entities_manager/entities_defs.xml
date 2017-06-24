@@ -46,6 +46,32 @@
   
   <!--Definitions of all the creatures-->
   <creature>
+    <!--Standard NPC-->
+    <entity
+      body_type="npc_body"
+      collision_type="npc_collision"
+      listener="entities_manager"
+      body_shape="square"
+      width ="50"
+      height="70"
+      restitution="0.0"
+      friction="0.0"
+      mass="25.0"
+      fixed_rotation="true"
+      interaction_type="static"
+      
+      creature_type="npc_creature"
+      name="NPC"
+      description="Insert epic description here"
+      life="100"
+      attack="5"
+      mov_speed="5"
+      jump_force="100"
+      
+      vision_range="450"
+      money="12"
+      
+      />
     <!--Player-->
     <entity             
       body_type="player_body"

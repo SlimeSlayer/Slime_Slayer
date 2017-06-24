@@ -100,10 +100,7 @@ bool Endless::Enable()
 		App->player->avatar->SetPosition(current_enable_node.attribute("pos_x").as_float(), current_enable_node.attribute("pos_y").as_float());
 
 		//Set enable node root at null
-		current_enable_node = current_enable_node.next_sibling();
-
-		//Set enable node root at null
-		current_enable_node = current_enable_node.next_sibling();
+		current_enable_node = current_enable_node.child("none");
 
 		//Set boolean to check that base data has been loaded
 		base_enabled = true;
@@ -112,7 +109,47 @@ bool Endless::Enable()
 	}
 	else
 	{
+		j1Timer	enable_timer;
 
+		//If the node is null focus it to the first scene entity
+		if (current_enable_node.root() == NULL)
+		{
+			current_enable_node = data_doc.root().first_child().child("entities").first_child();
+		}
+
+		while (current_enable_node.root() != NULL)
+		{
+
+			ENTITY_TYPE entity_type = App->entities_manager->StrToEntityType(current_enable_node.attribute("entity_type").as_string());
+			Entity* new_entity = nullptr;
+
+			switch (entity_type)
+			{
+			case CREATURE:
+			{
+				CREATURE_TYPE creature_type = App->entities_manager->StrToCreatureType(current_enable_node.attribute("creature_type").as_string());
+				new_entity = App->entities_manager->GenerateCreature(creature_type);
+
+				break;
+			}
+			case ITEM:
+				ITEM_TYPE item_type = App->entities_manager->StrToItemType(current_enable_node.attribute("item_type").as_string());
+				new_entity = App->entities_manager->GenerateItem(item_type);
+
+				break;
+			}
+
+			//Set the new entity scene data
+			/*Position*/	new_entity->SetPosition(current_enable_node.attribute("pos_x").as_float(), current_enable_node.attribute("pos_y").as_float());
+
+			//Add the generated at the scene entities vector
+			entities_generated.push_back(new_entity);
+
+			//Focus the next entity node
+			current_enable_node = current_enable_node.next_sibling();
+
+			if (enable_timer.Read() > TIME_TO_ENABLE)return false;
+		}
 	}
 
 	//Play scene music
@@ -139,6 +176,14 @@ void Endless::Disable()
 	//Release tutorial physic system
 	if (floor_collider != nullptr)RELEASE(floor_collider);
 	
+	//Delete all the generated entities in the scene
+	uint size = entities_generated.size();
+	for (uint k = 0; k < size; k++)
+	{
+		App->entities_manager->DeleteEntity(entities_generated[k]);
+	}
+	entities_generated.clear();
+
 	active = enabled = base_enabled = false;
 }
 
