@@ -62,6 +62,7 @@ bool Scene::Enable()
 void Scene::Disable()
 {
 	//UI Deactivation
+	settings_exit_scene_button->UnBlock();
 	menu_branch->Desactivate();
 	menu_branch->DesactivateChids();
 
@@ -367,8 +368,9 @@ void Scene::GUI_Input(UI_Element * target, GUI_INPUT input)
 			video_menu->Activate();
 			video_menu->ActivateChilds();
 		}
-		else if (target == settings_exit_scene_button)
+		else if (target == settings_exit_scene_button && !settings_exit_scene_button->GetBlockState())
 		{
+			settings_exit_scene_button->Block();
 			App->ActiveMainMenu();
 		}
 		//Audio Buttons ---------------

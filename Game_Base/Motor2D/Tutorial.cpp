@@ -179,6 +179,7 @@ void Tutorial::Disable()
 	LOG("Disabling Tutorial");
 
 	//UI Deactivation
+	settings_exit_scene_button->UnBlock();
 	menu_branch->Desactivate();
 	menu_branch->DesactivateChids();
 
