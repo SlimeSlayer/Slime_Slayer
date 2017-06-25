@@ -5,6 +5,7 @@
 
 class Entity;
 class Player;
+class UI_String;
 
 enum ACTION_TYPE
 {
@@ -53,6 +54,9 @@ public:
 public:
 
 	Player* target = nullptr;
+	
+	UI_String*	current_dialog = nullptr;
+	uint		dialog_index = 0;
 
 };
 /// ---------------------------------------------

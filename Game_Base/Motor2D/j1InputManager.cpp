@@ -86,6 +86,7 @@ INPUT_EVENT j1InputManager::StrToInputEvent(const char * str) const
 	if (strcmp(str, "go_right") == 0)				return INPUT_EVENT::GO_RIGHT;
 	if (strcmp(str, "jump") == 0)					return INPUT_EVENT::JUMP;
 	if (strcmp(str, "crouch") == 0)					return INPUT_EVENT::CROUCH;
+	if (strcmp(str, "interact") == 0)				return INPUT_EVENT::INTERACT;
 	return UNKNOWN_INPUT;
 }
 

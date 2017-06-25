@@ -8,6 +8,7 @@
 #include <vector>
 
 class PhysBody;
+class UI_String;
 
 /// Intelligent_Creature ------------------------
 class Intelligent_Creature : public Creature
@@ -59,7 +60,7 @@ public:
 
 protected:
 
-	std::vector<std::string> dialog_strings;
+	std::vector<UI_String*> dialog_strings;
 
 public:
 
@@ -67,7 +68,8 @@ public:
 	void StartDialog(Player* target);
 
 	//Functionality ---------
-	void AddDialogStr(const char* str);
+	void		AddDialogStr(const UI_String* str);
+	UI_String*	GetDialogByIndex(uint index);
 };
 /// ---------------------------------------------
 

@@ -13,9 +13,10 @@ Worker::~Worker()
 	uint size = actions.size();
 	for (uint k = 0; k < size; k++)
 	{
-		delete actions.top();
+		RELEASE((Action*)actions.top());
 		actions.pop();
 	}
+	if (current_action != nullptr)RELEASE(current_action);
 }
 
 // Game Loop ==========================

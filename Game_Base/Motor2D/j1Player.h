@@ -2,9 +2,12 @@
 #define _J1PLAYER_H_
 
 #include "j1Module.h"
+#include "p2Point.h"
 
 #define PLAYER_CAMERA_X 500
 #define PLAYER_CAMERA_Y 800
+#define DEFAULT_DIALOG_X 600
+#define DEFAULT_DIALOG_Y 700
 
 class Intelligent_Creature;
 
@@ -28,7 +31,10 @@ public:
 
 public:
 
+	//User avatar -----------
 	Intelligent_Creature* avatar = nullptr;
 
+	//Dialogs Location ------
+	iPoint dialogs_location = { DEFAULT_DIALOG_X,DEFAULT_DIALOG_Y };
 };
 #endif // !_J1PLAYER_H_

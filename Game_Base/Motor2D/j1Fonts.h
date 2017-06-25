@@ -39,12 +39,14 @@ public:
 
 	bool CalcSize(const char* text, int& width, int& height, _TTF_Font* font = NULL) const;
 	
-	//
+	// Delete textures generated with fonts
 	void DeleteTexture(SDL_Texture* texture_to_delete);
+
+	_TTF_Font* GetFontByIndex(uint index)const;
 
 public:
 
-	std::list<_TTF_Font*>			fonts;
+	std::vector<_TTF_Font*>			fonts;
 	std::vector<SDL_Texture*>		ready_to_unload;
 	_TTF_Font*						default = nullptr;
 };

@@ -84,10 +84,12 @@ protected:
 	//Scene Data ------------
 	//Ground collider
 	PhysBody*	floor_collider = nullptr;
+	
 	//Parallax layers
 	Parallax*	front_parallax = nullptr;
 	Parallax*	mid_parallax = nullptr;
 	Parallax*	back_parallax = nullptr;
+	
 	//Entities generated
 	std::vector<Entity*> entities_generated;
 

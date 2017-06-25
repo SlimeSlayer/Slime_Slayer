@@ -17,7 +17,7 @@ UI_String::~UI_String()
 {
 	if (text_texture != nullptr)
 	{
-		if (!App->tex->UnLoad(text_texture))LOG("Tex unload error");
+		if (!App->tex->UnLoad(text_texture));
 	}
 	text_texture = nullptr;
 	text_font = nullptr;
@@ -36,7 +36,7 @@ void UI_String::Draw(bool debug) const
 	//This Draw
 	
 	if (debug)App->render->DrawQuad({ box.x - App->render->camera.x,box.y - App->render->camera.y,box.w,box.h }, 255, 255, 255);
-	if(text_texture != nullptr)App->render->Blit(text_texture, box.x - App->render->camera.x, box.y - App->render->camera.y);
+	if (text_texture != nullptr)App->render->CallBlit(text_texture, box.x - App->render->camera.x, box.y - App->render->camera.y, NULL, false, 0);
 
 	//Childs Draw
 	DrawChilds(debug);
@@ -54,7 +54,7 @@ uint UI_String::GetLenght()const
 	return uint(text.length());
 }
 
-void UI_String::SetString(char * new_text, bool generate)
+void UI_String::SetString(const char * new_text, bool generate)
 {
 	if (text_texture != nullptr)
 	{

@@ -94,9 +94,51 @@
       vision_sensor_type ="neutral_sensor_collision"
       money="12"
       
+      font="0"
+      size="16"
+      t_color_r="255"
+      t_color_g="255"
+      t_color_b="255"
+      
       d_0="Hello!"
       d_1="..."
       d_2="Bye!"
+      
+      />
+    <!--Lore NPC B-->
+    <entity
+      body_type="npc_body"
+      collision_type="npc_collision"
+      listener="entities_manager"
+      body_shape="square"
+      width ="50"
+      height="70"
+      restitution="0.0"
+      friction="0.0"
+      mass="25.0"
+      fixed_rotation="true"
+      interaction_type="static"
+      
+      creature_type="lore_npc_b_creature"
+      name="Lore NPC"
+      description="Insert epic description here"
+      life="100"
+      attack="0"
+      mov_speed="0"
+      jump_force="0"
+      
+      vision_range ="350"
+      vision_sensor_type ="neutral_sensor_collision"
+      money="12"
+      
+      font="0"
+      t_color_r="255"
+      t_color_g="205"
+      t_color_b="255"
+      
+      d_0="Helloooo!"
+      d_1="......."
+      d_2="Byeeee!"
       
       />
     <!--Player-->

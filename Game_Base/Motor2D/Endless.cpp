@@ -194,8 +194,8 @@ bool Endless::Update(float dt)
 
 	//Blit scene Parallax -----------------------
 	back_parallax->Draw(-30);
-	mid_parallax->Draw(-40);
-	front_parallax->Draw(-30);
+	mid_parallax->Draw(-20);
+	front_parallax->Draw(-10);
 	// ------------------------------------------
 
 	//EXIT --------------------------------------

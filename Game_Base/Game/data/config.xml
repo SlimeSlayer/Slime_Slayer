@@ -12,9 +12,11 @@
     <vsync value="false"/>
   </renderer>
 
-  <font>
+  <fonts>
     <default_font file="fonts/open_sans/OpenSans-Regular.ttf" size="12"/>
-  </font>
+    <font file="fonts/open_sans/OpenSans-Regular.ttf" size="14"/>
+    <font file="fonts/open_sans/OpenSans-Regular.ttf" size="16"/>
+  </fonts>
 
   <gui>
     <atlas file="gui/atlas.png"       id="atlas"/>
@@ -49,6 +51,7 @@
     <key id ="D"  event ="go_right"/>
     <key id ="W"  event ="jump"/>
     <key id ="S"  event ="crouch"/>
+    <key id ="F"  event ="interact"/>
   </input_manager>
   
   <file_system>

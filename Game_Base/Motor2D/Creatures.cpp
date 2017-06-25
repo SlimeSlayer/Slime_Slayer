@@ -3,6 +3,9 @@
 #include "p2Log.h"
 #include "j1App.h"
 #include "j1Physics.h"
+#include "j1Gui.h"
+
+#include "UI_String.h"
 
 /// Intelligent_Creature ------------------------
 // Constructors =======================
@@ -96,13 +99,18 @@ NPC::NPC(const NPC & copy, bool generate_body) :Intelligent_Creature(copy, gener
 	uint size = copy.dialog_strings.size();
 	for (uint k = 0; k < size; k++)
 	{
-		this->AddDialogStr(copy.dialog_strings[k].c_str());
+		this->AddDialogStr(new UI_String(copy.dialog_strings[k]));
 	}
 }
 
 // Destructors ========================
 NPC::~NPC()
 {
+	uint size = dialog_strings.size();
+	for (uint k = 0; k < size; k++)
+	{
+		RELEASE(dialog_strings[k]);
+	}
 	dialog_strings.clear();
 }
 
@@ -114,9 +122,15 @@ void NPC::StartDialog(Player* target)
 }
 
 // Functionality ======================
-void NPC::AddDialogStr(const char * str)
+void NPC::AddDialogStr(const UI_String* str)
 {
-	dialog_strings.push_back(str);
+	dialog_strings.push_back((UI_String*)str);
+}
+
+UI_String * NPC::GetDialogByIndex(uint index)
+{
+	if (index >= dialog_strings.size())return nullptr;
+	return dialog_strings[index];
 }
 /// ---------------------------------------------
 

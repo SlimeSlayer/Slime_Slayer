@@ -78,7 +78,7 @@ double Blit_Call::GetAngle() const
 
 bool Blit_Call::operator<(const Blit_Call & target) const
 {
-	if (priority < target.priority)return true;
+	if (priority > target.priority)return true;
 	return false;
 }
 

@@ -36,6 +36,16 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 		default = Load(path, size);
 	}
 
+	pugi::xml_node font_node = conf.child("font");
+	while (font_node.root() != NULL)
+	{
+		const char* path = font_node.attribute("file").as_string(DEFAULT_FONT);
+		int size = font_node.attribute("size").as_int(DEFAULT_FONT_SIZE);
+		Load(path, size);
+
+		font_node = font_node.next_sibling();
+	}
+
 	return ret;
 }
 
@@ -82,7 +92,7 @@ bool j1Fonts::CleanUp()
 TTF_Font* const j1Fonts::Load(const char* path, int size)
 {
 	TTF_Font* font = TTF_OpenFontRW(App->fs->Load(path), 1, size);
-
+	
 	if(font == NULL)
 	{
 		LOG("Could not load TTF font with path: %s. TTF_OpenFont: %s", path, TTF_GetError());
@@ -131,4 +141,11 @@ bool j1Fonts::CalcSize(const char* text, int& width, int& height, _TTF_Font* fon
 void j1Fonts::DeleteTexture(SDL_Texture * texture_to_delete)
 {
 	ready_to_unload.push_back(texture_to_delete);
+}
+
+_TTF_Font * j1Fonts::GetFontByIndex(uint index) const
+{
+	if (index >= fonts.size())return nullptr;
+
+	return fonts[index];
 }
