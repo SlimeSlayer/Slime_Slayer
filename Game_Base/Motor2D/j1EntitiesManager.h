@@ -29,7 +29,7 @@ public:
 	bool CleanUp();
 
 	// Collisions functions
-	void OnCollision(PhysBody* A, PhysBody* B);
+	void BeginCollision(PhysBody* A, PhysBody* B);
 
 private:
 

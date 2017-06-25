@@ -162,10 +162,6 @@ bool j1Render::Update(float dt)
 		bool color_change = (color.r != 255 || color.g != 255 || color.b != 255);
 			
 		if(color_change)SDL_SetTextureColorMod(tex, color.r, color.g, color.b);
-		if (blit->GetAngle() == 60.0)
-		{
-			LOG("wo");
-		}
 		Blit(blit->GetTex(), blit->GetX(), blit->GetY(), blit->GetRect(), blit->GetFlip(),blit->GetOpacity(), blit->GetXPivot(), blit->GetYPivot(),1.0f,blit->GetAngle());
 		blit_queue.pop();
 

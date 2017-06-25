@@ -271,7 +271,7 @@ bool Tutorial::CleanUp()
 	return true;
 }
 
-void Tutorial::OnCollision(PhysBody * A, PhysBody * B)
+void Tutorial::BeginSensorCollision(PhysBody * A, PhysBody * B)
 {
 	if (A == end_trigger)
 	{

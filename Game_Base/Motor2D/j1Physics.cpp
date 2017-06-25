@@ -278,11 +278,19 @@ void j1Physics::BeginContact(b2Contact* contact)
 	PhysBody* physA = (PhysBody*)contact->GetFixtureA()->GetBody()->GetUserData();
 	PhysBody* physB = (PhysBody*)contact->GetFixtureB()->GetBody()->GetUserData();
 
-	if (physA != nullptr && physA->listener != NULL)
-		physA->listener->OnCollision(physA, physB);
+	if (!contact->GetFixtureA()->IsSensor() && !contact->GetFixtureB()->IsSensor())
+	{
+		if (physA != nullptr && physA->listener != NULL)
+			physA->listener->BeginCollision(physA, physB);
 
-	if (physB != nullptr && physB->listener != NULL)
-		physB->listener->OnCollision(physB, physA);
+		if (physB != nullptr && physB->listener != NULL)
+			physB->listener->BeginCollision(physB, physA);
+	}
+	else if (contact->GetFixtureA()->IsSensor() ^ contact->GetFixtureB()->IsSensor())
+	{
+		if(contact->GetFixtureA()->IsSensor())physA->listener->BeginSensorCollision(physA, physB);
+		else physB->listener->BeginSensorCollision(physB, physA);
+	}
 }
 /// -------------------------------------------------------
 
@@ -396,11 +404,15 @@ bool j1Physics::PreUpdate()
 				if (pb1->collide_type != BODY_TYPE::MAP_BODY && pb2->collide_type != BODY_TYPE::MAP_BODY && pb1->listener)
 				{
 					pb1->listener->OnCollision(pb1, pb2);
+					pb2->listener->OnCollision(pb2, pb1);
 				}
 			}
 			else if (c->GetFixtureA()->IsSensor() ^ c->GetFixtureB()->IsSensor())
 			{
-				LOG("Sensor Contact!");
+				PhysBody* pb1 = (PhysBody*)c->GetFixtureA()->GetBody()->GetUserData();
+				PhysBody* pb2 = (PhysBody*)c->GetFixtureB()->GetBody()->GetUserData();
+				if(c->GetFixtureA()->IsSensor())pb1->listener->OnSensorCollision(pb1, pb2);
+				else pb2->listener->OnSensorCollision(pb2, pb1);
 			}
 
 		}

@@ -61,6 +61,7 @@ void MainMenu::Disable()
 {
 	active = false;
 	enabled = false;
+	start_button->UnBlock();
 	menu_branch->Desactivate();
 	menu_branch->DesactivateChids();
 }
@@ -318,7 +319,11 @@ void MainMenu::GUI_Input(UI_Element * target, GUI_INPUT input)
 	if (input == GUI_INPUT::MOUSE_LEFT_BUTTON_DOWN)
 	{
 		//Main Buttons ----------------
-		if(target == start_button)App->ActiveTutorial();
+		if (target == start_button && !start_button->GetBlockState())
+		{
+			start_button->Block();
+			App->ActiveTutorial();
+		}
 		else if (target == settings_button)
 		{
 			//Deactivate start, settings & quit buttons

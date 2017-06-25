@@ -34,6 +34,7 @@ protected:
 	SDL_Rect				box = { 0,0,0,0 };
 	uint					layer = 0;
 	mutable bool			IsActive = true;
+	mutable bool			blocked = false;
 	bool					isin = false;
 	UI_TYPE					ui_type = UNDEFINED;
 
@@ -72,12 +73,12 @@ public:
 	uint				GetLayer()const;
 	UI_TYPE				GetUItype()const;
 
-	//Active/Desactive functions
+	//Active/Deactivate functions
 	void				Activate();
 	void				Desactivate();
 	bool				GetActiveState()const;
 
-	//Active/Desactive childs
+	//Active/Deactivate childs
 	void				ActivateChilds();
 	void				DesactivateChids();
 
@@ -88,9 +89,14 @@ public:
 	UI_Element*			SetParent(const UI_Element* parent);
 	UI_Element*			GetParent()const;
 
-	// Input taget functions
+	// Input target functions
 	void				SetInputTarget(j1Module* target);
 	j1Module*			GetInputTarget()const;
+
+	//Block functions
+	virtual void		Block();
+	virtual void		UnBlock();
+	bool				GetBlockState();
 };
 
 #endif // __UI_ELEMENT__

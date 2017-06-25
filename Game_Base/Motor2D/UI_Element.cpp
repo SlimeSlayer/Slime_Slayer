@@ -21,7 +21,7 @@ UI_Element::~UI_Element()
 // Game Loop ==============================================
 bool UI_Element::Update()
 {
-	HandleInput();
+	if(!blocked)HandleInput();
 	/*
 			This Update
 	*/
@@ -328,4 +328,19 @@ void UI_Element::SetInputTarget(j1Module * target)
 j1Module * UI_Element::GetInputTarget() const
 {
 	return this->input_target;
+}
+
+void UI_Element::Block()
+{
+	blocked = true;
+}
+
+void UI_Element::UnBlock()
+{
+	blocked = false;
+}
+
+bool UI_Element::GetBlockState()
+{
+	return blocked;
 }

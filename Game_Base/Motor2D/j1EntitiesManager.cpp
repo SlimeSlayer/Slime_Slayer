@@ -197,7 +197,7 @@ bool j1EntitiesManager::CleanUp()
 	return true;
 }
 
-void j1EntitiesManager::OnCollision(PhysBody * A, PhysBody * B)
+void j1EntitiesManager::BeginCollision(PhysBody * A, PhysBody * B)
 {
 	if (A->entity_related == nullptr || B->entity_related == nullptr)return;
 	
