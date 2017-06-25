@@ -80,3 +80,32 @@ void Intelligent_Creature::HandleInteraction(Entity * target)
 
 }
 /// ---------------------------------------------
+
+/// NPC -----------------------------------------
+// Constructors =======================
+NPC::NPC()
+{
+
+}
+
+NPC::NPC(const NPC & copy, bool generate_body) :Intelligent_Creature(copy, generate_body)
+{
+	uint size = copy.dialog_strings.size();
+	for (uint k = 0; k < size; k++)
+	{
+		this->AddDialogStr(copy.dialog_strings[k].c_str());
+	}
+}
+
+// Destructors ========================
+NPC::~NPC()
+{
+	dialog_strings.clear();
+}
+
+// Functionality ======================
+void NPC::AddDialogStr(const char * str)
+{
+	dialog_strings.push_back(str);
+}
+/// ---------------------------------------------

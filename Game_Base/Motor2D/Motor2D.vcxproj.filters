@@ -232,6 +232,12 @@
     <ClInclude Include="Endless.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="Worker.h">
+      <Filter>Act_System</Filter>
+    </ClInclude>
+    <ClInclude Include="Actions.h">
+      <Filter>Act_System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scenes">
@@ -260,6 +266,9 @@
     </Filter>
     <Filter Include="Modules\EntitiesManager">
       <UniqueIdentifier>{c3fdcd08-8ee7-43bb-b863-0a367e721999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Act_System">
+      <UniqueIdentifier>{15659d92-be84-44dd-ae74-16a439078d81}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

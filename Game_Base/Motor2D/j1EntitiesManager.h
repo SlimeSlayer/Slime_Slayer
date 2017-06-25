@@ -48,12 +48,11 @@ private:
 	std::vector<Item*>		items_defs;
 
 	// List with all the alive creatures
-	std::list<Entity*> current_entities;
-
+	std::list<Entity*>		current_entities;
 	//List with all the entities ready to be deleted
-	std::list<Entity*> entitites_to_delete;
+	std::list<Entity*>		entitites_to_delete;
 	//Vector with all the entities generated in the last frame
-	std::vector<Entity*> entities_to_add;
+	std::vector<Entity*>	entities_to_add;
 
 public:
 

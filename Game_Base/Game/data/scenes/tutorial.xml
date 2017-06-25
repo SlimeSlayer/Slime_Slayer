@@ -9,6 +9,7 @@
   <player_avatar pos_x="1500" pos_y="900"/>
   <entities>
     <!--All entities tutorial data here to can divide the process in different frames -->
-    <entity entity_type="creature" creature_type="npc_creature" pos_x="2000" pos_y="895"/>
+    <entity entity_type="creature" creature_type="standard_npc_creature" pos_x="1300" pos_y="895"/>
+    <entity entity_type="creature" creature_type="lore_npc_creature" pos_x="2000" pos_y="895"/>
   </entities>
 </data>

@@ -60,17 +60,43 @@
       fixed_rotation="true"
       interaction_type="static"
       
-      creature_type="npc_creature"
+      creature_type="standard_npc_creature"
       name="NPC"
       description="Insert epic description here"
       life="100"
       attack="5"
       mov_speed="5"
-      jump_force="100"
+      jump_force="100"     
+      />
+    <!--Lore NPC-->
+    <entity
+      body_type="npc_body"
+      collision_type="npc_collision"
+      listener="entities_manager"
+      body_shape="square"
+      width ="50"
+      height="70"
+      restitution="0.0"
+      friction="0.0"
+      mass="25.0"
+      fixed_rotation="true"
+      interaction_type="static"
       
-      vision_range ="450"
+      creature_type="lore_npc_creature"
+      name="Lore NPC"
+      description="Insert epic description here"
+      life="100"
+      attack="0"
+      mov_speed="0"
+      jump_force="0"
+      
+      vision_range ="350"
       vision_sensor_type ="neutral_sensor_collision"
       money="12"
+      
+      d_0="Hello!"
+      d_1="..."
+      d_2="Bye!"
       
       />
     <!--Player-->

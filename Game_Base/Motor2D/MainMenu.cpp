@@ -284,6 +284,7 @@ bool MainMenu::Update(float dt)
 			//Activate menu buttons
 			start_button->Activate();
 			settings_button->Activate();
+			quit_button->Activate();
 		}
 		else if (video_menu->GetActiveState() || audio_menu->GetActiveState())
 		{

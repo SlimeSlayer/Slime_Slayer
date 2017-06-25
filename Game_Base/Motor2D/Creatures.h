@@ -5,6 +5,8 @@
 #include "BaseEntities.h"
 #endif 
 
+#include <vector>
+
 class PhysBody;
 
 /// Intelligent_Creature ------------------------
@@ -43,6 +45,26 @@ public:
 	void UpdatePosition();
 
 	virtual void HandleInteraction(Entity* target);
+};
+/// ---------------------------------------------
+
+/// NPC -----------------------------------------
+class NPC : public Intelligent_Creature
+{
+public:
+
+	NPC();
+	NPC(const NPC& copy, bool generate_body = true);
+	~NPC();
+
+protected:
+
+	std::vector<std::string> dialog_strings;
+
+public:
+
+	//Functionality ---------
+	void AddDialogStr(const char* str);
 };
 /// ---------------------------------------------
 #endif // !_CREATURES_H_
