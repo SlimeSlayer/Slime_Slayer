@@ -30,6 +30,7 @@ public:
 
 	// Collisions functions
 	void BeginCollision(PhysBody* A, PhysBody* B);
+	void BeginSensorCollision(PhysBody* A, PhysBody* B);
 
 private:
 

@@ -1,5 +1,6 @@
 #include "Creatures.h"
 
+#include "p2Log.h"
 #include "j1App.h"
 #include "j1Physics.h"
 
@@ -101,6 +102,12 @@ NPC::NPC(const NPC & copy, bool generate_body) :Intelligent_Creature(copy, gener
 NPC::~NPC()
 {
 	dialog_strings.clear();
+}
+
+// Actions ============================
+void NPC::StartDialog()
+{
+	LOG("DIalog!");
 }
 
 // Functionality ======================

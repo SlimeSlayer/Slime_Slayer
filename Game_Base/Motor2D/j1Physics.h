@@ -107,7 +107,7 @@ public:
 	b2Body*			body = nullptr;
 	int				width = 0, height = 0;
 	j1Module*		listener = nullptr;
-	BODY_TYPE		collide_type = NO_BODY;
+	BODY_TYPE		body_type = NO_BODY;
 	Entity*			entity_related = nullptr;
 };
 /// -------------------------------------------------------

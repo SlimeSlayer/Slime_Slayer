@@ -216,6 +216,22 @@ void j1EntitiesManager::BeginCollision(PhysBody * A, PhysBody * B)
 	}
 }
 
+void j1EntitiesManager::BeginSensorCollision(PhysBody * A, PhysBody * B)
+{
+	switch (A->body_type)
+	{
+	case NPC_BODY:
+		if (B->body_type == PLAYER_BODY)
+		{
+			if (((Creature*)A->entity_related)->GetCreatureType() == CREATURE_TYPE::LORE_NPC_CREATURE)
+			{
+				((NPC*)A->entity_related)->StartDialog();
+			}
+		}
+		break;
+	}
+}
+
 // Functionality ================================
 void j1EntitiesManager::AddItemDefinition(const pugi::xml_node * data_node)
 {
@@ -325,7 +341,8 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 		/*Sensor*/		new_vision_area->body_def->is_sensor = true;
 		/*Listener*/	new_vision_area->body_def->listener = App->GetModule(data_node->attribute("listener").as_string());
 		/*Collision*/	new_vision_area->body_def->collision_type = App->physics->StrToCollisionType(data_node->attribute("vision_sensor_type").as_string());
-
+		/*Body.Type*/	new_vision_area->body_def->body_type = App->physics->StrToBodyType(data_node->attribute("body_type").as_string());
+		
 		//Set the generated vision are at the new creature
 		((Intelligent_Creature*)new_creature)->SetVisionArea(new_vision_area);
 

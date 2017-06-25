@@ -63,6 +63,10 @@ protected:
 
 public:
 
+	//Actions ---------------
+	void StartDialog();
+	void Dialog();
+
 	//Functionality ---------
 	void AddDialogStr(const char* str);
 };

@@ -42,7 +42,7 @@ PhysBody::PhysBody() : listener(NULL), body(NULL)
 
 }
 
-PhysBody::PhysBody(const PhysBody & copy) : collide_type(copy.collide_type), width(copy.width), height(copy.height), listener(copy.listener), entity_related(copy.entity_related)
+PhysBody::PhysBody(const PhysBody & copy) : body_type(copy.body_type), width(copy.width), height(copy.height), listener(copy.listener), entity_related(copy.entity_related)
 {
 	if (copy.body != nullptr)
 	{
@@ -401,7 +401,7 @@ bool j1Physics::PreUpdate()
 			{
 				PhysBody* pb1 = (PhysBody*)c->GetFixtureA()->GetBody()->GetUserData();
 				PhysBody* pb2 = (PhysBody*)c->GetFixtureB()->GetBody()->GetUserData();
-				if (pb1->collide_type != BODY_TYPE::MAP_BODY && pb2->collide_type != BODY_TYPE::MAP_BODY && pb1->listener)
+				if (pb1->body_type != BODY_TYPE::MAP_BODY && pb2->body_type != BODY_TYPE::MAP_BODY && pb1->listener)
 				{
 					pb1->listener->OnCollision(pb1, pb2);
 					pb2->listener->OnCollision(pb2, pb1);
@@ -474,7 +474,7 @@ bool j1Physics::PostUpdate()
 		for (b2Fixture* f = b->GetFixtureList(); f; f = f->GetNext())
 		{
 			SDL_Color draw_color = { 255,255,255,255 };
-			switch (((PhysBody*)f->GetBody()->GetUserData())->collide_type)
+			switch (((PhysBody*)f->GetBody()->GetUserData())->body_type)
 			{
 			case COLLISION_TYPE::ITEM_COLLISION:
 			case COLLISION_TYPE::STATIC_ITEM_COLLISION:
@@ -643,7 +643,7 @@ PhysBody* j1Physics::CreateCircle(int x, int y, int radius, COLLISION_TYPE type,
 
 	//PhysBody
 	PhysBody* pbody = new PhysBody();
-	pbody->collide_type = b_type;
+	pbody->body_type = b_type;
 	pbody->body = b;
 	b->SetUserData(pbody);
 	pbody->width = pbody->height = radius;
@@ -674,7 +674,7 @@ PhysBody* j1Physics::CreateStaticCircle(int x, int y, int radius, COLLISION_TYPE
 	//PhysBody
 	PhysBody* pbody = new PhysBody();
 	pbody->body = b;
-	pbody->collide_type = b_type;
+	pbody->body_type = b_type;
 	b->SetUserData(pbody);
 	pbody->width = pbody->height = radius;
 
@@ -703,7 +703,7 @@ PhysBody* j1Physics::CreateRectangle(int x, int y, int width, int height, COLLIS
 
 	//PhysBody
 	PhysBody* pbody = new PhysBody();
-	pbody->collide_type = b_type;
+	pbody->body_type = b_type;
 	pbody->body = b;
 	b->SetUserData(pbody);
 	pbody->width = width * 0.5f;
@@ -735,12 +735,12 @@ PhysBody* j1Physics::CreateRectangleSensor(int x, int y, int width, int height, 
 
 	//PhhysBody
 	PhysBody* pbody = new PhysBody();
-	pbody->collide_type = b_type;
+	pbody->body_type = b_type;
 	pbody->body = b;
 	b->SetUserData(pbody);
 	pbody->width = width;
 	pbody->height = height;
-	pbody->collide_type = b_type;
+	pbody->body_type = b_type;
 
 	return pbody;
 }
@@ -773,10 +773,10 @@ PhysBody* j1Physics::CreateChain(int x, int y, int* points, int size, COLLISION_
 
 	//PhysBody
 	PhysBody* pbody = new PhysBody();
-	pbody->collide_type = b_type;
+	pbody->body_type = b_type;
 	pbody->body = b;
 	b->SetUserData(pbody);
-	pbody->collide_type = b_type;
+	pbody->body_type = b_type;
 	pbody->width = pbody->height = 0;
 
 	return pbody;
@@ -816,7 +816,7 @@ PhysBody* j1Physics::CreateSensorChain(int x, int y, int* points, int size, COLL
 	PhysBody* pbody = new PhysBody();
 	pbody->body = b;
 	b->SetUserData(pbody);
-	pbody->collide_type = b_type;
+	pbody->body_type = b_type;
 
 	return pbody;
 }
@@ -867,7 +867,7 @@ PhysBody * j1Physics::TransformDefToBuilt(PhysBody* target)
 
 	//PhysBody
 	PhysBody* pbody = new PhysBody();
-	pbody->collide_type = target->body_def->body_type;
+	pbody->body_type = target->body_def->body_type;
 	pbody->body = b;
 	b->SetUserData(pbody);
 	pbody->width = target->body_def->width * 0.5f;
