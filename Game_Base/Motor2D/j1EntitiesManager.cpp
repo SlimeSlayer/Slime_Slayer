@@ -225,7 +225,7 @@ void j1EntitiesManager::BeginSensorCollision(PhysBody * A, PhysBody * B)
 		{
 			if (((Creature*)A->entity_related)->GetCreatureType() == CREATURE_TYPE::LORE_NPC_CREATURE)
 			{
-				((NPC*)A->entity_related)->StartDialog();
+				((NPC*)A->entity_related)->StartDialog((Player*)B->entity_related);
 			}
 		}
 		break;
@@ -292,7 +292,7 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	switch (creature_type)
 	{
 	case PLAYER_CREATURE:
-							new_creature = new Intelligent_Creature();	break;
+							new_creature = new Player();	break;
 	case LORE_NPC_CREATURE:
 							new_creature = new NPC();					break;
 	case STANDARD_NPC_CREATURE:
@@ -404,7 +404,7 @@ Creature * j1EntitiesManager::GenerateCreature(CREATURE_TYPE creature_type, bool
 				new_creature = new NPC(*(NPC*)creatures_defs[k], generate_body);
 				break;
 			case PLAYER_CREATURE:
-				new_creature = new Intelligent_Creature(*(Intelligent_Creature*)creatures_defs[k], generate_body);
+				new_creature = new Player(*(Player*)creatures_defs[k], generate_body);
 				break;
 			default:
 				new_creature = new Creature(*creatures_defs[k], generate_body);

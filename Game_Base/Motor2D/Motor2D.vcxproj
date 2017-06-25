@@ -77,6 +77,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actions.cpp" />
     <ClCompile Include="BaseEntities.cpp" />
     <ClCompile Include="Creatures.cpp" />
     <ClCompile Include="Endless.cpp" />
@@ -114,6 +115,7 @@
     <ClCompile Include="UI_String.cpp" />
     <ClCompile Include="UI_Text_Box.cpp" />
     <ClCompile Include="j1Video.cpp" />
+    <ClCompile Include="Worker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actions.h" />

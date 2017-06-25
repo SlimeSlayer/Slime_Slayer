@@ -108,6 +108,12 @@
     <ClCompile Include="Endless.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Actions.cpp">
+      <Filter>Act_System</Filter>
+    </ClCompile>
+    <ClCompile Include="Worker.cpp">
+      <Filter>Act_System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">

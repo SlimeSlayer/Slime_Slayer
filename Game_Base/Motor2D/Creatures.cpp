@@ -30,6 +30,8 @@ Intelligent_Creature::~Intelligent_Creature()
 // Game Loop ==========================
 bool Intelligent_Creature::Update()
 {
+	worker.Update();
+
 	this->UpdatePosition();
 
 	return true;
@@ -105,14 +107,34 @@ NPC::~NPC()
 }
 
 // Actions ============================
-void NPC::StartDialog()
+void NPC::StartDialog(Player* target)
 {
 	LOG("DIalog!");
+	worker.AddDialogAction(this, target);
 }
 
 // Functionality ======================
 void NPC::AddDialogStr(const char * str)
 {
 	dialog_strings.push_back(str);
+}
+/// ---------------------------------------------
+
+/// Player --------------------------------------
+// Constructors =======================
+Player::Player()
+{
+
+}
+
+Player::Player(const Player & copy, bool generate_body) :Intelligent_Creature(copy, generate_body)
+{
+
+}
+
+// Destructors ========================
+Player::~Player()
+{
+
 }
 /// ---------------------------------------------

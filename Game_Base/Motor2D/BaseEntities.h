@@ -4,6 +4,7 @@
 #include "p2Point.h"
 #include "p2Defs.h"
 #include <string>
+#include "Worker.h"
 
 using namespace std;
 class PhysBody;
@@ -53,6 +54,10 @@ protected:
 	string		name = "";
 	string		description = "";
 	//Animation*	current_animation = nullptr;
+
+public:
+
+	Worker worker;
 
 public:
 

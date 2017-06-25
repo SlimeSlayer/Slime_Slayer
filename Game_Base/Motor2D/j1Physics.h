@@ -132,7 +132,7 @@ public:
 
 public:
 
-	//Bodys Creations -----------------
+	//Bodies Creations -----------------
 	PhysBody* CreateCircle(int x, int y, int radius, COLLISION_TYPE type, BODY_TYPE b_type = NO_BODY, uint restitution = 0);
 	PhysBody* CreateStaticCircle(int x, int y, int radius, COLLISION_TYPE type, BODY_TYPE b_type = NO_BODY, uint restitution = 0);
 	PhysBody* CreateRectangle(int x, int y, int width, int height, COLLISION_TYPE type, BODY_TYPE b_type = NO_BODY, uint restitution = 0);
@@ -177,8 +177,8 @@ private:
 	std::list<b2Body*> bodys_to_delete;
 
 	//Fixed physics time-step for free frame rate
-	float fixed_timestep_accumulator = 0;
-	unsigned short fixed_timestep_accumulator_ratio = 0;
+	float			fixed_timestep_accumulator = 0;
+	unsigned short	fixed_timestep_accumulator_ratio = 0;
 };
 /// -------------------------------------------------------
 #endif

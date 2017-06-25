@@ -33,6 +33,9 @@ Entity::~Entity()
 //Game Loop ===========================
 bool Entity::Update()
 {
+	//Update worker
+	worker.Update();
+
 	return true;
 }
 

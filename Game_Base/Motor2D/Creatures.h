@@ -64,11 +64,24 @@ protected:
 public:
 
 	//Actions ---------------
-	void StartDialog();
-	void Dialog();
+	void StartDialog(Player* target);
 
 	//Functionality ---------
 	void AddDialogStr(const char* str);
+};
+/// ---------------------------------------------
+
+/// Player --------------------------------------
+class Player : public Intelligent_Creature
+{
+public:
+
+	Player();
+	Player(const Player& copy, bool generate_body = true);
+	~Player();
+
+private:
+
 };
 /// ---------------------------------------------
 #endif // !_CREATURES_H_
