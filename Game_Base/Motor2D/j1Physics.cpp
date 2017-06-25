@@ -385,12 +385,24 @@ bool j1Physics::PreUpdate()
 	// Iterates all the world contact to call the listeners --
 	for (b2Contact* c = world->GetContactList(); c; c = c->GetNext())
 	{
-		if (c->GetFixtureA()->IsSensor() && c->IsTouching())
+		
+		if (c->IsTouching())
 		{
-			PhysBody* pb1 = (PhysBody*)c->GetFixtureA()->GetBody()->GetUserData();
-			PhysBody* pb2 = (PhysBody*)c->GetFixtureA()->GetBody()->GetUserData();
-			if (pb1 && pb2 && pb1->listener)
-				pb1->listener->OnCollision(pb1, pb2);
+			
+			if (!c->GetFixtureA()->IsSensor() && !c->GetFixtureB()->IsSensor())
+			{
+				PhysBody* pb1 = (PhysBody*)c->GetFixtureA()->GetBody()->GetUserData();
+				PhysBody* pb2 = (PhysBody*)c->GetFixtureB()->GetBody()->GetUserData();
+				if (pb1->collide_type != BODY_TYPE::MAP_BODY && pb2->collide_type != BODY_TYPE::MAP_BODY && pb1->listener)
+				{
+					pb1->listener->OnCollision(pb1, pb2);
+				}
+			}
+			else if (c->GetFixtureA()->IsSensor() ^ c->GetFixtureB()->IsSensor())
+			{
+				LOG("Sensor Contact!");
+			}
+
 		}
 	}
 	// --------------------------------------------------------------
@@ -431,7 +443,7 @@ bool j1Physics::PostUpdate()
 		body = body->GetNext();
 	}
 
-	//Active/Desactive physic debug mode ------------------
+	//Active/Deactivate physic debug mode ------------------
 	if (App->input_manager->GetEvent(COLLIDERS_DEBUG_MODE) == INPUT_DOWN)
 	{
 		App->collisions_debug = !App->collisions_debug;
@@ -861,7 +873,7 @@ void j1Physics::SetFixture(b2FixtureDef& fixture, COLLISION_TYPE type)
 	switch (type)
 	{
 	case PLAYER_COLLISION:
-		fixture.filter.maskBits = MAP_COLLISION | ITEM_COLLISION | STATIC_ITEM_COLLISION;
+		fixture.filter.maskBits = MAP_COLLISION | ITEM_COLLISION | STATIC_ITEM_COLLISION | ENEMY_SENSOR_COLLISION | NEUTRAL_SENSOR_COLLISION;
 		break;
 	case MAP_COLLISION:
 		fixture.filter.maskBits = PLAYER_COLLISION | ITEM_COLLISION;
@@ -870,6 +882,18 @@ void j1Physics::SetFixture(b2FixtureDef& fixture, COLLISION_TYPE type)
 		fixture.filter.maskBits = PLAYER_COLLISION | MAP_COLLISION | ITEM_COLLISION;
 		break;
 	case STATIC_ITEM_COLLISION:
+		fixture.filter.maskBits = PLAYER_COLLISION;
+		break;
+	case NPC_COLLISION:
+		fixture.filter.maskBits = ALLY_SENSOR_COLLISION;
+		break;
+	case NEUTRAL_SENSOR_COLLISION:
+		fixture.filter.maskBits = PLAYER_COLLISION | NPC_COLLISION;
+		break;
+	case ALLY_SENSOR_COLLISION:
+		fixture.filter.maskBits = NPC_COLLISION;
+		break;
+	case ENEMY_SENSOR_COLLISION:
 		fixture.filter.maskBits = PLAYER_COLLISION;
 		break;
 	}
@@ -988,11 +1012,14 @@ b2Shape::Type j1Physics::StrToBodyShape(const char * str) const
 
 COLLISION_TYPE j1Physics::StrToCollisionType(const char * str) const
 {
-	if (strcmp(str, "player_collision") == 0)		return COLLISION_TYPE::PLAYER_COLLISION;
-	if (strcmp(str, "npc_collision") == 0)			return COLLISION_TYPE::NPC_COLLISION;
-	if (strcmp(str, "map_collision") == 0)			return COLLISION_TYPE::MAP_COLLISION;
-	if (strcmp(str, "item_collision") == 0)			return COLLISION_TYPE::ITEM_COLLISION;
-	if (strcmp(str, "static_item_collision") == 0)	return COLLISION_TYPE::STATIC_ITEM_COLLISION;
+	if (strcmp(str, "player_collision") == 0)			return COLLISION_TYPE::PLAYER_COLLISION;
+	if (strcmp(str, "npc_collision") == 0)				return COLLISION_TYPE::NPC_COLLISION;
+	if (strcmp(str, "map_collision") == 0)				return COLLISION_TYPE::MAP_COLLISION;
+	if (strcmp(str, "item_collision") == 0)				return COLLISION_TYPE::ITEM_COLLISION;
+	if (strcmp(str, "static_item_collision") == 0)		return COLLISION_TYPE::STATIC_ITEM_COLLISION;
+	if (strcmp(str, "neutral_sensor_collision") == 0)	return COLLISION_TYPE::NEUTRAL_SENSOR_COLLISION;
+	if (strcmp(str, "ally_sensor_collision") == 0)		return COLLISION_TYPE::ALLY_SENSOR_COLLISION;
+	if (strcmp(str, "enemy_sensor_collision") == 0)		return COLLISION_TYPE::ENEMY_SENSOR_COLLISION;
 }
 
 BODY_TYPE j1Physics::StrToBodyType(const char * str) const

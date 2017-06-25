@@ -104,9 +104,19 @@ public:
 	}
 
 	//Collisions functions -------------
+	virtual void BeginCollision(PhysBody* A, PhysBody* B) /*When a & B starts the collision*/
+	{
+
+	}
+
 	virtual void OnCollision(PhysBody* A, PhysBody* B)
 	{
 	
+	}
+
+	virtual void OnSensorCollision(PhysBody* A, PhysBody* B) /*A is the sensor*/
+	{
+
 	}
 
 public:

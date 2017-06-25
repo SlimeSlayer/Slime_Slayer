@@ -66,6 +66,7 @@ bool Tutorial::Enable()
 			COLLISION_TYPE::MAP_COLLISION, BODY_TYPE::MAP_BODY
 		);
 		end_trigger->body->SetType(b2BodyType::b2_staticBody);
+		end_trigger->body->GetFixtureList()->SetSensor(true);
 		end_trigger->listener = this;
 
 		//Front Parallax --------

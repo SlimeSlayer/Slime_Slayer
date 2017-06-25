@@ -277,7 +277,7 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	{
 	case PLAYER_CREATURE:
 	case NPC_CREATURE:
-		new_creature = new Intelligent_Creature();	break;
+							new_creature = new Intelligent_Creature();	break;
 	case NO_CREATURE:		new_creature = new Creature();				break;
 	}
 
@@ -321,7 +321,7 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 		/*Shape*/		new_vision_area->body_def->shape_type = b2Shape::Type::e_circle;
 		/*Sensor*/		new_vision_area->body_def->is_sensor = true;
 		/*Listener*/	new_vision_area->body_def->listener = App->GetModule(data_node->attribute("listener").as_string());
-		/*Collision*/	new_vision_area->body_def->collision_type = COLLISION_TYPE::SENSOR_COLLISION;
+		/*Collision*/	new_vision_area->body_def->collision_type = App->physics->StrToCollisionType(data_node->attribute("vision_sensor_type").as_string());
 
 		//Set the generated vision are at the new creature
 		((Intelligent_Creature*)new_creature)->SetVisionArea(new_vision_area);
