@@ -467,7 +467,7 @@ private:
 
 	float32 m_sleepTime;
 
-	void* m_userData;
+	void* m_userData = nullptr;
 };
 
 inline b2BodyType b2Body::GetType() const

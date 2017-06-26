@@ -80,7 +80,7 @@ void j1EntitiesManager::Disable()
 	uint size = creatures_defs.size();
 	for (uint k = 0; k < size; k++)
 	{
-		delete creatures_defs[k];
+		RELEASE(creatures_defs[k]);
 	}
 	creatures_defs.clear();
 
@@ -88,7 +88,7 @@ void j1EntitiesManager::Disable()
 	size = items_defs.size();
 	for (uint k = 0; k < size; k++)
 	{
-		delete items_defs[k];
+		RELEASE(items_defs[k]);
 	}
 	items_defs.clear();
 
@@ -96,7 +96,7 @@ void j1EntitiesManager::Disable()
 	std::list<Entity*>::iterator entities_to_del_item = entitites_to_delete.begin();
 	while (entities_to_del_item != entitites_to_delete.end())
 	{
-		delete entities_to_del_item._Ptr->_Myval;
+		RELEASE(entities_to_del_item._Ptr->_Myval);
 		entities_to_del_item++;
 	}
 	entitites_to_delete.clear();
@@ -105,7 +105,7 @@ void j1EntitiesManager::Disable()
 	std::list<Entity*>::iterator cur_entities_item = current_entities.begin();
 	while (cur_entities_item != current_entities.end())
 	{
-		delete cur_entities_item._Ptr->_Myval;
+		RELEASE(cur_entities_item._Ptr->_Myval);
 		cur_entities_item++;
 	}
 	current_entities.clear();
@@ -150,7 +150,7 @@ bool j1EntitiesManager::Update(float dt)
 	while (del_list_item != entitites_to_delete.end())
 	{
 		current_entities.remove(del_list_item._Ptr->_Myval);
-		delete del_list_item._Ptr->_Myval;
+		RELEASE(del_list_item._Ptr->_Myval);
 		del_list_item++;
 	}
 	entitites_to_delete.clear();
@@ -164,7 +164,7 @@ bool j1EntitiesManager::CleanUp()
 	uint size = creatures_defs.size();
 	for (uint k = 0; k < size; k++)
 	{
-		delete creatures_defs[k];
+		RELEASE(creatures_defs[k]);
 	}
 	creatures_defs.clear();
 
@@ -172,7 +172,7 @@ bool j1EntitiesManager::CleanUp()
 	size = items_defs.size();
 	for (uint k = 0; k < size; k++)
 	{
-		delete items_defs[k];
+		RELEASE(items_defs[k]);
 	}
 	items_defs.clear();
 
@@ -181,7 +181,7 @@ bool j1EntitiesManager::CleanUp()
 	while (del_list_item != entitites_to_delete.end())
 	{
 		current_entities.remove(del_list_item._Ptr->_Myval);
-		delete del_list_item._Ptr->_Myval;
+		RELEASE(del_list_item._Ptr->_Myval);
 		del_list_item++;
 	}
 	entitites_to_delete.clear();
@@ -190,7 +190,7 @@ bool j1EntitiesManager::CleanUp()
 	std::list<Entity*>::iterator cur_entities_item = current_entities.begin();
 	while (cur_entities_item != current_entities.end())
 	{
-		delete cur_entities_item._Ptr->_Myval;
+		RELEASE(cur_entities_item._Ptr->_Myval);
 		cur_entities_item++;
 	}
 	current_entities.clear();

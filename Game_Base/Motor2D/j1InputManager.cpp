@@ -79,9 +79,6 @@ INPUT_EVENT j1InputManager::StrToInputEvent(const char * str) const
 	if (strcmp(str, "colliders_debug") == 0)		return INPUT_EVENT::COLLIDERS_DEBUG_MODE;
 	if (strcmp(str, "ui_debug") == 0)				return INPUT_EVENT::UI_DEBUG_MODE;
 	if (strcmp(str, "escape") == 0)					return INPUT_EVENT::ESCAPE;
-	if (strcmp(str, "full_screen") == 0)			return INPUT_EVENT::FULL_SCREEN;
-	if (strcmp(str, "volume_up") == 0)				return INPUT_EVENT::VOLUME_UP;
-	if (strcmp(str, "volume_down") == 0)			return INPUT_EVENT::VOLUME_DOWN;
 	if (strcmp(str, "go_left") == 0)				return INPUT_EVENT::GO_LEFT;
 	if (strcmp(str, "go_right") == 0)				return INPUT_EVENT::GO_RIGHT;
 	if (strcmp(str, "jump") == 0)					return INPUT_EVENT::JUMP;

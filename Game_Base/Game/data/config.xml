@@ -38,14 +38,8 @@
     <!--Debug-->
     <key id ="F1"  event="colliders_debug"/>
     <key id ="F2"  event="ui_debug"/>
-    <!--<key id ="F3"  event="entities_debug"/>-->
-    <!--Volume UP/DOWN-->
-    <key id ="Keypad +"  event="volume_up"/>
-    <key id ="Keypad -"  event="volume_down"/>
     <!--Escape-->
     <key id ="Escape" event ="escape"/>   
-    <!--Full Screen-->
-    <key id ="F"  event ="full_screen"/>
     <!--Player-->
     <key id ="A"  event ="go_left"/>
     <key id ="D"  event ="go_right"/>

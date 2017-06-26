@@ -15,13 +15,6 @@ enum INPUT_EVENT
 	COLLIDERS_DEBUG_MODE,
 	UI_DEBUG_MODE,
 
-	//Full Screen
-	FULL_SCREEN,
-
-	//Audio Volume
-	VOLUME_UP,
-	VOLUME_DOWN,
-
 	//Player
 	GO_LEFT,
 	GO_RIGHT,

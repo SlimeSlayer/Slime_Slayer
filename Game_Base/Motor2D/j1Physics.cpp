@@ -58,7 +58,11 @@ PhysBody::PhysBody(const PhysBody & copy) : body_type(copy.body_type), width(cop
 // Destructors ==================================
 PhysBody::~PhysBody()
 {
-	if (body != nullptr)App->physics->DeleteBody(body);
+	if (body != nullptr)
+	{
+		body->SetUserData(nullptr);
+		App->physics->DeleteBody(body);
+	}
 	if (body_def != nullptr)
 	{
 			RELEASE(body_def);
@@ -286,7 +290,7 @@ void j1Physics::BeginContact(b2Contact* contact)
 		if (physB != nullptr && physB->listener != NULL)
 			physB->listener->BeginCollision(physB, physA);
 	}
-	else if (contact->GetFixtureA()->IsSensor() ^ contact->GetFixtureB()->IsSensor())
+	else if (contact->GetFixtureA()->IsSensor() ^ contact->GetFixtureB()->IsSensor() && physA != nullptr && physB != nullptr)
 	{
 		if(contact->GetFixtureA()->IsSensor())physA->listener->BeginSensorCollision(physA, physB);
 		else physB->listener->BeginSensorCollision(physB, physA);
@@ -396,11 +400,17 @@ bool j1Physics::PreUpdate()
 		
 		if (c->IsTouching())
 		{
-			
+			PhysBody* pb1 = (PhysBody*)c->GetFixtureA()->GetBody()->GetUserData();
+			PhysBody* pb2 = (PhysBody*)c->GetFixtureB()->GetBody()->GetUserData();
+
+			if (pb1 == nullptr || pb2 == nullptr)
+			{
+				continue;
+			}
+
 			if (!c->GetFixtureA()->IsSensor() && !c->GetFixtureB()->IsSensor())
 			{
-				PhysBody* pb1 = (PhysBody*)c->GetFixtureA()->GetBody()->GetUserData();
-				PhysBody* pb2 = (PhysBody*)c->GetFixtureB()->GetBody()->GetUserData();
+				
 				if (pb1->body_type != BODY_TYPE::MAP_BODY && pb2->body_type != BODY_TYPE::MAP_BODY && pb1->listener)
 				{
 					pb1->listener->OnCollision(pb1, pb2);
@@ -409,8 +419,6 @@ bool j1Physics::PreUpdate()
 			}
 			else if (c->GetFixtureA()->IsSensor() ^ c->GetFixtureB()->IsSensor())
 			{
-				PhysBody* pb1 = (PhysBody*)c->GetFixtureA()->GetBody()->GetUserData();
-				PhysBody* pb2 = (PhysBody*)c->GetFixtureB()->GetBody()->GetUserData();
 				if(c->GetFixtureA()->IsSensor())pb1->listener->OnSensorCollision(pb1, pb2);
 				else pb2->listener->OnSensorCollision(pb2, pb1);
 			}
@@ -615,7 +623,7 @@ bool j1Physics::CleanUp()
 		bodys_to_delete.clear();
 	}
 
-	delete world;
+	RELEASE(world);
 
 	return true;
 }

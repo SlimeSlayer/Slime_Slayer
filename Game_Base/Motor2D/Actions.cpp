@@ -51,7 +51,7 @@ bool Dialog_Action::Execute()
 		current_dialog = ((NPC*)actor)->GetDialogByIndex(0);
 		current_dialog->SetBoxPosition(DEFAULT_DIALOG_X - current_dialog->GetBox()->w, DEFAULT_DIALOG_Y - current_dialog->GetBox()->h);
 	}
-	else if (App->input_manager->GetEvent(INPUT_EVENT::CROUCH) == INPUT_DOWN)
+	else if (App->input_manager->GetEvent(INPUT_EVENT::INTERACT) == INPUT_DOWN)
 	{
 		current_dialog = ((NPC*)actor)->GetDialogByIndex(++dialog_index);
 		if (current_dialog == nullptr)return true;
