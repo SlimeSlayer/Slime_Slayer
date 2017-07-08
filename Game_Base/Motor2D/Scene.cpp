@@ -74,14 +74,8 @@ void Scene::Disable()
 	//Release scene physic system
 	if (floor_collider != nullptr)RELEASE(floor_collider);
 
-	//Delete all the generated entities in the scene
-	std::list<Entity*>::const_iterator entity = entities_generated.begin();
-	while (entity != entities_generated.end())
-	{
-		App->entities_manager->DeleteEntity(entity._Ptr->_Myval, false);
-		entity++;
-	}
-	entities_generated.clear();
+	//Delete all the current entities in the scene
+	App->entities_manager->DeleteCurrentEntities();
 
 	active = enabled = base_enabled = false;
 }

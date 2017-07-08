@@ -22,12 +22,16 @@ public:
 
 	void Init();
 	bool Enable();
+	void Disable();
 
 	// Called before the first frame
 	bool Start();
 
 	// Called each loop iteration
 	bool Update(float dt);
+
+	// Called before quitting
+	bool CleanUp();
 
 public:
 

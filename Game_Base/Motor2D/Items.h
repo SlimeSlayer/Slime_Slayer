@@ -25,13 +25,24 @@ public:
 protected:
 
 	std::list<Item*>	items;
+	float				drop_impulse = 0.0f;
+	float				drop_total_rad = 0.0f;
+	float				drop_mid_rad = 0.0f;
 	bool				ready_to_drop = false;
 
 public:
 
 	//Set Methods -----------
 	void SetPosition(float x, float y);
+	void SetDropImpulse(float new_val);
+	void SetDropTotalRad(float new_val);
+	void SetDropMidRad(float new_val);
 	void SetReadyToDrop();
+	
+	//Get Methods -----------
+	float GetDropImpulse()const;
+	float GetDropTotalRad()const;
+	float GetDropMidRad()const;
 
 	//Functionality ---------
 	void AddItem(const Item* new_item);

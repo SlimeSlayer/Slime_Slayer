@@ -11,11 +11,11 @@ Items_Tank::Items_Tank()
 
 }
 
-Items_Tank::Items_Tank(const Items_Tank & copy, bool generate_body) :Item(copy, generate_body)
+Items_Tank::Items_Tank(const Items_Tank & copy, bool generate_body) :Item(copy, generate_body), drop_impulse(copy.drop_impulse), drop_mid_rad(copy.drop_mid_rad), drop_total_rad(copy.drop_total_rad)
 {
 	//Copy all the items of the list
-	std::list<Item*>::const_iterator list_item = items.begin();
-	while(list_item != items.end())
+	std::list<Item*>::const_iterator list_item = copy.items.begin();
+	while(list_item != copy.items.end())
 	{
 		items.push_back(App->entities_manager->GenerateItem(list_item._Ptr->_Myval->GetItemType(),false));
 		list_item++;
@@ -56,9 +56,40 @@ void Items_Tank::SetPosition(float x, float y)
 	}
 }
 
+void Items_Tank::SetDropImpulse(float new_val)
+{
+	drop_impulse = new_val;
+}
+
+void Items_Tank::SetDropTotalRad(float new_val)
+{
+	drop_total_rad = new_val;
+}
+
+void Items_Tank::SetDropMidRad(float new_val)
+{
+	drop_mid_rad = new_val;
+}
+
 void Items_Tank::SetReadyToDrop()
 {
 	ready_to_drop = true;
+}
+
+//Get Methods =========================
+float Items_Tank::GetDropImpulse() const
+{
+	return drop_impulse;
+}
+
+float Items_Tank::GetDropTotalRad() const
+{
+	return drop_total_rad;
+}
+
+float Items_Tank::GetDropMidRad() const
+{
+	return drop_mid_rad;
 }
 
 //Functionality =======================
@@ -85,7 +116,7 @@ void Items_Tank::DropItems()
 		int x = 0, y = 0;
 		this->body->GetPosition(x, y);
 		list_item._Ptr->_Myval->GetBody()->SetPosition((float)x, (float)y);
-		list_item._Ptr->_Myval->GetBody()->body->SetLinearVelocity({ 0,-5 });
+		list_item._Ptr->_Myval->GetBody()->body->SetLinearVelocity({ 0,-drop_impulse });
 		
 		//Add the dropped item at the entities manager 
 		App->entities_manager->AddEntity(list_item._Ptr->_Myval);

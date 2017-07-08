@@ -68,6 +68,6 @@ public:
 
 	void		AddEntity(const Entity* target);
 	void		DeleteEntity(Entity* target, bool delete_from_scene = true);
-
+	void		DeleteCurrentEntities();
 };
 #endif

@@ -279,10 +279,23 @@ void j1EntitiesManager::AddItemDefinition(const pugi::xml_node * data_node)
 	/*Description*/		new_item->SetDescription(data_node->attribute("description").as_string());
 
 	//Set new item specific stats
-	if (item_type == COIN_ITEM)
+	switch (item_type)
 	{
+	case COIN_ITEM:
+
 		/*Value*/		((Coin*)new_item)->SetValue(data_node->attribute("value").as_uint());
 		/*Delete Time*/	((Coin*)new_item)->SetTimeToDelete(data_node->attribute("time_to_delete").as_uint());
+
+		break;
+
+	case JAR_ITEM:
+
+		/*Drop Imp*/	((Items_Tank*)new_item)->SetDropImpulse(data_node->attribute("drop_impulse").as_float());
+		/*Drop T Rad*/	((Items_Tank*)new_item)->SetDropTotalRad(data_node->attribute("drop_total_rad").as_float());
+		/*Drop M Rad*/	((Items_Tank*)new_item)->SetDropMidRad(data_node->attribute("drop_mid_rad").as_float());
+
+		break;
+
 	}
 
 	//Add the built item definition at the items definitions vector
@@ -494,10 +507,30 @@ void j1EntitiesManager::AddEntity(const Entity * target)
 	entities_to_add.push_back((Entity*)target);
 }
 
-void j1EntitiesManager::DeleteEntity(Entity * target, bool delete_from_scene)
+void j1EntitiesManager::DeleteEntity(Entity* target, bool delete_from_scene)
 {
-	if(delete_from_scene)App->GetCurrentScene()->entities_generated.remove(target);
-
 	entitites_to_delete.remove(target);
 	entitites_to_delete.push_back(target);
+}
+
+void j1EntitiesManager::DeleteCurrentEntities()
+{
+	//Iterate & delete all the entities ready to be deleted
+	std::list<Entity*>::const_iterator del_list_item = entitites_to_delete.begin();
+	while (del_list_item != entitites_to_delete.end())
+	{
+		current_entities.remove(del_list_item._Ptr->_Myval);
+		RELEASE(del_list_item._Ptr->_Myval);
+		del_list_item++;
+	}
+	entitites_to_delete.clear();
+
+	// Clean all the current entities ----------
+	std::list<Entity*>::iterator cur_entities_item = current_entities.begin();
+	while (cur_entities_item != current_entities.end())
+	{
+		RELEASE(cur_entities_item._Ptr->_Myval);
+		cur_entities_item++;
+	}
+	current_entities.clear();
 }

@@ -29,12 +29,24 @@ void j1Player::Init()
 
 bool j1Player::Enable()
 {
-	avatar = (Player*)App->entities_manager->GenerateCreature(PLAYER_CREATURE);
+	//Generate player avatar
+	avatar = (Player*)App->entities_manager->GenerateCreature(PLAYER_CREATURE, false);
+	PhysBody* bdy_def = avatar->GetBody();
+	avatar->SetBody(App->physics->TransformDefToBuilt(avatar->GetBody()));
+	RELEASE(bdy_def);
 	avatar->GetBody()->body->GetFixtureList()->SetFriction(0.0f);
+	avatar->GetBody()->entity_related = avatar;
 
 	active = enabled = true;
 
 	return true;
+}
+
+void j1Player::Disable()
+{
+	RELEASE(avatar);
+
+	active = enabled = false;
 }
 
 bool j1Player::Start()
@@ -46,6 +58,9 @@ bool j1Player::Start()
 
 bool j1Player::Update(float dt)
 {
+	//Update player avatar ----------------------
+	avatar->Update();
+
 	// Read all player inputs states ------------
 	INPUT_STATE go_left_input_state = App->input_manager->GetEvent(INPUT_EVENT::GO_LEFT);
 	INPUT_STATE go_right_input_state = App->input_manager->GetEvent(INPUT_EVENT::GO_RIGHT);
@@ -64,7 +79,7 @@ bool j1Player::Update(float dt)
 	App->render->camera.y = -y_pos + PLAYER_CAMERA_Y;
 
 	// Check if player input is blocked ---------
-	if (avatar->GetInputBlocked())return true;
+	if (avatar->GetInputBlocked() || App->GetCurrentScene() == nullptr)return true;
 
 	// AIR INPUT --------------------------------
 	if (!avatar->GetBody()->IsInContact())
@@ -101,6 +116,13 @@ bool j1Player::Update(float dt)
 	{
 		avatar->GetBody()->body->ApplyForceToCenter(b2Vec2(0.0f, -avatar->GetJumpForce()), true);
 	}
+
+	return true;
+}
+
+bool j1Player::CleanUp()
+{
+	if (avatar != nullptr)RELEASE(avatar);
 
 	return true;
 }

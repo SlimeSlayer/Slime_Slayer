@@ -92,11 +92,6 @@ protected:
 	
 public:
 
-	//Entities generated
-	std::list<Entity*> entities_generated;
-
-public:
-
 	//Functionality ---------
 	void UpdateParallax(float disp);
 

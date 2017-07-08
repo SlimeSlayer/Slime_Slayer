@@ -40,6 +40,9 @@
       name="Jar"
       description="Contain coins"      
       
+      drop_impulse="5"
+      drop_total_rad="0.5"
+      drop_mid_rad="0.1"
       items_in="coin_item/coin_item"       
       />
   </item>

@@ -156,9 +156,6 @@ bool Tutorial::Enable()
 			//Set the new entity scene data
 			/*Position*/	new_entity->SetPosition(current_enable_node.attribute("pos_x").as_float(), current_enable_node.attribute("pos_y").as_float());
 
-			//Add the generated at the scene entities vector
-			entities_generated.push_back(new_entity);
-
 			//Focus the next entity node
 			current_enable_node = current_enable_node.next_sibling();
 
@@ -192,14 +189,8 @@ void Tutorial::Disable()
 	if (floor_collider != nullptr)RELEASE(floor_collider);
 	if (end_trigger != nullptr)RELEASE(end_trigger);
 
-	//Delete all the generated entities in the scene
-	std::list<Entity*>::const_iterator entity = entities_generated.begin();
-	while (entity != entities_generated.end())
-	{
-		App->entities_manager->DeleteEntity(entity._Ptr->_Myval, false);
-		entity++;
-	}
-	entities_generated.clear();
+	//Delete all the current entities in the scene
+	App->entities_manager->DeleteCurrentEntities();
 
 	active = enabled = base_enabled = false;
 }
