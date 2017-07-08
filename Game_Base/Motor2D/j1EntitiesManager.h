@@ -67,7 +67,7 @@ public:
 	Item*		GenerateItem(ITEM_TYPE item_type, bool generate_body = true);
 
 	void		AddEntity(const Entity* target);
-	void		DeleteEntity(Entity* target);
+	void		DeleteEntity(Entity* target, bool delete_from_scene = true);
 
 };
 #endif

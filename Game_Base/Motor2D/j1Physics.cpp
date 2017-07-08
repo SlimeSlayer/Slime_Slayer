@@ -111,6 +111,8 @@ void PhysBody::FixedRotation(bool value)
 
 void PhysBody::SetPosition(float x, float y)
 {
+	if (body == NULL)return;
+
 	float x_meters = PIXEL_TO_METERS(x);
 	float y_meters = PIXEL_TO_METERS(y);
 	b2Vec2 position((float32)x_meters, (float32)y_meters);

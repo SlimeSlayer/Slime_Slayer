@@ -90,8 +90,10 @@ protected:
 	Parallax*	mid_parallax = nullptr;
 	Parallax*	back_parallax = nullptr;
 	
+public:
+
 	//Entities generated
-	std::vector<Entity*> entities_generated;
+	std::list<Entity*> entities_generated;
 
 public:
 

@@ -8,6 +8,7 @@
 #include "j1Fonts.h"
 #include "j1Gui.h"
 #include "Worker.h"
+#include "Scene.h"
 
 #include "UI_String.h"
 
@@ -493,8 +494,10 @@ void j1EntitiesManager::AddEntity(const Entity * target)
 	entities_to_add.push_back((Entity*)target);
 }
 
-void j1EntitiesManager::DeleteEntity(Entity * target)
+void j1EntitiesManager::DeleteEntity(Entity * target, bool delete_from_scene)
 {
+	if(delete_from_scene)App->GetCurrentScene()->entities_generated.remove(target);
+
 	entitites_to_delete.remove(target);
 	entitites_to_delete.push_back(target);
 }

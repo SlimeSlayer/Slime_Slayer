@@ -90,7 +90,7 @@
       mov_speed="0"
       jump_force="0"
       
-      vision_range ="350"
+      vision_range ="100"
       vision_sensor_type ="neutral_sensor_collision"
       money="12"
       
@@ -127,7 +127,7 @@
       mov_speed="0"
       jump_force="0"
       
-      vision_range ="350"
+      vision_range ="100"
       vision_sensor_type ="neutral_sensor_collision"
       money="12"
       

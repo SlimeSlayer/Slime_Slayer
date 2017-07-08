@@ -193,10 +193,11 @@ void Tutorial::Disable()
 	if (end_trigger != nullptr)RELEASE(end_trigger);
 
 	//Delete all the generated entities in the scene
-	uint size = entities_generated.size();
-	for (uint k = 0; k < size; k++)
+	std::list<Entity*>::const_iterator entity = entities_generated.begin();
+	while (entity != entities_generated.end())
 	{
-		App->entities_manager->DeleteEntity(entities_generated[k]);
+		App->entities_manager->DeleteEntity(entity._Ptr->_Myval, false);
+		entity++;
 	}
 	entities_generated.clear();
 
