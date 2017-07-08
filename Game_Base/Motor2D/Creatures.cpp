@@ -117,7 +117,6 @@ NPC::~NPC()
 // Actions ============================
 void NPC::StartDialog(Player* target)
 {
-	LOG("DIalog!");
 	worker.AddDialogAction(this, target);
 }
 
@@ -150,5 +149,22 @@ Player::Player(const Player & copy, bool generate_body) :Intelligent_Creature(co
 Player::~Player()
 {
 
+}
+
+// Get Methods ========================
+bool Player::GetInputBlocked() const
+{
+	return input_blocked;
+}
+
+// Functionality ======================
+void Player::LockInput()
+{
+	input_blocked = true;
+}
+
+void Player::UnlockInput()
+{
+	input_blocked = false;
 }
 /// ---------------------------------------------

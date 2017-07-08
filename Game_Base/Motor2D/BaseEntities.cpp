@@ -86,11 +86,6 @@ PhysBody * Entity::GetBody() const
 	return body;
 }
 
-Worker* Entity::GetWorker()
-{
-	return &worker;
-}
-
 // Functionality ======================
 void Entity::UpdatePosition()
 {

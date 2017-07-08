@@ -6,6 +6,7 @@
 #include "j1Physics.h"
 #include "j1Render.h"
 #include "Scene.h"
+#include "Worker.h"
 
 // Constructors =================================
 j1Player::j1Player()
@@ -28,7 +29,7 @@ void j1Player::Init()
 
 bool j1Player::Enable()
 {
-	avatar = (Intelligent_Creature*)App->entities_manager->GenerateCreature(PLAYER_CREATURE);
+	avatar = (Player*)App->entities_manager->GenerateCreature(PLAYER_CREATURE);
 	avatar->GetBody()->body->GetFixtureList()->SetFriction(0.0f);
 
 	active = enabled = true;
@@ -61,6 +62,9 @@ bool j1Player::Update(float dt)
 	// Center camera at player position ---------
 	App->render->camera.x = -x_pos + PLAYER_CAMERA_X;
 	App->render->camera.y = -y_pos + PLAYER_CAMERA_Y;
+
+	// Check if player input is blocked ---------
+	if (avatar->GetInputBlocked())return true;
 
 	// AIR INPUT --------------------------------
 	if (!avatar->GetBody()->IsInContact())

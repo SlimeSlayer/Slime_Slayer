@@ -22,17 +22,23 @@ Worker::~Worker()
 // Game Loop ==========================
 void Worker::Update()
 {
+	// Execute the current action
 	if (current_action != nullptr)
 	{
-		if (current_action->Execute())
-		{
-			RELEASE(current_action);
-		}
+		if (current_action->Execute()) RELEASE(current_action);
 	}
+
+	// Start a new action
 	else if (!actions.empty())
 	{
 		current_action = actions.top();
 		actions.pop();
+
+		// Check if the new action is started correctly 
+		if (current_action != nullptr && !current_action->Init())
+		{
+			RELEASE(current_action);
+		}
 	}
 }
 

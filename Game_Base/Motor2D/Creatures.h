@@ -84,6 +84,17 @@ public:
 
 private:
 
+	bool input_blocked = false;
+
+public:
+
+	//Get Methods -----------
+	bool GetInputBlocked()const;
+
+	//Functionality ---------
+	void LockInput();
+	void UnlockInput();
+
 };
 /// ---------------------------------------------
 #endif // !_CREATURES_H_

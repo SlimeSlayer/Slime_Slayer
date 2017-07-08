@@ -9,7 +9,7 @@
 #define DEFAULT_DIALOG_X 600
 #define DEFAULT_DIALOG_Y 700
 
-class Intelligent_Creature;
+class Player;
 
 class j1Player : public j1Module
 {
@@ -32,7 +32,7 @@ public:
 public:
 
 	//User avatar -----------
-	Intelligent_Creature* avatar = nullptr;
+	Player* avatar = nullptr;
 
 	//Dialogs Location ------
 	iPoint dialogs_location = { DEFAULT_DIALOG_X,DEFAULT_DIALOG_Y };

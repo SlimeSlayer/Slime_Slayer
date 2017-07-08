@@ -10,7 +10,7 @@ class UI_String;
 enum ACTION_TYPE
 {
 	NO_ACTION = 0,
-	DIALOG,
+	DIALOG_ACTION
 };
 
 /// Action --------------------------------------
@@ -18,18 +18,20 @@ class Action
 {
 public:
 
-	Action();
+	Action(ACTION_TYPE action_type = NO_ACTION);
 	~Action();
 
 public:
 
 	//Game Loop -------------
+	virtual bool Init();
 	virtual bool Execute();
 
 public:
 
-	Entity* actor = nullptr;
-	uint	priority = 0;
+	ACTION_TYPE action_type = NO_ACTION;
+	Entity*		actor = nullptr;
+	uint		priority = 0;
 
 public:
 
@@ -49,6 +51,7 @@ public:
 public:
 
 	//Game Loop -------------
+	bool Init();
 	bool Execute();
 
 public:

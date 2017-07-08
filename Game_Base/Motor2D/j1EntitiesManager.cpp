@@ -7,6 +7,7 @@
 #include "j1FileSystem.h"
 #include "j1Fonts.h"
 #include "j1Gui.h"
+#include "Worker.h"
 
 #include "UI_String.h"
 
@@ -96,6 +97,7 @@ void j1EntitiesManager::Disable()
 	std::list<Entity*>::iterator entities_to_del_item = entitites_to_delete.begin();
 	while (entities_to_del_item != entitites_to_delete.end())
 	{
+		current_entities.remove(entities_to_del_item._Ptr->_Myval);
 		RELEASE(entities_to_del_item._Ptr->_Myval);
 		entities_to_del_item++;
 	}
@@ -227,7 +229,7 @@ void j1EntitiesManager::BeginSensorCollision(PhysBody * A, PhysBody * B)
 	case NPC_BODY:
 		if (B->body_type == PLAYER_BODY)
 		{
-			if (((Creature*)A->entity_related)->GetCreatureType() == CREATURE_TYPE::LORE_NPC_CREATURE && A->entity_related->GetWorker()->GetCurrentAction() == nullptr)
+			if (((Creature*)A->entity_related)->GetCreatureType() == CREATURE_TYPE::LORE_NPC_CREATURE && B->entity_related->worker.GetCurrentAction() == nullptr)
 			{
 				((NPC*)A->entity_related)->StartDialog((Player*)B->entity_related);
 			}
@@ -493,7 +495,6 @@ void j1EntitiesManager::AddEntity(const Entity * target)
 
 void j1EntitiesManager::DeleteEntity(Entity * target)
 {
-	current_entities.remove(target);
 	entitites_to_delete.remove(target);
 	entitites_to_delete.push_back(target);
 }
