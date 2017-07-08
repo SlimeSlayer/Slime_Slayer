@@ -74,6 +74,7 @@ public:
 	const char*	GetName()const;
 	const char*	GetDescription()const;
 	PhysBody*	GetBody()const;
+	Worker*		GetWorker();
 
 	//Functionality ---------
 	virtual void UpdatePosition();

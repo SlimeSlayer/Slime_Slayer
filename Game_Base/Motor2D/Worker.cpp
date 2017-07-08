@@ -36,6 +36,11 @@ void Worker::Update()
 	}
 }
 
+Action * Worker::GetCurrentAction() const
+{
+	return current_action;
+}
+
 Dialog_Action* Worker::AddDialogAction(Entity * actor, Player * target, uint priority)
 {
 	//Generate dialog action

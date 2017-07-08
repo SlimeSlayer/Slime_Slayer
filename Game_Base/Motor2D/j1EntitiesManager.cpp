@@ -227,7 +227,7 @@ void j1EntitiesManager::BeginSensorCollision(PhysBody * A, PhysBody * B)
 	case NPC_BODY:
 		if (B->body_type == PLAYER_BODY)
 		{
-			if (((Creature*)A->entity_related)->GetCreatureType() == CREATURE_TYPE::LORE_NPC_CREATURE)
+			if (((Creature*)A->entity_related)->GetCreatureType() == CREATURE_TYPE::LORE_NPC_CREATURE && A->entity_related->GetWorker()->GetCurrentAction() == nullptr)
 			{
 				((NPC*)A->entity_related)->StartDialog((Player*)B->entity_related);
 			}

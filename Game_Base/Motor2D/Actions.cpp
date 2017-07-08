@@ -54,12 +54,15 @@ bool Dialog_Action::Execute()
 	else if (App->input_manager->GetEvent(INPUT_EVENT::INTERACT) == INPUT_DOWN)
 	{
 		current_dialog = ((NPC*)actor)->GetDialogByIndex(++dialog_index);
-		if (current_dialog == nullptr)return true;
+		if (current_dialog == nullptr)
+		{
+			LOG("DIALOG_ENDED!");
+			return true;
+		}
 		else current_dialog->SetBoxPosition(DEFAULT_DIALOG_X - current_dialog->GetBox()->w, DEFAULT_DIALOG_Y - current_dialog->GetBox()->h);
 	}
 	current_dialog->Draw(false);
 
-	LOG("EXECUTED!");
 	return false;
 }
 /// ---------------------------------------------

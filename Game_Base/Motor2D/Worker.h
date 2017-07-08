@@ -25,6 +25,9 @@ private:
 
 public:
 
+	//Get Methods -----------
+	Action*	GetCurrentAction()const;
+
 	//Actions Factory -------
 	Dialog_Action* AddDialogAction(Entity* actor, Player* target, uint priority = 0);
 };
