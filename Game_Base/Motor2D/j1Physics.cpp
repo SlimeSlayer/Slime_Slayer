@@ -371,7 +371,7 @@ bool j1Physics::Start()
 // 
 bool j1Physics::PreUpdate()
 {
-	//Track timming values to generate a fixed time step ------------
+	//Track timing values to generate a fixed time step -------------
 	fixed_timestep_accumulator += App->GetDT();
 
 	const int steps_number = static_cast<int> (std::floor(fixed_timestep_accumulator / FIXED_TIMESTEP)); /*static_cast is used here because the conversion is safe (no need run-time check)*/
@@ -1017,7 +1017,7 @@ void j1Physics::SmoothStates()
 
 		PhysBody* phys_bdy = (PhysBody*)b->GetUserData();
 		
-		phys_bdy->Interpolate();
+		if(phys_bdy != nullptr)phys_bdy->Interpolate();
 	}
 }
 

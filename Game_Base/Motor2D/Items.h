@@ -43,7 +43,6 @@ public:
 
 	//Functionality ---------
 	void AddItem(const Item* new_item);
-
 	void DropItems();
 
 };

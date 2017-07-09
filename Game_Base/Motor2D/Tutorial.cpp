@@ -159,7 +159,7 @@ bool Tutorial::Enable()
 			//Focus the next entity node
 			current_enable_node = current_enable_node.next_sibling();
 
-			if (enable_timer.Read() > TIME_TO_ENABLE)return false;
+			if (enable_timer.Read() > TIME_TO_ENABLE && current_enable_node.root() != NULL)return false;
 		}
 	}
 
@@ -266,7 +266,7 @@ bool Tutorial::CleanUp()
 
 void Tutorial::BeginSensorCollision(PhysBody * A, PhysBody * B)
 {
-	if (A == end_trigger)
+	if (A == end_trigger && B->entity_related == App->player->avatar)
 	{
 		App->ActiveEndless();
 	}

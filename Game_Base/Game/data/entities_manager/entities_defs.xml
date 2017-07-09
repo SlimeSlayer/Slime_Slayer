@@ -145,6 +145,34 @@
       d_2="Byeeee!"
       
       />
+
+    <!--Basic Enemy-->
+    <entity
+      body_type="enemy_body"
+      collision_type="enemy_collision"
+      listener="entities_manager"
+      body_shape="square"
+      width ="50"
+      height="70"
+      restitution="0.0"
+      friction="0.0"
+      mass="25.0"
+      fixed_rotation="true"
+      interaction_type="dynamic"
+      
+      creature_type="basic_enemy_creature"
+      name="Enemy"
+      description="Insert epic description here"
+      life="100"
+      attack="5"
+      mov_speed="5"
+      jump_force="100"
+      
+      vision_range ="300"
+      vision_sensor_type ="enemy_sensor_collision"
+      money="12"
+      />
+    
     <!--Player-->
     <entity             
       body_type="player_body"

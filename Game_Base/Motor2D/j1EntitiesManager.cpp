@@ -312,10 +312,12 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	switch (creature_type)
 	{
 	case PLAYER_CREATURE:
-							new_creature = new Player();	break;
+							new_creature = new Player();				break;
 	case LORE_NPC_CREATURE:
 	case LORE_NPC_B_CREATURE:
 							new_creature = new NPC();					break;
+	case BASIC_ENEMY_CREATURE:
+							new_creature = new Intelligent_Creature();	break;
 	case STANDARD_NPC_CREATURE:
 	case NO_CREATURE:		
 							new_creature = new Creature();				break;
@@ -351,7 +353,7 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	/*Jump Force*/		new_creature->SetJumpForce(data_node->attribute("jump_force").as_float());
 
 	//Set new creature specific stats
-	if (creature_type == PLAYER_CREATURE || creature_type == LORE_NPC_CREATURE || creature_type == LORE_NPC_B_CREATURE)
+	if (creature_type == PLAYER_CREATURE || creature_type == LORE_NPC_CREATURE || creature_type == LORE_NPC_B_CREATURE || creature_type == BASIC_ENEMY_CREATURE)
 	{
 		//Load the new creature vision area
 		PhysBody* new_vision_area = new PhysBody();
@@ -412,6 +414,7 @@ CREATURE_TYPE j1EntitiesManager::StrToCreatureType(const char * str) const
 	if (strcmp(str, "standard_npc_creature") == 0)	return STANDARD_NPC_CREATURE;
 	if (strcmp(str, "lore_npc_creature") == 0)		return LORE_NPC_CREATURE;
 	if (strcmp(str, "lore_npc_b_creature") == 0)	return LORE_NPC_B_CREATURE;
+	if (strcmp(str, "basic_enemy_creature") == 0)	return BASIC_ENEMY_CREATURE;
 	return NO_CREATURE;
 }
 
@@ -441,6 +444,9 @@ Creature * j1EntitiesManager::GenerateCreature(CREATURE_TYPE creature_type, bool
 				break;
 			case PLAYER_CREATURE:
 				new_creature = new Player(*(Player*)creatures_defs[k], generate_body);
+				break;
+			case BASIC_ENEMY_CREATURE:
+				new_creature = new Intelligent_Creature(*(Intelligent_Creature*)creatures_defs[k], generate_body);
 				break;
 			default:
 				new_creature = new Creature(*creatures_defs[k], generate_body);
