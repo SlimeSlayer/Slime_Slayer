@@ -60,4 +60,17 @@ Dialog_Action* Worker::AddDialogAction(Entity * actor, Player * target, uint pri
 	//Return the generated action
 	return new_act;
 }
+
+Spawn_Delay_Action * Worker::AddSpawnDelayAction(Entity * actor, uint delay)
+{
+	//Generate spawn delay action
+	Spawn_Delay_Action* new_act = new Spawn_Delay_Action();
+	//Set action stats
+	new_act->actor = actor;
+	new_act->delay = delay;
+	//Push the new action at the queue
+	actions.emplace(new_act);
+	//Return the generated action
+	return new_act;
+}
 /// ---------------------------------------------

@@ -94,3 +94,69 @@ bool Dialog_Action::Execute()
 	return false;
 }
 /// ---------------------------------------------
+
+/// Spawn_Delay_Action --------------------------
+// Constructors =======================
+Spawn_Delay_Action::Spawn_Delay_Action() : Action(SPAWN_DELAY_ACTION)
+{
+
+}
+
+// Destructors ========================
+Spawn_Delay_Action::~Spawn_Delay_Action()
+{
+
+}
+
+// Game Loop ==========================
+bool Spawn_Delay_Action::Init()
+{
+	if (actor == nullptr || actor->GetBody() == nullptr)return false;
+
+	LOG("Spaw_delay!");
+	//Get the previous fixture 
+	prev_collision_type = actor->GetBody()->collision_type;
+	
+	//Change the current entity fixture to a ghost one
+	b2Fixture* prev_fixture = actor->GetBody()->body->GetFixtureList();
+
+	b2FixtureDef temp_fixture;
+	temp_fixture.shape = prev_fixture->GetShape();
+	temp_fixture.density = prev_fixture->GetDensity();
+	temp_fixture.restitution = prev_fixture->GetRestitution();
+	temp_fixture.friction = prev_fixture->GetFriction();
+	temp_fixture.isSensor = false;
+	temp_fixture.userData = prev_fixture->GetUserData();
+	App->physics->SetFixture(temp_fixture, GHOST_COLLISION);
+	actor->GetBody()->body->CreateFixture(&temp_fixture);
+	actor->GetBody()->body->DestroyFixture(prev_fixture);
+
+	delay_timer.Start();
+
+	return true;
+}
+
+bool Spawn_Delay_Action::Execute()
+{
+	if (this->delay_timer.Read() > delay)
+	{
+		//Change the current ghost fixture the original
+		b2Fixture* prev_fixture = actor->GetBody()->body->GetFixtureList();
+
+		b2FixtureDef temp_fixture;
+		temp_fixture.shape = prev_fixture->GetShape();
+		temp_fixture.density = prev_fixture->GetDensity();
+		temp_fixture.restitution = prev_fixture->GetRestitution();
+		temp_fixture.friction = prev_fixture->GetFriction();
+		temp_fixture.isSensor = false;
+		temp_fixture.userData = prev_fixture->GetUserData();
+		App->physics->SetFixture(temp_fixture, prev_collision_type);
+		actor->GetBody()->body->CreateFixture(&temp_fixture);
+		actor->GetBody()->body->DestroyFixture(prev_fixture);
+
+		return true;
+	}
+
+	return false;
+}
+

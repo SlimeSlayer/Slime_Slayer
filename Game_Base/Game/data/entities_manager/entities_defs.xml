@@ -16,6 +16,7 @@
       interaction_type="dynamic"
       
       item_type="coin_item"
+      volatile="true"
       name="Coin"
       description="Use it to buy items"
       
@@ -37,12 +38,12 @@
       interaction_type="static"
       
       item_type="jar_item"
+      volatile="false"
       name="Jar"
       description="Contain coins"      
       
       drop_impulse="5"
       drop_total_rad="0.5"
-      drop_mid_rad="0.1"
       items_in="coin_item/coin_item"       
       />
   </item>

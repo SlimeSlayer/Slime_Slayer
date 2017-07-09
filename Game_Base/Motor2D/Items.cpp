@@ -11,7 +11,7 @@ Items_Tank::Items_Tank()
 
 }
 
-Items_Tank::Items_Tank(const Items_Tank & copy, bool generate_body) :Item(copy, generate_body), drop_impulse(copy.drop_impulse), drop_mid_rad(copy.drop_mid_rad), drop_total_rad(copy.drop_total_rad)
+Items_Tank::Items_Tank(const Items_Tank & copy, bool generate_body) :Item(copy, generate_body), drop_impulse(copy.drop_impulse), drop_total_rad(copy.drop_total_rad)
 {
 	//Copy all the items of the list
 	std::list<Item*>::const_iterator list_item = copy.items.begin();
@@ -66,11 +66,6 @@ void Items_Tank::SetDropTotalRad(float new_val)
 	drop_total_rad = new_val;
 }
 
-void Items_Tank::SetDropMidRad(float new_val)
-{
-	drop_mid_rad = new_val;
-}
-
 void Items_Tank::SetReadyToDrop()
 {
 	ready_to_drop = true;
@@ -85,11 +80,6 @@ float Items_Tank::GetDropImpulse() const
 float Items_Tank::GetDropTotalRad() const
 {
 	return drop_total_rad;
-}
-
-float Items_Tank::GetDropMidRad() const
-{
-	return drop_mid_rad;
 }
 
 //Functionality =======================
@@ -113,10 +103,19 @@ void Items_Tank::DropItems()
 		RELEASE(old_physbody);
 
 		//Set the new body stats checking the items data
+		//Position
 		int x = 0, y = 0;
 		this->body->GetPosition(x, y);
 		list_item._Ptr->_Myval->GetBody()->SetPosition((float)x, (float)y);
-		list_item._Ptr->_Myval->GetBody()->body->SetLinearVelocity({ 0,-drop_impulse });
+		//Drop impulse
+		float per_cent = (rand() % 100) * 0.01;
+		list_item._Ptr->_Myval->GetBody()->body->SetLinearVelocity({ drop_total_rad * per_cent,-drop_impulse });
+		
+		//Items dropped have a ghost delay
+		list_item._Ptr->_Myval->worker.AddSpawnDelayAction(list_item._Ptr->_Myval);
+
+		//Check dropped item volatility & reset delete timer
+		if (list_item._Ptr->_Myval->GetIfVolatile())((Volatile_Item*)list_item._Ptr->_Myval)->ResetVolatileTimer();
 		
 		//Add the dropped item at the entities manager 
 		App->entities_manager->AddEntity(list_item._Ptr->_Myval);
@@ -152,12 +151,19 @@ Volatile_Item::~Volatile_Item()
 //Game Loop ===========================
 bool Volatile_Item::Update()
 {
+	worker.Update();
+
 	if (delete_timer.Read() > time_to_delete)
 	{
 		App->entities_manager->DeleteEntity(this);
 	}
 
 	return true;
+}
+
+void Volatile_Item::ResetVolatileTimer()
+{
+	delete_timer.Start();
 }
 
 //Set Methods =========================

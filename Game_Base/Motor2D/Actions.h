@@ -2,15 +2,19 @@
 #define _ACTIONS_H_
 
 #include "p2Defs.h"
+#include "j1Timer.h"
+#include "j1Physics.h"
 
 class Entity;
 class Player;
 class UI_String;
+class b2Fixture;
 
 enum ACTION_TYPE
 {
 	NO_ACTION = 0,
-	DIALOG_ACTION
+	DIALOG_ACTION,
+	SPAWN_DELAY_ACTION
 };
 
 /// Action --------------------------------------
@@ -61,6 +65,29 @@ public:
 	UI_String*	current_dialog = nullptr;
 	uint		dialog_index = 0;
 
+};
+/// ---------------------------------------------
+
+/// Spawn_Delay_Action --------------------------
+class Spawn_Delay_Action : public Action
+{
+public:
+
+	Spawn_Delay_Action();
+	~Spawn_Delay_Action();
+
+public:
+
+	//Game Loop -------------
+	bool Init();
+	bool Execute();
+
+public:
+
+	COLLISION_TYPE prev_collision_type = COLLISION_TYPE::GHOST_COLLISION;
+
+	j1Timer delay_timer;
+	uint delay = 0;
 };
 /// ---------------------------------------------
 #endif // !_ACTIONS_H_

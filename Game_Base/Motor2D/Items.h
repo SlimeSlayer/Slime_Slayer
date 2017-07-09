@@ -27,7 +27,6 @@ protected:
 	std::list<Item*>	items;
 	float				drop_impulse = 0.0f;
 	float				drop_total_rad = 0.0f;
-	float				drop_mid_rad = 0.0f;
 	bool				ready_to_drop = false;
 
 public:
@@ -36,13 +35,11 @@ public:
 	void SetPosition(float x, float y);
 	void SetDropImpulse(float new_val);
 	void SetDropTotalRad(float new_val);
-	void SetDropMidRad(float new_val);
 	void SetReadyToDrop();
 	
 	//Get Methods -----------
 	float GetDropImpulse()const;
 	float GetDropTotalRad()const;
-	float GetDropMidRad()const;
 
 	//Functionality ---------
 	void AddItem(const Item* new_item);
@@ -72,6 +69,9 @@ protected:
 	j1Timer	delete_timer;
 
 public:
+
+	//Functionality ---------
+	void ResetVolatileTimer();
 
 	// Set Methods ----------
 	void SetTimeToDelete(uint time);

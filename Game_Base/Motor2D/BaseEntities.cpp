@@ -99,7 +99,7 @@ Item::Item()
 
 }
 
-Item::Item(const Item & copy, bool generate_body) :Entity(copy, generate_body), item_type(copy.item_type)
+Item::Item(const Item & copy, bool generate_body) :Entity(copy, generate_body), item_type(copy.item_type), volatile_item(copy.volatile_item)
 {
 
 }
@@ -116,10 +116,20 @@ void Item::SetItemType(ITEM_TYPE new_item_type)
 	item_type = new_item_type;
 }
 
+void Item::SetAsVolatile()
+{
+	volatile_item = true;
+}
+
 //Get Methods =========================
 ITEM_TYPE Item::GetItemType() const
 {
 	return item_type;
+}
+
+bool Item::GetIfVolatile() const
+{
+	return volatile_item;
 }
 /// ---------------------------------------------
 

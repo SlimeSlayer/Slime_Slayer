@@ -92,15 +92,18 @@ public:
 
 protected:
 
-	ITEM_TYPE item_type = NO_ITEM;
+	ITEM_TYPE	item_type = NO_ITEM;
+	bool		volatile_item = false;
 
 public:
 
 	//Set Methods -----------
 	void SetItemType(ITEM_TYPE new_item_type);
+	void SetAsVolatile();
 
 	//Get Methods -----------
-	ITEM_TYPE GetItemType()const;
+	ITEM_TYPE	GetItemType()const;
+	bool		GetIfVolatile()const;
 
 };
 /// ---------------------------------------------

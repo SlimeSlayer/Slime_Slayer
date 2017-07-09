@@ -29,9 +29,12 @@ enum COLLISION_TYPE
 	MAP_COLLISION = 0x0004,
 	ITEM_COLLISION = 0x0008,
 	STATIC_ITEM_COLLISION = 0x0010,
-	ALLY_SENSOR_COLLISION = 0x0020,
-	ENEMY_SENSOR_COLLISION = 0x0040,
-	NEUTRAL_SENSOR_COLLISION = 0x0080
+	GHOST_COLLISION = 0x0020,
+	
+	ALLY_SENSOR_COLLISION = 0x0040,
+	ENEMY_SENSOR_COLLISION = 0x0080,
+	NEUTRAL_SENSOR_COLLISION = 0x0100
+	
 	/*4,8,16,32,...*/
 };
 
@@ -108,6 +111,7 @@ public:
 	int				width = 0, height = 0;
 	j1Module*		listener = nullptr;
 	BODY_TYPE		body_type = NO_BODY;
+	COLLISION_TYPE	collision_type = COLLISION_TYPE::MAP_COLLISION;
 	Entity*			entity_related = nullptr;
 };
 /// -------------------------------------------------------

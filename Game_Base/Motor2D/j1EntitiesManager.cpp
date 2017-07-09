@@ -275,6 +275,7 @@ void j1EntitiesManager::AddItemDefinition(const pugi::xml_node * data_node)
 	//Set new item general stats
 	/*Entity Type*/		new_item->SetEntityType(ITEM);
 	/*Item Type*/		new_item->SetItemType(item_type);
+	/*Volatile*/		if (data_node->attribute("volatile").as_bool())new_item->SetAsVolatile();
 	/*Name*/			new_item->SetName(data_node->attribute("name").as_string());
 	/*Description*/		new_item->SetDescription(data_node->attribute("description").as_string());
 
@@ -292,8 +293,7 @@ void j1EntitiesManager::AddItemDefinition(const pugi::xml_node * data_node)
 
 		/*Drop Imp*/	((Items_Tank*)new_item)->SetDropImpulse(data_node->attribute("drop_impulse").as_float());
 		/*Drop T Rad*/	((Items_Tank*)new_item)->SetDropTotalRad(data_node->attribute("drop_total_rad").as_float());
-		/*Drop M Rad*/	((Items_Tank*)new_item)->SetDropMidRad(data_node->attribute("drop_mid_rad").as_float());
-
+		
 		break;
 
 	}

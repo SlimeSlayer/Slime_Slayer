@@ -42,7 +42,7 @@ PhysBody::PhysBody() : listener(NULL), body(NULL)
 
 }
 
-PhysBody::PhysBody(const PhysBody & copy) : body_type(copy.body_type), width(copy.width), height(copy.height), listener(copy.listener), entity_related(copy.entity_related)
+PhysBody::PhysBody(const PhysBody & copy) : body_type(copy.body_type), collision_type(copy.collision_type), width(copy.width), height(copy.height), listener(copy.listener), entity_related(copy.entity_related)
 {
 	if (copy.body != nullptr)
 	{
@@ -867,7 +867,6 @@ PhysBody * j1Physics::TransformDefToBuilt(PhysBody* target)
 	//Fixture
 	b2FixtureDef fixture;
 	fixture.shape = shape;
-	fixture.density = 0.1f;
 	fixture.restitution = target->body_def->restitution;
 	fixture.friction = target->body_def->friction;
 	fixture.density = target->body_def->density;
@@ -878,6 +877,7 @@ PhysBody * j1Physics::TransformDefToBuilt(PhysBody* target)
 	//PhysBody
 	PhysBody* pbody = new PhysBody();
 	pbody->body_type = target->body_def->body_type;
+	pbody->collision_type = target->body_def->collision_type;
 	pbody->body = b;
 	b->SetUserData(pbody);
 	pbody->width = target->body_def->width * 0.5f;
@@ -898,7 +898,7 @@ void j1Physics::SetFixture(b2FixtureDef& fixture, COLLISION_TYPE type)
 		fixture.filter.maskBits = MAP_COLLISION | ITEM_COLLISION | STATIC_ITEM_COLLISION | ENEMY_SENSOR_COLLISION | NEUTRAL_SENSOR_COLLISION;
 		break;
 	case MAP_COLLISION:
-		fixture.filter.maskBits = PLAYER_COLLISION | ITEM_COLLISION;
+		fixture.filter.maskBits = PLAYER_COLLISION | ITEM_COLLISION | GHOST_COLLISION;
 		break;
 	case ITEM_COLLISION:
 		fixture.filter.maskBits = PLAYER_COLLISION | MAP_COLLISION | ITEM_COLLISION;
@@ -908,6 +908,9 @@ void j1Physics::SetFixture(b2FixtureDef& fixture, COLLISION_TYPE type)
 		break;
 	case NPC_COLLISION:
 		fixture.filter.maskBits = ALLY_SENSOR_COLLISION;
+		break;
+	case GHOST_COLLISION:
+		fixture.filter.maskBits = MAP_COLLISION;
 		break;
 	case NEUTRAL_SENSOR_COLLISION:
 		fixture.filter.maskBits = PLAYER_COLLISION | NPC_COLLISION;
