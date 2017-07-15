@@ -73,7 +73,7 @@ Spawn_Delay_Action * Worker::GenerateSpawnDelayAction(Entity * actor, uint delay
 	return new_act;
 }
 
-Basic_Attack_Action * Worker::GenerateBasicAttackAction(Entity * actor, Entity* target)
+Basic_Attack_Action * Worker::GenerateBasicAttackAction(Entity * actor, Creature* target)
 {
 	//Generate basic attack action
 	Basic_Attack_Action* new_act = new Basic_Attack_Action();

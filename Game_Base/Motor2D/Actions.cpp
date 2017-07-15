@@ -309,6 +309,17 @@ Basic_Attack_Action::~Basic_Attack_Action()
 
 }
 
+bool Basic_Attack_Action::Init()
+{
+	//Check if the target is already dead
+	if (target->GetLife() == 0)return false;
+
+	//Start the attack rate timer
+	attack_timer.Start();
+
+	return true;
+}
+
 // Game Loop ==========================
 bool Basic_Attack_Action::Execute()
 {
@@ -318,6 +329,7 @@ bool Basic_Attack_Action::Execute()
 	int act_x = 0, act_y = 0;
 	actor->GetBody()->GetPosition(act_x, act_y);
 
+	//If is not in range actor needs to move
 	if (((Intelligent_Creature*)actor)->GetVisionArea()->width < abs(tar_x - act_x))
 	{
 		Action* act = actor->worker.GenerateMoveToTargetAction(actor, target);
@@ -325,8 +337,22 @@ bool Basic_Attack_Action::Execute()
 		return false;
 	}
 
-	LOG("ATTACK!");
-	return true;
+	//If is in range actor attacks
+	if (attack_timer.Read() > ((Creature*)actor)->GetAttackRate())
+	{
+		//Apply damage
+		target->SetLife(MAX(target->GetLife() - ((Creature*)actor)->GetAttackHitPoints(), 0));
+		
+		//Reset attack timer
+		attack_timer.Start();
+
+		LOG("TL: %i", target->GetLife());
+	}
+
+	//When target is dead actor stops
+	if (((Creature*)target)->GetLife() == 0)return true;
+
+	return false;
 }
 /// ---------------------------------------------
 

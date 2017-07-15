@@ -247,7 +247,7 @@ void j1EntitiesManager::BeginSensorCollision(PhysBody * A, PhysBody * B)
 		//ENEMY ATK action ----------------------
 		if (B->body_type == PLAYER_BODY)
 		{
-			Action* act = A->entity_related->worker.GenerateBasicAttackAction(A->entity_related, B->entity_related);
+			Action* act = A->entity_related->worker.GenerateBasicAttackAction(A->entity_related, (Creature*)B->entity_related);
 			A->entity_related->worker.AddAction(act);
 		}
 	}
@@ -372,7 +372,8 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	/*Name*/			new_creature->SetName(data_node->attribute("name").as_string());
 	/*Description*/		new_creature->SetDescription(data_node->attribute("description").as_string());
 	/*Life*/			new_creature->SetLife(data_node->attribute("life").as_uint());
-	/*Attack*/			new_creature->SetAttack(data_node->attribute("attack").as_uint());
+	/*AttackHitPoints*/	new_creature->SetAttackHitPoints(data_node->attribute("attack_hitpoints").as_uint());
+	/*AttackRate*/		new_creature->SetAttackRate(data_node->attribute("attack_rate").as_uint());
 	/*Mov Speed*/		new_creature->SetMovSpeed(data_node->attribute("mov_speed").as_float());
 	/*Jump Force*/		new_creature->SetJumpForce(data_node->attribute("jump_force").as_float());
 

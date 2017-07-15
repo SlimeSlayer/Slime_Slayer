@@ -140,7 +140,7 @@ Creature::Creature()
 
 }
 
-Creature::Creature(const Creature & copy, bool generate_body) : Entity(copy, generate_body), creature_type(copy.creature_type), life(copy.life), attack(copy.attack), mov_speed(copy.mov_speed), jump_force(copy.jump_force)
+Creature::Creature(const Creature & copy, bool generate_body) : Entity(copy, generate_body), creature_type(copy.creature_type), life(copy.life), attack_hitpoints(copy.attack_hitpoints), attack_rate(copy.attack_rate), mov_speed(copy.mov_speed), jump_force(copy.jump_force)
 {
 	entity_type = CREATURE;
 }
@@ -162,9 +162,14 @@ void Creature::SetLife(uint new_life)
 	life = new_life;
 }
 
-void Creature::SetAttack(uint new_attack)
+void Creature::SetAttackHitPoints(uint new_attack)
 {
-	attack = new_attack;
+	attack_hitpoints = new_attack;
+}
+
+void Creature::SetAttackRate(uint atk_rate)
+{
+	attack_rate = atk_rate;
 }
 
 void Creature::SetMovSpeed(float new_mov_speed)
@@ -188,9 +193,14 @@ uint Creature::GetLife() const
 	return life;
 }
 
-uint Creature::GetAttack() const
+uint Creature::GetAttackHitPoints() const
 {
-	return attack;
+	return attack_hitpoints;
+}
+
+uint Creature::GetAttackRate() const
+{
+	return attack_rate;
 }
 
 float Creature::GetMovSpeed() const

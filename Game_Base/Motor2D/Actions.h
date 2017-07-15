@@ -153,11 +153,13 @@ public:
 public:
 
 	//Game Loop -------------
+	bool Init();
 	bool Execute();
 
 public:
 
-	Entity* target = nullptr;
+	Creature*	target = nullptr;
+	j1Timer		attack_timer;
 
 };
 /// ---------------------------------------------

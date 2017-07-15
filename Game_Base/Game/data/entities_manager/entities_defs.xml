@@ -68,7 +68,8 @@
       name="NPC"
       description="Insert epic description here"
       life="100"
-      attack="5"
+      attack_hitpoints="5"
+      attack_rate="150"
       mov_speed="1.5"
       jump_force="100"     
       />
@@ -90,7 +91,8 @@
       name="Lore NPC"
       description="Insert epic description here"
       life="100"
-      attack="0"
+      attack_hitpoints="0"
+      attack_rate="150"
       mov_speed="1.5"
       jump_force="0"
       
@@ -128,7 +130,8 @@
       name="Lore NPC"
       description="Insert epic description here"
       life="100"
-      attack="0"
+      attack_hitpoints="0"
+      attack_rate="150"
       mov_speed="1.5"
       jump_force="0"
       
@@ -166,7 +169,8 @@
       name="Enemy"
       description="Insert epic description here"
       life="100"
-      attack="5"
+      attack_hitpoints="5"
+      attack_rate="150"
       mov_speed="1.5"
       jump_force="100"
       
@@ -194,7 +198,8 @@
       name="Player"
       description="Insert epic description here"
       life="100"
-      attack="5"
+      attack_hitpoints="5"
+      attack_rate="150"
       mov_speed="3"
       jump_force="100"
       

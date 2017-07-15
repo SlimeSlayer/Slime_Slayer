@@ -122,24 +122,27 @@ protected:
 
 	CREATURE_TYPE creature_type = NO_CREATURE;
 
-	uint life = 0;
-	uint attack = 0;
-	float mov_speed = 0.0f;
-	float jump_force = 0.0f;
+	uint	life = 0;
+	uint	attack_hitpoints = 0;
+	uint	attack_rate = 0;
+	float	mov_speed = 0.0f;
+	float	jump_force = 0.0f;
 
 public:
 
 	//Set Methods -----------
 	void SetCreatureType(CREATURE_TYPE new_creature_type);
 	void SetLife(uint new_life);
-	void SetAttack(uint new_attack);
+	void SetAttackHitPoints(uint new_attack);
+	void SetAttackRate(uint atk_rate);
 	void SetMovSpeed(float new_mov_speed);
 	void SetJumpForce(float new_jump_force);
 
 	//Get Methods -----------
 	CREATURE_TYPE	GetCreatureType()const;
 	uint			GetLife()const;
-	uint			GetAttack()const;
+	uint			GetAttackHitPoints()const;
+	uint			GetAttackRate()const;
 	float			GetMovSpeed()const;
 	float			GetJumpForce()const;
 
