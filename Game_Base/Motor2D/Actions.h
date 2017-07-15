@@ -1,12 +1,16 @@
 #ifndef _ACTIONS_H_
 #define _ACTIONS_H_
 
+#define ACTIONS_UPDATE_RATE 250
+#define LOCATION_ERROR_MARGIN 5 /*In Pixels*/
+
 #include "p2Defs.h"
 #include "p2Point.h"
 #include "j1Timer.h"
 #include "j1Physics.h"
 
 class Entity;
+class Creature;
 class Player;
 class UI_String;
 class b2Fixture;
@@ -105,15 +109,38 @@ public:
 public:
 
 	//Game Loop -------------
+	bool Init();
 	bool Execute();
 
 public:
 	
-	iPoint destination = { 0,0 };
-
+	iPoint	destination = { 0,0 };
+	int		mov_direction = 0;
 };
 /// ---------------------------------------------
 
+/// Move_To_Target_Action -----------------------
+class Move_To_Target_Action : public Action
+{
+public:
+
+	Move_To_Target_Action();
+	~Move_To_Target_Action();
+
+public:
+
+	//Game Loop -------------
+	bool Init();
+	bool Execute();
+
+public:
+
+	Creature*	target = nullptr;
+	j1Timer		update_timer;
+	iPoint		current_goal = { 0,0 };
+	int			mov_direction = 0;
+};
+/// ---------------------------------------------
 
 /// Basic_Attack_Action -------------------------
 class Basic_Attack_Action : public Action
@@ -127,6 +154,10 @@ public:
 
 	//Game Loop -------------
 	bool Execute();
+
+public:
+
+	Entity* target = nullptr;
 
 };
 /// ---------------------------------------------

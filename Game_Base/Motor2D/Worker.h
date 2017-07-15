@@ -31,8 +31,9 @@ public:
 	//Actions Factory -------
 	Dialog_Action*			AddDialogAction(Entity* actor, Player* target, uint priority = 0);
 	Spawn_Delay_Action*		AddSpawnDelayAction(Entity* actor, uint delay = 500);
-	Basic_Attack_Action*	AddBasicAttackAction(Entity* actor);
+	Basic_Attack_Action*	AddBasicAttackAction(Entity* actor, Entity* target);
 	Move_Action*			AddMoveAction(Entity* actor, const iPoint& destination);
+	Move_To_Target_Action*	AddMoveToTargetAction(Entity* actor, Entity* target);
 
 };
 /// ---------------------------------------------

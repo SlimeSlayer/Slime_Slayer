@@ -74,12 +74,13 @@ Spawn_Delay_Action * Worker::AddSpawnDelayAction(Entity * actor, uint delay)
 	return new_act;
 }
 
-Basic_Attack_Action * Worker::AddBasicAttackAction(Entity * actor)
+Basic_Attack_Action * Worker::AddBasicAttackAction(Entity * actor, Entity* target)
 {
 	//Generate basic attack action
 	Basic_Attack_Action* new_act = new Basic_Attack_Action();
 	//Set action stats
 	new_act->actor = actor;
+	new_act->target = target;
 	//Push the new action at the queue
 	actions.emplace(new_act);
 	//Return the generated action
@@ -92,6 +93,18 @@ Move_Action * Worker::AddMoveAction(Entity * actor, const iPoint& destination)
 	Move_Action* new_act = new Move_Action(destination);
 	//Set action stats
 	new_act->actor = actor;
+	//Push the new action at the queue
+	actions.emplace(new_act);
+	//Return the generated action
+	return new_act;
+}
+Move_To_Target_Action * Worker::AddMoveToTargetAction(Entity * actor, Entity * target)
+{
+	//Generate move to target action
+	Move_To_Target_Action* new_act = new Move_To_Target_Action();
+	//Set action stats
+	new_act->actor = actor;
+	new_act->target = (Creature*)target;
 	//Push the new action at the queue
 	actions.emplace(new_act);
 	//Return the generated action

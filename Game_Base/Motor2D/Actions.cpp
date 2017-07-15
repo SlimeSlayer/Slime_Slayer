@@ -175,9 +175,123 @@ Move_Action::~Move_Action()
 }
 
 // Game Loop ==========================
+bool Move_Action::Init()
+{
+	//Get actor position
+	int act_x = 0, act_y = 0;
+	actor->GetBody()->GetPosition(act_x, act_y);
+
+	//Check if the actor is already in the destination
+	if (abs(act_x - destination.x) < LOCATION_ERROR_MARGIN)return false;
+
+	//Set actor movement direction
+	if (destination.x < act_x)
+	{
+		mov_direction = -1;
+	}
+	else
+	{
+		mov_direction = 1;
+	}
+
+	return true;
+}
+
 bool Move_Action::Execute()
 {
-	LOG("GO TO! %i %i", destination.x, destination.y);
+	//Get actor position
+	int act_x = 0, act_y = 0;
+	actor->GetBody()->GetPosition(act_x, act_y);
+
+	//Calculate the distance to the goal
+	int dist_to_goal = act_x - destination.x;
+
+	//Check if the actor has reached the goal
+	while (abs(dist_to_goal) > LOCATION_ERROR_MARGIN)
+	{
+		actor->GetBody()->body->SetLinearVelocity(b2Vec2(((Creature*)actor)->GetMovSpeed() * mov_direction, 0));
+		return false;
+	}
+
+	//Stop the actor body when is in the goal
+	actor->GetBody()->body->SetLinearVelocity(b2Vec2(0, 0));
+
+	return true;
+}
+/// ---------------------------------------------
+
+/// Move_To_Target_Action -----------------------
+// Constructors =======================
+Move_To_Target_Action::Move_To_Target_Action()
+{
+
+}
+
+// Destructors ========================
+Move_To_Target_Action::~Move_To_Target_Action()
+{
+
+}
+
+// Game Loop ==========================
+bool Move_To_Target_Action::Init()
+{
+	//Calculate the goal
+	int tar_x, tar_y;
+	target->GetBody()->GetPosition(tar_x, tar_y);
+	int act_x, act_y;
+	actor->GetBody()->GetPosition(act_x, act_y);
+
+	float mid_range = ((Intelligent_Creature*)actor)->GetVisionArea()->width * 0.5;
+	
+	//Check if the entity is inside goal area
+	if (abs(tar_x - act_x) < mid_range)
+	{
+		return false;
+	}
+	
+	if (tar_x < act_x)
+	{
+		current_goal.x = tar_x + mid_range;
+		mov_direction = -1;
+	}
+	else
+	{
+		current_goal.x = tar_x - mid_range;
+		mov_direction = 1;
+	}
+
+	//Initialize the update timer
+	update_timer.Start();
+
+	return true;
+}
+
+bool Move_To_Target_Action::Execute()
+{
+	//Get actor position
+	int act_x = 0, act_y = 0;
+	actor->GetBody()->GetPosition(act_x, act_y);
+
+	//Update the goal
+	if (update_timer.Read() > ACTIONS_UPDATE_RATE)
+	{
+		this->Init();
+	}
+	
+	//Calculate the distance to the goal
+	int dist_to_goal = act_x - current_goal.x;
+
+	//Check if the actor has reached the goal
+	while (abs(dist_to_goal) > LOCATION_ERROR_MARGIN)
+	{
+		actor->GetBody()->body->SetLinearVelocity(b2Vec2(((Creature*)actor)->GetMovSpeed() * mov_direction, 0));
+		return false;
+	}
+
+	//Stop the actor body when is in the goal
+	actor->GetBody()->body->SetLinearVelocity(b2Vec2(0, 0));
+
 	return true;
 }
 /// ---------------------------------------------
@@ -198,6 +312,7 @@ Basic_Attack_Action::~Basic_Attack_Action()
 // Game Loop ==========================
 bool Basic_Attack_Action::Execute()
 {
+
 	LOG("ATTACK!");
 	return true;
 }

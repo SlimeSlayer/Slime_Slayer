@@ -69,7 +69,7 @@
       description="Insert epic description here"
       life="100"
       attack="5"
-      mov_speed="5"
+      mov_speed="1.5"
       jump_force="100"     
       />
     <!--Lore NPC-->
@@ -91,7 +91,7 @@
       description="Insert epic description here"
       life="100"
       attack="0"
-      mov_speed="0"
+      mov_speed="1.5"
       jump_force="0"
       
       vision_range ="100"
@@ -129,7 +129,7 @@
       description="Insert epic description here"
       life="100"
       attack="0"
-      mov_speed="0"
+      mov_speed="1.5"
       jump_force="0"
       
       vision_range ="100"
@@ -167,7 +167,7 @@
       description="Insert epic description here"
       life="100"
       attack="5"
-      mov_speed="5"
+      mov_speed="1.5"
       jump_force="100"
       
       vision_range ="300"
@@ -195,7 +195,7 @@
       description="Insert epic description here"
       life="100"
       attack="5"
-      mov_speed="5"
+      mov_speed="3"
       jump_force="100"
       
       vision_range="150"

@@ -247,7 +247,7 @@ void j1EntitiesManager::BeginSensorCollision(PhysBody * A, PhysBody * B)
 		//ENEMY ATK action ----------------------
 		if (B->body_type == PLAYER_BODY)
 		{
-			((Creature*)A->entity_related)->worker.AddMoveAction(A->entity_related, iPoint(50, 55));
+			((Creature*)A->entity_related)->worker.AddMoveToTargetAction(A->entity_related, B->entity_related);
 		}
 	}
 		break;
