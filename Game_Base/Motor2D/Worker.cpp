@@ -73,4 +73,16 @@ Spawn_Delay_Action * Worker::AddSpawnDelayAction(Entity * actor, uint delay)
 	//Return the generated action
 	return new_act;
 }
+
+Basic_Attack_Action * Worker::AddBasicAttackAction(Entity * actor)
+{
+	//Generate spawn delay action
+	Basic_Attack_Action* new_act = new Basic_Attack_Action();
+	//Set action stats
+	new_act->actor = actor;
+	//Push the new action at the queue
+	actions.emplace(new_act);
+	//Return the generated action
+	return new_act;
+}
 /// ---------------------------------------------

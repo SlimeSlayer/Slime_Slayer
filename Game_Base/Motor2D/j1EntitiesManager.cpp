@@ -230,11 +230,21 @@ void j1EntitiesManager::BeginSensorCollision(PhysBody * A, PhysBody * B)
 	case NPC_BODY:
 		if (B->body_type == PLAYER_BODY)
 		{
+			//NPC dialog action -----------------
 			if (((Creature*)A->entity_related)->GetCreatureType() == CREATURE_TYPE::LORE_NPC_CREATURE && B->entity_related->worker.GetCurrentAction() == nullptr)
 			{
 				((NPC*)A->entity_related)->StartDialog((Player*)B->entity_related);
 			}
 		}
+		break;
+	case BODY_TYPE::ENEMY_SENSOR_BODY:
+	{
+		//ENEMY ATK action ----------------------
+		if (B->body_type == PLAYER_BODY)
+		{
+			((Creature*)A->entity_related)->worker.AddBasicAttackAction(A->entity_related);
+		}
+	}
 		break;
 	}
 }
@@ -308,6 +318,14 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	Creature* new_creature = nullptr;
 	//Get the new item type
 	CREATURE_TYPE creature_type = StrToCreatureType(data_node->attribute("creature_type").as_string());
+	
+	//Error alert
+	if (creature_type == NO_CREATURE)
+	{
+		LOG("ERROR: Creature Gen NO_CREATURE");
+		return;
+	}
+
 	//Allocate the correct class checking the creature type
 	switch (creature_type)
 	{
@@ -353,24 +371,35 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	/*Jump Force*/		new_creature->SetJumpForce(data_node->attribute("jump_force").as_float());
 
 	//Set new creature specific stats
-	if (creature_type == PLAYER_CREATURE || creature_type == LORE_NPC_CREATURE || creature_type == LORE_NPC_B_CREATURE || creature_type == BASIC_ENEMY_CREATURE)
+	switch (creature_type)
+	{
+	case PLAYER_CREATURE:
+	case LORE_NPC_CREATURE:
+	case LORE_NPC_B_CREATURE:
+	case BASIC_ENEMY_CREATURE:
 	{
 		//Load the new creature vision area
 		PhysBody* new_vision_area = new PhysBody();
 		new_vision_area->body_def = new PhysBodyDef();
-		
+
 		/*Radius*/		new_vision_area->body_def->width = new_vision_area->body_def->height = data_node->attribute("vision_range").as_uint();
 		/*Shape*/		new_vision_area->body_def->shape_type = b2Shape::Type::e_circle;
 		/*Sensor*/		new_vision_area->body_def->is_sensor = true;
 		/*Listener*/	new_vision_area->body_def->listener = App->GetModule(data_node->attribute("listener").as_string());
 		/*Collision*/	new_vision_area->body_def->collision_type = App->physics->StrToCollisionType(data_node->attribute("vision_sensor_type").as_string());
-		/*Body.Type*/	new_vision_area->body_def->body_type = App->physics->StrToBodyType(data_node->attribute("body_type").as_string());
-		
+		/*Body.Type*/	new_vision_area->body_def->body_type = App->physics->StrToBodyType(data_node->attribute("vision_sensor_body").as_string());
+
 		//Set the generated vision are at the new creature
 		((Intelligent_Creature*)new_creature)->SetVisionArea(new_vision_area);
 
 		/*Money*/	((Intelligent_Creature*)new_creature)->SetMoney(data_node->attribute("money").as_uint(0));
 	}
+		break;
+
+	case STANDARD_NPC_CREATURE:
+		break;
+	}
+
 	if (creature_type == LORE_NPC_CREATURE || creature_type == LORE_NPC_B_CREATURE)
 	{
 		//Load NPC dialogs
@@ -396,6 +425,7 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 			dialog_atr = dialog_atr.next_attribute();
 		}
 	}
+
 	//Add the built creature at the definitions vector
 	creatures_defs.push_back(new_creature);
 }

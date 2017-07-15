@@ -14,7 +14,8 @@ enum ACTION_TYPE
 {
 	NO_ACTION = 0,
 	DIALOG_ACTION,
-	SPAWN_DELAY_ACTION
+	SPAWN_DELAY_ACTION,
+	BASIC_ATTACK_ACTION
 };
 
 /// Action --------------------------------------
@@ -88,6 +89,22 @@ public:
 
 	j1Timer delay_timer;
 	uint delay = 0;
+};
+/// ---------------------------------------------
+
+/// Basic_Attack Action -------------------------
+class Basic_Attack_Action : public Action
+{
+public:
+	
+	Basic_Attack_Action();
+	~Basic_Attack_Action();
+
+public:
+
+	//Game Loop -------------
+	bool Execute();
+
 };
 /// ---------------------------------------------
 #endif // !_ACTIONS_H_

@@ -9,7 +9,7 @@
   <player_avatar pos_x="1500" pos_y="900"/>
   <entities>
     <!--All entities tutorial data here to can divide the process in different frames -->
-    
+
 
     <!--Enemies-->
     <entity entity_type="creature" creature_type="basic_enemy_creature" pos_x="2800" pos_y="870"/>

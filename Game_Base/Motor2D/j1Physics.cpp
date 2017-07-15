@@ -1049,10 +1049,13 @@ COLLISION_TYPE j1Physics::StrToCollisionType(const char * str) const
 
 BODY_TYPE j1Physics::StrToBodyType(const char * str) const
 {
-	if (strcmp(str, "player_body") == 0)	return BODY_TYPE::PLAYER_BODY;
-	if (strcmp(str, "npc_body") == 0)		return BODY_TYPE::NPC_BODY;
-	if (strcmp(str, "map_body") == 0)		return BODY_TYPE::MAP_BODY;
-	if (strcmp(str, "item_body") == 0)		return BODY_TYPE::ITEM_BODY;
+	if (strcmp(str, "player_body") == 0)			return BODY_TYPE::PLAYER_BODY;
+	if (strcmp(str, "npc_body") == 0)				return BODY_TYPE::NPC_BODY;
+	if (strcmp(str, "map_body") == 0)				return BODY_TYPE::MAP_BODY;
+	if (strcmp(str, "item_body") == 0)				return BODY_TYPE::ITEM_BODY;
+	if (strcmp(str, "ally_sensor_body") == 0)		return BODY_TYPE::ALLY_SENSOR_BODY;
+	if (strcmp(str, "enemy_sensor_body") == 0)		return BODY_TYPE::ENEMY_SENSOR_BODY;
+	if (strcmp(str, "neutral_sensor_body") == 0)	return BODY_TYPE::NEUTRAL_SENSOR_BODY;
 	return NO_BODY;
 }
 b2BodyType j1Physics::StrToInteractionType(const char * str) const

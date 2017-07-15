@@ -160,3 +160,23 @@ bool Spawn_Delay_Action::Execute()
 	return false;
 }
 
+/// Basic_Attack Action -------------------------
+// Constructors =======================
+Basic_Attack_Action::Basic_Attack_Action() : Action(BASIC_ATTACK_ACTION)
+{
+
+}
+
+// Destructors ========================
+Basic_Attack_Action::~Basic_Attack_Action()
+{
+
+}
+
+// Game Loop ==========================
+bool Basic_Attack_Action::Execute()
+{
+	LOG("ATTACK!");
+	return true;
+}
+/// ---------------------------------------------

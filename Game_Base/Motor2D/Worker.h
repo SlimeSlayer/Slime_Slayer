@@ -29,8 +29,10 @@ public:
 	Action*	GetCurrentAction()const;
 
 	//Actions Factory -------
-	Dialog_Action*		AddDialogAction(Entity* actor, Player* target, uint priority = 0);
-	Spawn_Delay_Action*	AddSpawnDelayAction(Entity* actor, uint delay = 500);
+	Dialog_Action*			AddDialogAction(Entity* actor, Player* target, uint priority = 0);
+	Spawn_Delay_Action*		AddSpawnDelayAction(Entity* actor, uint delay = 500);
+	Basic_Attack_Action*	AddBasicAttackAction(Entity* actor);
+
 };
 /// ---------------------------------------------
 #endif // !_WORKER_H_

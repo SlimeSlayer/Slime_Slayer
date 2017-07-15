@@ -44,7 +44,10 @@ enum BODY_TYPE
 	PLAYER_BODY,
 	NPC_BODY,
 	MAP_BODY,
-	ITEM_BODY
+	ITEM_BODY,
+	ALLY_SENSOR_BODY,
+	ENEMY_SENSOR_BODY,
+	NEUTRAL_SENSOR_BODY
 };
 
 /// PhysBodyDef -------------------------------------------

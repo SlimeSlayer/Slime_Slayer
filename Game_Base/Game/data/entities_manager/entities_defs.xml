@@ -96,6 +96,7 @@
       
       vision_range ="100"
       vision_sensor_type ="neutral_sensor_collision"
+      vision_sensor_body ="neutral_sensor_body"
       money="12"
       
       font="0"
@@ -133,6 +134,7 @@
       
       vision_range ="100"
       vision_sensor_type ="neutral_sensor_collision"
+      vision_sensor_body ="neutral_sensor_body"
       money="12"
       
       font="0"
@@ -170,6 +172,7 @@
       
       vision_range ="300"
       vision_sensor_type ="enemy_sensor_collision"
+      vision_sensor_body ="enemy_sensor_body"
       money="12"
       />
     
@@ -197,6 +200,7 @@
       
       vision_range="150"
       vision_sensor_type ="ally_sensor_collision"
+      vision_sensor_body ="ally_sensor_body"
       money="12"
       
       />
