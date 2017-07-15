@@ -2,6 +2,7 @@
 #define _ACTIONS_H_
 
 #include "p2Defs.h"
+#include "p2Point.h"
 #include "j1Timer.h"
 #include "j1Physics.h"
 
@@ -15,6 +16,7 @@ enum ACTION_TYPE
 	NO_ACTION = 0,
 	DIALOG_ACTION,
 	SPAWN_DELAY_ACTION,
+	MOVE_ACTION,
 	BASIC_ATTACK_ACTION
 };
 
@@ -88,11 +90,32 @@ public:
 	COLLISION_TYPE prev_collision_type = COLLISION_TYPE::GHOST_COLLISION;
 
 	j1Timer delay_timer;
-	uint delay = 0;
+	uint	delay = 0;
 };
 /// ---------------------------------------------
 
-/// Basic_Attack Action -------------------------
+/// Move_Action ---------------------------------
+class Move_Action : public Action
+{
+public:
+
+	Move_Action(const iPoint& destination);
+	~Move_Action();
+
+public:
+
+	//Game Loop -------------
+	bool Execute();
+
+public:
+	
+	iPoint destination = { 0,0 };
+
+};
+/// ---------------------------------------------
+
+
+/// Basic_Attack_Action -------------------------
 class Basic_Attack_Action : public Action
 {
 public:

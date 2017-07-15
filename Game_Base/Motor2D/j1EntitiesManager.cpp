@@ -227,7 +227,9 @@ void j1EntitiesManager::BeginSensorCollision(PhysBody * A, PhysBody * B)
 {
 	switch (A->body_type)
 	{
-	case NPC_BODY:
+	// NEUTRAL Sensors ------------------------------------
+	case NEUTRAL_SENSOR_BODY:
+	{
 		if (B->body_type == PLAYER_BODY)
 		{
 			//NPC dialog action -----------------
@@ -236,13 +238,16 @@ void j1EntitiesManager::BeginSensorCollision(PhysBody * A, PhysBody * B)
 				((NPC*)A->entity_related)->StartDialog((Player*)B->entity_related);
 			}
 		}
+	}
 		break;
+
+	// ENEMY Sensors --------------------------------------
 	case BODY_TYPE::ENEMY_SENSOR_BODY:
 	{
 		//ENEMY ATK action ----------------------
 		if (B->body_type == PLAYER_BODY)
 		{
-			((Creature*)A->entity_related)->worker.AddBasicAttackAction(A->entity_related);
+			((Creature*)A->entity_related)->worker.AddMoveAction(A->entity_related, iPoint(50, 55));
 		}
 	}
 		break;

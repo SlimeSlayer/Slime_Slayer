@@ -159,6 +159,28 @@ bool Spawn_Delay_Action::Execute()
 
 	return false;
 }
+/// ---------------------------------------------
+
+/// Move_Action ---------------------------------
+// Constructors =======================
+Move_Action::Move_Action(const iPoint & destination) : Action(MOVE_ACTION), destination(destination)
+{
+
+}
+
+// Destructors ========================
+Move_Action::~Move_Action()
+{
+
+}
+
+// Game Loop ==========================
+bool Move_Action::Execute()
+{
+	LOG("GO TO! %i %i", destination.x, destination.y);
+	return true;
+}
+/// ---------------------------------------------
 
 /// Basic_Attack Action -------------------------
 // Constructors =======================
@@ -180,3 +202,5 @@ bool Basic_Attack_Action::Execute()
 	return true;
 }
 /// ---------------------------------------------
+
+
