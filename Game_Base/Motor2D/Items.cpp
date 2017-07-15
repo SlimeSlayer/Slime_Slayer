@@ -112,7 +112,8 @@ void Items_Tank::DropItems()
 		list_item._Ptr->_Myval->GetBody()->body->SetLinearVelocity({ drop_total_rad * per_cent,-drop_impulse });
 		
 		//Items dropped have a ghost delay
-		list_item._Ptr->_Myval->worker.AddSpawnDelayAction(list_item._Ptr->_Myval);
+		Action* act = list_item._Ptr->_Myval->worker.GenerateSpawnDelayAction(list_item._Ptr->_Myval);
+		list_item._Ptr->_Myval->worker.AddAction(act);
 
 		//Check dropped item volatility & reset delete timer
 		if (list_item._Ptr->_Myval->GetIfVolatile())((Volatile_Item*)list_item._Ptr->_Myval)->ResetVolatileTimer();

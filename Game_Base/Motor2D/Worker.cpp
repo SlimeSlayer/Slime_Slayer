@@ -10,12 +10,14 @@ Worker::Worker()
 // Destructors ========================
 Worker::~Worker()
 {
-	uint size = actions.size();
-	for (uint k = 0; k < size; k++)
+	std::list<Action*>::const_iterator act = actions.begin();
+	while (act != actions.end())
 	{
-		RELEASE((Action*)actions.top());
-		actions.pop();
+		RELEASE(act._Ptr->_Myval);
+		act++;
 	}
+	actions.clear();
+
 	if (current_action != nullptr)RELEASE(current_action);
 }
 
@@ -31,8 +33,8 @@ void Worker::Update()
 	// Start a new action
 	else if (!actions.empty())
 	{
-		current_action = actions.top();
-		actions.pop();
+		current_action = actions.front();
+		actions.pop_front();
 
 		// Check if the new action is started correctly 
 		if (current_action != nullptr && !current_action->Init())
@@ -47,7 +49,8 @@ Action * Worker::GetCurrentAction() const
 	return current_action;
 }
 
-Dialog_Action* Worker::AddDialogAction(Entity * actor, Player * target, uint priority)
+// Action Factory =====================
+Dialog_Action* Worker::GenerateDialogAction(Entity * actor, Player * target, uint priority)
 {
 	//Generate dialog action
 	Dialog_Action* new_act = new Dialog_Action();
@@ -55,59 +58,64 @@ Dialog_Action* Worker::AddDialogAction(Entity * actor, Player * target, uint pri
 	new_act->actor = actor;
 	new_act->target = target;
 	new_act->priority = priority;
-	//Push the new action at the queue
-	actions.emplace(new_act);
 	//Return the generated action
 	return new_act;
 }
 
-Spawn_Delay_Action * Worker::AddSpawnDelayAction(Entity * actor, uint delay)
+Spawn_Delay_Action * Worker::GenerateSpawnDelayAction(Entity * actor, uint delay)
 {
 	//Generate spawn delay action
 	Spawn_Delay_Action* new_act = new Spawn_Delay_Action();
 	//Set action stats
 	new_act->actor = actor;
 	new_act->delay = delay;
-	//Push the new action at the queue
-	actions.emplace(new_act);
 	//Return the generated action
 	return new_act;
 }
 
-Basic_Attack_Action * Worker::AddBasicAttackAction(Entity * actor, Entity* target)
+Basic_Attack_Action * Worker::GenerateBasicAttackAction(Entity * actor, Entity* target)
 {
 	//Generate basic attack action
 	Basic_Attack_Action* new_act = new Basic_Attack_Action();
 	//Set action stats
 	new_act->actor = actor;
 	new_act->target = target;
-	//Push the new action at the queue
-	actions.emplace(new_act);
 	//Return the generated action
 	return new_act;
 }
 
-Move_Action * Worker::AddMoveAction(Entity * actor, const iPoint& destination)
+Move_Action * Worker::GenerateMoveAction(Entity * actor, const iPoint& destination)
 {
 	//Generate move action
 	Move_Action* new_act = new Move_Action(destination);
 	//Set action stats
 	new_act->actor = actor;
-	//Push the new action at the queue
-	actions.emplace(new_act);
 	//Return the generated action
 	return new_act;
 }
-Move_To_Target_Action * Worker::AddMoveToTargetAction(Entity * actor, Entity * target)
+Move_To_Target_Action * Worker::GenerateMoveToTargetAction(Entity * actor, Entity * target)
 {
 	//Generate move to target action
 	Move_To_Target_Action* new_act = new Move_To_Target_Action();
 	//Set action stats
 	new_act->actor = actor;
 	new_act->target = (Creature*)target;
-	//Push the new action at the queue
-	actions.emplace(new_act);
 	//Return the generated action
 	return new_act;
+}
+
+// Actions Management =================
+void Worker::AddAction(const Action * new_act)
+{
+	actions.push_back((Action*)new_act);
+}
+
+void Worker::AddPriorizedAction(const Action * new_act)
+{
+	if (current_action != nullptr)
+	{
+		actions.push_front(current_action);
+	}
+	current_action = (Action*)new_act;
 }
 /// ---------------------------------------------

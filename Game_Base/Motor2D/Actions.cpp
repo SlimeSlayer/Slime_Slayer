@@ -312,6 +312,18 @@ Basic_Attack_Action::~Basic_Attack_Action()
 // Game Loop ==========================
 bool Basic_Attack_Action::Execute()
 {
+	//Check if the target is in range
+	int tar_x = 0, tar_y = 0;
+	target->GetBody()->GetPosition(tar_x, tar_y);
+	int act_x = 0, act_y = 0;
+	actor->GetBody()->GetPosition(act_x, act_y);
+
+	if (((Intelligent_Creature*)actor)->GetVisionArea()->width < abs(tar_x - act_x))
+	{
+		Action* act = actor->worker.GenerateMoveToTargetAction(actor, target);
+		actor->worker.AddPriorizedAction(act);
+		return false;
+	}
 
 	LOG("ATTACK!");
 	return true;

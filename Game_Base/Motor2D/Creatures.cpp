@@ -117,7 +117,8 @@ NPC::~NPC()
 // Actions ============================
 void NPC::StartDialog(Player* target)
 {
-	worker.AddDialogAction(this, target);
+	Action* act = worker.GenerateDialogAction(this, target);
+	worker.AddAction(act);
 }
 
 // Functionality ======================
