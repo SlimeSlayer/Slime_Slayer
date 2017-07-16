@@ -26,6 +26,7 @@ class j1Gui;
 class j1Module;
 class j1Animator;
 class j1EntitiesManager;
+class j1ParticleManager;
 class j1InputManager;
 class j1Video;
 class j1Intro;
@@ -117,6 +118,7 @@ public:
 	j1Gui*				gui = NULL;
 	j1Video*			video = NULL;
 	j1EntitiesManager*	entities_manager = NULL;
+	j1ParticleManager*	particle_manager = NULL;
 	j1Animator*			animator = NULL;
 	j1Player*			player = NULL;
 

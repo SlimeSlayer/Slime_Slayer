@@ -28,8 +28,7 @@ j1EntitiesManager::~j1EntitiesManager()
 // Game Loop ====================================
 void j1EntitiesManager::Init()
 {
-	active = false;
-	enabled = false;
+	active = enabled = false;
 }
 
 bool j1EntitiesManager::Enable()

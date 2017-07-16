@@ -114,6 +114,10 @@
     <ClCompile Include="Worker.cpp">
       <Filter>Act_System</Filter>
     </ClCompile>
+    <ClCompile Include="j1ParticleManager.cpp">
+      <Filter>Modules\ParticleManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Particles.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -244,6 +248,12 @@
     <ClInclude Include="Actions.h">
       <Filter>Act_System</Filter>
     </ClInclude>
+    <ClInclude Include="j1ParticleManager.h">
+      <Filter>Modules\ParticleManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Particles.h">
+      <Filter>Modules\ParticleManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scenes">
@@ -275,6 +285,9 @@
     </Filter>
     <Filter Include="Act_System">
       <UniqueIdentifier>{15659d92-be84-44dd-ae74-16a439078d81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\ParticleManager">
+      <UniqueIdentifier>{de8e6c24-783a-4119-b76e-ae361ac91363}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

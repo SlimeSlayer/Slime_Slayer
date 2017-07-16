@@ -19,6 +19,7 @@
 #include "j1Video.h"
 #include "j1Physics.h"
 #include "j1EntitiesManager.h"
+#include "j1ParticleManager.h"
 #include "j1Player.h"
 
 #include "MainMenu.h"
@@ -43,6 +44,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	video = new j1Video();
 	physics = new j1Physics();
 	entities_manager = new j1EntitiesManager();
+	particle_manager = new j1ParticleManager();
 	player = new j1Player();
 
 	main_menu = new MainMenu();
@@ -61,6 +63,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(video);
 	AddModule(physics);
 	AddModule(entities_manager);
+	AddModule(particle_manager);
 	AddModule(player);
 
 	// scene last

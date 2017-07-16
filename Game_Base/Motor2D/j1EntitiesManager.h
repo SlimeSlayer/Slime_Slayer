@@ -15,6 +15,7 @@ public:
 
 public:
 
+	// Game Loop ------------
 	void Init();
 	bool Enable();
 	void Disable();
