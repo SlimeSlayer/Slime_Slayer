@@ -33,7 +33,14 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 	{
 		const char* path = conf.child("default_font").attribute("file").as_string(DEFAULT_FONT);
 		int size = conf.child("default_font").attribute("size").as_int(DEFAULT_FONT_SIZE);
-		default = Load(path, size);
+		FONT_ID font_id = StrToFontID(conf.child("default_font").attribute("id").as_string());
+		SDL_Color font_color = {
+			conf.child("default_font").attribute("r").as_uint(),
+			conf.child("default_font").attribute("g").as_uint(),
+			conf.child("default_font").attribute("b").as_uint(),
+			conf.child("default_font").attribute("a").as_uint()
+		};
+		default = Load(path, size, font_color, font_id);
 	}
 
 	pugi::xml_node font_node = conf.child("font");
@@ -41,7 +48,14 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 	{
 		const char* path = font_node.attribute("file").as_string(DEFAULT_FONT);
 		int size = font_node.attribute("size").as_int(DEFAULT_FONT_SIZE);
-		Load(path, size);
+		FONT_ID font_id = StrToFontID(font_node.attribute("id").as_string());
+		SDL_Color font_color = {
+			font_node.attribute("r").as_uint(),
+			font_node.attribute("g").as_uint(),
+			font_node.attribute("b").as_uint(),
+			font_node.attribute("a").as_uint()
+		};
+		Load(path, size, font_color, font_id);
 
 		font_node = font_node.next_sibling();
 	}
@@ -51,13 +65,6 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 
 bool j1Fonts::PreUpdate()
 {
-	int size = ready_to_unload.size();
-	for (int i = 0; i < size; i++)
-	{
-		App->tex->UnLoad(ready_to_unload[i]);
-	}
-	ready_to_unload.clear();
-	
 	return true;
 }
 
@@ -69,27 +76,20 @@ bool j1Fonts::PostUpdate()
 // Called before quitting
 bool j1Fonts::CleanUp()
 {
-	//LOG("Freeing True Type fonts and library");
-	while(fonts.size() > 0)
+	uint size = fonts.size();
+	for (uint k = 0; k < size; k++)
 	{
-		TTF_CloseFont(fonts.back());
-		fonts.pop_back();
+		TTF_CloseFont(fonts[k]->font);
+		RELEASE(fonts[k]);
 	}
 	fonts.clear();
-
-	int size = ready_to_unload.size();
-	for (int i = 0; i < size; i++)
-	{
-		App->tex->UnLoad(ready_to_unload[i]);
-	}
-	ready_to_unload.clear();
 
 	TTF_Quit();
 	return true;
 }
 
 // Load new texture from file path
-TTF_Font* const j1Fonts::Load(const char* path, int size)
+TTF_Font* const j1Fonts::Load(const char* path, int size, SDL_Color color, FONT_ID font_id)
 {
 	TTF_Font* font = TTF_OpenFontRW(App->fs->Load(path), 1, size);
 	
@@ -99,20 +99,23 @@ TTF_Font* const j1Fonts::Load(const char* path, int size)
 	}
 	else
 	{
+		Font_Def* font_def = new Font_Def();
 		LOG("Successfully loaded font %s size %d", path, size);
-		fonts.push_back(font);
+		font_def->font = font;
+		font_def->font_color = color;
+		font_def->font_id = font_id;
+		fonts.push_back(font_def);
 	}
 
 	return font;
 }
 
-// Print text using font
-SDL_Texture* j1Fonts::Print(const char* text, SDL_Color color, TTF_Font* font)
+SDL_Texture * j1Fonts::Print(const char * text, SDL_Color color, _TTF_Font * font)
 {
 	SDL_Texture* ret = NULL;
 	SDL_Surface* surface = TTF_RenderText_Blended((font) ? font : default, text, color);
 
-	if(surface == NULL)
+	if (surface == NULL)
 	{
 		LOG("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
 	}
@@ -138,14 +141,20 @@ bool j1Fonts::CalcSize(const char* text, int& width, int& height, _TTF_Font* fon
 	return ret;
 }
 
-void j1Fonts::DeleteTexture(SDL_Texture * texture_to_delete)
+FONT_ID j1Fonts::StrToFontID(const char * str) const
 {
-	ready_to_unload.push_back(texture_to_delete);
+	if (strcmp("def_font", str) == 0)		return DEF_FONT;
+	if (strcmp("dialog_font", str) == 0)	return DIALOG_FONT;
+	if (strcmp("hitpoints_font", str) == 0)	return HITPOINTS_FONT;
+	return NO_FONT;
 }
 
-_TTF_Font * j1Fonts::GetFontByIndex(uint index) const
+Font_Def * j1Fonts::GetFontByID(FONT_ID id) const
 {
-	if (index >= fonts.size())return nullptr;
-
-	return fonts[index];
+	uint size = fonts.size();
+	for (uint k = 0; k < size; k++)
+	{
+		if (fonts[k]->font_id == id)return fonts[k];
+	}
+	return nullptr;
 }

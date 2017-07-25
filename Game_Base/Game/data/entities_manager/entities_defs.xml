@@ -101,7 +101,7 @@
       vision_sensor_body ="neutral_sensor_body"
       money="12"
       
-      font="0"
+      font="dialog_font"
       size="16"
       t_color_r="255"
       t_color_g="255"
@@ -140,7 +140,7 @@
       vision_sensor_body ="neutral_sensor_body"
       money="12"
       
-      font="0"
+      font="dialog_font"
       t_color_r="255"
       t_color_g="205"
       t_color_b="255"
@@ -170,7 +170,7 @@
       description="Insert epic description here"
       life="100"
       attack_hitpoints="5"
-      attack_rate="150"
+      attack_rate="350"
       mov_speed="1.5"
       jump_force="100"
       

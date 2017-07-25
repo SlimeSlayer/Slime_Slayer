@@ -607,6 +607,7 @@ void j1App::ActiveMainMenu()
 	modules_to_disable.push_back(current_scene);
 	modules_to_disable.push_back(player);
 	modules_to_disable.push_back(entities_manager);
+	modules_to_disable.push_back(particle_manager);
 	modules_to_disable.push_back(physics);
 	//modules_to_disable.push_back(animator);
 
@@ -630,6 +631,7 @@ void j1App::ActiveTutorial()
 	App->player->Active();
 	//App->animator->Active();
 	App->entities_manager->Active();
+	App->particle_manager->Active();
 	App->tutorial->Active();
 	App->physics->Active();
 
@@ -653,6 +655,7 @@ void j1App::ActiveEndless()
 	
 	App->physics->Active();
 	App->entities_manager->Active();
+	App->particle_manager->Active();
 	App->endless->Active();
 
 

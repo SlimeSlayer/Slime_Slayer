@@ -2,8 +2,9 @@
 #define _PARTICLES_H_
 
 #include "p2Point.h"
+#include "j1Timer.h"
 
-class SDL_Texture;
+struct SDL_Texture;
 
 enum PARTICLE_TYPE
 {
@@ -20,18 +21,42 @@ public:
 	Particle(const Particle& copy);
 	~Particle();
 
-private:
+public:
+
+	//Game Loop -------------
+	virtual bool Update(float dt);
+	virtual void Draw();
+
+protected:
 
 	PARTICLE_TYPE	particle_type = NO_PARTICLE;
 	fPoint			position = { 0,0 };
+	fPoint			velocity = { 0,0 };
+	fPoint			acceleration = { 0,0 };
+	
+	bool			volatile_ = false;
+	uint			life_time = 0;
+	j1Timer			life_timer;
 
 public:
 
 	//Set Methods -----------
+	void SetParticleType(PARTICLE_TYPE type);
 	void SetPosition(float x, float y);
+	void SetVelocity(float x, float y);
+	void SetAcceleration(float x, float y);
+	void SetVolatile(bool new_volatile_);
+	void SetLifeTime(uint life_time);
 
 	//Get Methods -----------
-	 fPoint GetPosition()const;
+	PARTICLE_TYPE	GetParticleType()const;
+	fPoint			GetPosition()const;
+	fPoint			GetVelocity()const;
+	fPoint			GetAcceleration()const;
+
+	//Functionality ---------
+	void ResetLifeTimer();
+
 };
 /// ---------------------------------------------
 
@@ -44,7 +69,12 @@ public:
 	Static_Particle(const Static_Particle& copy);
 	~Static_Particle();
 
-private:
+public:
+
+	//Game Loop -------------
+	void Draw();
+
+protected:
 
 	SDL_Texture* texture = nullptr;
 

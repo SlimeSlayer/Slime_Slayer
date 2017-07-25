@@ -409,7 +409,7 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	if (creature_type == LORE_NPC_CREATURE || creature_type == LORE_NPC_B_CREATURE)
 	{
 		//Load NPC dialogs
-		/*Font/Size*/	_TTF_Font* d_font = App->font->GetFontByIndex(data_node->attribute("font").as_int(0));
+		/*Font/Size*/	Font_Def* d_font = App->font->GetFontByID(App->font->StrToFontID(data_node->attribute("font").as_string()));
 		/*Color*/		SDL_Color d_color = { 0,0,0,255 };
 		/*R*/			d_color.r = data_node->attribute("t_color_r").as_int();
 		/*G*/			d_color.g = data_node->attribute("t_color_g").as_int();
@@ -420,7 +420,7 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 		{
 			//Build the string with the loaded data
 			UI_String* new_str = new UI_String();
-			new_str->SetFont(d_font);
+			new_str->SetFont(d_font->font);
 			new_str->SetColor(d_color);
 			new_str->SetString(dialog_atr.as_string("str_error"));
 			

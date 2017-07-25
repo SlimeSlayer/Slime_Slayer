@@ -117,7 +117,9 @@
     <ClCompile Include="j1ParticleManager.cpp">
       <Filter>Modules\ParticleManager</Filter>
     </ClCompile>
-    <ClCompile Include="Particles.cpp" />
+    <ClCompile Include="Particles.cpp">
+      <Filter>Modules\ParticleManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">

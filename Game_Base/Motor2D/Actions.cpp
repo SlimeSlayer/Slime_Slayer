@@ -3,6 +3,7 @@
 #include "p2Log.h"
 #include "j1App.h"
 #include "j1EntitiesManager.h"
+#include "j1ParticleManager.h"
 #include "j1Gui.h"
 #include "j1Player.h"
 #include "j1InputManager.h"
@@ -346,6 +347,8 @@ bool Basic_Attack_Action::Execute()
 		//Reset attack timer
 		attack_timer.Start();
 
+		//Generate score particle
+		App->particle_manager->GenerateDamagePointsParticle(target, ((Creature*)actor)->GetAttackHitPoints());
 		LOG("TL: %i", target->GetLife());
 	}
 

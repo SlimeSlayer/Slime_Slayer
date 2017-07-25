@@ -1,11 +1,10 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "UI_String.h"
-#include "j1Fonts.h"
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "p2Log.h"
 
-//Contructors =============================================
+//Constructors ============================================
 UI_String::UI_String(const SDL_Rect& box, char * text, const SDL_Color& text_color, _TTF_Font * text_font) : UI_Element(box, STRING), text(text), text_font(text_font), text_color(text_color) {}
 
 UI_String::UI_String(const UI_String* copy) : UI_Element(copy->box, STRING), text(copy->text), text_font(copy->text_font), text_texture(copy->text_texture), text_color(copy->text_color) {}
@@ -58,7 +57,7 @@ void UI_String::SetString(const char * new_text, bool generate)
 {
 	if (text_texture != nullptr)
 	{
-		App->font->DeleteTexture(text_texture);
+		App->tex->UnLoad(text_texture);
 		text_texture = nullptr;
 	}
 	text = new_text;
@@ -70,7 +69,7 @@ void UI_String::PushString(const char * new_text, uint position)
 {
 	if (text_texture != nullptr)
 	{
-		App->font->DeleteTexture(text_texture);
+		App->tex->UnLoad(text_texture);
 		text_texture = nullptr;
 	}
 	text.insert(position, new_text);
@@ -84,7 +83,7 @@ bool UI_String::DeleteChar(uint position)
 	text.erase(position,1);
 	
 	if (text_texture != nullptr) {
-		App->font->DeleteTexture(text_texture);
+		App->tex->UnLoad(text_texture);
 		text_texture = nullptr;
 	}
 
@@ -106,7 +105,7 @@ bool UI_String::DeleteSegment(uint start, uint end)
 	}
 
 	if (text_texture != nullptr) {
-		App->font->DeleteTexture(text_texture);
+		App->tex->UnLoad(text_texture);
 		text_texture = nullptr;
 	}
 	//Generate str texture if it contain alive chars
@@ -194,17 +193,6 @@ SDL_Rect UI_String::AdjustBox()
 	box.h = h;
 
 	return box;
-}
-
-bool UI_String::SetFont(char* font_dir, uint size)
-{
-	_TTF_Font* new_font = App->font->Load(font_dir, size);
-	if (new_font == NULL)return false;
-	else
-	{
-		text_font = new_font;
-		return true;
-	}
 }
 
 bool UI_String::SetFont(_TTF_Font * new_font)

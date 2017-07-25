@@ -10,15 +10,33 @@
 struct SDL_Texture;
 struct _TTF_Font;
 
+enum FONT_ID
+{
+	NO_FONT = 0,
+	DEF_FONT,
+	DIALOG_FONT,
+	HITPOINTS_FONT
+};
+
+/// Font_Def --------------------------
+struct Font_Def
+{
+	FONT_ID		font_id = NO_FONT;
+	_TTF_Font*	font = nullptr;
+	SDL_Color	font_color = { 255,255,255,255 };
+};
+/// -----------------------------------
+
+
 class j1Fonts : public j1Module
 {
 public:
 
 	j1Fonts();
+	~j1Fonts();
 
-	// Destructor
-	virtual ~j1Fonts();
-
+public:
+	
 	// Called before render is available
 	bool Awake(pugi::xml_node&);
 
@@ -31,24 +49,25 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	// Load Font
-	_TTF_Font* const Load(const char* path, int size = 12);
+public:
 
-	// Create a surface from text
-	SDL_Texture* Print(const char* text, SDL_Color color = {255, 255, 255, 255}, _TTF_Font* font = NULL);
-
-	bool CalcSize(const char* text, int& width, int& height, _TTF_Font* font = NULL) const;
-	
-	// Delete textures generated with fonts
-	void DeleteTexture(SDL_Texture* texture_to_delete);
-
-	_TTF_Font* GetFontByIndex(uint index)const;
+	std::vector<Font_Def*>			fonts;
+	_TTF_Font*						default = nullptr;
 
 public:
 
-	std::vector<_TTF_Font*>			fonts;
-	std::vector<SDL_Texture*>		ready_to_unload;
-	_TTF_Font*						default = nullptr;
+	// Load Font
+	_TTF_Font* const Load(const char* path, int size, SDL_Color color, FONT_ID font_id);
+
+	// Create a surface from text
+	SDL_Texture* Print(const char* text, SDL_Color color = { 255, 255, 255, 255 }, _TTF_Font* font = NULL);
+
+	bool CalcSize(const char* text, int& width, int& height, _TTF_Font* font = NULL) const;
+
+	//Transform str to Font_ID
+	FONT_ID StrToFontID(const char* str)const;
+
+	Font_Def* GetFontByID(FONT_ID id)const;
 };
 
 

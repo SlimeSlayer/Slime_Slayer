@@ -45,7 +45,6 @@ public:
 	bool		GenerateTexture();
 
 	SDL_Rect	AdjustBox();
-	bool		SetFont(char* font_dir, uint size);
 	bool		SetFont(_TTF_Font* new_font);
 	void		SetColor(SDL_Color new_color);
 };
