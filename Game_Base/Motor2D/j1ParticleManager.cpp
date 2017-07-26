@@ -99,7 +99,12 @@ void j1ParticleManager::DeleteParticle(Particle * target)
 Particle* j1ParticleManager::GenerateDamagePointsParticle(const Entity * target, uint value)
 {
 	//Get the correct font
-	Font_Def* font = App->font->GetFontByID(FONT_ID::HITPOINTS_FONT);
+	Font_Def* font = nullptr;
+	if (target->GetEntityType() == CREATURE && ((Creature*)target)->GetCreatureType() == BASIC_ENEMY_CREATURE)
+	{
+		font = App->font->GetFontByID(FONT_ID::ENEMY_HITPOINTS_FONT);
+	}
+	else font = App->font->GetFontByID(FONT_ID::ALLY_HITPOINTS_FONT);
 	
 	//Transform the value to a string
 	char buffer[9];

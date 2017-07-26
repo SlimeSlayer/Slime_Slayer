@@ -83,6 +83,19 @@ bool j1Player::Update(float dt)
 	// Check if player input is blocked ---------
 	if (avatar->GetInputBlocked() || App->GetCurrentScene() == nullptr)return true;
 
+	// ATTACK INPUT -----------------------------
+	if (attack_input_state == INPUT_DOWN || (attack_input_state == INPUT_REPEAT && avatar->ReadyToAttack()))
+	{
+		if (avatar->GetDirection() == RIGHT)
+		{
+			avatar->AttackRight();
+		}
+		else if (avatar->GetDirection() == LEFT)
+		{
+			avatar->AttackLeft();
+		}
+	}
+
 	// AIR INPUT --------------------------------
 	if (!avatar->GetBody()->IsInContact())
 	{
@@ -121,18 +134,6 @@ bool j1Player::Update(float dt)
 		avatar->GetBody()->body->ApplyForceToCenter(b2Vec2(0.0f, -avatar->GetJumpForce()), true);
 	}
 
-	// ATTACK INPUT -----------------------------
-	if ((attack_input_state == INPUT_DOWN || attack_input_state == INPUT_REPEAT) && avatar->ReadyToAttack())
-	{
-		if (avatar->GetDirection() == RIGHT)
-		{
-			avatar->AttackRight();
-		}
-		else if (avatar->GetDirection() == LEFT)
-		{
-			avatar->AttackLeft();
-		}
-	}
 	return true;
 }
 
@@ -151,7 +152,7 @@ void j1Player::OnSensorCollision(PhysBody * A, PhysBody * B)
 	// Attack sensor
 	INPUT_STATE atk_input_state = App->input_manager->GetEvent(INPUT_EVENT::ATTACK);
 	//Check if player is ready to attack
-	if ((atk_input_state == INPUT_DOWN || atk_input_state == INPUT_REPEAT) && A == avatar->GetCurrentAttackArea() && avatar->ReadyToAttack())
+	if ((atk_input_state == INPUT_DOWN || (atk_input_state == INPUT_REPEAT && avatar->ReadyToAttack())) && A == avatar->GetCurrentAttackArea())
 	{
 		//Check if B is an enemy
 		if (B->entity_related->GetEntityType() == CREATURE && ((Creature*)B->entity_related)->GetCreatureType() == CREATURE_TYPE::BASIC_ENEMY_CREATURE)

@@ -31,7 +31,6 @@ bool Particle::Update(float dt)
 	if (volatile_ && life_timer.Read() > life_time)
 	{
 		App->particle_manager->DeleteParticle(this);
-		LOG("Particle dead");
 		return true;
 	}
 

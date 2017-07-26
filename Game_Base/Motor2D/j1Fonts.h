@@ -15,7 +15,8 @@ enum FONT_ID
 	NO_FONT = 0,
 	DEF_FONT,
 	DIALOG_FONT,
-	HITPOINTS_FONT
+	ENEMY_HITPOINTS_FONT,
+	ALLY_HITPOINTS_FONT
 };
 
 /// Font_Def --------------------------
