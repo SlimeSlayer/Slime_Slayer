@@ -107,6 +107,7 @@ public:
 
 	void AttackLeft();
 	void AttackRight();
+	bool ReadyToAttack()const;
 };
 /// ---------------------------------------------
 #endif // !_CREATURES_H_

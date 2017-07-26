@@ -143,13 +143,13 @@ Player::Player()
 
 Player::Player(const Player & copy, bool generate_body) :Intelligent_Creature(copy, generate_body), attack_range(copy.attack_range)
 {
-
+	current_attack_area = App->physics->TransformDefToBuilt(copy.GetCurrentAttackArea());
 }
 
 // Destructors ========================
 Player::~Player()
 {
-
+	RELEASE(current_attack_area);
 }
 
 // Set Methods ========================
@@ -192,11 +192,21 @@ void Player::UnlockInput()
 
 void Player::AttackLeft()
 {
-
+	//Place the attack area at the correct coordinates
+	int x = 0, y = 0, w = 0, h = 0;
+	this->body->GetPosition(x, y);
+	w = this->body->GetWidth();
+	h = this->body->GetHeight();
+	current_attack_area->SetPosition(x - w * 0.5, y + h * 0.5);
+	attack_timer.Start();
 }
 
 void Player::AttackRight()
 {
-	
+	attack_timer.Start();
+}
+bool Player::ReadyToAttack() const
+{
+	return bool(attack_timer.Read() > attack_rate);
 }
 /// ---------------------------------------------

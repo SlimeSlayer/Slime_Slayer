@@ -33,6 +33,9 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	// Collisions functions
+	void OnSensorCollision(PhysBody* A, PhysBody* B);
+
 public:
 
 	//User avatar -----------
