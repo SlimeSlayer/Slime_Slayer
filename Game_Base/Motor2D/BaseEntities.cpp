@@ -65,6 +65,11 @@ void Entity::SetPosition(float x, float y)
 	body->SetPosition(x, y);
 }
 
+void Entity::SetDirection(DIRECTION direction)
+{
+	this->direction = direction;
+}
+
 //Get Methods =========================
 ENTITY_TYPE Entity::GetEntityType() const
 {
@@ -84,6 +89,11 @@ const char* Entity::GetDescription() const
 PhysBody * Entity::GetBody() const
 {
 	return body;
+}
+
+DIRECTION Entity::GetDirection() const
+{
+	return direction;
 }
 
 // Functionality ======================

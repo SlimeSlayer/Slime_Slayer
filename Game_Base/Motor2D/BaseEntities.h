@@ -34,6 +34,13 @@ enum ITEM_TYPE
 	JAR_ITEM
 };
 
+enum DIRECTION
+{
+	NO_DIRECTION = 0,
+	LEFT,
+	RIGHT
+};
+
 /// Entity --------------------------------------
 //Base class where the entity pillars are defined
 class Entity
@@ -57,6 +64,8 @@ protected:
 	string		description = "";
 	//Animation*	current_animation = nullptr;
 
+	DIRECTION	direction = NO_DIRECTION;
+
 public:
 
 	Worker worker;
@@ -69,12 +78,14 @@ public:
 	void			SetDescription(string new_description);
 	void			SetBody(PhysBody* new_body);
 	virtual void	SetPosition(float x, float y);
-	
+	void			SetDirection(DIRECTION direction);
+
 	//Get Methods -----------
 	ENTITY_TYPE	GetEntityType()const;
 	const char*	GetName()const;
 	const char*	GetDescription()const;
 	PhysBody*	GetBody()const;
+	DIRECTION	GetDirection()const;
 
 	//Functionality ---------
 	virtual void UpdatePosition();

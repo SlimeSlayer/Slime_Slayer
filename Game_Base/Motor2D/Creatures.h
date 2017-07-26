@@ -84,17 +84,29 @@ public:
 
 private:
 
-	bool input_blocked = false;
+	bool	input_blocked = false;
+
+	uint		attack_range = 0;
+	j1Timer		attack_timer;
+	PhysBody*	current_attack_area = nullptr;
 
 public:
 
+	//Set Methods -----------
+	void SetAttackRange(uint range);
+	void SetCurrentAttackArea(PhysBody* new_attack_area);
+
 	//Get Methods -----------
-	bool GetInputBlocked()const;
+	bool		GetInputBlocked()const;
+	uint		GetAttackRange()const;
+	PhysBody*	GetCurrentAttackArea()const;
 
 	//Functionality ---------
 	void LockInput();
 	void UnlockInput();
 
+	void AttackLeft();
+	void AttackRight();
 };
 /// ---------------------------------------------
 #endif // !_CREATURES_H_

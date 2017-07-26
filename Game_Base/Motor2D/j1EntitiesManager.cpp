@@ -432,6 +432,10 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 		}
 	}
 
+	if (creature_type == PLAYER_CREATURE)
+	{
+		/*Attack range*/	((Player*)new_creature)->SetAttackRange(data_node->attribute("attack_range").as_uint());
+	}
 	//Add the built creature at the definitions vector
 	creatures_defs.push_back(new_creature);
 }

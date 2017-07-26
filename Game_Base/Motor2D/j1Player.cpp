@@ -66,6 +66,7 @@ bool j1Player::Update(float dt)
 	INPUT_STATE go_right_input_state = App->input_manager->GetEvent(INPUT_EVENT::GO_RIGHT);
 	INPUT_STATE jump_input_state = App->input_manager->GetEvent(INPUT_EVENT::JUMP);
 	INPUT_STATE crouch_input_state = App->input_manager->GetEvent(INPUT_EVENT::CROUCH);
+	INPUT_STATE attack_input_state = App->input_manager->GetEvent(INPUT_EVENT::ATTACK);
 	
 	
 	// Get player necessary data ----------------
@@ -100,11 +101,13 @@ bool j1Player::Update(float dt)
 	{
 		avatar->GetBody()->body->SetLinearVelocity(b2Vec2(-avatar->GetMovSpeed(), linear_vel.y));
 		App->GetCurrentScene()->UpdateParallax(-avatar->GetMovSpeed());
+		avatar->SetDirection(LEFT);
 	}
 	else if (go_right_input_state == INPUT_REPEAT)
 	{
 		avatar->GetBody()->body->SetLinearVelocity(b2Vec2(avatar->GetMovSpeed(), linear_vel.y));
 		App->GetCurrentScene()->UpdateParallax(avatar->GetMovSpeed());
+		avatar->SetDirection(RIGHT);
 	}
 	else
 	{
@@ -117,6 +120,18 @@ bool j1Player::Update(float dt)
 		avatar->GetBody()->body->ApplyForceToCenter(b2Vec2(0.0f, -avatar->GetJumpForce()), true);
 	}
 
+	// ATTACK INPUT -----------------------------
+	if (attack_input_state == INPUT_DOWN || attack_input_state == INPUT_REPEAT)
+	{
+		if (avatar->GetDirection() == RIGHT)
+		{
+			avatar->AttackRight();
+		}
+		else if (avatar->GetDirection() == LEFT)
+		{
+			avatar->AttackLeft();
+		}
+	}
 	return true;
 }
 

@@ -200,6 +200,7 @@
       life="100"
       attack_hitpoints="5"
       attack_rate="150"
+      attack_range="75"
       mov_speed="3"
       jump_force="100"
       

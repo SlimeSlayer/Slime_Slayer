@@ -141,7 +141,7 @@ Player::Player()
 
 }
 
-Player::Player(const Player & copy, bool generate_body) :Intelligent_Creature(copy, generate_body)
+Player::Player(const Player & copy, bool generate_body) :Intelligent_Creature(copy, generate_body), attack_range(copy.attack_range)
 {
 
 }
@@ -152,10 +152,31 @@ Player::~Player()
 
 }
 
+// Set Methods ========================
+void Player::SetAttackRange(uint range)
+{
+	attack_range = range;
+}
+
+void Player::SetCurrentAttackArea(PhysBody * new_attack_area)
+{
+	current_attack_area = new_attack_area;
+}
+
 // Get Methods ========================
 bool Player::GetInputBlocked() const
 {
 	return input_blocked;
+}
+
+uint Player::GetAttackRange() const
+{
+	return attack_range;
+}
+
+PhysBody * Player::GetCurrentAttackArea() const
+{
+	return current_attack_area;
 }
 
 // Functionality ======================
@@ -167,5 +188,15 @@ void Player::LockInput()
 void Player::UnlockInput()
 {
 	input_blocked = false;
+}
+
+void Player::AttackLeft()
+{
+
+}
+
+void Player::AttackRight()
+{
+	
 }
 /// ---------------------------------------------
