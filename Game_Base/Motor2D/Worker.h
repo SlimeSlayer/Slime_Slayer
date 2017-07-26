@@ -31,8 +31,10 @@ public:
 	Dialog_Action*			GenerateDialogAction(Entity* actor, Player* target, uint priority = 0);
 	Spawn_Delay_Action*		GenerateSpawnDelayAction(Entity* actor, uint delay = 500);
 	Basic_Attack_Action*	GenerateBasicAttackAction(Entity* actor, Creature* target);
+	Simple_Attack_Action*	GenerateSimpleAttackAction(Entity* actor, Creature* target);
 	Move_Action*			GenerateMoveAction(Entity* actor, const iPoint& destination);
 	Move_To_Target_Action*	GenerateMoveToTargetAction(Entity* actor, Entity* target);
+	Die_Action*				GenerateDieAction(Entity* actor);
 
 	//Actions Management ----
 	void	AddAction(const Action* new_act);

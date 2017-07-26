@@ -84,6 +84,17 @@ Basic_Attack_Action * Worker::GenerateBasicAttackAction(Entity * actor, Creature
 	return new_act;
 }
 
+Simple_Attack_Action * Worker::GenerateSimpleAttackAction(Entity * actor, Creature * target)
+{
+	//Generate simple attack action
+	Simple_Attack_Action* new_act = new Simple_Attack_Action();
+	//Set action stats
+	new_act->actor = actor;
+	new_act->target = target;
+	//Return the generated action
+	return new_act;
+}
+
 Move_Action * Worker::GenerateMoveAction(Entity * actor, const iPoint& destination)
 {
 	//Generate move action
@@ -100,6 +111,16 @@ Move_To_Target_Action * Worker::GenerateMoveToTargetAction(Entity * actor, Entit
 	//Set action stats
 	new_act->actor = actor;
 	new_act->target = (Creature*)target;
+	//Return the generated action
+	return new_act;
+}
+
+Die_Action * Worker::GenerateDieAction(Entity * actor)
+{
+	//Generate die action
+	Die_Action* new_act = new Die_Action();
+	//Set action stats
+	new_act->actor = actor;
 	//Return the generated action
 	return new_act;
 }

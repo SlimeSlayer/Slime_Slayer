@@ -156,8 +156,7 @@ void j1Player::OnSensorCollision(PhysBody * A, PhysBody * B)
 		//Check if B is an enemy
 		if (B->entity_related->GetEntityType() == CREATURE && ((Creature*)B->entity_related)->GetCreatureType() == CREATURE_TYPE::BASIC_ENEMY_CREATURE)
 		{
-			LOG("ATTACK! YOU MDFK");
-
+			A->entity_related->worker.AddAction(A->entity_related->worker.GenerateSimpleAttackAction(A->entity_related, (Creature*)B->entity_related));
 		}
 	}
 }

@@ -359,4 +359,55 @@ bool Basic_Attack_Action::Execute()
 }
 /// ---------------------------------------------
 
+/// Simple_Attack_Action ------------------------
+// Constructors =======================
+Simple_Attack_Action::Simple_Attack_Action() : Action(SIMPLE_ATTACK_ACTION)
+{
 
+}
+
+// Destructors ========================
+Simple_Attack_Action::~Simple_Attack_Action()
+{
+
+}
+
+// Game Loop ==========================
+bool Simple_Attack_Action::Execute()
+{
+	//Apply damage to the target
+	uint atk_hitpnts = ((Creature*)actor)->GetAttackHitPoints();
+	int life = target->GetLife();
+	target->SetLife(MAX(life - atk_hitpnts, 0));
+
+	//Generate a particle with the damage done
+	App->particle_manager->GenerateDamagePointsParticle(target, atk_hitpnts);
+
+	//If the target is dead call die action
+	if (target->GetLife() == 0)
+	{
+		target->worker.AddPriorizedAction(target->worker.GenerateDieAction(target));
+	}
+	return true;
+}
+/// ---------------------------------------------
+
+/// Die_Action ----------------------------------
+// Constructors =======================
+Die_Action::Die_Action()
+{
+
+}
+
+// Destructors ========================
+Die_Action::~Die_Action()
+{
+
+}
+
+// Game Loop ==========================
+bool Die_Action::Execute()
+{
+	App->entities_manager->DeleteEntity(actor);
+	return true;
+}

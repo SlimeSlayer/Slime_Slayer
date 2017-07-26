@@ -21,7 +21,9 @@ enum ACTION_TYPE
 	DIALOG_ACTION,
 	SPAWN_DELAY_ACTION,
 	MOVE_ACTION,
-	BASIC_ATTACK_ACTION
+	BASIC_ATTACK_ACTION,
+	SIMPLE_ATTACK_ACTION,
+	DIE_ACTION
 };
 
 /// Action --------------------------------------
@@ -163,4 +165,41 @@ public:
 
 };
 /// ---------------------------------------------
+
+/// Simple_Attack_Action ------------------------
+class Simple_Attack_Action : public Action
+{
+public:
+
+	Simple_Attack_Action();
+	~Simple_Attack_Action();
+
+public:
+
+	//Game Loop -------------
+	bool Execute();
+
+public:
+
+	Creature* target = nullptr;
+
+};
+/// ---------------------------------------------
+
+/// Die_Action ----------------------------------
+class Die_Action : public Action
+{
+public:
+
+	Die_Action();
+	~Die_Action();
+
+public:
+
+	//Game Loop -------------
+	bool Execute();
+
+};
+/// ---------------------------------------------
+
 #endif // !_ACTIONS_H_
