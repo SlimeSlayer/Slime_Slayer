@@ -81,6 +81,11 @@ protected:
 	UI_Button*		vsync_video_button = nullptr;
 	UI_Button*		fullscreen_video_button = nullptr;
 
+	//Death Menu
+	UI_Image*		death_menu = nullptr;
+	UI_Button*		death_end_button = nullptr;
+	UI_Button*		death_reset_button = nullptr;
+
 	//Scene Data ------------
 	//Ground collider
 	PhysBody*	floor_collider = nullptr;
@@ -94,7 +99,7 @@ public:
 
 	//Functionality ---------
 	void UpdateParallax(float disp);
-
+	void PlayerDeathMode();
 };
 
 #endif // __j1SCENE_H__

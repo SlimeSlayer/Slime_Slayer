@@ -43,5 +43,11 @@ public:
 
 	//Dialogs Location ------
 	iPoint dialogs_location = { DEFAULT_DIALOG_X,DEFAULT_DIALOG_Y };
+
+public:
+
+	//Functionality ---------
+	void PlayerDeath();
+
 };
 #endif // !_J1PLAYER_H_

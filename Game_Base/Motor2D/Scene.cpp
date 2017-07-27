@@ -55,6 +55,8 @@ bool Scene::Enable()
 	audio_menu->DesactivateChids();
 	video_menu->Desactivate();
 	video_menu->DesactivateChids();
+	death_menu->Desactivate();
+	death_menu->DesactivateChids();
 
 	return true;
 }
@@ -63,6 +65,8 @@ void Scene::Disable()
 {
 	//UI Deactivation
 	settings_exit_scene_button->UnBlock();
+	death_end_button->UnBlock();
+	death_reset_button->UnBlock();
 	menu_branch->Desactivate();
 	menu_branch->DesactivateChids();
 
@@ -278,6 +282,41 @@ bool Scene::Start()
 	fullscreen_video_button->Desactivate();
 	video_menu->AddChild(fullscreen_video_button);
 
+	//Build death menu --------------------------
+	//Death menu base
+	death_menu = (UI_Image*)App->gui->GenerateUI_Element(UI_TYPE::IMG);
+	death_menu->SetInputTarget(this);
+	death_menu->SetParent(menu_branch);
+	death_menu->SetBox({ 100,100,500,700 });
+	death_menu->ChangeTextureId(ATLAS);
+	death_menu->ChangeTextureRect({ 100,100,500,700 });
+	death_menu->Desactivate();
+	death_menu->DesactivateChids();
+	menu_branch->AddChild(death_menu);
+	death_menu->SetLayer(0);
+
+	//Death Quit
+	death_end_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
+	death_end_button->SetInputTarget(this);
+	death_end_button->SetParent(settings_menu);
+	death_end_button->SetBox({ 200,450,570,170 });
+	death_end_button->SetTexOFF({ 0,199,564,165 }, ATLAS);
+	death_end_button->SetTexOVER({ 0,598,564,165 }, ATLAS_TEST);
+	death_end_button->SetTexON({ 0,598,564,165 }, ATLAS);
+	death_end_button->Desactivate();
+	death_menu->AddChild(death_end_button);
+
+	//Death Reset
+	death_reset_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
+	death_reset_button->SetInputTarget(this);
+	death_reset_button->SetParent(settings_menu);
+	death_reset_button->SetBox({ 200,200,570,170 });
+	death_reset_button->SetTexOFF({ 0,199,564,165 }, ATLAS);
+	death_reset_button->SetTexOVER({ 0,598,564,165 }, ATLAS_TEST);
+	death_reset_button->SetTexON({ 0,598,564,165 }, ATLAS);
+	death_reset_button->Desactivate();
+	death_menu->AddChild(death_reset_button);
+
 	//Add the built branch at the GUI 
 	App->gui->PushScreen(menu_branch);
 
@@ -396,6 +435,17 @@ void Scene::GUI_Input(UI_Element * target, GUI_INPUT input)
 		{
 			App->render->ChangeVSYNCstate(!App->render->vsync);
 		}
+		//Death Buttons ---------------
+		else if (target == death_end_button)
+		{
+			death_end_button->Block();
+			App->ActiveMainMenu();
+		}
+		else if (target == death_reset_button)
+		{
+			death_reset_button->Block();
+			//App->GetCurrentScene()->Reset();
+		}
 	}
 	else if (input == GUI_INPUT::MOUSE_LEFT_BUTTON_REPEAT)
 	{
@@ -446,4 +496,16 @@ void Scene::UpdateParallax(float disp)
 {
 	if(mid_parallax != nullptr)mid_parallax->Displace(disp * MID_PARALLAX_VAL * App->GetDT());
 	if (back_parallax != nullptr)back_parallax->Displace(disp * BACK_PARALLAX_VAL * App->GetDT());
+}
+
+void Scene::PlayerDeathMode()
+{
+	//Deactivate scene UI
+	settings_menu->Desactivate();
+	settings_menu->DesactivateChids();
+	settings_button->Desactivate();
+
+	//Activate death menu
+	death_menu->Activate();
+	death_menu->ActivateChilds();
 }

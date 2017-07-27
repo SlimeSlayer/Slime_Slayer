@@ -59,8 +59,13 @@ bool j1Player::Start()
 
 bool j1Player::Update(float dt)
 {
+	//When player is dead
+	if (avatar == nullptr)return true;
+
+
 	//Update player avatar ----------------------
 	avatar->Update();
+	if (avatar == nullptr)return true;
 
 	// Read all player inputs states ------------
 	INPUT_STATE go_left_input_state = App->input_manager->GetEvent(INPUT_EVENT::GO_LEFT);
@@ -160,4 +165,14 @@ void j1Player::OnSensorCollision(PhysBody * A, PhysBody * B)
 			A->entity_related->worker.AddAction(A->entity_related->worker.GenerateSimpleAttackAction(A->entity_related, (Creature*)B->entity_related));
 		}
 	}
+}
+
+//Functionality =================================
+void j1Player::PlayerDeath()
+{
+	//Clean avatar
+	avatar = nullptr;
+
+	//Start scene death mode
+	App->GetCurrentScene()->PlayerDeathMode();
 }

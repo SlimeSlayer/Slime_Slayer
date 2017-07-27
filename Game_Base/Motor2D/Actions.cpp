@@ -352,7 +352,11 @@ bool Basic_Attack_Action::Execute()
 	}
 
 	//When target is dead actor stops
-	if (((Creature*)target)->GetLife() == 0)return true;
+	if (((Creature*)target)->GetLife() == 0)
+	{
+		target->worker.AddPriorizedAction(target->worker.GenerateDieAction(target));
+		return true;
+	}
 
 	return false;
 }
@@ -412,5 +416,12 @@ bool Die_Action::Execute()
 
 	//Delete the entity
 	App->entities_manager->DeleteEntity(actor);
+
+	//Player callback to end the current party
+	if (((Creature*)actor)->GetCreatureType() == PLAYER_CREATURE)
+	{
+		App->player->PlayerDeath();
+	}
+
 	return true;
 }

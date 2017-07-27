@@ -40,7 +40,8 @@ bool Endless::Enable()
 		audio_menu->DesactivateChids();
 		video_menu->Desactivate();
 		video_menu->DesactivateChids();
-
+		death_menu->Desactivate();
+		death_menu->DesactivateChids();
 		//Map build -------------------------------------------
 		//Floor -----------------
 		current_enable_node = data_doc.root().first_child().child("floor_collider");
@@ -163,6 +164,8 @@ void Endless::Disable()
 
 	//UI Deactivation
 	settings_exit_scene_button->UnBlock();
+	death_end_button->UnBlock();
+	death_reset_button->UnBlock();
 	menu_branch->Desactivate();
 	menu_branch->DesactivateChids();
 
@@ -212,7 +215,7 @@ bool Endless::Update(float dt)
 			settings_menu->Activate();
 			settings_menu->ActivateChilds();
 		}
-		else
+		else if (!death_menu->GetActiveState())
 		{
 			//Deactivate settings button
 			settings_button->Desactivate();
