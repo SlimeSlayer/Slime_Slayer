@@ -1,12 +1,13 @@
 #ifndef _BASE_ENTITIES_H_
 #define _BASE_ENTITIES_H_
 
+#define CREATURES_DROPS_IMPULSE 5
+
 #include "p2Point.h"
 #include "p2Defs.h"
 #include <string>
 #include "Worker.h"
 
-using namespace std;
 class PhysBody;
 class Animation;
 
@@ -58,10 +59,10 @@ public:
 
 protected:
 
-	ENTITY_TYPE	entity_type = NO_ENTITY;
-	PhysBody*	body = nullptr;
-	string		name = "";
-	string		description = "";
+	ENTITY_TYPE		entity_type = NO_ENTITY;
+	PhysBody*		body = nullptr;
+	std::string		name = "";
+	std::string		description = "";
 	//Animation*	current_animation = nullptr;
 
 	DIRECTION	direction = NO_DIRECTION;
@@ -74,8 +75,8 @@ public:
 
 	//Set Methods -----------
 	void			SetEntityType(ENTITY_TYPE type);
-	void			SetName(string new_name);
-	void			SetDescription(string new_description);
+	void			SetName(std::string new_name);
+	void			SetDescription(std::string new_description);
 	void			SetBody(PhysBody* new_body);
 	virtual void	SetPosition(float x, float y);
 	void			SetDirection(DIRECTION direction);
@@ -139,6 +140,8 @@ protected:
 	float	mov_speed = 0.0f;
 	float	jump_force = 0.0f;
 
+	uint money = 0;
+
 public:
 
 	//Set Methods -----------
@@ -148,6 +151,7 @@ public:
 	void SetAttackRate(uint atk_rate);
 	void SetMovSpeed(float new_mov_speed);
 	void SetJumpForce(float new_jump_force);
+	void SetMoney(uint money);
 
 	//Get Methods -----------
 	CREATURE_TYPE	GetCreatureType()const;
@@ -156,6 +160,11 @@ public:
 	uint			GetAttackRate()const;
 	float			GetMovSpeed()const;
 	float			GetJumpForce()const;
+	uint			GetMoney()const;
+
+	//Functionality ---------
+	void AddMoney(uint gained_money);
+	void DropMoney();
 
 };
 /// ---------------------------------------------

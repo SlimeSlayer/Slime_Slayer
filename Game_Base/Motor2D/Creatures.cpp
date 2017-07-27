@@ -14,7 +14,7 @@ Intelligent_Creature::Intelligent_Creature()
 
 }
 
-Intelligent_Creature::Intelligent_Creature(const Intelligent_Creature & copy, bool generate_body) :Creature(copy, generate_body), money(copy.money)
+Intelligent_Creature::Intelligent_Creature(const Intelligent_Creature & copy, bool generate_body) :Creature(copy, generate_body)
 {
 	if (generate_body)
 	{
@@ -47,33 +47,18 @@ void Intelligent_Creature::SetPosition(float x, float y)
 	vision_area->SetPosition(x, y);
 }
 
-void Intelligent_Creature::SetMoney(uint money)
-{
-	this->money = money;
-}
-
 void Intelligent_Creature::SetVisionArea(PhysBody * new_area)
 {
 	vision_area = new_area;
 }
 
 // Get Methods ========================
-uint Intelligent_Creature::GetMoney() const
-{
-	return money;
-}
-
 PhysBody * Intelligent_Creature::GetVisionArea() const
 {
 	return vision_area;
 }
 
 // Functionality ======================
-void Intelligent_Creature::AddMoney(uint gained_money)
-{
-	money += gained_money;
-}
-
 void Intelligent_Creature::UpdatePosition()
 {
 	int x = 0,y = 0;

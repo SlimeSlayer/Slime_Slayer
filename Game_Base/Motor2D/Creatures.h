@@ -26,23 +26,18 @@ public:
 
 protected:
 
-	uint money = 0;
-
 	PhysBody*	vision_area = nullptr;
 
 public:
 
 	//Set Methods -----------
 	void SetPosition(float x, float y);
-	void SetMoney(uint money);
 	void SetVisionArea(PhysBody* new_area);
 
 	//Get Methods -----------
-	uint		GetMoney()const;
 	PhysBody*	GetVisionArea()const;
 
 	//Functionality ---------
-	void AddMoney(uint gained_money);
 	void UpdatePosition();
 
 	virtual void HandleInteraction(Entity* target);

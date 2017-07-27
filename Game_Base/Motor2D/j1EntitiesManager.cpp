@@ -377,6 +377,7 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	/*AttackRate*/		new_creature->SetAttackRate(data_node->attribute("attack_rate").as_uint());
 	/*Mov Speed*/		new_creature->SetMovSpeed(data_node->attribute("mov_speed").as_float());
 	/*Jump Force*/		new_creature->SetJumpForce(data_node->attribute("jump_force").as_float());
+	/*Money*/			new_creature->SetMoney(data_node->attribute("money").as_uint(0));
 
 	//Set new creature specific stats
 	switch (creature_type)
@@ -400,7 +401,6 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 		//Set the generated vision are at the new creature
 		((Intelligent_Creature*)new_creature)->SetVisionArea(new_vision_area);
 
-		/*Money*/	((Intelligent_Creature*)new_creature)->SetMoney(data_node->attribute("money").as_uint(0));
 	}
 		break;
 

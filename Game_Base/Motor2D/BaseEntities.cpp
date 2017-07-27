@@ -4,6 +4,7 @@
 #include "j1App.h"
 #include "j1Animator.h"
 #include "j1Physics.h"
+#include "j1EntitiesManager.h"
 
 /// Entity --------------------------------------
 //Base class where the entity pillars are defined
@@ -45,12 +46,12 @@ void Entity::SetEntityType(ENTITY_TYPE type)
 	entity_type = type;
 }
 
-void Entity::SetName(string new_name)
+void Entity::SetName(std::string new_name)
 {
 	name = new_name;
 }
 
-void Entity::SetDescription(string new_description)
+void Entity::SetDescription(std::string new_description)
 {
 	description = new_description;
 }
@@ -150,7 +151,7 @@ Creature::Creature()
 
 }
 
-Creature::Creature(const Creature & copy, bool generate_body) : Entity(copy, generate_body), creature_type(copy.creature_type), life(copy.life), attack_hitpoints(copy.attack_hitpoints), attack_rate(copy.attack_rate), mov_speed(copy.mov_speed), jump_force(copy.jump_force)
+Creature::Creature(const Creature & copy, bool generate_body) : Entity(copy, generate_body), creature_type(copy.creature_type), life(copy.life), attack_hitpoints(copy.attack_hitpoints), attack_rate(copy.attack_rate), mov_speed(copy.mov_speed), jump_force(copy.jump_force), money(copy.money)
 {
 	entity_type = CREATURE;
 }
@@ -192,6 +193,11 @@ void Creature::SetJumpForce(float new_jump_force)
 	jump_force = new_jump_force;
 }
 
+void Creature::SetMoney(uint money)
+{
+	this->money = money;
+}
+
 //Get Methods =========================
 CREATURE_TYPE Creature::GetCreatureType() const
 {
@@ -221,4 +227,35 @@ float Creature::GetMovSpeed() const
 float Creature::GetJumpForce() const
 {
 	return jump_force;
+}
+
+uint Creature::GetMoney() const
+{
+	return money;
+}
+
+// Functionality ======================
+void Creature::AddMoney(uint gained_money)
+{
+	money += gained_money;
+}
+
+void Creature::DropMoney()
+{
+	//Drop the creature money
+	int x = 0, y = 0;
+	body->GetPosition(x, y);
+	for (uint k = 0; k < money; k++)
+	{
+		//Generate all the items
+		Item* coin = App->entities_manager->GenerateItem(COIN_ITEM);
+		
+		//Set items correct states
+		coin->SetPosition(x, y);
+		coin->GetBody()->body->SetLinearVelocity(b2Vec2(0, CREATURES_DROPS_IMPULSE));
+		((Volatile_Item*)coin)->ResetVolatileTimer();
+	}
+
+	//Reset money value
+	money = 0;
 }

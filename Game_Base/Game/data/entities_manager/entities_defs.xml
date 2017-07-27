@@ -21,7 +21,7 @@
       description="Use it to buy items"
       
       value="5"
-      time_to_delete="5500"
+      time_to_delete="45000"
       />
     <!--Jar-->
     <entity
@@ -70,7 +70,8 @@
       attack_hitpoints="5"
       attack_rate="150"
       mov_speed="1.5"
-      jump_force="100"     
+      jump_force="100"
+      money="12"
       />
     <!--Lore NPC-->
     <entity
@@ -167,7 +168,7 @@
       creature_type="basic_enemy_creature"
       name="Enemy"
       description="Insert epic description here"
-      life="100"
+      life="15"
       attack_hitpoints="5"
       attack_rate="350"
       mov_speed="1.5"

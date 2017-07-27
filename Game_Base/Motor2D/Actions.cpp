@@ -407,6 +407,10 @@ Die_Action::~Die_Action()
 // Game Loop ==========================
 bool Die_Action::Execute()
 {
+	//Drop the creature money
+	if (((Creature*)actor)->GetMoney() > 0)((Creature*)actor)->DropMoney();
+
+	//Delete the entity
 	App->entities_manager->DeleteEntity(actor);
 	return true;
 }
