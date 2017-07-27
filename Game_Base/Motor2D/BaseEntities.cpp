@@ -252,7 +252,15 @@ void Creature::DropMoney()
 		
 		//Set items correct states
 		coin->SetPosition(x, y);
-		coin->GetBody()->body->SetLinearVelocity(b2Vec2(0, CREATURES_DROPS_IMPULSE));
+		
+		float per_cent = (rand() % 100) * 0.01;
+		int dir = rand() % 10 > 5 ? -1 : 1;
+		coin->GetBody()->body->SetLinearVelocity(b2Vec2(CREATURES_DROPS_RAD * per_cent * dir, CREATURES_DROPS_IMPULSE + CREATURES_DROPS_RAD / MAX(per_cent, 0.5)));
+		
+		//Coins dropped have a ghost delay
+		coin->worker.AddAction(coin->worker.GenerateSpawnDelayAction(coin));
+
+		//Rest volatile timer for correct timing
 		((Volatile_Item*)coin)->ResetVolatileTimer();
 	}
 

@@ -1,8 +1,9 @@
 #ifndef _BASE_ENTITIES_H_
 #define _BASE_ENTITIES_H_
 
-#define CREATURES_DROPS_IMPULSE 5
-
+#define CREATURES_DROPS_IMPULSE -4
+#define CREATURES_DROPS_RAD 1.5
+	
 #include "p2Point.h"
 #include "p2Defs.h"
 #include <string>

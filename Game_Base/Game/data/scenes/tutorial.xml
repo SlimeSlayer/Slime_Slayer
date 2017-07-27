@@ -1,6 +1,6 @@
 <data>
   <!--Tutorial base colliders-->
-  <floor_collider x="2500" y="955" w="5000" h="50" friction="0.0"/>
+  <floor_collider x="2500" y="955" w="5000" h="50" friction="0.25"/>
   <end_trigger x="4000" y="900" w="10" h="100"/>
   <!--Tutorial parallax-->
   <front_pllx cells="3" tex_folder="scenes/ground_texture.jpg" tex_x="0" tex_y="0" tex_w="800" tex_h="100" pos_y="900"/>

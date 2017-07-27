@@ -10,7 +10,7 @@
       width ="10"
       height="10"
       restitution="0.35"
-      friction="0.5"
+      friction="0.2"
       density="2.0"
       fixed_rotation="true"
       interaction_type="dynamic"
