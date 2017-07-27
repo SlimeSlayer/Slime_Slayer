@@ -43,8 +43,7 @@
       description="Contain coins"      
       
       drop_impulse="5"
-      drop_total_rad="0.5"
-      items_in="coin_item/coin_item"       
+      drop_total_rad="0.5"   
       />
   </item>
   

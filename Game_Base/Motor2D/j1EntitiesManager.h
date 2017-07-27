@@ -59,9 +59,10 @@ private:
 public:
 
 	//Enums Methods ---------
-	ENTITY_TYPE		StrToEntityType(const char* str)const;
-	CREATURE_TYPE	StrToCreatureType(const char* str)const;
-	ITEM_TYPE		StrToItemType(const char* str)const;
+	ENTITY_TYPE				StrToEntityType(const char* str)const;
+	CREATURE_TYPE			StrToCreatureType(const char* str)const;
+	ITEM_TYPE				StrToItemType(const char* str)const;
+	std::vector<ITEM_TYPE>	TokenStrToItemTypes(const char* str)const;
 
 	// Functionality --------
 	Creature*	GenerateCreature(CREATURE_TYPE creature_type, bool generate_body = true);

@@ -149,7 +149,17 @@ bool Tutorial::Enable()
 			case ITEM:
 				ITEM_TYPE item_type = App->entities_manager->StrToItemType(current_enable_node.attribute("item_type").as_string());
 				new_entity = App->entities_manager->GenerateItem(item_type);
-								
+				if (item_type == JAR_ITEM)
+				{
+					//Get the items in the items tank
+					std::vector<ITEM_TYPE> items_ty_vec = App->entities_manager->TokenStrToItemTypes(current_enable_node.attribute("items_in").as_string());
+					uint size = items_ty_vec.size();
+					for (uint k = 0; k < size; k++)
+					{
+						Item* new_item = App->entities_manager->GenerateItem(items_ty_vec[k], false);
+						((Items_Tank*)new_entity)->AddItem(new_item);
+					}
+				}
 				break;
 			}
 

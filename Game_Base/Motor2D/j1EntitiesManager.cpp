@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "j1EntitiesManager.h"
 
 #include "p2Log.h"
@@ -481,6 +483,22 @@ ITEM_TYPE j1EntitiesManager::StrToItemType(const char * str) const
 	return NO_ITEM;
 }
 
+std::vector<ITEM_TYPE> j1EntitiesManager::TokenStrToItemTypes(const char * str) const
+{
+	std::vector<ITEM_TYPE> types_vec;
+
+	char* copy = (char*)str;
+	char* token = strtok(copy, "/");
+
+	while (token != NULL)
+	{
+		types_vec.push_back(App->entities_manager->StrToItemType(token));
+		token = strtok(NULL, "/");
+	}
+
+	return types_vec;
+}
+
 //Functionality =================================
 Creature * j1EntitiesManager::GenerateCreature(CREATURE_TYPE creature_type, bool generate_body)
 {
@@ -533,20 +551,9 @@ Item* j1EntitiesManager::GenerateItem(ITEM_TYPE item_type, bool generate_body)
 		{
 			switch (item_type)
 			{
-			case COIN_ITEM:
-				new_item = new Coin(*(Coin*)items_defs[k], generate_body);
-				break;
-			case JAR_ITEM:
-				new_item = new Items_Tank(*(Items_Tank*)items_defs[k], generate_body);
-				((Items_Tank*)new_item)->AddItem(GenerateItem(COIN_ITEM, false));
-				((Items_Tank*)new_item)->AddItem(GenerateItem(COIN_ITEM, false));
-				((Items_Tank*)new_item)->AddItem(GenerateItem(COIN_ITEM, false));
-				((Items_Tank*)new_item)->AddItem(GenerateItem(COIN_ITEM, false));
-				((Items_Tank*)new_item)->AddItem(GenerateItem(COIN_ITEM, false));
-				break;
-			default:
-				new_item = new Item(*items_defs[k], generate_body);
-				break;
+			case COIN_ITEM:			new_item = new Coin(*(Coin*)items_defs[k], generate_body);						break;
+			case JAR_ITEM:			new_item = new Items_Tank(*(Items_Tank*)items_defs[k], generate_body);			break;
+			default:				new_item = new Item(*items_defs[k], generate_body);								break;
 			}
 
 			if(generate_body)new_item->GetBody()->entity_related = new_item;

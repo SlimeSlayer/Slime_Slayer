@@ -114,7 +114,6 @@ bool Spawn_Delay_Action::Init()
 {
 	if (actor == nullptr || actor->GetBody() == nullptr)return false;
 
-	LOG("Spaw_delay!");
 	//Get the previous fixture 
 	prev_collision_type = actor->GetBody()->collision_type;
 	
