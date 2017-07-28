@@ -52,6 +52,7 @@ public:
 	Entity();
 	Entity(const Entity& copy, bool generate_body = true);
 	virtual ~Entity();
+	virtual void Clean();
 
 public:
 
@@ -66,7 +67,7 @@ protected:
 	std::string		description = "";
 	//Animation*	current_animation = nullptr;
 
-	DIRECTION	direction = NO_DIRECTION;
+	DIRECTION		direction = NO_DIRECTION;
 
 public:
 

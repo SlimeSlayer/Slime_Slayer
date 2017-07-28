@@ -51,6 +51,8 @@ private:
 
 	// List with all the alive creatures
 	std::list<Entity*>		current_entities;
+	// List with all the entities ready to be cleared
+	std::list<Entity*>		entitites_to_clear;
 	//List with all the entities ready to be deleted
 	std::list<Entity*>		entitites_to_delete;
 	//Vector with all the entities generated in the last frame
@@ -69,7 +71,8 @@ public:
 	Item*		GenerateItem(ITEM_TYPE item_type, bool generate_body = true);
 
 	void		AddEntity(const Entity* target);
-	void		DeleteEntity(Entity* target, bool delete_from_scene = true);
+	void		ClearEntity(Entity* target);
+	void		DeleteEntity(Entity* target);
 	void		DeleteCurrentEntities();
 };
 #endif

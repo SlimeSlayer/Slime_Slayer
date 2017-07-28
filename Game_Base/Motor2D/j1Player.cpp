@@ -154,6 +154,8 @@ void j1Player::OnSensorCollision(PhysBody * A, PhysBody * B)
 {
 	/*A is the sensor*/
 
+	if (avatar == nullptr) return;
+
 	// Attack sensor
 	INPUT_STATE atk_input_state = App->input_manager->GetEvent(INPUT_EVENT::ATTACK);
 	//Check if player is ready to attack

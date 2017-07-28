@@ -149,15 +149,16 @@ bool j1EntitiesManager::Update(float dt)
 		list_item++;
 	}
 
-	//Iterate & delete all the entities ready to be deleted
-	std::list<Entity*>::const_iterator del_list_item = entitites_to_delete.begin();
-	while (del_list_item != entitites_to_delete.end())
+	//Iterate & delete all the entities ready to be cleared
+	std::list<Entity*>::const_iterator clr_list_item = entitites_to_clear.begin();
+	while (clr_list_item != entitites_to_clear.end())
 	{
-		current_entities.remove(del_list_item._Ptr->_Myval);
-		RELEASE(del_list_item._Ptr->_Myval);
-		del_list_item++;
+		current_entities.remove(clr_list_item._Ptr->_Myval);
+		clr_list_item._Ptr->_Myval->Clean();
+		entitites_to_delete.push_back(clr_list_item._Ptr->_Myval);
+		clr_list_item++;
 	}
-	entitites_to_delete.clear();
+	entitites_to_clear.clear();
 	
 	return ret;
 }
@@ -184,11 +185,11 @@ bool j1EntitiesManager::CleanUp()
 	std::list<Entity*>::const_iterator del_list_item = entitites_to_delete.begin();
 	while (del_list_item != entitites_to_delete.end())
 	{
-		current_entities.remove(del_list_item._Ptr->_Myval);
 		RELEASE(del_list_item._Ptr->_Myval);
 		del_list_item++;
 	}
 	entitites_to_delete.clear();
+	entitites_to_clear.clear();
 
 	// Clean all the current entities ----------
 	std::list<Entity*>::iterator cur_entities_item = current_entities.begin();
@@ -218,7 +219,7 @@ void j1EntitiesManager::BeginCollision(PhysBody * A, PhysBody * B)
 		else if (strcmp(A->entity_related->GetName(), "Coin") == 0)
 		{
 			((Intelligent_Creature*)B->entity_related)->AddMoney(((Coin*)A->entity_related)->GetValue());
-			App->entities_manager->DeleteEntity(A->entity_related);
+			App->entities_manager->ClearEntity(A->entity_related);
 			LOG("Player Money: %i", ((Intelligent_Creature*)B->entity_related)->GetMoney());
 		}
 	}
@@ -576,7 +577,13 @@ void j1EntitiesManager::AddEntity(const Entity * target)
 	entities_to_add.push_back((Entity*)target);
 }
 
-void j1EntitiesManager::DeleteEntity(Entity* target, bool delete_from_scene)
+void j1EntitiesManager::ClearEntity(Entity * target)
+{
+	entitites_to_clear.remove(target);
+	entitites_to_clear.push_back(target);
+}
+
+void j1EntitiesManager::DeleteEntity(Entity* target)
 {
 	entitites_to_delete.remove(target);
 	entitites_to_delete.push_back(target);

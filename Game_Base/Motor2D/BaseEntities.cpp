@@ -31,6 +31,11 @@ Entity::~Entity()
 	if (body != nullptr)RELEASE(body);
 }
 
+void Entity::Clean()
+{
+	RELEASE(body);
+}
+
 //Game Loop ===========================
 bool Entity::Update()
 {

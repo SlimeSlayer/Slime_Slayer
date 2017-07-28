@@ -236,6 +236,12 @@ Move_To_Target_Action::~Move_To_Target_Action()
 // Game Loop ==========================
 bool Move_To_Target_Action::Init()
 {
+	if (target->GetBody() == nullptr)
+	{
+		actor->GetBody()->body->SetLinearVelocity(b2Vec2(0, 0));
+		return false;
+	}
+
 	//Calculate the goal
 	int tar_x, tar_y;
 	target->GetBody()->GetPosition(tar_x, tar_y);
@@ -269,6 +275,12 @@ bool Move_To_Target_Action::Init()
 
 bool Move_To_Target_Action::Execute()
 {
+	if (target->GetBody() == nullptr)
+	{
+		actor->GetBody()->body->SetLinearVelocity(b2Vec2(0, 0));
+		return true;
+	}
+
 	//Get actor position
 	int act_x = 0, act_y = 0;
 	actor->GetBody()->GetPosition(act_x, act_y);
@@ -323,6 +335,8 @@ bool Basic_Attack_Action::Init()
 // Game Loop ==========================
 bool Basic_Attack_Action::Execute()
 {
+	if (((Creature*)target)->GetLife() == 0)return true;
+
 	//Check if the target is in range
 	int tar_x = 0, tar_y = 0;
 	target->GetBody()->GetPosition(tar_x, tar_y);
@@ -378,6 +392,8 @@ Simple_Attack_Action::~Simple_Attack_Action()
 // Game Loop ==========================
 bool Simple_Attack_Action::Execute()
 {
+	if (target->GetLife() == 0)return true;
+
 	//Apply damage to the target
 	uint atk_hitpnts = ((Creature*)actor)->GetAttackHitPoints();
 	int life = target->GetLife();
@@ -415,7 +431,7 @@ bool Die_Action::Execute()
 	if (((Creature*)actor)->GetMoney() > 0)((Creature*)actor)->DropMoney();
 
 	//Delete the entity
-	App->entities_manager->DeleteEntity(actor);
+	App->entities_manager->ClearEntity(actor);
 
 	//Player callback to end the current party
 	if (((Creature*)actor)->GetCreatureType() == PLAYER_CREATURE)

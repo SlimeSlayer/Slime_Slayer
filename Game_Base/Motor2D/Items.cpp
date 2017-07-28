@@ -127,7 +127,7 @@ void Items_Tank::DropItems()
 	items.clear();
 
 	//Delete the "box" this is temporal
-	App->entities_manager->DeleteEntity(this);
+	App->entities_manager->ClearEntity(this);
 }
 /// ---------------------------------------------
 
@@ -156,7 +156,7 @@ bool Volatile_Item::Update()
 
 	if (delete_timer.Read() > time_to_delete)
 	{
-		App->entities_manager->DeleteEntity(this);
+		App->entities_manager->ClearEntity(this);
 	}
 
 	return true;
