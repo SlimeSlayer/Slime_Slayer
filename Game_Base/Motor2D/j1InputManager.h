@@ -32,6 +32,13 @@ enum INPUT_STATE
 	INPUT_REPEAT
 };
 
+enum JOYSTICK_STATE
+{
+	JSTICK_NONE,
+	JSTICK_POSITIVE,
+	JSTICK_NEGATIVE
+};
+
 class j1InputManager : public j1Module
 {
 public:
@@ -55,13 +62,15 @@ public:
 	//Functionality -------------------
 	//Used when loading input keys
 	INPUT_EVENT StrToInputEvent(const char* str)const;
-	void SendInputEvent(int id, INPUT_STATE state);
+	void		SendKeyboardInputEvent(int id, INPUT_STATE state);
+	void		SendControllerInputEvent(int id, INPUT_STATE state);
 	INPUT_STATE GetEvent(INPUT_EVENT _event);
 
 private:
 
-	//Map with all the input events mapped
-	std::multimap<int, INPUT_EVENT> events_map;
+	//Maps with all the input events mapped
+	std::multimap<int, INPUT_EVENT> keyboard_events_map; /*for the keyboard*/
+	std::multimap<int, INPUT_EVENT> controller_events_map; /*for the controller*/
 
 	//Events that are happening during this frame
 	std::multimap<INPUT_EVENT, INPUT_STATE> current_events;

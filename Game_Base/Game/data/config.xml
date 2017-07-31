@@ -48,6 +48,8 @@
     <key id ="S"  event ="crouch"/>
     <key id ="F"  event ="interact"/>
     <key id ="L"  event ="attack"/>
+    <key  controller_id="A"  event="jump"/>
+    <!--...-->
   </input_manager>
   
   <file_system>

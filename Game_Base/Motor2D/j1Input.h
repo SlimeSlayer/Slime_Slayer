@@ -2,9 +2,12 @@
 #define __j1INPUT_H__
 
 #include "j1Module.h"
+#include "SDL\include\SDL_gamecontroller.h"
 
 //#define NUM_KEYS 352
 #define NUM_MOUSE_BUTTONS 5
+#define NUM_CONTROLLER_BUTTONS 15
+#define NUM_CONTROLLER_AXIS 6
 //#define LAST_KEYS_PRESSED_BUFFER 50
 
 struct SDL_Rect;
@@ -23,6 +26,13 @@ enum j1KeyState
 	KEY_DOWN,
 	KEY_REPEAT,
 	KEY_UP
+};
+
+enum j1JoystickState
+{
+	JOYSTICK_POSITIVE,
+	JOYSTICK_NEGATIVE,
+	JOYSTICK_NOTHING
 };
 
 class j1Input : public j1Module
@@ -76,11 +86,18 @@ private:
 
 	bool		windowEvents[WE_COUNT];
 	j1KeyState*	keyboard = nullptr;
+	
+	// Mouse data -----------
 	j1KeyState	mouse_buttons[NUM_MOUSE_BUTTONS];
 	int			mouse_motion_x = 0;
 	int			mouse_motion_y = 0;
 	int			mouse_x = 0;
 	int			mouse_y = 0;
+
+	// Controller data ------
+	SDL_GameController*	gamecontroller = nullptr;
+	j1KeyState			controller_buttons[NUM_CONTROLLER_BUTTONS];
+	j1JoystickState		controller_axis[NUM_CONTROLLER_AXIS];
 };
 
 #endif // __j1INPUT_H__
