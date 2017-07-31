@@ -190,6 +190,11 @@ void Endless::Disable()
 	active = enabled = base_enabled = false;
 }
 
+void Endless::RestartScene()
+{
+	App->ActiveEndless();
+}
+
 bool Endless::Update(float dt)
 {
 	App->gui->CalculateUpperElement(menu_branch);

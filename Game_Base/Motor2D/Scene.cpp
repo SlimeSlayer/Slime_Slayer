@@ -87,7 +87,7 @@ void Scene::Disable()
 
 void Scene::RestartScene()
 {
-	App->ActiveTutorial();
+
 }
 
 bool Scene::Awake(pugi::xml_node& data_node)

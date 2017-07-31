@@ -16,6 +16,8 @@ public:
 	bool Enable();
 	void Disable();
 
+	void RestartScene();
+
 	// Called each loop iteration
 	bool Update(float dt);
 

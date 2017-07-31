@@ -185,7 +185,7 @@ bool Tutorial::Enable()
 	App->audio->PlayMusic(MUSIC_ID::MUSIC_IN_GAME);
 
 	enabled = true;
-	active = false;
+	active = base_enabled = false;
 
 	return true;
 }
@@ -214,6 +214,11 @@ void Tutorial::Disable()
 	App->entities_manager->DeleteCurrentEntities();
 
 	active = enabled = base_enabled = false;
+}
+
+void Tutorial::RestartScene()
+{
+	App->ActiveTutorial();
 }
 
 bool Tutorial::Update(float dt)

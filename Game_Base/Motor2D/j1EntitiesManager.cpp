@@ -489,8 +489,8 @@ std::vector<ITEM_TYPE> j1EntitiesManager::TokenStrToItemTypes(const char * str) 
 {
 	std::vector<ITEM_TYPE> types_vec;
 
-	char* copy = (char*)str;
-	char* token = strtok(copy, "/");
+	std::string copy = str;
+	char* token = strtok((char*)copy.c_str(), "/");
 
 	while (token != NULL)
 	{

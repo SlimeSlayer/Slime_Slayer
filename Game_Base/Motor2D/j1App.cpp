@@ -198,6 +198,7 @@ bool j1App::Update()
 
 void j1App::EnableActiveModulesNow()
 {
+	//Disable all the modules ready to be disabled at the first iteration
 	uint size = modules_to_disable.size();
 	for (uint k = 0; k < size; k++)
 	{
@@ -205,20 +206,17 @@ void j1App::EnableActiveModulesNow()
 	}
 	modules_to_disable.clear();
 
-	if (modules_to_enable[enable_index]->enabled == false && modules_to_enable[enable_index]->Enable())enable_index++;
+	//Enable one module for iteration
+	if (modules_to_enable[enable_index]->Enable())enable_index++;
 
+	//Check if all the modules have been enabled
 	size = modules_to_enable.size();
-
 	if (enable_index == size)
 	{
-		for (uint k = 0; k < size; k++)
-		{
-			modules_to_enable[k]->enabled = true;
-		}
+		//If true enable process ends
 		want_to_enable = false;
 		modules_to_enable.clear();
 		enable_index = 0;
-		
 	}
 }
 
@@ -609,7 +607,6 @@ void j1App::ActiveMainMenu()
 	modules_to_disable.push_back(entities_manager);
 	modules_to_disable.push_back(particle_manager);
 	modules_to_disable.push_back(physics);
-	//modules_to_disable.push_back(animator);
 
 	// Active all the necessary scene modules
 	App->main_menu->Active();
@@ -624,15 +621,15 @@ void j1App::ActiveMainMenu()
 
 void j1App::ActiveTutorial()
 {
-	// Deactivate the Main Menu
+	// Deactivate all the necessary modules to start/reset the tutorial
 	modules_to_disable.push_back(main_menu);
+	if(current_scene != nullptr)modules_to_disable.push_back(current_scene);
 	modules_to_disable.push_back(player);
 	modules_to_disable.push_back(entities_manager);
 	modules_to_disable.push_back(particle_manager);
 
 	// Active all the necessary scene modules
 	App->player->Active();
-	//App->animator->Active();
 	App->entities_manager->Active();
 	App->particle_manager->Active();
 	App->tutorial->Active();
@@ -648,14 +645,15 @@ void j1App::ActiveTutorial()
 
 void j1App::ActiveEndless()
 {
-	//Deactivate the tutorial if is activated or the main menu
-	modules_to_disable.push_back(current_scene);
-	//modules_to_disable.push_back(entities_manager);
+	// Deactivate all the necessary modules to start/reset the endless
+	if (current_scene != nullptr)modules_to_disable.push_back(current_scene);
+	modules_to_disable.push_back(player);
+	modules_to_disable.push_back(entities_manager);
+	modules_to_disable.push_back(particle_manager);
+	modules_to_disable.push_back(physics);
 
 	// Active all the necessary scene modules
 	App->player->Active();
-	//App->animator->Active();
-	
 	App->physics->Active();
 	App->entities_manager->Active();
 	App->particle_manager->Active();

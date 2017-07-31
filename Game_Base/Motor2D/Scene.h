@@ -28,7 +28,7 @@ public:
 	bool Enable();
 	void Disable();
 
-	void RestartScene();
+	virtual void RestartScene() = 0;
 
 	// Called before render is available
 	bool Awake(pugi::xml_node& data_node);
