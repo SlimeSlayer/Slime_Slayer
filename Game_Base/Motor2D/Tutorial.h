@@ -12,6 +12,7 @@ public:
 
 public:
 
+	void Init();
 	bool Enable();
 	void Disable();
 

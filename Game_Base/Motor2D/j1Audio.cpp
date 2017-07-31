@@ -82,7 +82,7 @@ bool j1Audio::Awake(pugi::xml_node& config)
 // Called before quitting
 bool j1Audio::CleanUp()
 {
-	if(!active)
+	if(!enabled)
 		return true;
 
 	//LOG("Freeing sound FX, closing Mixer and Audio subsystem");
@@ -109,7 +109,7 @@ bool j1Audio::PlayMusic(const char* path)
 {
 	bool ret = true;
 
-	if(!active)
+	if(!enabled)
 		return false;
 
 	if(current_music != NULL)
@@ -142,7 +142,7 @@ unsigned int j1Audio::LoadFx(const char* path)
 {
 	unsigned int ret = 0;
 
-	if(!active)
+	if(!enabled)
 		return 0;
 
 	Mix_Chunk* chunk = Mix_LoadWAV_RW(App->fs->Load(path), 1);
@@ -165,7 +165,7 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 {
 	bool ret = false;
 
-	if(!active)
+	if(!enabled)
 		return false;
 
 	if(id > 0 && id < fx.size())

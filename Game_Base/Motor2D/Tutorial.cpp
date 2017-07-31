@@ -27,6 +27,12 @@ Tutorial::~Tutorial()
 }
 
 // Game Loop ====================================
+void Tutorial::Init()
+{
+	active = false;
+	enabled = false;
+}
+
 bool Tutorial::Enable()
 {
 	if (!base_enabled)
@@ -178,7 +184,8 @@ bool Tutorial::Enable()
 	//Play scene music
 	App->audio->PlayMusic(MUSIC_ID::MUSIC_IN_GAME);
 
-	active = enabled = true;
+	enabled = true;
+	active = false;
 
 	return true;
 }

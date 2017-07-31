@@ -32,7 +32,7 @@ MainMenu::~MainMenu()
 // Game Loop ==============================================
 void MainMenu::Init()
 {
-	active = true;
+	active = false;
 	enabled = true;
 }
 
@@ -43,7 +43,7 @@ void MainMenu::Active()
 
 bool MainMenu::Enable()
 {
-	active = true;
+	active = false;
 	enabled = true;
 	menu_branch->Activate();
 	menu_branch->ActivateChilds();
@@ -53,7 +53,9 @@ bool MainMenu::Enable()
 	audio_menu->DesactivateChids();
 	video_menu->Desactivate();
 	video_menu->DesactivateChids();
+	
 	App->audio->PlayMusic(MUSIC_ID::MUSIC_MENU);
+
 	return true;
 }
 

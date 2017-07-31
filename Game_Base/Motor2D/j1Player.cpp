@@ -38,7 +38,8 @@ bool j1Player::Enable()
 	avatar->GetBody()->body->GetFixtureList()->SetFriction(0.0f);
 	avatar->GetBody()->entity_related = avatar;
 
-	active = enabled = true;
+	enabled = true;
+	active = false;
 
 	return true;
 }

@@ -28,6 +28,8 @@ public:
 	bool Enable();
 	void Disable();
 
+	void RestartScene();
+
 	// Called before render is available
 	bool Awake(pugi::xml_node& data_node);
 

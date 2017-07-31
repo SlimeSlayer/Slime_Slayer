@@ -25,12 +25,15 @@ void j1ParticleManager::Init()
 
 bool j1ParticleManager::Enable()
 {
+	enabled = true;
+	active = false;
+
 	return true;
 }
 
 void j1ParticleManager::Disable()
 {
-
+	active = enabled = false;
 }
 
 bool j1ParticleManager::Awake(pugi::xml_node & node)

@@ -26,6 +26,12 @@ Endless::~Endless()
 
 }
 
+void Endless::Init()
+{
+	active = false;
+	enabled = false;
+}
+
 // Game Loop ====================================
 bool Endless::Enable()
 {
@@ -153,7 +159,8 @@ bool Endless::Enable()
 	//Play scene music
 	App->audio->PlayMusic(MUSIC_ID::MUSIC_IN_GAME);
 
-	active = enabled = true;
+	enabled = true;
+	active = false;
 
 	return true;
 }

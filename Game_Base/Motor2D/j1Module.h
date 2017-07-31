@@ -23,7 +23,7 @@ public:
 
 	virtual void Init()
 	{
-		active = true;
+		active = false;
 		enabled = true;
 	}
 
@@ -35,7 +35,7 @@ public:
 
 	virtual bool Enable()
 	{
-		active = true;
+		active = false;
 		enabled = true;
 		return true;
 	}

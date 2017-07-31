@@ -44,7 +44,8 @@ void Scene::Init()
 
 bool Scene::Enable()
 {
-	active = enabled = base_enabled = true;
+	enabled = base_enabled = true;
+	active = false;
 
 	//UI Activation
 	menu_branch->Activate();
@@ -82,6 +83,11 @@ void Scene::Disable()
 	App->entities_manager->DeleteCurrentEntities();
 
 	active = enabled = base_enabled = false;
+}
+
+void Scene::RestartScene()
+{
+	App->ActiveTutorial();
 }
 
 bool Scene::Awake(pugi::xml_node& data_node)
@@ -444,7 +450,7 @@ void Scene::GUI_Input(UI_Element * target, GUI_INPUT input)
 		else if (target == death_reset_button)
 		{
 			death_reset_button->Block();
-			//App->GetCurrentScene()->Reset();
+			App->GetCurrentScene()->RestartScene();
 		}
 	}
 	else if (input == GUI_INPUT::MOUSE_LEFT_BUTTON_REPEAT)

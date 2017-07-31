@@ -18,6 +18,7 @@ public:
 	Intelligent_Creature();
 	Intelligent_Creature(const Intelligent_Creature& copy, bool generate_body = true);
 	~Intelligent_Creature();
+	void Clean();
 
 public:
 

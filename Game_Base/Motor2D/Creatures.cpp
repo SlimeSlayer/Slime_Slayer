@@ -30,6 +30,12 @@ Intelligent_Creature::~Intelligent_Creature()
 	if (vision_area != nullptr)RELEASE(vision_area);
 }
 
+void Intelligent_Creature::Clean()
+{
+	RELEASE(body);
+	RELEASE(vision_area);
+}
+
 // Game Loop ==========================
 bool Intelligent_Creature::Update()
 {

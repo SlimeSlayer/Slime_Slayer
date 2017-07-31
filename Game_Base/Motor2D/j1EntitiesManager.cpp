@@ -72,7 +72,8 @@ bool j1EntitiesManager::Enable()
 
 	current_entity_type = NO_ENTITY;
 
-	enabled = active = true;
+	enabled = true;
+	active = false;
 
 	return true;
 }

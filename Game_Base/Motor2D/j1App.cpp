@@ -263,7 +263,7 @@ void j1App::FinishUpdate()
 		LoadGameNow();
 	}
 
-	// Framerate calculations --
+	// Frame rate calculations --
 
 	if (last_sec_frame_time.Read() > 1000)
 	{
@@ -279,7 +279,7 @@ void j1App::FinishUpdate()
 
 	static char title[50];
 
-	sprintf_s(title, 50, "Vifa Game || DT: %u || FPS: %u", last_frame_ms, frames_on_last_update);
+	sprintf_s(title, 50, "Topota Game || DT: %u || FPS: %u", last_frame_ms, frames_on_last_update);
 	
 
 	App->win->SetTitle(title);
@@ -299,7 +299,7 @@ bool j1App::PreUpdate()
 
 	while (item != modules.end())
 	{
-		if (item._Ptr->_Myval->active && item._Ptr->_Myval->enabled) ret = item._Ptr->_Myval->PreUpdate();
+		if (item._Ptr->_Myval->enabled) ret = item._Ptr->_Myval->PreUpdate();
 
 		item++;
 	}
@@ -315,7 +315,7 @@ bool j1App::DoUpdate()
 
 	while (item != modules.end())
 	{
-		if (item._Ptr->_Myval->active && item._Ptr->_Myval->enabled)ret = item._Ptr->_Myval->Update(dt);
+		if (item._Ptr->_Myval->enabled)ret = item._Ptr->_Myval->Update(dt);
 
 		item++;
 	}
@@ -331,7 +331,7 @@ bool j1App::PostUpdate()
 
 	while (item != modules.end() && ret)
 	{
-		if (item._Ptr->_Myval->active && item._Ptr->_Myval->enabled)ret = item._Ptr->_Myval->PostUpdate();
+		if (item._Ptr->_Myval->enabled)ret = item._Ptr->_Myval->PostUpdate();
 
 		item++;
 	}
@@ -537,7 +537,7 @@ void j1App::EnableActiveModules()
 	std::list<j1Module*>::const_iterator item = modules.begin();
 	while (item != modules.end())
 	{
-		if (item._Ptr->_Myval->active && !item._Ptr->_Myval->enabled) modules_to_enable.push_back(item._Ptr->_Myval);
+		if (item._Ptr->_Myval->active) modules_to_enable.push_back(item._Ptr->_Myval);
 
 		item++;
 	}
@@ -626,6 +626,9 @@ void j1App::ActiveTutorial()
 {
 	// Deactivate the Main Menu
 	modules_to_disable.push_back(main_menu);
+	modules_to_disable.push_back(player);
+	modules_to_disable.push_back(entities_manager);
+	modules_to_disable.push_back(particle_manager);
 
 	// Active all the necessary scene modules
 	App->player->Active();
