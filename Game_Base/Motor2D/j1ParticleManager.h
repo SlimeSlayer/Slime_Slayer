@@ -10,6 +10,7 @@
 #include "Particles.h"
 
 class Entity;
+class Creature;
 
 class j1ParticleManager : public j1Module
 {
@@ -47,6 +48,6 @@ public:
 	// Factory --------------
 	Particle* GenerateDamagePointsParticle(const Entity* target, uint value);
 	Particle* GenerateExperiencePointsParticle(const Entity* target, uint value);
-
+	Particle* GenerateLevelUpParticle(const Creature* target);
 };
 #endif // !_PARTICLE_MANAGER_H_

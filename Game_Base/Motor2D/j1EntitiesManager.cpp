@@ -457,6 +457,7 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 		((Player*)new_creature)->SetCurrentAttackArea(atk_area);
 
 		/*Exp Scale*/		((Player*)new_creature)->SetExperienceScale(data_node->attribute("experience_scale").as_float());
+		/*Next Lvl Exp*/	((Player*)new_creature)->SetNextLevelExperience(data_node->attribute("next_lvl_experience").as_uint());
 	}
 
 	//Add the built creature at the definitions vector

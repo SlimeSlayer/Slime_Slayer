@@ -87,6 +87,7 @@ private:
 	PhysBody*	current_attack_area = nullptr;
 
 	uint		experience = 0;				/*Current experience*/
+	uint		next_lvl_experience = 0;	/*Necessary exp to level up*/
 	float		experience_scale = 0.0f;	/*The number that multiply the next lvl experience*/
 
 public:
@@ -96,6 +97,7 @@ public:
 	void SetCurrentAttackArea(PhysBody* new_attack_area);
 	void SetExperience(uint experience);
 	void SetExperienceScale(float exp_scale);
+	void SetNextLevelExperience(uint exp);
 
 	//Get Methods -----------
 	bool		GetInputBlocked()const;
@@ -103,6 +105,7 @@ public:
 	PhysBody*	GetCurrentAttackArea()const;
 	uint		GetExperience()const;
 	float		GetExperienceScale()const;
+	uint		GetNextLevelExperience()const;
 
 	//Functionality ---------
 	void LockInput();

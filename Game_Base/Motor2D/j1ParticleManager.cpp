@@ -194,3 +194,40 @@ Particle * j1ParticleManager::GenerateExperiencePointsParticle(const Entity * ta
 
 	return new_particle;
 }
+
+Particle * j1ParticleManager::GenerateLevelUpParticle(const Creature * target)
+{
+	//Get the correct font
+	Font_Def* font = App->font->GetFontByID(FONT_ID::EXPERIENCE_FONT);
+
+	//The resulting constant string
+	const char* str = "Level UP!";
+
+	//Generate a texture of the string
+	SDL_Texture* tex = App->font->Print(str, font->font_color, font->font);
+
+	//Generate the particle
+	Static_Particle* new_particle = new Static_Particle();
+
+	//Set all the particle data
+	new_particle->SetParticleType(PARTICLE_TYPE::SCORE_PARTICLE);
+	new_particle->SetTexture(tex);
+	new_particle->SetVolatile(true);
+	new_particle->SetLifeTime(SCORE_PARTICLES_LIFE);
+	new_particle->SetVelocity(0, SCORE_PARTICLES_INITIAL_VEL);
+	new_particle->SetAcceleration(0, SCORE_PARTICLES_ACCELERATION_Y);
+
+	//Set position checking all the current stats
+	int x = 0, y = 0, w = 0;
+	target->GetBody()->GetPosition(x, y);
+	SDL_QueryTexture(tex, NULL, NULL, &w, NULL);
+	new_particle->SetPosition((float)x + target->GetBody()->width - w * 0.5, (float)y);
+
+	//Add the built particle at the particles list
+	current_particles.push_back(new_particle);
+
+	//Reset particle life timer
+	new_particle->ResetLifeTimer();
+
+	return new_particle;
+}

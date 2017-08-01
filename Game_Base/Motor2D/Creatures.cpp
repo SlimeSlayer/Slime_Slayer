@@ -4,6 +4,7 @@
 #include "j1App.h"
 #include "j1Physics.h"
 #include "j1Gui.h"
+#include "j1ParticleManager.h"
 
 #include "UI_String.h"
 
@@ -132,7 +133,7 @@ Player::Player()
 
 }
 
-Player::Player(const Player & copy, bool generate_body) :Intelligent_Creature(copy, generate_body), attack_range(copy.attack_range), experience(copy.experience), experience_scale(copy.experience_scale)
+Player::Player(const Player & copy, bool generate_body) :Intelligent_Creature(copy, generate_body), attack_range(copy.attack_range), experience(copy.experience), experience_scale(copy.experience_scale), next_lvl_experience(copy.next_lvl_experience)
 {
 	current_attack_area = App->physics->TransformDefToBuilt(copy.GetCurrentAttackArea());
 	current_attack_area->entity_related = this;
@@ -165,6 +166,11 @@ void Player::SetExperienceScale(float exp_scale)
 	experience_scale = exp_scale;
 }
 
+void Player::SetNextLevelExperience(uint exp)
+{
+	next_lvl_experience = exp;
+}
+
 // Get Methods ========================
 bool Player::GetInputBlocked() const
 {
@@ -189,6 +195,11 @@ uint Player::GetExperience() const
 float Player::GetExperienceScale() const
 {
 	return experience_scale;
+}
+
+uint Player::GetNextLevelExperience() const
+{
+	return next_lvl_experience;
 }
 
 // Functionality ======================
@@ -234,5 +245,17 @@ bool Player::ReadyToAttack() const
 void Player::AddExperience(uint gained_exp)
 {
 	experience += gained_exp;
+
+	//Check if player avatar has the necessary xp to lvl up
+	if (experience >= this->next_lvl_experience)
+	{
+		//Update the avatar level
+		experience -= next_lvl_experience;
+		level++;
+		next_lvl_experience = ceil(experience_scale * next_lvl_experience);
+
+		//Generate a output particle 
+		App->particle_manager->GenerateLevelUpParticle(this);
+	}
 }
 /// ---------------------------------------------
