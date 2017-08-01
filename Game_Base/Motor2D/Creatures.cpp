@@ -132,7 +132,7 @@ Player::Player()
 
 }
 
-Player::Player(const Player & copy, bool generate_body) :Intelligent_Creature(copy, generate_body), attack_range(copy.attack_range)
+Player::Player(const Player & copy, bool generate_body) :Intelligent_Creature(copy, generate_body), attack_range(copy.attack_range), experience(copy.experience), experience_scale(copy.experience_scale)
 {
 	current_attack_area = App->physics->TransformDefToBuilt(copy.GetCurrentAttackArea());
 	current_attack_area->entity_related = this;
@@ -155,6 +155,16 @@ void Player::SetCurrentAttackArea(PhysBody * new_attack_area)
 	current_attack_area = new_attack_area;
 }
 
+void Player::SetExperience(uint experience)
+{
+	this->experience = experience;
+}
+
+void Player::SetExperienceScale(float exp_scale)
+{
+	experience_scale = exp_scale;
+}
+
 // Get Methods ========================
 bool Player::GetInputBlocked() const
 {
@@ -169,6 +179,16 @@ uint Player::GetAttackRange() const
 PhysBody * Player::GetCurrentAttackArea() const
 {
 	return current_attack_area;
+}
+
+uint Player::GetExperience() const
+{
+	return experience;
+}
+
+float Player::GetExperienceScale() const
+{
+	return experience_scale;
 }
 
 // Functionality ======================
@@ -205,8 +225,14 @@ void Player::AttackRight()
 	//Reset attack timer
 	attack_timer.Start();
 }
+
 bool Player::ReadyToAttack() const
 {
 	return bool(attack_timer.Read() > attack_rate);
+}
+
+void Player::AddExperience(uint gained_exp)
+{
+	experience += gained_exp;
 }
 /// ---------------------------------------------

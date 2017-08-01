@@ -6,6 +6,7 @@
 #include "j1Physics.h"
 #include "j1EntitiesManager.h"
 #include "j1ParticleManager.h"
+#include "j1Player.h"
 
 /// Entity --------------------------------------
 //Base class where the entity pillars are defined
@@ -157,7 +158,7 @@ Creature::Creature()
 
 }
 
-Creature::Creature(const Creature & copy, bool generate_body) : Entity(copy, generate_body), creature_type(copy.creature_type), life(copy.life), attack_hitpoints(copy.attack_hitpoints), attack_rate(copy.attack_rate), mov_speed(copy.mov_speed), jump_force(copy.jump_force), money(copy.money), experience(copy.experience)
+Creature::Creature(const Creature & copy, bool generate_body) : Entity(copy, generate_body), creature_type(copy.creature_type), life(copy.life), attack_hitpoints(copy.attack_hitpoints), attack_rate(copy.attack_rate), mov_speed(copy.mov_speed), jump_force(copy.jump_force), money(copy.money), reward_experience(copy.reward_experience), level(copy.level)
 {
 	entity_type = CREATURE;
 }
@@ -204,9 +205,9 @@ void Creature::SetMoney(uint money)
 	this->money = money;
 }
 
-void Creature::SetExperience(uint experience)
+void Creature::SetRewardExperience(uint experience)
 {
-	this->experience = experience;
+	reward_experience = experience;
 }
 
 //Get Methods =========================
@@ -245,20 +246,15 @@ uint Creature::GetMoney() const
 	return money;
 }
 
-uint Creature::GetExperience() const
+uint Creature::GetRewardExperience() const
 {
-	return experience;
+	return reward_experience;
 }
 
 // Functionality ======================
 void Creature::AddMoney(uint gained_money)
 {
 	money += gained_money;
-}
-
-void Creature::AddExperience(uint gained_xp)
-{
-	experience += gained_xp;
 }
 
 void Creature::DropMoney()
@@ -289,11 +285,11 @@ void Creature::DropMoney()
 	money = 0;
 }
 
-void Creature::DropExperience(Creature* target)
+void Creature::DropExperience()
 {
 	//Generate the experience particle
-	App->particle_manager->GenerateExperiencePointsParticle(target, this->experience);
+	App->particle_manager->GenerateExperiencePointsParticle(App->player->avatar, reward_experience * level);
 	
 	//Add the experience to the target
-	target->AddExperience(experience);
+	App->player->avatar->AddExperience(reward_experience * level);
 }

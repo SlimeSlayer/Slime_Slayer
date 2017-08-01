@@ -80,22 +80,29 @@ public:
 
 private:
 
-	bool	input_blocked = false;
+	bool		input_blocked = false;
 
 	uint		attack_range = 0;
 	j1Timer		attack_timer;
 	PhysBody*	current_attack_area = nullptr;
+
+	uint		experience = 0;				/*Current experience*/
+	float		experience_scale = 0.0f;	/*The number that multiply the next lvl experience*/
 
 public:
 
 	//Set Methods -----------
 	void SetAttackRange(uint range);
 	void SetCurrentAttackArea(PhysBody* new_attack_area);
+	void SetExperience(uint experience);
+	void SetExperienceScale(float exp_scale);
 
 	//Get Methods -----------
 	bool		GetInputBlocked()const;
 	uint		GetAttackRange()const;
 	PhysBody*	GetCurrentAttackArea()const;
+	uint		GetExperience()const;
+	float		GetExperienceScale()const;
 
 	//Functionality ---------
 	void LockInput();
@@ -104,6 +111,8 @@ public:
 	void AttackLeft();
 	void AttackRight();
 	bool ReadyToAttack()const;
+
+	void AddExperience(uint gained_exp);
 };
 /// ---------------------------------------------
 #endif // !_CREATURES_H_

@@ -380,7 +380,8 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	/*Mov Speed*/		new_creature->SetMovSpeed(data_node->attribute("mov_speed").as_float());
 	/*Jump Force*/		new_creature->SetJumpForce(data_node->attribute("jump_force").as_float());
 	/*Money*/			new_creature->SetMoney(data_node->attribute("money").as_uint(0));
-
+	/*Reward Exp*/		new_creature->SetRewardExperience(data_node->attribute("reward_experience").as_uint(0));
+	
 	//Set new creature specific stats
 	switch (creature_type)
 	{
@@ -454,6 +455,8 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 
 		//Set the generated attack area at the new player
 		((Player*)new_creature)->SetCurrentAttackArea(atk_area);
+
+		/*Exp Scale*/		((Player*)new_creature)->SetExperienceScale(data_node->attribute("experience_scale").as_float());
 	}
 
 	//Add the built creature at the definitions vector

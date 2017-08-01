@@ -142,9 +142,10 @@ protected:
 	float	mov_speed = 0.0f;
 	float	jump_force = 0.0f;
 
-	uint money = 0;
-	uint experience = 0;
-
+	uint	money = 0;						/*Current money*/
+	uint	reward_experience = 0;			/*Player get reward * lvl when beat the creature*/
+	uint	level = 1;						/*Current lvl*/
+	
 public:
 
 	//Set Methods -----------
@@ -155,7 +156,7 @@ public:
 	void SetMovSpeed(float new_mov_speed);
 	void SetJumpForce(float new_jump_force);
 	void SetMoney(uint money);
-	void SetExperience(uint experience);
+	void SetRewardExperience(uint experience);
 
 	//Get Methods -----------
 	CREATURE_TYPE	GetCreatureType()const;
@@ -165,13 +166,13 @@ public:
 	float			GetMovSpeed()const;
 	float			GetJumpForce()const;
 	uint			GetMoney()const;
-	uint			GetExperience()const;
+	uint			GetRewardExperience()const;
 
 	//Functionality ---------
 	void AddMoney(uint gained_money);
-	void AddExperience(uint gained_xp);
+	void LevelUp();
 	void DropMoney();
-	void DropExperience(Creature* target);
+	void DropExperience();
 
 };
 /// ---------------------------------------------

@@ -430,7 +430,7 @@ bool Die_Action::Execute()
 	//Drop the creature money
 	if (((Creature*)actor)->GetMoney() > 0)((Creature*)actor)->DropMoney();
 	//Drop the creature experience (if is not the player)
-	if (actor != App->player->avatar)((Creature*)actor)->DropExperience(App->player->avatar);
+	if (actor != App->player->avatar)((Creature*)actor)->DropExperience();
 	
 	//Delete the entity
 	App->entities_manager->ClearEntity(actor);
