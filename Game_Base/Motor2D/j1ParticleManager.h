@@ -46,6 +46,7 @@ public:
 
 	// Factory --------------
 	Particle* GenerateDamagePointsParticle(const Entity* target, uint value);
+	Particle* GenerateExperiencePointsParticle(const Entity* target, uint value);
 
 };
 #endif // !_PARTICLE_MANAGER_H_

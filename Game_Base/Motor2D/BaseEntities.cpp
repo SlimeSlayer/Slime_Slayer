@@ -5,6 +5,7 @@
 #include "j1Animator.h"
 #include "j1Physics.h"
 #include "j1EntitiesManager.h"
+#include "j1ParticleManager.h"
 
 /// Entity --------------------------------------
 //Base class where the entity pillars are defined
@@ -156,7 +157,7 @@ Creature::Creature()
 
 }
 
-Creature::Creature(const Creature & copy, bool generate_body) : Entity(copy, generate_body), creature_type(copy.creature_type), life(copy.life), attack_hitpoints(copy.attack_hitpoints), attack_rate(copy.attack_rate), mov_speed(copy.mov_speed), jump_force(copy.jump_force), money(copy.money)
+Creature::Creature(const Creature & copy, bool generate_body) : Entity(copy, generate_body), creature_type(copy.creature_type), life(copy.life), attack_hitpoints(copy.attack_hitpoints), attack_rate(copy.attack_rate), mov_speed(copy.mov_speed), jump_force(copy.jump_force), money(copy.money), experience(copy.experience)
 {
 	entity_type = CREATURE;
 }
@@ -203,6 +204,11 @@ void Creature::SetMoney(uint money)
 	this->money = money;
 }
 
+void Creature::SetExperience(uint experience)
+{
+	this->experience = experience;
+}
+
 //Get Methods =========================
 CREATURE_TYPE Creature::GetCreatureType() const
 {
@@ -239,10 +245,20 @@ uint Creature::GetMoney() const
 	return money;
 }
 
+uint Creature::GetExperience() const
+{
+	return experience;
+}
+
 // Functionality ======================
 void Creature::AddMoney(uint gained_money)
 {
 	money += gained_money;
+}
+
+void Creature::AddExperience(uint gained_xp)
+{
+	experience += gained_xp;
 }
 
 void Creature::DropMoney()
@@ -271,4 +287,13 @@ void Creature::DropMoney()
 
 	//Reset money value
 	money = 0;
+}
+
+void Creature::DropExperience(Creature* target)
+{
+	//Generate the experience particle
+	App->particle_manager->GenerateExperiencePointsParticle(target, this->experience);
+	
+	//Add the experience to the target
+	target->AddExperience(experience);
 }

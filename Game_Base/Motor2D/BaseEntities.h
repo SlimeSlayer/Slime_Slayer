@@ -143,6 +143,7 @@ protected:
 	float	jump_force = 0.0f;
 
 	uint money = 0;
+	uint experience = 0;
 
 public:
 
@@ -154,6 +155,7 @@ public:
 	void SetMovSpeed(float new_mov_speed);
 	void SetJumpForce(float new_jump_force);
 	void SetMoney(uint money);
+	void SetExperience(uint experience);
 
 	//Get Methods -----------
 	CREATURE_TYPE	GetCreatureType()const;
@@ -163,10 +165,13 @@ public:
 	float			GetMovSpeed()const;
 	float			GetJumpForce()const;
 	uint			GetMoney()const;
+	uint			GetExperience()const;
 
 	//Functionality ---------
 	void AddMoney(uint gained_money);
+	void AddExperience(uint gained_xp);
 	void DropMoney();
+	void DropExperience(Creature* target);
 
 };
 /// ---------------------------------------------
