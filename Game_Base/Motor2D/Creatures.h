@@ -10,6 +10,22 @@
 class PhysBody;
 class UI_String;
 
+/// Evolution_Template --------------------------
+struct Evolution_Template
+{
+	//Constructors & Destructors
+	Evolution_Template();
+	Evolution_Template(const Evolution_Template& copy);
+	~Evolution_Template();
+
+	//Data
+	CREATURE_TYPE	creature_type = NO_CREATURE;
+	uint			life = 0;
+	uint			attack_hitpoints = 0;
+	uint			money = 0;
+};
+/// ---------------------------------------------
+
 /// Intelligent_Creature ------------------------
 class Intelligent_Creature : public Creature
 {

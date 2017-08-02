@@ -16,6 +16,7 @@ enum ENTITY_TYPE
 {
 	NO_ENTITY = 0,
 	CREATURE,
+	CREATURE_EVO_TEMPLATE,
 	ITEM
 };
 
@@ -169,10 +170,9 @@ public:
 	uint			GetRewardExperience()const;
 
 	//Functionality ---------
-	void AddMoney(uint gained_money);
-	void LevelUp();
-	void DropMoney();
-	void DropExperience();
+	void			AddMoney(uint gained_money);
+	void			DropMoney();
+	void			DropExperience();
 
 };
 /// ---------------------------------------------

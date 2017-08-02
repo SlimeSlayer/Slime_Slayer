@@ -397,7 +397,7 @@ bool Simple_Attack_Action::Execute()
 	//Apply damage to the target
 	uint atk_hitpnts = ((Creature*)actor)->GetAttackHitPoints();
 	int life = target->GetLife();
-	target->SetLife(MAX(life - atk_hitpnts, 0));
+	target->SetLife(MAX((int)life - (int)atk_hitpnts, 0));
 
 	//Generate a particle with the damage done
 	App->particle_manager->GenerateDamagePointsParticle(target, atk_hitpnts);

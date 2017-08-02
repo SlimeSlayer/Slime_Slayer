@@ -215,4 +215,18 @@
       next_lvl_experience="2"
       />
   </creature>
+  <creature_evo_template>
+    <entity
+      creature_type ="player_creature"
+      life="5"
+      attack_hitpoints="1"
+      money="20"
+      />
+    <entity
+      creature_type ="basic_enemy_creature"
+      life="2"
+      attack_hitpoints="1"
+      money="1"
+      />
+  </creature_evo_template>
 </data>

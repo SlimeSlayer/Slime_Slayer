@@ -5,8 +5,27 @@
 #include "j1Physics.h"
 #include "j1Gui.h"
 #include "j1ParticleManager.h"
+#include "j1EntitiesManager.h"
 
 #include "UI_String.h"
+
+/// Evolution_Template --------------------------
+// Constructors =======================
+Evolution_Template::Evolution_Template()
+{
+}
+
+Evolution_Template::Evolution_Template(const Evolution_Template & copy) :creature_type(copy.creature_type), life(copy.life), attack_hitpoints(copy.attack_hitpoints), money(copy.money)
+{
+
+}
+
+// Destructors ========================
+Evolution_Template::~Evolution_Template()
+{
+
+}
+/// ---------------------------------------------
 
 /// Intelligent_Creature ------------------------
 // Constructors =======================
@@ -254,8 +273,13 @@ void Player::AddExperience(uint gained_exp)
 		level++;
 		next_lvl_experience = ceil(experience_scale * next_lvl_experience);
 
+		//Update avatar stats
+		App->entities_manager->LevelUpCreature(this);
+
 		//Generate a output particle 
 		App->particle_manager->GenerateLevelUpParticle(this);
 	}
 }
 /// ---------------------------------------------
+
+

@@ -55,8 +55,9 @@ bool j1EntitiesManager::Enable()
 		{
 			switch (current_entity_type)
 			{
-			case ITEM:		AddItemDefinition(&current_enble_node);			break;
-			case CREATURE:	AddCreatureDefinition(&current_enble_node);		break;
+			case ITEM:					AddItemDefinition(&current_enble_node);			break;
+			case CREATURE:				AddCreatureDefinition(&current_enble_node);		break;
+			case CREATURE_EVO_TEMPLATE:	AddCreatureEvoTemplate(&current_enble_node);	break;
 			}
 
 			current_enble_node = current_enble_node.next_sibling();
@@ -87,6 +88,14 @@ void j1EntitiesManager::Disable()
 		RELEASE(creatures_defs[k]);
 	}
 	creatures_defs.clear();
+
+	// Clean all the creatures evolutions temp --
+	size = creatures_evo_templates.size();
+	for (uint k = 0; k < size; k++)
+	{
+		RELEASE(creatures_evo_templates[k]);
+	}
+	creatures_evo_templates.clear();
 
 	// Clean all the items definitions ----------
 	size = items_defs.size();
@@ -173,6 +182,14 @@ bool j1EntitiesManager::CleanUp()
 		RELEASE(creatures_defs[k]);
 	}
 	creatures_defs.clear();
+
+	// Clean all the creatures evolutions temp --
+	size = creatures_evo_templates.size();
+	for (uint k = 0; k < size; k++)
+	{
+		RELEASE(creatures_evo_templates[k]);
+	}
+	creatures_evo_templates.clear();
 
 	// Clean all the items definitions ------
 	size = items_defs.size();
@@ -464,11 +481,27 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	creatures_defs.push_back(new_creature);
 }
 
+void j1EntitiesManager::AddCreatureEvoTemplate(const pugi::xml_node * data_node)
+{
+	//Allocate the new evolution template
+	Evolution_Template* new_evo_tmp = new Evolution_Template();
+
+	//Set all the evolution stats from the data node
+	/*Creature type*/	new_evo_tmp->creature_type = StrToCreatureType(data_node->attribute("creature_type").as_string());
+	/*Life*/			new_evo_tmp->life = data_node->attribute("life").as_uint();
+	/*Attack Points*/	new_evo_tmp->attack_hitpoints = data_node->attribute("attack_hitpoints").as_uint();
+	/*Money*/			new_evo_tmp->money = data_node->attribute("money").as_uint();
+
+	//Add the generated template to the template vector
+	creatures_evo_templates.push_back(new_evo_tmp);
+}
+
 //Enums Methods =================================
 ENTITY_TYPE j1EntitiesManager::StrToEntityType(const char * str) const
 {
-	if (strcmp(str, "item") == 0)		return ITEM;
-	if (strcmp(str, "creature") == 0)	return CREATURE;
+	if (strcmp(str, "item") == 0)					return ITEM;
+	if (strcmp(str, "creature") == 0)				return CREATURE;
+	if (strcmp(str, "creature_evo_template") == 0)	return CREATURE_EVO_TEMPLATE;
 	return NO_ENTITY;
 }
 
@@ -575,6 +608,33 @@ Item* j1EntitiesManager::GenerateItem(ITEM_TYPE item_type, bool generate_body)
 	}
 
 	return new_item;
+}
+
+bool j1EntitiesManager::LevelUpCreature(Creature * target)
+{
+	//Evolution template pointer
+	Evolution_Template* evo_template = nullptr;
+
+	//Search the correct evolution template
+	uint size = creatures_evo_templates.size();
+	for (uint k = 0; k < size; k++)
+	{
+		if (creatures_evo_templates[k]->creature_type == target->GetCreatureType())
+		{
+			evo_template = creatures_evo_templates[k];
+			break;
+		}
+	}
+
+	//If the template is found we can apply it
+	if (evo_template != nullptr)
+	{
+		/*Life*/			target->SetLife(target->GetLife() + evo_template->life);
+		/*Attack Points*/	target->SetAttackHitPoints(target->GetAttackHitPoints() + evo_template->attack_hitpoints);
+		/*Money*/			target->AddMoney(evo_template->money);
+	}
+
+	return bool(evo_template != nullptr);
 }
 
 void j1EntitiesManager::AddEntity(const Entity * target)
