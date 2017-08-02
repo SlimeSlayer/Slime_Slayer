@@ -1,0 +1,43 @@
+<data>
+  <!--Definitions of all the particles-->
+  <particle
+    particle_type ="ally_hitpoints_particle"
+    font_id="ally_hitpoints_font"
+    initial_vel_x="0.0"
+    initial_vel_y="-20.0"
+    acceleration_x="0.0"
+    acceleration_y="-150.0"
+    volatile="true"
+    life_time="1500"
+    />
+  <particle
+    particle_type ="enemy_hitpoints_particle"
+    font_id="enemy_hitpoints_font"
+    initial_vel_x="0.0"
+    initial_vel_y="-20.0"
+    acceleration_x="0.0"
+    acceleration_y="-150.0"
+    volatile="true"
+    life_time="1500"
+    />
+  <particle
+    particle_type ="experience_points_particle"
+    font_id="experience_font"
+    initial_vel_x="0.0"
+    initial_vel_y="-20.0"
+    acceleration_x="0.0"
+    acceleration_y="-150.0"
+    volatile="true"
+    life_time="1500"
+    />
+  <particle
+    particle_type ="level_up_particle"
+    font_id="lvl_up_font"
+    initial_vel_x="0.0"
+    initial_vel_y="-20.0"
+    acceleration_x="0.0"
+    acceleration_y="-150.0"
+    volatile="true"
+    life_time="1500"
+    />
+</data>

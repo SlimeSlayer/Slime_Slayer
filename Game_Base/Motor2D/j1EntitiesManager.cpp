@@ -134,6 +134,7 @@ bool j1EntitiesManager::Awake(pugi::xml_node & node)
 	if (definitions_doc.root() == NULL)
 	{
 		LOG("Error Loading Entities Doc");
+		return false;
 	}
 
 	return true;
@@ -218,7 +219,7 @@ bool j1EntitiesManager::CleanUp()
 	}
 	current_entities.clear();
 
-	
+	//Reset definitions doc
 	definitions_doc.reset();
 
 	return true;

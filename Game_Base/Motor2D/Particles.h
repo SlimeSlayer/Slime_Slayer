@@ -5,11 +5,15 @@
 #include "j1Timer.h"
 
 struct SDL_Texture;
+struct Font_Def;
 
 enum PARTICLE_TYPE
 {
 	NO_PARTICLE = 0,
-	SCORE_PARTICLE
+	ALLY_HITPOINTS_PARTICLE,
+	ENEMY_HITPOINTS_PARTICLE,
+	EXPERIENCE_POINTS_PARTICLE,
+	LEVEL_UP_PARTICLE
 };
 
 /// Particle ------------------------------------
@@ -53,6 +57,7 @@ public:
 	fPoint			GetPosition()const;
 	fPoint			GetVelocity()const;
 	fPoint			GetAcceleration()const;
+	bool			GetVolatile()const;
 
 	//Functionality ---------
 	void ResetLifeTimer();
@@ -85,6 +90,30 @@ public:
 
 	//Get Methods -----------
 	SDL_Texture* GetTexture()const;
+
+};
+/// ---------------------------------------------
+
+/// Static_Text_Particle ------------------------
+class Static_Text_Particle : public Static_Particle
+{
+public:
+
+	Static_Text_Particle();
+	Static_Text_Particle(const Static_Text_Particle& copy);
+	~Static_Text_Particle();
+
+protected:
+
+	Font_Def* text_font = nullptr;
+
+public:
+
+	//Set Methods -----------
+	void SetFont(const Font_Def* font);
+
+	//Get Methods -----------
+	Font_Def* GetFont()const;
 
 };
 /// ---------------------------------------------

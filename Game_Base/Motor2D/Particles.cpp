@@ -103,6 +103,11 @@ fPoint Particle::GetAcceleration() const
 	return acceleration;
 }
 
+bool Particle::GetVolatile() const
+{
+	return volatile_;
+}
+
 void Particle::ResetLifeTimer()
 {
 	life_timer.Start();
@@ -145,3 +150,35 @@ SDL_Texture * Static_Particle::GetTexture() const
 {
 	return texture;
 }
+/// ---------------------------------------------
+
+/// Static_Text_Particle ------------------------
+// Constructors =======================
+Static_Text_Particle::Static_Text_Particle()
+{
+
+}
+
+Static_Text_Particle::Static_Text_Particle(const Static_Text_Particle & copy) :Static_Particle(copy), text_font(copy.text_font)
+{
+
+}
+
+// Destructors ========================
+Static_Text_Particle::~Static_Text_Particle()
+{
+
+}
+
+//Set Methods =========================
+void Static_Text_Particle::SetFont(const Font_Def * font)
+{
+	text_font = (Font_Def*)font;
+}
+
+//Get Methods =========================
+Font_Def * Static_Text_Particle::GetFont() const
+{
+	return text_font;
+}
+/// ---------------------------------------------
