@@ -61,8 +61,5 @@ public:
 
 	// Factory --------------
 	Particle* GenerateTextParticle(const Entity* target, PARTICLE_TYPE particle_type, uint value);
-	Particle* GenerateDamagePointsParticle(const Entity* target, uint value);
-	Particle* GenerateExperiencePointsParticle(const Entity* target, uint value);
-	Particle* GenerateLevelUpParticle(const Creature* target);
 };
 #endif // !_PARTICLE_MANAGER_H_

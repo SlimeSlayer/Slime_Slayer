@@ -288,7 +288,7 @@ void Creature::DropMoney()
 void Creature::DropExperience()
 {
 	//Generate the experience particle
-	App->particle_manager->GenerateExperiencePointsParticle(App->player->avatar, reward_experience * level);
+	App->particle_manager->GenerateTextParticle(App->player->avatar, PARTICLE_TYPE::EXPERIENCE_POINTS_PARTICLE, reward_experience * level);
 	
 	//Add the experience to the target
 	App->player->avatar->AddExperience(reward_experience * level);

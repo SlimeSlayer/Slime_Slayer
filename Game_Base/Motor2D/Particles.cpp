@@ -13,7 +13,7 @@ Particle::Particle()
 
 }
 
-Particle::Particle(const Particle & copy) :particle_type(copy.particle_type), position(copy.position), velocity(copy.velocity), acceleration(copy.acceleration)
+Particle::Particle(const Particle & copy) :particle_type(copy.particle_type), position(copy.position), velocity(copy.velocity), acceleration(copy.acceleration), volatile_(copy.volatile_), life_time(copy.life_time)
 {
 
 }

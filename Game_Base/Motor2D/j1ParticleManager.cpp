@@ -214,6 +214,7 @@ void j1ParticleManager::DeleteParticle(Particle * target)
 	particles_to_delete.push_back(target);
 }
 
+// Factory ======================================
 Particle * j1ParticleManager::GenerateTextParticle(const Entity * target, PARTICLE_TYPE particle_type, uint value)
 {
 	//First we search the particle
@@ -243,7 +244,7 @@ Particle * j1ParticleManager::GenerateTextParticle(const Entity * target, PARTIC
 	char buffer[9];
 	_itoa((int)value, buffer, 10);
 	str = buffer;
-	
+
 	//Depending of the particle type different text is build
 	switch (particle_type)
 	{
@@ -259,21 +260,22 @@ Particle * j1ParticleManager::GenerateTextParticle(const Entity * target, PARTIC
 		buffer[str_size + 1] = 'X';
 		buffer[str_size + 2] = 'P';
 		buffer[str_size + 3] = '\0';
-		
+
 		//The resulting constant string
 		str = buffer;
 	}
-		break;
-	
+	break;
+
 	case LEVEL_UP_PARTICLE:
 	{
 		str = "Level UP!";
 	}
-		break;
+	break;
 	}
 
 	//Generate a texture of the string
 	SDL_Texture* tex = App->font->Print(str, ((Static_Text_Particle*)new_particle)->GetFont()->font_color, ((Static_Text_Particle*)new_particle)->GetFont()->font);
+	((Static_Text_Particle*)new_particle)->SetTexture(tex);
 
 	//Set position checking all the current stats
 	int x = 0, y = 0, w = 0;
@@ -281,139 +283,14 @@ Particle * j1ParticleManager::GenerateTextParticle(const Entity * target, PARTIC
 	SDL_QueryTexture(tex, NULL, NULL, &w, NULL);
 	new_particle->SetPosition((float)x + target->GetBody()->width - w * 0.5, (float)y);
 
-	return new_particle;
-}
-
-// Factory ======================================
-Particle* j1ParticleManager::GenerateDamagePointsParticle(const Entity * target, uint value)
-{
-	//Get the correct font
-	Font_Def* font = nullptr;
-	if (target->GetEntityType() == CREATURE && ((Creature*)target)->GetCreatureType() == BASIC_ENEMY_CREATURE)
+	if (new_particle->GetVolatile())
 	{
-		font = App->font->GetFontByID(FONT_ID::ENEMY_HITPOINTS_FONT);
+		//Reset particle life timer
+		new_particle->ResetLifeTimer();
 	}
-	else font = App->font->GetFontByID(FONT_ID::ALLY_HITPOINTS_FONT);
-	
-	//Transform the value to a string
-	char buffer[9];
-	_itoa((int)value, buffer, 10);
-	const char* str = buffer;
-	
-	//Generate a texture of the string
-	SDL_Texture* tex = App->font->Print(str, font->font_color, font->font);
-	
-	//Generate the particle
-	Static_Particle* new_particle = new Static_Particle();
-	
-	//Set all the particle data
-	//new_particle->SetParticleType(PARTICLE_TYPE::SCORE_PARTICLE);
-	new_particle->SetTexture(tex);
-	new_particle->SetVolatile(true);
-	new_particle->SetLifeTime(SCORE_PARTICLES_LIFE);
-	new_particle->SetVelocity(0, SCORE_PARTICLES_INITIAL_VEL);
-	new_particle->SetAcceleration(0, SCORE_PARTICLES_ACCELERATION_Y);
 
-	//Set position checking all the current stats
-	int x = 0, y = 0, w = 0;
-	target->GetBody()->GetPosition(x, y);
-	SDL_QueryTexture(tex, NULL, NULL, &w, NULL);
-	new_particle->SetPosition((float)x + target->GetBody()->width - w * 0.5, (float)y);
-		
-	//Add the built particle at the particles list
+	//Add the generated particle at the current particle for update
 	current_particles.push_back(new_particle);
-	
-	//Reset particle life timer
-	new_particle->ResetLifeTimer();
-
-	return new_particle;
-}
-
-Particle * j1ParticleManager::GenerateExperiencePointsParticle(const Entity * target, uint value)
-{
-	//Get the correct font
-	Font_Def* font = App->font->GetFontByID(FONT_ID::EXPERIENCE_FONT);
-
-	//Transform the value to a string
-	char buffer[12];
-	_itoa((int)value, buffer, 10);
-	
-	
-	//Add + XP on the value string to clarify the output
-	uint str_size = strlen(buffer);
-	for (uint k = str_size; k > 0; k--)
-	{
-		buffer[k] = buffer[k - 1];
-	}
-	buffer[0] = '+';
-	buffer[str_size + 1] = 'X';
-	buffer[str_size + 2] = 'P';
-	buffer[str_size + 3] = '\0';
-	//The resulting constant string
-	const char* str = buffer;
-
-	//Generate a texture of the string
-	SDL_Texture* tex = App->font->Print(str, font->font_color, font->font);
-
-	//Generate the particle
-	Static_Particle* new_particle = new Static_Particle();
-
-	//Set all the particle data
-	//new_particle->SetParticleType(PARTICLE_TYPE::SCORE_PARTICLE);
-	new_particle->SetTexture(tex);
-	new_particle->SetVolatile(true);
-	new_particle->SetLifeTime(SCORE_PARTICLES_LIFE);
-	new_particle->SetVelocity(0, SCORE_PARTICLES_INITIAL_VEL);
-	new_particle->SetAcceleration(0, SCORE_PARTICLES_ACCELERATION_Y);
-
-	//Set position checking all the current stats
-	int x = 0, y = 0, w = 0;
-	target->GetBody()->GetPosition(x, y);
-	SDL_QueryTexture(tex, NULL, NULL, &w, NULL);
-	new_particle->SetPosition((float)x + target->GetBody()->width - w * 0.5, (float)y);
-
-	//Add the built particle at the particles list
-	current_particles.push_back(new_particle);
-
-	//Reset particle life timer
-	new_particle->ResetLifeTimer();
-
-	return new_particle;
-}
-
-Particle * j1ParticleManager::GenerateLevelUpParticle(const Creature * target)
-{
-	//Get the correct font
-	Font_Def* font = App->font->GetFontByID(FONT_ID::EXPERIENCE_FONT);
-
-	//The resulting constant string
-	const char* str = "Level UP!";
-
-	//Generate a texture of the string
-	SDL_Texture* tex = App->font->Print(str, font->font_color, font->font);
-
-	//Generate the particle
-	Static_Particle* new_particle = new Static_Particle();
-
-	//Set all the particle data
-	//new_particle->SetParticleType(PARTICLE_TYPE::SCORE_PARTICLE);
-	new_particle->SetTexture(tex);
-	new_particle->SetVolatile(true);
-	new_particle->SetLifeTime(SCORE_PARTICLES_LIFE);
-	new_particle->SetVelocity(0, SCORE_PARTICLES_INITIAL_VEL);
-	new_particle->SetAcceleration(0, SCORE_PARTICLES_ACCELERATION_Y);
-
-	//Set position checking all the current stats
-	int x = 0, y = 0, w = 0;
-	target->GetBody()->GetPosition(x, y);
-	SDL_QueryTexture(tex, NULL, NULL, &w, NULL);
-	new_particle->SetPosition((float)x + target->GetBody()->width - w * 0.5, (float)y);
-
-	//Add the built particle at the particles list
-	current_particles.push_back(new_particle);
-
-	//Reset particle life timer
-	new_particle->ResetLifeTimer();
 
 	return new_particle;
 }

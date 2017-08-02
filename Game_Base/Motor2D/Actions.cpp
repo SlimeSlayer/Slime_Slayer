@@ -361,7 +361,7 @@ bool Basic_Attack_Action::Execute()
 		attack_timer.Start();
 
 		//Generate score particle
-		App->particle_manager->GenerateDamagePointsParticle(target, ((Creature*)actor)->GetAttackHitPoints());
+		App->particle_manager->GenerateTextParticle(target,PARTICLE_TYPE::ALLY_HITPOINTS_PARTICLE, ((Creature*)actor)->GetAttackHitPoints());
 		LOG("TL: %i", target->GetLife());
 	}
 
@@ -400,7 +400,7 @@ bool Simple_Attack_Action::Execute()
 	target->SetLife(MAX((int)life - (int)atk_hitpnts, 0));
 
 	//Generate a particle with the damage done
-	App->particle_manager->GenerateDamagePointsParticle(target, atk_hitpnts);
+	App->particle_manager->GenerateTextParticle(target,PARTICLE_TYPE::ENEMY_HITPOINTS_PARTICLE, atk_hitpnts);
 
 	//If the target is dead call die action
 	if (target->GetLife() == 0)

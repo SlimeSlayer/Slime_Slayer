@@ -277,7 +277,7 @@ void Player::AddExperience(uint gained_exp)
 		App->entities_manager->LevelUpCreature(this);
 
 		//Generate a output particle 
-		App->particle_manager->GenerateLevelUpParticle(this);
+		App->particle_manager->GenerateTextParticle(this, PARTICLE_TYPE::LEVEL_UP_PARTICLE, NULL);
 	}
 }
 /// ---------------------------------------------
