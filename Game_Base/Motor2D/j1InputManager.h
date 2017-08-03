@@ -53,7 +53,12 @@ struct Suitable_Input_Event
 {
 	//Constructor/Destructor
 	Suitable_Input_Event();
+	Suitable_Input_Event(INPUT_EVENT input_event, APP_CONTEXT app_context);
+	Suitable_Input_Event(const Suitable_Input_Event& copy);
 	~Suitable_Input_Event();
+
+	//Operator used for inserting events in the multimap
+	bool operator < (const Suitable_Input_Event& target)const;
 
 	//Data
 	INPUT_EVENT	input_event = UNKNOWN_INPUT;
@@ -91,11 +96,11 @@ public:
 private:
 
 	//Maps with all the input events mapped
-	std::multimap<int, INPUT_EVENT> keyboard_events_map; /*for the keyboard*/
-	std::multimap<int, INPUT_EVENT> controller_events_map; /*for the controller*/
+	std::multimap<int, Suitable_Input_Event> keyboard_events_map; /*for the keyboard*/
+	std::multimap<int, Suitable_Input_Event> controller_events_map; /*for the controller*/
 
 	//Events that are happening during this frame
-	std::multimap<INPUT_EVENT, INPUT_STATE> current_events;
+	std::multimap<Suitable_Input_Event, INPUT_STATE> current_events;
 
 };
 #endif // _J1_INPUT_MANAGER_H_
