@@ -330,6 +330,16 @@ j1Module * UI_Element::GetInputTarget() const
 	return this->input_target;
 }
 
+void UI_Element::SetNextInFocus(const UI_Element * target)
+{
+	next_in_focus = (UI_Element*)target;
+}
+
+UI_Element * UI_Element::GetNextInFocus() const
+{
+	return next_in_focus;
+}
+
 void UI_Element::Block()
 {
 	blocked = true;

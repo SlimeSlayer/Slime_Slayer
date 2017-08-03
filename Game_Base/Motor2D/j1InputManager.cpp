@@ -204,7 +204,7 @@ void j1InputManager::SendControllerInputEvent(int id, INPUT_STATE state)
 			std::map<Suitable_Input_Event, INPUT_STATE>::const_iterator cur_event = current_events.begin();
 			while (cur_event != current_events.end())
 			{
-				if (cur_event._Ptr->_Myval.first.input_event == key_pressed.first.input_event)break;
+				if (cur_event._Ptr->_Myval.first.input_event == key_pressed.first.input_event && cur_event._Ptr->_Myval.first.app_context == App->app_context)break;
 				
 				cur_event++;
 			}
@@ -213,6 +213,10 @@ void j1InputManager::SendControllerInputEvent(int id, INPUT_STATE state)
 			{
 				if (state == INPUT_STATE::INPUT_DOWN && cur_event._Ptr->_Myval.second == INPUT_STATE::INPUT_NONE)cur_event._Ptr->_Myval.second = INPUT_STATE::INPUT_DOWN;
 				else cur_event._Ptr->_Myval.second = state;
+			}
+			else
+			{
+				current_events.insert(key_pressed);
 			}
 
 			break;

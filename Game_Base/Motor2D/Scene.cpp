@@ -379,6 +379,9 @@ void Scene::GUI_Input(UI_Element * target, GUI_INPUT input)
 			settings_audio_button->DesactivateChids();
 			settings_video_button->DesactivateChids();
 
+			//Set First button as the input target
+			App->gui->ItemSelected = settings_audio_button;
+
 			//Set the correct app context
 			App->app_context = PAUSE_CONTEXT;
 		}

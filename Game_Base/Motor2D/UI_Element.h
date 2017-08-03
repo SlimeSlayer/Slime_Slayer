@@ -45,6 +45,7 @@ protected:
 public:
 
 	std::list<UI_Element*>		childs;
+	UI_Element*					next_in_focus = nullptr;
 
 public:
 
@@ -92,6 +93,10 @@ public:
 	// Input target functions
 	void				SetInputTarget(j1Module* target);
 	j1Module*			GetInputTarget()const;
+
+	// Next in focus
+	void				SetNextInFocus(const UI_Element* target);
+	UI_Element*			GetNextInFocus()const;
 
 	//Block functions
 	virtual void		Block();

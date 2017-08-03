@@ -109,6 +109,7 @@ public:
 
 	mutable UI_Element*	ItemSelected = nullptr;
 	mutable uint		upper_element = 0;
+	mutable bool		controller_mode = false;
 
 	//UI textures functions
 	SDL_Texture*		Get_UI_Texture(TEXTURE_ID tex_id);

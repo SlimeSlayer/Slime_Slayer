@@ -65,6 +65,7 @@ struct Suitable_Input_Event
 	APP_CONTEXT	app_context = UNKNOWN_CONTEXT;
 
 };
+/// -----------------------------------
 
 class j1InputManager : public j1Module
 {
@@ -101,6 +102,5 @@ private:
 
 	//Events that are happening during this frame
 	std::multimap<Suitable_Input_Event, INPUT_STATE> current_events;
-
 };
 #endif // _J1_INPUT_MANAGER_H_
