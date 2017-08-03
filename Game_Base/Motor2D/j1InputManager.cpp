@@ -5,6 +5,20 @@
 #include "j1Input.h"
 #include "p2Log.h"
 
+/// Suitable_Input_Event --------------
+// Constructors =============
+Suitable_Input_Event::Suitable_Input_Event()
+{
+
+}
+
+// Destructors ==============
+Suitable_Input_Event::~Suitable_Input_Event()
+{
+
+}
+/// -----------------------------------
+
 // Constructors =================================
 j1InputManager::j1InputManager()
 {
@@ -125,6 +139,11 @@ INPUT_EVENT j1InputManager::StrToInputEvent(const char * str) const
 	if (strcmp(str, "crouch") == 0)					return INPUT_EVENT::CROUCH;
 	if (strcmp(str, "interact") == 0)				return INPUT_EVENT::INTERACT;
 	if (strcmp(str, "attack") == 0)					return INPUT_EVENT::ATTACK;
+	if (strcmp(str, "focus_up") == 0)				return INPUT_EVENT::FOCUS_UP;
+	if (strcmp(str, "focus_down") == 0)				return INPUT_EVENT::FOCUS_DOWN;
+	if (strcmp(str, "accept") == 0)					return INPUT_EVENT::ACCEPT;
+	if (strcmp(str, "add_value") == 0)				return INPUT_EVENT::ADD_VALUE;
+	if (strcmp(str, "rest_value") == 0)				return INPUT_EVENT::REST_VALUE;
 	return UNKNOWN_INPUT;
 }
 

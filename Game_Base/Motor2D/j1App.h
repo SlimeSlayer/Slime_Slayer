@@ -137,6 +137,9 @@ public:
 
 	APP_CONTEXT		app_context = UNKNOWN_CONTEXT;
 
+	// Used in data loading
+	APP_CONTEXT	StrToAppContext(const char* str)const;
+
 	// Add a new module to handle
 	void		AddModule(j1Module* module);
 	//Get Module pointer by name

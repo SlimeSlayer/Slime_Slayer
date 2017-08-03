@@ -38,24 +38,42 @@
   </window>
 
   <input_manager>
-    <!--Debug-->
-    <key id ="F1"  event="colliders_debug"/>
-    <key id ="F2"  event="ui_debug"/>
-    <!--Escape-->
-    <key id ="Escape" event ="escape"/>   
+    <!--IN GAME CONTEXT-->
     <!--Player-->
-    <key id ="A"  event ="go_left"/>
-    <key id ="D"  event ="go_right"/>
-    <key id ="W"  event ="jump"/>
-    <key id ="S"  event ="crouch"/>
-    <key id ="F"  event ="interact"/>
-    <key id ="L"  event ="attack"/>
-    <key  controller_id="13"      event="go_left"   num="1"/>
-    <key  controller_id="14"      event="go_right"  num="1"/>
-    <key  controller_id="A"       event="jump"      num="0"/>
-    <key  controller_id="B"       event="interact"  num="0"/>
-    <key  controller_id="X"       event="attack"    num="0"/>
-    <key  controller_id="Start"   event="escape"    num="0"/>
+    <key  id ="A"                 event ="go_left"            app_context="in_game_context"/>
+    <key  id ="D"                 event ="go_right"           app_context="in_game_context"/>
+    <key  id ="W"                 event ="jump"               app_context="in_game_context"/>
+    <key  id ="S"                 event ="crouch"             app_context="in_game_context"/>
+    <key  id ="F"                 event ="interact"           app_context="in_game_context"/>
+    <key  id ="L"                 event ="attack"             app_context="in_game_context"/>
+    <key  controller_id="13"      event="go_left"   num="1"   app_context="in_game_context"/>
+    <key  controller_id="14"      event="go_right"  num="1"   app_context="in_game_context"/>
+    <key  controller_id="A"       event="jump"      num="0"   app_context="in_game_context"/>
+    <key  controller_id="B"       event="interact"  num="0"   app_context="in_game_context"/>
+    <key  controller_id="X"       event="attack"    num="0"   app_context="in_game_context"/>
+    <key  controller_id="Start"   event="escape"    num="0"   app_context="in_game_context"/>
+    <!--Debug-->
+    <key id ="F1"                 event="colliders_debug"     app_context="in_game_context"/>
+    <key id ="F2"                 event="ui_debug"            app_context="in_game_context"/>
+    <!--Escape-->
+    <key id ="Escape"             event ="escape"             app_context="in_game_context"/>
+    <!--PAUSE CONTEXT-->
+    <!--Menus Input-->
+    <key id ="Up"                 event ="focus_up"           app_context="pause_context"/>
+    <key id ="Down"               event ="focus_down"         app_context="pause_context"/>
+    <key id ="Right"              event ="add_value"          app_context="pause_context"/>
+    <key id ="Left"               event ="rest_value"         app_context="pause_context"/>
+    <!--Escape-->
+    <key id ="Escape"             event ="escape"             app_context="pause_context"/>
+    <!--MAIN MENU CONTEXT-->
+    <!--Menus Input-->
+    <key id ="Up"                 event ="focus_up"           app_context="main_menu_context"/>
+    <key id ="Down"               event ="focus_down"         app_context="main_menu_context"/>
+    <key id ="Enter"              event ="accept"             app_context="main_menu_context"/>
+    <key id ="Right"              event ="add_value"          app_context="main_menu_context"/>
+    <key id ="Left"               event ="rest_value"         app_context="main_menu_context"/>
+    <!--Escape-->
+    <key id ="Escape"             event ="escape"             app_context="main_menu_context"/>
     <!--...-->
   </input_manager>
   

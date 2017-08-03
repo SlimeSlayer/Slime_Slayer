@@ -90,6 +90,14 @@ j1App::~j1App()
 	modules.clear();
 }
 
+APP_CONTEXT j1App::StrToAppContext(const char * str) const
+{
+	if (strcmp(str, "in_game_context") == 0)		return IN_GAME_CONTEXT;
+	if (strcmp(str, "pause_context") == 0)			return PAUSE_CONTEXT;
+	if (strcmp(str, "main_menu_context") == 0)		return MAIN_MENU_CONTEXT;
+	return UNKNOWN_CONTEXT;
+}
+
 void j1App::AddModule(j1Module* module)
 {
 	module->Init();
