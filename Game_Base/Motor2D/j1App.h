@@ -38,6 +38,14 @@ class MainMenu;
 class Tutorial;
 class Endless;
 
+enum APP_CONTEXT
+{
+	UNKNOWN_CONTEXT = 0,
+	IN_GAME_CONTEXT,
+	PAUSE_CONTEXT,
+	MAIN_MENU_CONTEXT
+};
+
 class j1App
 {
 public:
@@ -61,11 +69,11 @@ public:
 	bool CleanUp();
 
 	// Exposing some properties for reading
-	int GetArgc() const;
+	int			GetArgc() const;
 	const char* GetArgv(int index) const;
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
-	float GetDT() const;
+	float		GetDT() const;
 
 	void LoadGame(const char* file, bool activate_modules = true);
 	void SaveGame(const char* file);
@@ -126,6 +134,8 @@ public:
 	MainMenu*		main_menu = NULL;
 	Tutorial*		tutorial = NULL;
 	Endless*		endless = NULL;
+
+	APP_CONTEXT		app_context = UNKNOWN_CONTEXT;
 
 	// Add a new module to handle
 	void		AddModule(j1Module* module);

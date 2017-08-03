@@ -4,6 +4,8 @@
 #include "j1Module.h"
 #include <map>
 
+#include "j1App.h"
+
 enum INPUT_EVENT
 {
 	UNKNOWN_INPUT = 0,
@@ -21,7 +23,15 @@ enum INPUT_EVENT
 	JUMP,
 	CROUCH,
 	INTERACT,
-	ATTACK
+	ATTACK,
+
+	//Menu/UI
+	FOCUS_UP,
+	FOCUS_DOWN,
+	ACCEPT,
+	RETURN,
+	ADD_VALUE,
+	REST_VALUE
 };
 
 enum INPUT_STATE
@@ -37,6 +47,19 @@ enum JOYSTICK_STATE
 	JSTICK_NONE,
 	JSTICK_POSITIVE,
 	JSTICK_NEGATIVE
+};
+
+/// Suitable_Input_Event --------------
+struct Suitable_Input_Event
+{
+	//Constructor/Destructor
+	Suitable_Input_Event();
+	~Suitable_Input_Event();
+
+	//Data
+	INPUT_EVENT	input_event = UNKNOWN_INPUT;
+	APP_CONTEXT	app_context = UNKNOWN_CONTEXT;
+
 };
 
 class j1InputManager : public j1Module

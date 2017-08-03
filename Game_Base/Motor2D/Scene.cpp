@@ -378,6 +378,9 @@ void Scene::GUI_Input(UI_Element * target, GUI_INPUT input)
 			settings_menu->ActivateChilds();
 			settings_audio_button->DesactivateChids();
 			settings_video_button->DesactivateChids();
+
+			//Set the correct app context
+			App->app_context = PAUSE_CONTEXT;
 		}
 
 
@@ -389,6 +392,9 @@ void Scene::GUI_Input(UI_Element * target, GUI_INPUT input)
 			settings_menu->DesactivateChids();
 			//Activate menu buttons
 			settings_button->Activate();
+
+			//Set the correct app context
+			App->app_context = IN_GAME_CONTEXT;
 		}
 		else if (target == settings_audio_button)
 		{

@@ -215,6 +215,9 @@ bool Endless::Update(float dt)
 			settings_menu->DesactivateChids();
 			//Activate menu buttons
 			settings_button->Activate();
+
+			//Set the correct app context
+			App->app_context = IN_GAME_CONTEXT;
 		}
 		else if (video_menu->GetActiveState() || audio_menu->GetActiveState())
 		{
@@ -234,6 +237,9 @@ bool Endless::Update(float dt)
 			//Activate settings menu
 			settings_menu->Activate();
 			settings_menu->ActivateChilds();
+
+			//Set the correct app context
+			App->app_context = PAUSE_CONTEXT;
 		}
 	}
 	// ------------------------------------------

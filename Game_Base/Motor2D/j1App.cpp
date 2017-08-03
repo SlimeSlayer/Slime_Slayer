@@ -157,6 +157,9 @@ bool j1App::Start()
 
 	PERF_PEEK(ptimer);
 
+	//App starts in the main menu context
+	app_context = MAIN_MENU_CONTEXT;
+
 	return ret;
 }
 
@@ -611,12 +614,17 @@ void j1App::ActiveMainMenu()
 	// Active all the necessary scene modules
 	App->main_menu->Active();
 
+	//Enable active modules
 	want_to_enable = true;
 	EnableActiveModules();
 
+	//Start render & audio fade
 	fade_out = true;
 	current_scene = nullptr;
 	App->audio->StartMusicFade();
+
+	//Set the correct app context
+	app_context = MAIN_MENU_CONTEXT;
 }
 
 void j1App::ActiveTutorial()
@@ -635,12 +643,17 @@ void j1App::ActiveTutorial()
 	App->tutorial->Active();
 	App->physics->Active();
 
+	//Enable active modules
 	want_to_enable = true;
 	EnableActiveModules();
 
+	//Start render & audio fade
 	fade_out = true;
 	current_scene = App->tutorial;
 	App->audio->StartMusicFade();
+
+	//Set the correct app context
+	app_context = IN_GAME_CONTEXT;
 }
 
 void j1App::ActiveEndless()
@@ -659,11 +672,15 @@ void j1App::ActiveEndless()
 	App->particle_manager->Active();
 	App->endless->Active();
 
-
+	//Enable active modules
 	want_to_enable = true;
 	EnableActiveModules();
 
+	//Start render & audio fade
 	fade_out = true;
 	current_scene = App->endless;
 	App->audio->StartMusicFade();
+	
+	//Set the correct app context
+	app_context = IN_GAME_CONTEXT;
 }
