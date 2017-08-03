@@ -41,7 +41,8 @@ bool j1InputManager::Awake(pugi::xml_node& config)
 		}
 		else
 		{
-			controller_scancode = SDL_GameControllerGetButtonFromString(key_node.attribute("controller_id").as_string());
+			if(!key_node.attribute("num").as_bool())controller_scancode = SDL_GameControllerGetButtonFromString(key_node.attribute("controller_id").as_string());
+			else controller_scancode = (SDL_GameControllerButton)key_node.attribute("controller_id").as_uint();
 		}
 		
 		// Keyboard case

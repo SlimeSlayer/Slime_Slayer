@@ -50,11 +50,12 @@
     <key id ="S"  event ="crouch"/>
     <key id ="F"  event ="interact"/>
     <key id ="L"  event ="attack"/>
-    <key  controller_id="idk_bro" event="go_left"/>
-    <key  controller_id="A"       event="jump"/>
-    <key  controller_id="X"       event="interact"/>
-    <key  controller_id="B"       event="attack"/>
-    <key  controller_id="Start"   event="escape"/>
+    <key  controller_id="13"      event="go_left"   num="1"/>
+    <key  controller_id="14"      event="go_right"  num="1"/>
+    <key  controller_id="A"       event="jump"      num="0"/>
+    <key  controller_id="B"       event="interact"  num="0"/>
+    <key  controller_id="X"       event="attack"    num="0"/>
+    <key  controller_id="Start"   event="escape"    num="0"/>
     <!--...-->
   </input_manager>
   
