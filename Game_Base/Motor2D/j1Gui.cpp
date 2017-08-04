@@ -127,6 +127,11 @@ bool j1Gui::PostUpdate()
 		item++;
 	}
 
+	if (ItemSelected != nullptr)
+	{
+		App->render->DrawCircle(ItemSelected->GetBox()->x + ItemSelected->GetBox()->w * 0.5f, ItemSelected->GetBox()->y + ItemSelected->GetBox()->h * 0.5f, 250, 255, 25, 50, 255, false);
+	}
+
 	return true;
 }
 

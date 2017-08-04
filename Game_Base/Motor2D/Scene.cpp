@@ -379,7 +379,7 @@ void Scene::GUI_Input(UI_Element * target, GUI_INPUT input)
 			settings_audio_button->DesactivateChids();
 			settings_video_button->DesactivateChids();
 
-			//Set First button as the input target
+			//Set the correct input target in the new menu
 			App->gui->ItemSelected = settings_audio_button;
 
 			//Set the correct app context
@@ -398,24 +398,36 @@ void Scene::GUI_Input(UI_Element * target, GUI_INPUT input)
 
 			//Set the correct app context
 			App->app_context = IN_GAME_CONTEXT;
+
+			//Set the correct input target in the new menu
+			App->gui->ItemSelected = nullptr;
 		}
 		else if (target == settings_audio_button)
 		{
 			//Deactivate settings menu
 			settings_menu->Desactivate();
 			settings_menu->DesactivateChids();
+			
 			//Activate audio menu
 			audio_menu->Activate();
 			audio_menu->ActivateChilds();
+
+			//Set the correct input target in the new menu
+			App->gui->ItemSelected = master_audio_scroll;
 		}
 		else if (target == settings_video_button)
 		{
 			//Deactivate settings menu
 			settings_menu->Desactivate();
 			settings_menu->DesactivateChids();
+			
 			//Activate audio menu
 			video_menu->Activate();
 			video_menu->ActivateChilds();
+
+			//Set the correct input target in the new menu
+			App->gui->ItemSelected = vsync_video_button;
+
 		}
 		else if (target == settings_exit_scene_button && !settings_exit_scene_button->GetBlockState())
 		{
@@ -428,9 +440,13 @@ void Scene::GUI_Input(UI_Element * target, GUI_INPUT input)
 			//Deactivate audio menu
 			audio_menu->Desactivate();
 			audio_menu->DesactivateChids();
+			
 			//Activate settings menu
 			settings_menu->Activate();
 			settings_menu->ActivateChilds();
+
+			//Set the correct input target in the new menu
+			App->gui->ItemSelected = settings_audio_button;
 		}
 		//Video Buttons ---------------
 		else if (target == video_quit_button)
@@ -438,9 +454,13 @@ void Scene::GUI_Input(UI_Element * target, GUI_INPUT input)
 			//Deactivate audio menu
 			video_menu->Desactivate();
 			video_menu->DesactivateChids();
+			
 			//Activate settings menu
 			settings_menu->Activate();
 			settings_menu->ActivateChilds();
+
+			//Set the correct input target in the new menu
+			App->gui->ItemSelected = settings_audio_button;
 		}
 		else if (target == fullscreen_video_button)
 		{
@@ -460,6 +480,9 @@ void Scene::GUI_Input(UI_Element * target, GUI_INPUT input)
 		{
 			death_reset_button->Block();
 			App->GetCurrentScene()->RestartScene();
+
+			//Set the correct input target in the new menu
+			App->gui->ItemSelected = nullptr;
 		}
 	}
 	else if (input == GUI_INPUT::MOUSE_LEFT_BUTTON_REPEAT)

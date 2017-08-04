@@ -635,7 +635,7 @@ void j1App::ActiveMainMenu()
 	app_context = MAIN_MENU_CONTEXT;
 	
 	//Reset Item Selected
-	App->gui->ItemSelected = nullptr;
+	App->gui->ItemSelected = App->main_menu->GetCorrectItemToSelect();
 }
 
 void j1App::ActiveTutorial()
@@ -667,7 +667,7 @@ void j1App::ActiveTutorial()
 	app_context = IN_GAME_CONTEXT;
 
 	//Reset Item Selected
-	App->gui->ItemSelected = nullptr;
+	App->gui->ItemSelected = current_scene->GetCorrectItemToSelect();
 }
 
 void j1App::ActiveEndless()
@@ -699,5 +699,5 @@ void j1App::ActiveEndless()
 	app_context = IN_GAME_CONTEXT;
 
 	//Reset Item Selected
-	App->gui->ItemSelected = nullptr;
+	App->gui->ItemSelected = current_scene->GetCorrectItemToSelect();
 }
