@@ -445,3 +445,39 @@ void MainMenu::GUI_Input(UI_Element * target, GUI_INPUT input)
 		}
 	}
 }
+
+void MainMenu::GUI_ControllerInput(INPUT_EVENT input_event)
+{
+
+}
+
+UI_Element * MainMenu::GetCorrectItemToSelect() const
+{
+	UI_Element* item_to_select = nullptr;
+
+	//Setting Menu Case -----
+	if (settings_menu->GetActiveState())
+	{
+		item_to_select = settings_audio_button;
+	}
+
+	//Audio Menu Case -------
+	else if (audio_menu->GetActiveState())
+	{
+		item_to_select = master_audio_scroll;
+	}
+
+	//Video Menu Case -------
+	else if (video_menu->GetActiveState())
+	{
+		item_to_select = vsync_video_button;
+	}
+
+	//Main Menu Menu Case ---
+	else
+	{
+		item_to_select = start_button;
+	}
+
+	return item_to_select;
+}

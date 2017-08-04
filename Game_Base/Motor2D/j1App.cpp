@@ -633,6 +633,9 @@ void j1App::ActiveMainMenu()
 
 	//Set the correct app context
 	app_context = MAIN_MENU_CONTEXT;
+	
+	//Reset Item Selected
+	App->gui->ItemSelected = nullptr;
 }
 
 void j1App::ActiveTutorial()
@@ -662,6 +665,9 @@ void j1App::ActiveTutorial()
 
 	//Set the correct app context
 	app_context = IN_GAME_CONTEXT;
+
+	//Reset Item Selected
+	App->gui->ItemSelected = nullptr;
 }
 
 void j1App::ActiveEndless()
@@ -691,4 +697,7 @@ void j1App::ActiveEndless()
 	
 	//Set the correct app context
 	app_context = IN_GAME_CONTEXT;
+
+	//Reset Item Selected
+	App->gui->ItemSelected = nullptr;
 }

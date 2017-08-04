@@ -8,6 +8,8 @@
 #include "j1Input.h"
 #include "j1FileSystem.h"
 #include "j1InputManager.h"
+#include "Scene.h"
+#include "MainMenu.h"
 
 //UI_Elements
 #include "UI_Element.h"
@@ -173,7 +175,8 @@ void j1Gui::ActiveControllerMode()
 	controller_mode = true;
 	if (ItemSelected == nullptr)
 	{
-		// Look for the correct item to focus
+		if(App->GetCurrentScene() != nullptr)ItemSelected = App->GetCurrentScene()->GetCorrectItemToSelect();
+		else ItemSelected = App->main_menu->GetCorrectItemToSelect();
 	}
 	LOG("Controller Mode Activated!");
 }

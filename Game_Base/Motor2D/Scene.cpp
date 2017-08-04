@@ -506,6 +506,44 @@ void Scene::GUI_Input(UI_Element * target, GUI_INPUT input)
 	}
 }
 
+void Scene::GUI_ControllerInput(INPUT_EVENT input_event)
+{
+	UI_Element* target = App->gui->ItemSelected;
+	if (target == nullptr)LOG("ERROR!");
+
+}
+
+UI_Element * Scene::GetCorrectItemToSelect() const
+{
+	UI_Element* item_to_select = nullptr;
+	
+	//Setting Menu Case -----
+	if (settings_menu->GetActiveState())
+	{
+		item_to_select = settings_audio_button;
+	}
+
+	//Audio Menu Case -------
+	else if (audio_menu->GetActiveState())
+	{
+		item_to_select = master_audio_scroll;
+	}
+
+	//Video Menu Case -------
+	else if (video_menu->GetActiveState())
+	{
+		item_to_select = vsync_video_button;
+	}
+
+	//Death Menu Case -------
+	else if (death_menu->GetActiveState())
+	{
+		item_to_select = death_reset_button;
+	}
+
+	return item_to_select;
+}
+
 // Functionality ================================
 void Scene::UpdateParallax(float disp)
 {
