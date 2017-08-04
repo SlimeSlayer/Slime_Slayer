@@ -111,6 +111,10 @@ public:
 	mutable uint		upper_element = 0;
 	mutable bool		controller_mode = false;
 
+	//Activate/Desactive controller mode
+	void ActiveControllerMode();
+	void DeactivateControllerMode();
+	
 	//UI textures functions
 	SDL_Texture*		Get_UI_Texture(TEXTURE_ID tex_id);
 

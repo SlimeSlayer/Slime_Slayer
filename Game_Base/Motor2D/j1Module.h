@@ -10,6 +10,7 @@ class PhysBody;
 class j1App;
 class UI_Element;
 enum GUI_INPUT;
+enum INPUT_EVENT;
 
 class j1Module
 {
@@ -99,6 +100,11 @@ public:
 
 	//GUI functions -------------------
 	virtual void GUI_Input(UI_Element* target, GUI_INPUT input)
+	{
+
+	}
+
+	virtual void GUI_Controller_Input(INPUT_EVENT input_event)
 	{
 
 	}

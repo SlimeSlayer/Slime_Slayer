@@ -168,6 +168,26 @@ TEXTURE_ID j1Gui::StrToTextureID(const char * str)
 
 
 
+void j1Gui::ActiveControllerMode()
+{
+	controller_mode = true;
+	if (ItemSelected == nullptr)
+	{
+		// Look for the correct item to focus
+	}
+	LOG("Controller Mode Activated!");
+}
+
+void j1Gui::DeactivateControllerMode()
+{
+	controller_mode = false;
+	if (ItemSelected != nullptr)
+	{
+		//Un focus item selected
+	}
+	LOG("Controller Mode Deactivated!");
+}
+
 // =================================================================
 SDL_Texture * j1Gui::Get_UI_Texture(TEXTURE_ID tex_id)
 {

@@ -57,6 +57,7 @@ public:
 	virtual void	DrawAt(int x, int y)const;
 	void			DrawChilds(bool debug)const;
 	virtual void	HandleInput();
+	virtual void	HandleControllerInput();
 
 	//Functionality
 	//Box functions

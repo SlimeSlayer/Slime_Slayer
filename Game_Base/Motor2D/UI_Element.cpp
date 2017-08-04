@@ -3,6 +3,7 @@
 #include "j1Input.h"
 #include "j1Gui.h"
 #include "SDL/include/SDL.h"
+#include "j1InputManager.h"
 
 //Constructors
 UI_Element::UI_Element(const SDL_Rect& box, UI_TYPE ui_type, bool IsActive) :box(box), ui_type(ui_type), IsActive(IsActive), input_target(App->gui->GetDefaultInputTarget()) {}
@@ -21,7 +22,12 @@ UI_Element::~UI_Element()
 // Game Loop ==============================================
 bool UI_Element::Update()
 {
-	if(!blocked)HandleInput();
+	if (!blocked)
+	{
+		if (App->gui->controller_mode && App->gui->ItemSelected == this)HandleControllerInput();
+		else HandleInput();
+	}
+
 	/*
 			This Update
 	*/
@@ -155,6 +161,39 @@ void UI_Element::HandleInput()
 	else if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN)
 	{
 		input_target->GUI_Input(this, SUPR);
+	}
+}
+
+void UI_Element::HandleControllerInput()
+{
+	// Focus Up -------------
+	if (App->input_manager->GetEvent(INPUT_EVENT::FOCUS_UP) == INPUT_DOWN || App->input_manager->GetEvent(INPUT_EVENT::FOCUS_UP) == INPUT_REPEAT)
+	{
+		input_target->GUI_Controller_Input(FOCUS_UP);
+	}
+
+	// Focus Down -----------
+	else if (App->input_manager->GetEvent(INPUT_EVENT::FOCUS_DOWN) == INPUT_DOWN || App->input_manager->GetEvent(INPUT_EVENT::FOCUS_DOWN) == INPUT_REPEAT)
+	{
+		input_target->GUI_Controller_Input(FOCUS_DOWN);
+	}
+
+	// Accept ---------------
+	else if (App->input_manager->GetEvent(INPUT_EVENT::ACCEPT) == INPUT_DOWN || App->input_manager->GetEvent(INPUT_EVENT::ACCEPT) == INPUT_REPEAT)
+	{
+		input_target->GUI_Controller_Input(ACCEPT);
+	}
+
+	// Add Value ------------
+	else if (App->input_manager->GetEvent(INPUT_EVENT::ADD_VALUE) == INPUT_DOWN || App->input_manager->GetEvent(INPUT_EVENT::ADD_VALUE) == INPUT_REPEAT)
+	{
+		input_target->GUI_Controller_Input(ADD_VALUE);
+	}
+
+	// Rest Value -----------
+	else if (App->input_manager->GetEvent(INPUT_EVENT::REST_VALUE) == INPUT_DOWN || App->input_manager->GetEvent(INPUT_EVENT::REST_VALUE) == INPUT_REPEAT)
+	{
+		input_target->GUI_Controller_Input(REST_VALUE);
 	}
 }
 

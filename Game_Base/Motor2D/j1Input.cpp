@@ -77,13 +77,13 @@ bool j1Input::PreUpdate()
 		{
 			if (keyboard[i] == KEY_IDLE)
 			{
-				if (App->gui->controller_mode)App->gui->controller_mode = false;
+				if (App->gui->controller_mode)App->gui->DeactivateControllerMode();
 				keyboard[i] = KEY_DOWN;
 				App->input_manager->SendKeyboardInputEvent(i, INPUT_STATE::INPUT_DOWN);
 			}
 			else
 			{
-				if (App->gui->controller_mode)App->gui->controller_mode = false;
+				if (App->gui->controller_mode)App->gui->DeactivateControllerMode();
 				keyboard[i] = KEY_REPEAT;
 				App->input_manager->SendKeyboardInputEvent(i, INPUT_STATE::INPUT_REPEAT);
 			}
@@ -108,7 +108,7 @@ bool j1Input::PreUpdate()
 	{
 		if (mouse_buttons[i] == KEY_DOWN)
 		{
-			if (App->gui->controller_mode)App->gui->controller_mode = false;
+			if (App->gui->controller_mode)App->gui->DeactivateControllerMode();
 			mouse_buttons[i] = KEY_REPEAT;
 		}
 
@@ -121,7 +121,7 @@ bool j1Input::PreUpdate()
 	{
 		if (controller_buttons[i] == KEY_DOWN || controller_buttons[i] == KEY_REPEAT)
 		{
-			if (!App->gui->controller_mode)App->gui->controller_mode = true;
+			if (!App->gui->controller_mode)App->gui->ActiveControllerMode();
 
 			controller_buttons[i] = KEY_REPEAT;
 			App->input_manager->SendControllerInputEvent(i, INPUT_STATE::INPUT_REPEAT);
