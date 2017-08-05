@@ -109,6 +109,16 @@ bool MainMenu::Start()
 	quit_button->SetParent(menu_branch);
 	quit_button->Activate();
 	menu_branch->AddChild(quit_button);
+
+	// Main Menu Links -----
+	start_button->SetNextInFocus(settings_button);
+	start_button->SetPrevInFocus(quit_button);
+	settings_button->SetNextInFocus(quit_button);
+	settings_button->SetPrevInFocus(start_button);
+	quit_button->SetNextInFocus(start_button);
+	quit_button->SetPrevInFocus(settings_button);
+	// ---------------------
+
 	// ------------------------------------------
 
 	//Build Setting Menu ------------------------
@@ -477,9 +487,16 @@ void MainMenu::GUI_Input(UI_Element * target, GUI_INPUT input)
 	}
 }
 
-void MainMenu::GUI_ControllerInput(INPUT_EVENT input_event)
+void MainMenu::GUI_Controller_Input(INPUT_EVENT input_event)
 {
-
+	/*if (input_event == INPUT_EVENT::FOCUS_NEXT)
+	{
+		App->gui->ItemSelected = App->gui->ItemSelected->GetNextInFocus();
+	}
+	else if (input_event == INPUT_EVENT::FOCUS_PREV)
+	{
+		App->gui->ItemSelected = App->gui->ItemSelected->GetNextInFocus();
+	}*/
 }
 
 UI_Element * MainMenu::GetCorrectItemToSelect() const

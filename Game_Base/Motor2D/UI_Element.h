@@ -46,6 +46,7 @@ public:
 
 	std::list<UI_Element*>		childs;
 	UI_Element*					next_in_focus = nullptr;
+	UI_Element*					prev_in_focus = nullptr;
 
 public:
 
@@ -95,9 +96,11 @@ public:
 	void				SetInputTarget(j1Module* target);
 	j1Module*			GetInputTarget()const;
 
-	// Next in focus
+	// Next/Prev in focus
 	void				SetNextInFocus(const UI_Element* target);
 	UI_Element*			GetNextInFocus()const;
+	void				SetPrevInFocus(const UI_Element* target);
+	UI_Element*			GetPrevInFocus()const;
 
 	//Block functions
 	virtual void		Block();

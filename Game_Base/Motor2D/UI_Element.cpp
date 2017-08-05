@@ -24,8 +24,14 @@ bool UI_Element::Update()
 {
 	if (!blocked)
 	{
-		if (App->gui->controller_mode && App->gui->ItemSelected == this)HandleControllerInput();
-		else HandleInput();
+		if (App->gui->controller_mode && App->gui->ItemSelected == this)
+		{
+			HandleControllerInput();
+		}
+		else
+		{
+			HandleInput();
+		}
 	}
 
 	/*
@@ -167,15 +173,15 @@ void UI_Element::HandleInput()
 void UI_Element::HandleControllerInput()
 {
 	// Focus Up -------------
-	if (App->input_manager->GetEvent(INPUT_EVENT::FOCUS_UP) == INPUT_DOWN || App->input_manager->GetEvent(INPUT_EVENT::FOCUS_UP) == INPUT_REPEAT)
+	if (App->input_manager->GetEvent(INPUT_EVENT::FOCUS_NEXT) == INPUT_DOWN)
 	{
-		input_target->GUI_Controller_Input(FOCUS_UP);
+		input_target->GUI_Controller_Input(FOCUS_NEXT);
 	}
 
 	// Focus Down -----------
-	else if (App->input_manager->GetEvent(INPUT_EVENT::FOCUS_DOWN) == INPUT_DOWN || App->input_manager->GetEvent(INPUT_EVENT::FOCUS_DOWN) == INPUT_REPEAT)
+	else if (App->input_manager->GetEvent(INPUT_EVENT::FOCUS_PREV) == INPUT_DOWN || App->input_manager->GetEvent(INPUT_EVENT::FOCUS_PREV) == INPUT_REPEAT)
 	{
-		input_target->GUI_Controller_Input(FOCUS_DOWN);
+		input_target->GUI_Controller_Input(FOCUS_PREV);
 	}
 
 	// Accept ---------------
@@ -377,6 +383,16 @@ void UI_Element::SetNextInFocus(const UI_Element * target)
 UI_Element * UI_Element::GetNextInFocus() const
 {
 	return next_in_focus;
+}
+
+void UI_Element::SetPrevInFocus(const UI_Element * target)
+{
+	prev_in_focus = (UI_Element*)target;
+}
+
+UI_Element * UI_Element::GetPrevInFocus() const
+{
+	return prev_in_focus;
 }
 
 void UI_Element::Block()

@@ -93,6 +93,16 @@ bool j1Gui::PreUpdate()
 		item++;
 	}
 
+	if (App->input_manager->GetEvent(INPUT_EVENT::FOCUS_NEXT) == INPUT_DOWN && ItemSelected != nullptr)
+	{
+		ItemSelected = ItemSelected->GetNextInFocus();
+	}
+	
+	else if (App->input_manager->GetEvent(INPUT_EVENT::FOCUS_PREV) == INPUT_DOWN && ItemSelected != nullptr)
+	{
+		ItemSelected = ItemSelected->GetPrevInFocus();
+	}
+
 	return ret;
 }
 
