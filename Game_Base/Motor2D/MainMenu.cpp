@@ -489,13 +489,167 @@ void MainMenu::GUI_Input(UI_Element * target, GUI_INPUT input)
 
 void MainMenu::GUI_Controller_Input(INPUT_EVENT input_event)
 {
-	/*if (input_event == INPUT_EVENT::FOCUS_NEXT)
+	UI_Element* target = App->gui->ItemSelected;
+
+	if (App->input_manager->GetEvent(INPUT_EVENT::FOCUS_NEXT) == INPUT_DOWN && target != nullptr)
 	{
-		App->gui->ItemSelected = App->gui->ItemSelected->GetNextInFocus();
+		App->gui->ItemSelected = target->GetNextInFocus();
 	}
-	else if (input_event == INPUT_EVENT::FOCUS_PREV)
+
+	else if (App->input_manager->GetEvent(INPUT_EVENT::FOCUS_PREV) == INPUT_DOWN && target != nullptr)
 	{
-		App->gui->ItemSelected = App->gui->ItemSelected->GetNextInFocus();
+		App->gui->ItemSelected = target->GetPrevInFocus();
+	}
+
+	else if (App->input_manager->GetEvent(ACCEPT) == INPUT_DOWN)
+	{
+		//Main Buttons ----------------
+		if (target == start_button && !start_button->GetBlockState())
+		{
+			start_button->Block();
+			App->ActiveTutorial();
+		}
+		else if (target == settings_button)
+		{
+			//Deactivate start, settings & quit buttons
+			start_button->Desactivate();
+			settings_button->Desactivate();
+			quit_button->Desactivate();
+
+			//Activate settings menu and all the childs
+			settings_menu->Activate();
+			settings_menu->ActivateChilds();
+			settings_audio_button->DesactivateChids();
+			settings_video_button->DesactivateChids();
+
+			//Set the correct input target in the new menu
+			App->gui->ItemSelected = settings_audio_button;
+		}
+		else if (target == quit_button)
+		{
+			App->SetQuit();
+		}
+
+		//Settings Buttons ------------
+		else if (target == settings_quit_button)
+		{
+			//Deactivate settings menu
+			settings_menu->Desactivate();
+			settings_menu->DesactivateChids();
+
+			//Activate menu buttons
+			start_button->Activate();
+			settings_button->Activate();
+			quit_button->Activate();
+
+			//Set the correct input target in the new menu
+			App->gui->ItemSelected = start_button;
+		}
+		else if (target == settings_audio_button)
+		{
+			//Deactivate settings menu
+			settings_menu->Desactivate();
+			settings_menu->DesactivateChids();
+
+			//Activate audio menu
+			audio_menu->Activate();
+			audio_menu->ActivateChilds();
+
+			//Set the correct input target in the new menu
+			App->gui->ItemSelected = master_audio_scroll;
+		}
+		else if (target == settings_video_button)
+		{
+			//Deactivate settings menu
+			settings_menu->Desactivate();
+			settings_menu->DesactivateChids();
+
+			//Activate audio menu
+			video_menu->Activate();
+			video_menu->ActivateChilds();
+
+			//Set the correct input target in the new menu
+			App->gui->ItemSelected = vsync_video_button;
+		}
+		//Audio Buttons ---------------
+		else if (target == audio_quit_button)
+		{
+			//Deactivate audio menu
+			audio_menu->Desactivate();
+			audio_menu->DesactivateChids();
+
+			//Activate settings menu
+			settings_menu->Activate();
+			settings_menu->ActivateChilds();
+
+			//Set the correct input target in the new menu
+			App->gui->ItemSelected = settings_audio_button;
+		}
+		//Video Buttons ---------------
+		else if (target == video_quit_button)
+		{
+			//Deactivate audio menu
+			video_menu->Desactivate();
+			video_menu->DesactivateChids();
+
+			//Activate settings menu
+			settings_menu->Activate();
+			settings_menu->ActivateChilds();
+
+			//Set the correct input target in the new menu
+			App->gui->ItemSelected = settings_audio_button;
+		}
+		else if (target == fullscreen_video_button)
+		{
+			App->win->ChangeFullscreen();
+		}
+		else if (target == vsync_video_button)
+		{
+			App->render->ChangeVSYNCstate(!App->render->vsync);
+		}
+	}
+	/*
+	else if (input == GUI_INPUT::MOUSE_LEFT_BUTTON_REPEAT)
+	{
+		//Audio Scrolls ---------------
+		if (target == master_audio_scroll)
+		{
+			//Master
+			App->main_menu->master_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->endless->master_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->tutorial->master_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->audio->SetMasterVolume(master_audio_scroll->GetValue());
+			//Music
+			App->main_menu->music_audio_scroll->SetScrollMaxValue(master_audio_scroll->GetValue());
+			App->endless->music_audio_scroll->SetScrollMaxValue(master_audio_scroll->GetValue());
+			App->tutorial->music_audio_scroll->SetScrollMaxValue(master_audio_scroll->GetValue());
+			App->main_menu->music_audio_scroll->RecalculateScrollValue();
+			App->endless->music_audio_scroll->RecalculateScrollValue();
+			App->tutorial->music_audio_scroll->RecalculateScrollValue();
+			App->audio->SetMusicVolume(music_audio_scroll->GetValue());
+			//FX
+			App->main_menu->fx_audio_scroll->SetScrollMaxValue(master_audio_scroll->GetValue());
+			App->endless->fx_audio_scroll->SetScrollMaxValue(master_audio_scroll->GetValue());
+			App->tutorial->fx_audio_scroll->SetScrollMaxValue(master_audio_scroll->GetValue());
+			App->main_menu->fx_audio_scroll->RecalculateScrollValue();
+			App->endless->fx_audio_scroll->RecalculateScrollValue();
+			App->tutorial->fx_audio_scroll->RecalculateScrollValue();
+			App->audio->SetFXVolume(fx_audio_scroll->GetValue());
+		}
+		else if (target == music_audio_scroll)
+		{
+			App->main_menu->music_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->endless->music_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->tutorial->music_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->audio->SetMusicVolume(music_audio_scroll->GetValue());
+		}
+		else if (target == fx_audio_scroll)
+		{
+			App->main_menu->fx_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->endless->fx_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->tutorial->fx_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->audio->SetFXVolume(fx_audio_scroll->GetValue());
+		}
 	}*/
 }
 

@@ -22,16 +22,9 @@ UI_Element::~UI_Element()
 // Game Loop ==============================================
 bool UI_Element::Update()
 {
-	if (!blocked)
+	if (!blocked && !App->gui->controller_mode)
 	{
-		if (App->gui->controller_mode && App->gui->ItemSelected == this)
-		{
-			HandleControllerInput();
-		}
-		else
-		{
-			HandleInput();
-		}
+		HandleInput();
 	}
 
 	/*
@@ -167,39 +160,6 @@ void UI_Element::HandleInput()
 	else if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN)
 	{
 		input_target->GUI_Input(this, SUPR);
-	}
-}
-
-void UI_Element::HandleControllerInput()
-{
-	// Focus Up -------------
-	if (App->input_manager->GetEvent(INPUT_EVENT::FOCUS_NEXT) == INPUT_DOWN)
-	{
-		input_target->GUI_Controller_Input(FOCUS_NEXT);
-	}
-
-	// Focus Down -----------
-	else if (App->input_manager->GetEvent(INPUT_EVENT::FOCUS_PREV) == INPUT_DOWN || App->input_manager->GetEvent(INPUT_EVENT::FOCUS_PREV) == INPUT_REPEAT)
-	{
-		input_target->GUI_Controller_Input(FOCUS_PREV);
-	}
-
-	// Accept ---------------
-	else if (App->input_manager->GetEvent(INPUT_EVENT::ACCEPT) == INPUT_DOWN || App->input_manager->GetEvent(INPUT_EVENT::ACCEPT) == INPUT_REPEAT)
-	{
-		input_target->GUI_Controller_Input(ACCEPT);
-	}
-
-	// Add Value ------------
-	else if (App->input_manager->GetEvent(INPUT_EVENT::ADD_VALUE) == INPUT_DOWN || App->input_manager->GetEvent(INPUT_EVENT::ADD_VALUE) == INPUT_REPEAT)
-	{
-		input_target->GUI_Controller_Input(ADD_VALUE);
-	}
-
-	// Rest Value -----------
-	else if (App->input_manager->GetEvent(INPUT_EVENT::REST_VALUE) == INPUT_DOWN || App->input_manager->GetEvent(INPUT_EVENT::REST_VALUE) == INPUT_REPEAT)
-	{
-		input_target->GUI_Controller_Input(REST_VALUE);
 	}
 }
 

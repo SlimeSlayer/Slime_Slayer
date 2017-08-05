@@ -6,6 +6,8 @@
 #include "p2Point.h"
 #include "SDL\include\SDL_rect.h"
 
+#define CONTROLLER_ON_ADD_VALUE		1
+#define CONTROLLER_ON_REST_VALUE	1
 
 class UI_Element;
 struct SDL_Texture;

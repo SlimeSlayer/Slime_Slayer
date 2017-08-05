@@ -93,14 +93,36 @@ bool j1Gui::PreUpdate()
 		item++;
 	}
 
-	if (App->input_manager->GetEvent(INPUT_EVENT::FOCUS_NEXT) == INPUT_DOWN && ItemSelected != nullptr)
+	if (ItemSelected == nullptr)return ret;
+
+	// Focus Up -------------
+	if (App->input_manager->GetEvent(INPUT_EVENT::FOCUS_NEXT) == INPUT_DOWN)
 	{
-		ItemSelected = ItemSelected->GetNextInFocus();
+		ItemSelected->GetInputTarget()->GUI_Controller_Input(FOCUS_NEXT);
 	}
-	
-	else if (App->input_manager->GetEvent(INPUT_EVENT::FOCUS_PREV) == INPUT_DOWN && ItemSelected != nullptr)
+
+	// Focus Down -----------
+	else if (App->input_manager->GetEvent(INPUT_EVENT::FOCUS_PREV) == INPUT_DOWN || App->input_manager->GetEvent(INPUT_EVENT::FOCUS_PREV) == INPUT_REPEAT)
 	{
-		ItemSelected = ItemSelected->GetPrevInFocus();
+		ItemSelected->GetInputTarget()->GUI_Controller_Input(FOCUS_PREV);
+	}
+
+	// Accept ---------------
+	else if (App->input_manager->GetEvent(INPUT_EVENT::ACCEPT) == INPUT_DOWN)
+	{
+		ItemSelected->GetInputTarget()->GUI_Controller_Input(ACCEPT);
+	}
+
+	// Add Value ------------
+	else if (App->input_manager->GetEvent(INPUT_EVENT::ADD_VALUE) == INPUT_DOWN || App->input_manager->GetEvent(INPUT_EVENT::ADD_VALUE) == INPUT_REPEAT)
+	{
+		ItemSelected->GetInputTarget()->GUI_Controller_Input(ADD_VALUE);
+	}
+
+	// Rest Value -----------
+	else if (App->input_manager->GetEvent(INPUT_EVENT::REST_VALUE) == INPUT_DOWN || App->input_manager->GetEvent(INPUT_EVENT::REST_VALUE) == INPUT_REPEAT)
+	{
+		ItemSelected->GetInputTarget()->GUI_Controller_Input(REST_VALUE);
 	}
 
 	return ret;
