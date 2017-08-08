@@ -166,6 +166,16 @@ bool MainMenu::Start()
 	settings_video_button->SetParent(menu_branch);
 	settings_video_button->Desactivate();
 	settings_menu->AddChild(settings_video_button);
+
+	//Setting Menu Links ----
+	settings_audio_button->SetNextInFocus(settings_video_button);
+	settings_audio_button->SetPrevInFocus(settings_quit_button);
+	settings_video_button->SetNextInFocus(settings_quit_button);
+	settings_video_button->SetPrevInFocus(settings_audio_button);
+	settings_quit_button->SetNextInFocus(settings_audio_button);
+	settings_quit_button->SetPrevInFocus(settings_video_button);
+	// ----------------------
+
 	// ------------------------------------------
 
 	//Build Audio Menu --------------------------
@@ -228,6 +238,19 @@ bool MainMenu::Start()
 	fx_audio_scroll->SetInputTarget(this);
 	audio_menu->AddChild(fx_audio_scroll);
 	
+	// Audio Menu Links -----
+	master_audio_scroll->SetNextInFocus(music_audio_scroll);
+	master_audio_scroll->SetPrevInFocus(audio_quit_button);
+	music_audio_scroll->SetNextInFocus(fx_audio_scroll);
+	music_audio_scroll->SetPrevInFocus(master_audio_scroll);
+	fx_audio_scroll->SetNextInFocus(audio_quit_button);
+	fx_audio_scroll->SetPrevInFocus(music_audio_scroll);
+	audio_quit_button->SetNextInFocus(master_audio_scroll);
+	audio_quit_button->SetPrevInFocus(fx_audio_scroll);
+	// ----------------------
+	
+	// ------------------------------------------
+
 	//Build Video Menu --------------------------
 	//Video menu base
 	video_menu = (UI_Image*)App->gui->GenerateUI_Element(UI_TYPE::IMG);
@@ -273,6 +296,17 @@ bool MainMenu::Start()
 	fullscreen_video_button->SetParent(menu_branch);
 	fullscreen_video_button->Desactivate();
 	video_menu->AddChild(fullscreen_video_button);
+
+	// Video Menu Links -----
+	vsync_video_button->SetNextInFocus(fullscreen_video_button);
+	vsync_video_button->SetPrevInFocus(video_quit_button);
+	fullscreen_video_button->SetNextInFocus(video_quit_button);
+	fullscreen_video_button->SetPrevInFocus(vsync_video_button);
+	video_quit_button->SetNextInFocus(vsync_video_button);
+	video_quit_button->SetPrevInFocus(fullscreen_video_button);
+	// ----------------------
+
+	// ------------------------------------------
 
 	//Add the built branch at the GUI 
 	App->gui->PushScreen(menu_branch);

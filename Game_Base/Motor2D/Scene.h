@@ -44,7 +44,7 @@ public:
 
 	//GUI functions -------------------
 	void		GUI_Input(UI_Element* target, GUI_INPUT input);
-	void		GUI_ControllerInput(INPUT_EVENT input_event);
+	void		GUI_Controller_Input(INPUT_EVENT input_event);
 	UI_Element*	GetCorrectItemToSelect()const;
 
 protected:

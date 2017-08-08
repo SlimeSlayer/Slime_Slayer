@@ -213,11 +213,15 @@ bool Endless::Update(float dt)
 			//Deactivate settings menu
 			settings_menu->Desactivate();
 			settings_menu->DesactivateChids();
+
 			//Activate menu buttons
 			settings_button->Activate();
 
 			//Set the correct app context
 			App->app_context = IN_GAME_CONTEXT;
+
+			//Set the correct input target in the new menu
+			App->gui->ItemSelected = nullptr;
 		}
 		else if (video_menu->GetActiveState() || audio_menu->GetActiveState())
 		{
@@ -226,9 +230,13 @@ bool Endless::Update(float dt)
 			video_menu->DesactivateChids();
 			audio_menu->Desactivate();
 			audio_menu->DesactivateChids();
+
 			//Activate settings menu
 			settings_menu->Activate();
 			settings_menu->ActivateChilds();
+
+			//Set the correct input target in the new menu
+			App->gui->ItemSelected = settings_audio_button;
 		}
 		else if (!death_menu->GetActiveState())
 		{
@@ -240,6 +248,9 @@ bool Endless::Update(float dt)
 
 			//Set the correct app context
 			App->app_context = PAUSE_CONTEXT;
+
+			//Set the correct input target in the new menu
+			App->gui->ItemSelected = settings_audio_button;
 		}
 	}
 	// ------------------------------------------
