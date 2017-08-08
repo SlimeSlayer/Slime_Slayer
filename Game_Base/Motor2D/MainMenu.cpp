@@ -642,16 +642,19 @@ void MainMenu::GUI_Controller_Input(INPUT_EVENT input_event)
 			App->render->ChangeVSYNCstate(!App->render->vsync);
 		}
 	}
-	/*
-	else if (input == GUI_INPUT::MOUSE_LEFT_BUTTON_REPEAT)
+	else if (App->input_manager->GetEvent(INPUT_EVENT::ADD_VALUE) != INPUT_NONE || App->input_manager->GetEvent(INPUT_EVENT::REST_VALUE) != INPUT_NONE)
 	{
+		uint value_to_add = 0;
+		if (App->input_manager->GetEvent(INPUT_EVENT::ADD_VALUE) != INPUT_NONE)value_to_add = CONTROLLER_ON_ADD_VALUE * App->GetDT();
+		else value_to_add = CONTROLLER_ON_REST_VALUE * App->GetDT();
+
 		//Audio Scrolls ---------------
 		if (target == master_audio_scroll)
 		{
 			//Master
-			App->main_menu->master_audio_scroll->MoveScroll(y_vel, x_vel);
-			App->endless->master_audio_scroll->MoveScroll(y_vel, x_vel);
-			App->tutorial->master_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->main_menu->master_audio_scroll->MoveScroll(0, value_to_add);
+			App->endless->master_audio_scroll->MoveScroll(0, value_to_add);
+			App->tutorial->master_audio_scroll->MoveScroll(0, value_to_add);
 			App->audio->SetMasterVolume(master_audio_scroll->GetValue());
 			//Music
 			App->main_menu->music_audio_scroll->SetScrollMaxValue(master_audio_scroll->GetValue());
@@ -672,19 +675,19 @@ void MainMenu::GUI_Controller_Input(INPUT_EVENT input_event)
 		}
 		else if (target == music_audio_scroll)
 		{
-			App->main_menu->music_audio_scroll->MoveScroll(y_vel, x_vel);
-			App->endless->music_audio_scroll->MoveScroll(y_vel, x_vel);
-			App->tutorial->music_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->main_menu->music_audio_scroll->MoveScroll(0, value_to_add);
+			App->endless->music_audio_scroll->MoveScroll(0, value_to_add);
+			App->tutorial->music_audio_scroll->MoveScroll(0, value_to_add);
 			App->audio->SetMusicVolume(music_audio_scroll->GetValue());
 		}
 		else if (target == fx_audio_scroll)
 		{
-			App->main_menu->fx_audio_scroll->MoveScroll(y_vel, x_vel);
-			App->endless->fx_audio_scroll->MoveScroll(y_vel, x_vel);
-			App->tutorial->fx_audio_scroll->MoveScroll(y_vel, x_vel);
+			App->main_menu->fx_audio_scroll->MoveScroll(0, value_to_add);
+			App->endless->fx_audio_scroll->MoveScroll(0, value_to_add);
+			App->tutorial->fx_audio_scroll->MoveScroll(0, value_to_add);
 			App->audio->SetFXVolume(fx_audio_scroll->GetValue());
 		}
-	}*/
+	}
 }
 
 UI_Element * MainMenu::GetCorrectItemToSelect() const

@@ -83,7 +83,7 @@ float UI_Scroll_Bar::GetValue() const
 bool UI_Scroll_Bar::MoveScroll(int mouse_y_motion, int mouse_x_motion)
 {
 	//Select the Scroll Item ----------
-	if (ScrollItem.MouseIsIn(box.x, box.y) || ScrollSelected)
+	if (ScrollItem.MouseIsIn(box.x, box.y) || ScrollSelected || (App->gui->controller_mode && App->gui->ItemSelected == this))
 	{
 		ScrollSelected = true;
 	}
