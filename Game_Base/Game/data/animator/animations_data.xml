@@ -1,13 +1,9 @@
 <data>
   <animations>
     <!--Creatures animations-->
-    <creatures>
-      <anim file="player.xml"/>
-      <anim file="basic_enemy.xml"/>
-    </creatures>
+      <anim file="player.xml"       entity_type="creature"/>
+      <anim file="basic_enemy.xml"  entity_type="creature"/>
     <!--Items animations-->
-    <items>
-      
-    </items>
+
   </animations>
 </data>

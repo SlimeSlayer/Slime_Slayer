@@ -97,7 +97,7 @@
   </file_system>
 
   <animator>
-    
+    <animations_data file="animator/animations_data.xml"/>
   </animator>
 
   <entities_manager>

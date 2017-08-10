@@ -8,6 +8,7 @@
 struct SDL_Texture;
 class Creature;
 class Item;
+enum ENTITY_TYPE;
 
 ///Animation Sprite Class -----------------------
 class Sprite
@@ -164,16 +165,21 @@ public:
 
 private:
 
+	//Data used to load animations during enable
+	pugi::xml_document	animations_data;
+	pugi::xml_node		current_enable_node;
+
+	//Vector that allocates all the base animation blocks
 	std::vector<Animation_Block*>	blocks;
 
 public:
 
 	//Load animation block
-	bool	LoadAnimationBlock(const char* xml_folder);
+	bool	LoadAnimationBlock(const char* xml_folder, ENTITY_TYPE entity_type);
 
 	//Animations Methods ----
-	/*bool	CreaturePlay(Creature* target);
-	bool	ItemPlay(Item* target);*/
+	bool	CreaturePlay(Creature* target);
+	bool	ItemPlay(Item* target);
 
 	//Arrow sprite
 	SDL_Texture* arrow = nullptr;

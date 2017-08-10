@@ -9,7 +9,7 @@
 #include "j1Textures.h"
 #include "SDL/include/SDL_rect.h"
 #include "p2Log.h"
-#include "BaseEntities.h"
+#include "j1EntitiesManager.h"
 
 ///Animation Sprite Class -----------------------
 //Constructor ===============
@@ -182,7 +182,7 @@ Animation_Block::~Animation_Block()
 {
 	ClearAnimationBlocks();
 
-	if (animation != nullptr)delete animation;
+	if (animation != nullptr)RELEASE(animation);
 }
 
 //Functionality =======================
@@ -191,14 +191,13 @@ void Animation_Block::ClearAnimationBlocks()
 	uint size = childs.size();
 	for (uint k = 0; k < size; k++)
 	{
-		delete childs[k];
+		RELEASE(childs[k]);
 	}
 
 	if (animation != nullptr)
 	{
 		animation->ReleaseTexture();
-		delete animation;
-		animation = nullptr;
+		RELEASE(animation);
 	}
 }
 
@@ -272,6 +271,43 @@ void j1Animator::Init()
 
 bool j1Animator::Enable()
 {
+	//Timer to count the operations time and respect the TIME_TO_ENABLE
+	j1Timer process_timer;
+
+	//If the enable node is null we focus it to the first one of the data document
+	if (current_enable_node.root() == NULL)
+	{
+		current_enable_node = animations_data.first_child().first_child().first_child();
+	}
+
+	//Iterate all the nodes
+	while (current_enable_node != NULL)
+	{
+		//Load the animation data of the current node
+		std::string folder = this->name + "/" + current_enable_node.attribute("file").as_string();
+		ENTITY_TYPE entity_type = App->entities_manager->StrToEntityType(current_enable_node.attribute("entity_type").as_string());
+		
+		if (LoadAnimationBlock(folder.c_str(),entity_type))
+		{
+			LOG("%s correctly loaded!", folder.c_str());
+		}
+		else LOG("Error loading: %s", folder.c_str());
+		
+		//Focus the next node
+		current_enable_node = current_enable_node.next_sibling();
+
+		//Break the enable process when the time is exceeded
+		if (current_enable_node.root() == NULL)
+		{
+			break;
+		}
+		
+		if(process_timer.Read() > TIME_TO_ENABLE)
+		{
+			return false;
+		}
+	}
+	
 	enabled = true;
 	active = false;
 
@@ -280,14 +316,35 @@ bool j1Animator::Enable()
 
 void j1Animator::Disable()
 {
+	//Clean the data loaded on the animations tree
+	uint size = blocks.size();
+	for (uint k = 0; k < size; k++)
+	{
+		blocks[k]->ClearAnimationBlocks();
+	}
+	
 	active = false;
 	enabled = false;
-	CleanUp();
+	
 }
 
 bool j1Animator::Awake(pugi::xml_node& config)
 {
-	return true;
+	bool ret = true;
+
+	//Load the animations data document from config
+	if (App->fs->LoadXML(config.child("animations_data").attribute("file").as_string(), &animations_data))
+	{
+		LOG("Animations data document loaded!");
+		ret = true;
+	}
+	else
+	{
+		LOG("Error loading animations data document!");
+		ret = false;
+	}
+
+	return ret;
 }
 
 bool j1Animator::Start()
@@ -323,14 +380,14 @@ bool j1Animator::CleanUp()
 
 	for (uint k = 0; k < size; k++)
 	{
-		delete blocks[k];
+		RELEASE(blocks[k]);
 	}
 	blocks.clear();
 
 	return true;
 }
 
-bool j1Animator::LoadAnimationBlock(const char * xml_folder)
+bool j1Animator::LoadAnimationBlock(const char * xml_folder, ENTITY_TYPE entity_type)
 {
 	/*//Load animations data from folders
 	//XML load
@@ -404,10 +461,10 @@ bool j1Animator::LoadAnimationBlock(const char * xml_folder)
 
 	return true;
 }
-/*
-bool j1Animator::UnitPlay(Unit* target)
+
+bool j1Animator::CreaturePlay(Creature* target)
 {
-	DIRECTION_TYPE direction = target->GetDirection();
+	/*DIRECTION_TYPE direction = target->GetDirection();
 	switch (direction)
 	{
 	case NORTH:	target->SetFlipSprite(false);	break;
@@ -469,14 +526,14 @@ bool j1Animator::UnitPlay(Unit* target)
 				return true;
 			}
 		}
-	}
+	}*/
 
 	return false;
 }
 
-bool j1Animator::BuildingPlay(Building* target)
+bool j1Animator::ItemPlay(Item* target)
 {
-	DiplomaticAnimation_Block* block = nullptr;
+	/*DiplomaticAnimation_Block* block = nullptr;
 
 	//Iterate all blocks of childs vector
 	uint size = building_blocks.size();
@@ -510,8 +567,7 @@ bool j1Animator::BuildingPlay(Building* target)
 				return true;
 			}
 		}
-	}
+	}*/
 
 	return false;
 }
-*/

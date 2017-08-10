@@ -620,6 +620,7 @@ void j1App::ActiveMainMenu()
 	modules_to_disable.push_back(entities_manager);
 	modules_to_disable.push_back(particle_manager);
 	modules_to_disable.push_back(physics);
+	modules_to_disable.push_back(animator);
 
 	// Active all the necessary scene modules
 	App->main_menu->Active();
@@ -648,6 +649,7 @@ void j1App::ActiveTutorial()
 	modules_to_disable.push_back(player);
 	modules_to_disable.push_back(entities_manager);
 	modules_to_disable.push_back(particle_manager);
+	modules_to_disable.push_back(animator);
 
 	// Active all the necessary scene modules
 	App->player->Active();
@@ -655,6 +657,7 @@ void j1App::ActiveTutorial()
 	App->particle_manager->Active();
 	App->tutorial->Active();
 	App->physics->Active();
+	App->animator->Active();
 
 	//Enable active modules
 	want_to_enable = true;
@@ -680,6 +683,7 @@ void j1App::ActiveEndless()
 	modules_to_disable.push_back(entities_manager);
 	modules_to_disable.push_back(particle_manager);
 	modules_to_disable.push_back(physics);
+	modules_to_disable.push_back(animator);
 
 	// Active all the necessary scene modules
 	App->player->Active();
@@ -687,6 +691,7 @@ void j1App::ActiveEndless()
 	App->entities_manager->Active();
 	App->particle_manager->Active();
 	App->endless->Active();
+	App->animator->Active();
 
 	//Enable active modules
 	want_to_enable = true;
