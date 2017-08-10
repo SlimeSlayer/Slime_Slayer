@@ -43,6 +43,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	gui = new j1Gui();
 	video = new j1Video();
 	physics = new j1Physics();
+	animator = new j1Animator();
 	entities_manager = new j1EntitiesManager();
 	particle_manager = new j1ParticleManager();
 	player = new j1Player();
@@ -62,6 +63,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(gui);
 	AddModule(video);
 	AddModule(physics);
+	AddModule(animator);
 	AddModule(entities_manager);
 	AddModule(particle_manager);
 	AddModule(player);

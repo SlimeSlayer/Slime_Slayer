@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<atlas texture="player.png" width="782" height="782">
+  <!-- Define the creature type-->
+  <creature id ="player">
+
+    <!-- Attack Action-->
+    <action enum="attack" speed="200">
+      
+      <direction enum="east">
+        <sprite x="1"  y="1" w="30" h="56" pX="0.466667" pY="0.767857"/>
+        <sprite x="33" y="1" w="28" h="58" pX="0.571429" pY="0.706897"/>
+        <sprite x="63" y="1" w="31" h="56" pX="0.677419" pY="0.678571"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite x="1" y="1" w="30" h="56" pX="0.466667" pY="0.767857"/>
+        <sprite x="33" y="1" w="28" h="58" pX="0.571429" pY="0.706897"/>
+        <sprite x="63" y="1" w="31" h="56" pX="0.677419" pY="0.678571"/>
+      </direction>
+      
+    </action>
+
+    <!--Die Action-->
+    <action enum ="die" speed="200">
+      
+      <direction enum="east">
+        <sprite x="1" y="1" w="30" h="56" pX="0.466667" pY="0.767857"/>
+        <sprite x="33" y="1" w="28" h="58" pX="0.571429" pY="0.706897"/>
+        <sprite x="63" y="1" w="31" h="56" pX="0.677419" pY="0.678571"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite x="1" y="1" w="30" h="56" pX="0.466667" pY="0.767857"/>
+        <sprite x="33" y="1" w="28" h="58" pX="0.571429" pY="0.706897"/>
+        <sprite x="63" y="1" w="31" h="56" pX="0.677419" pY="0.678571"/>
+      </direction>
+      
+    </action>
+
+    <!--Disappear Action-->
+    <action enum ="disappear" speed="1500">
+      
+      <direction enum="east">
+        <sprite x="1" y="1" w="30" h="56" pX="0.466667" pY="0.767857"/>
+        <sprite x="33" y="1" w="28" h="58" pX="0.571429" pY="0.706897"/>
+        <sprite x="63" y="1" w="31" h="56" pX="0.677419" pY="0.678571"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite x="1" y="1" w="30" h="56" pX="0.466667" pY="0.767857"/>
+        <sprite x="33" y="1" w="28" h="58" pX="0.571429" pY="0.706897"/>
+        <sprite x="63" y="1" w="31" h="56" pX="0.677419" pY="0.678571"/>
+      </direction>
+      
+    </action>
+
+    <!--Idle Action-->
+    <action enum ="idle" speed="150">
+      
+      <direction enum="no_direction">
+        <sprite x="0"  y="4" w="19" h="16" pX="0.466667" pY="0.767857"/>
+        <sprite x="21" y="4" w="18" h="16" pX="0.571429" pY="0.706897"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite x="1" y="1" w="30" h="56" pX="0.466667" pY="0.767857"/>
+        <sprite x="33" y="1" w="28" h="58" pX="0.571429" pY="0.706897"/>
+        <sprite x="63" y="1" w="31" h="56" pX="0.677419" pY="0.678571"/>
+      </direction>
+      
+    </action>
+
+    <!--Walk Action-->
+    <action enum ="walk" speed="100">
+      
+      <direction enum="east">
+        <sprite x="1" y="1" w="30" h="56" pX="0.466667" pY="0.767857"/>
+        <sprite x="33" y="1" w="28" h="58" pX="0.571429" pY="0.706897"/>
+        <sprite x="63" y="1" w="31" h="56" pX="0.677419" pY="0.678571"/>
+      </direction>
+
+      <direction enum="west">
+        <sprite x="1" y="1" w="30" h="56" pX="0.466667" pY="0.767857"/>
+        <sprite x="33" y="1" w="28" h="58" pX="0.571429" pY="0.706897"/>
+        <sprite x="63" y="1" w="31" h="56" pX="0.677419" pY="0.678571"/>
+      </direction>
+      
+    </action>
+  </creature>
+</atlas>

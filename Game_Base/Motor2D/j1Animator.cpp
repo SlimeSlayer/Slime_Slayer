@@ -1,4 +1,4 @@
-/*#include "j1Animator.h"
+#include "j1Animator.h"
 
 #include <time.h>
 #include <stdlib.h>
@@ -9,6 +9,7 @@
 #include "j1Textures.h"
 #include "SDL/include/SDL_rect.h"
 #include "p2Log.h"
+#include "BaseEntities.h"
 
 ///Animation Sprite Class -----------------------
 //Constructor ===============
@@ -119,7 +120,7 @@ const Sprite* Animation::GetCurrentSprite()
 {
 	if (current_frame == -1)return &sprites[sprites.size() - 1];
 
-	if (App->paused)return &sprites[(int)current_frame];
+	//if (App->paused)return &sprites[(int)current_frame];
 
 	current_frame = (float)floor(timer.Read() / speed);
 	if (current_frame >= sprites.size())
@@ -269,6 +270,14 @@ void j1Animator::Init()
 	enabled = false;
 }
 
+bool j1Animator::Enable()
+{
+	enabled = true;
+	active = false;
+
+	return true;
+}
+
 void j1Animator::Disable()
 {
 	active = false;
@@ -283,13 +292,27 @@ bool j1Animator::Awake(pugi::xml_node& config)
 
 bool j1Animator::Start()
 {
-	arrow = App->tex->Load("buff_manager/arrow.PNG");
+	// arrow = App->tex->Load("buff_manager/arrow.PNG");
 
-	return true;
-}
+	//Define the animations blocks base to build the tree when animations are loaded
+	if (blocks.empty())
+	{
+		//Creatures base animation block
+		Animation_Block* creatures_block = new Animation_Block();
+		creatures_block->SetId(ENTITY_TYPE::CREATURE);
+		blocks.push_back(creatures_block);
+		//Items base animation block
+		Animation_Block* items_block = new Animation_Block();
+		items_block->SetId(ENTITY_TYPE::ITEM);
+		blocks.push_back(items_block);
 
-bool j1Animator::PostUpdate()
-{
+	}
+	else
+	{
+		LOG("Error animations blocks already allocated!");
+		return false;
+	}
+
 	return true;
 }
 
@@ -307,21 +330,21 @@ bool j1Animator::CleanUp()
 	return true;
 }
 
-bool j1Animator::LoadBlock(const char * xml_folder)
+bool j1Animator::LoadAnimationBlock(const char * xml_folder)
 {
-	//Load animations data from folders
+	/*//Load animations data from folders
 	//XML load
 	LOG("Loading: %s", xml_folder);
 	std::string load_folder = name + "/" + xml_folder;
-	pugi::xml_document resource_anim_data;
-	if (!App->fs->LoadXML(load_folder.c_str(), &resource_anim_data))return false;
+	pugi::xml_document entity_anim_data;
+	if (!App->fs->LoadXML(load_folder.c_str(), &entity_anim_data))return false;
 	//Texture load
-	load_folder = name + "/" + resource_anim_data.child("TextureAtlas").attribute("imagePath").as_string();
+	load_folder = name + "/" + entity_anim_data.child("atlas").attribute("texture").as_string();
 	SDL_Texture* texture = App->tex->Load(load_folder.c_str());
 
 	//Node to a resource type
-	pugi::xml_node resource_node = resource_anim_data.first_child().first_child();
-	while (resource_node != NULL)
+	pugi::xml_node entity_node = entity_anim_data.first_child().first_child();
+	while (entity_node != NULL)
 	{
 		//Create a pointer to the new resource AnimationBlock
 		Animation_Block* resource_block = new Animation_Block();
@@ -377,11 +400,11 @@ bool j1Animator::LoadBlock(const char * xml_folder)
 		resource_blocks.push_back(resource_block);
 
 		resource_node = resource_node.next_sibling();
-	}
+	}*/
 
 	return true;
 }
-
+/*
 bool j1Animator::UnitPlay(Unit* target)
 {
 	DIRECTION_TYPE direction = target->GetDirection();
@@ -489,40 +512,6 @@ bool j1Animator::BuildingPlay(Building* target)
 		}
 	}
 
-	return false;
-}
-
-bool j1Animator::ResourcePlay(Resource * target)
-{
-	//Initialize random numbers generator
-	time_t t;
-	srand(time(&t));
-
-	//Iterate the resource animations vector
-	uint size = resource_blocks.size();
-	for (uint k = 0; k < size; k++)
-	{
-		//Compare resource type id
-		if (resource_blocks[k]->GetId() == target->GetResourceType())
-		{
-			//Generate a random number to select one of the possible animations
-			uint rand_index = rand() % resource_blocks[k]->GetChildsNum();
-			//Choose the child with the random index and get its animation
-			Animation* anim = new Animation(*resource_blocks[k]->GetBlock(rand_index)->GetAnimation());
-
-			if (anim != nullptr)
-			{
-				target->CleanAnimation();
-				target->SetAnimation(anim);
-				return true;
-			}
-			else
-			{
-				LOG("Error getting resource animation");
-				return false;
-			}
-		}
-	}
 	return false;
 }
 */

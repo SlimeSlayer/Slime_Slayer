@@ -1,4 +1,4 @@
-/*#ifndef _J1ANIMATOR_H_
+#ifndef _J1ANIMATOR_H_
 #define _J1ANIMATOR_H_
 
 #include "j1Module.h"
@@ -6,19 +6,8 @@
 #include "p2Point.h"
 #include "SDL/include/SDL_rect.h"
 struct SDL_Texture;
-class Unit;
-class Building;
-class Resource;
-enum UNIT_TYPE;
-enum UNIT_CLASS;
-enum ACTION_TYPE;
-enum DIRECTION_TYPE;
-enum BUILDING_TYPE;
-enum RESOURCE_TYPE;
-enum ATTACK_TYPE;
-enum ENTITY_TYPE;
-enum ITEM_TYPE;
-enum DIPLOMACY;
+class Creature;
+class Item;
 
 ///Animation Sprite Class -----------------------
 class Sprite
@@ -72,6 +61,8 @@ protected:
 	//Animation update rate
 	uint					speed = 2500;
 	j1Timer					timer;
+	//Animation flip 
+	bool					flip_sprites = false;
 
 public:
 
@@ -159,6 +150,7 @@ public:
 public:
 
 	void Init();
+	bool Enable();
 	void Disable();
 
 	// Called before render is available
@@ -166,9 +158,6 @@ public:
 
 	// Called before the first frame
 	bool Start();
-
-	// Called each loop iteration
-	bool PostUpdate();
 
 	// Called before quitting
 	bool CleanUp();
@@ -179,14 +168,14 @@ private:
 
 public:
 
-	bool		LoadBlock(const char* xml_folder);
+	//Load animation block
+	bool	LoadAnimationBlock(const char* xml_folder);
 
 	//Animations Methods ----
-	bool UnitPlay(Unit* target);
-	bool BuildingPlay(Building* target);
-	bool ResourcePlay(Resource* target);
+	/*bool	CreaturePlay(Creature* target);
+	bool	ItemPlay(Item* target);*/
+
 	//Arrow sprite
 	SDL_Texture* arrow = nullptr;
 };
 #endif // !_J1ANIMATOR_H_
-*/
