@@ -76,8 +76,9 @@ protected:
 	PhysBody*		body = nullptr;
 	std::string		name = "";
 	std::string		description = "";
-	//Animation*	current_animation = nullptr;
+	Animation*		current_animation = nullptr;
 
+	ACTION_TYPE		action_type = NO_ACTION;
 	DIRECTION		direction = NO_DIRECTION;
 
 public:
@@ -92,6 +93,8 @@ public:
 	void			SetDescription(std::string new_description);
 	void			SetBody(PhysBody* new_body);
 	virtual void	SetPosition(float x, float y);
+	void			SetAnimation(Animation* animation);
+	void			SetActionType(ACTION_TYPE action_type);
 	void			SetDirection(DIRECTION direction);
 
 	//Get Methods -----------
@@ -99,6 +102,8 @@ public:
 	const char*	GetName()const;
 	const char*	GetDescription()const;
 	PhysBody*	GetBody()const;
+	Animation*	GetAnimation()const;
+	ACTION_TYPE GetActionType()const;
 	DIRECTION	GetDirection()const;
 
 	//Functionality ---------

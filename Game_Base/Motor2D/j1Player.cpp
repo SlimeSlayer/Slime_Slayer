@@ -7,6 +7,8 @@
 #include "j1Render.h"
 #include "Scene.h"
 #include "Worker.h"
+#include "j1Animator.h"
+
 #include "p2Log.h"
 
 // Constructors =================================
@@ -37,7 +39,7 @@ bool j1Player::Enable()
 	RELEASE(bdy_def);
 	avatar->GetBody()->body->GetFixtureList()->SetFriction(0.0f);
 	avatar->GetBody()->entity_related = avatar;
-
+	App->animator->EntityPlay(avatar);
 	enabled = true;
 	active = false;
 

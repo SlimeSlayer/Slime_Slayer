@@ -17,7 +17,7 @@ Entity::Entity()
 
 }
 
-Entity::Entity(const Entity & copy, bool generate_body) : entity_type(copy.entity_type), name(copy.name), description(copy.description)
+Entity::Entity(const Entity & copy, bool generate_body) : entity_type(copy.entity_type), name(copy.name), description(copy.description), action_type(copy.action_type), direction(copy.direction)
 {
 	if (generate_body)
 	{
@@ -73,6 +73,16 @@ void Entity::SetPosition(float x, float y)
 	body->SetPosition(x, y);
 }
 
+void Entity::SetAnimation(Animation * animation)
+{
+	current_animation = animation;
+}
+
+void Entity::SetActionType(ACTION_TYPE action_type)
+{
+	this->action_type = action_type;
+}
+
 void Entity::SetDirection(DIRECTION direction)
 {
 	this->direction = direction;
@@ -97,6 +107,16 @@ const char* Entity::GetDescription() const
 PhysBody * Entity::GetBody() const
 {
 	return body;
+}
+
+Animation * Entity::GetAnimation() const
+{
+	return current_animation;
+}
+
+ACTION_TYPE Entity::GetActionType() const
+{
+	return action_type;
 }
 
 DIRECTION Entity::GetDirection() const
@@ -161,6 +181,7 @@ Creature::Creature()
 Creature::Creature(const Creature & copy, bool generate_body) : Entity(copy, generate_body), creature_type(copy.creature_type), life(copy.life), attack_hitpoints(copy.attack_hitpoints), attack_rate(copy.attack_rate), mov_speed(copy.mov_speed), jump_force(copy.jump_force), money(copy.money), reward_experience(copy.reward_experience), level(copy.level)
 {
 	entity_type = CREATURE;
+	action_type = IDLE_ACTION;
 }
 
 // Destructors ========================

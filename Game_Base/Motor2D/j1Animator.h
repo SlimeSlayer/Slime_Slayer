@@ -6,7 +6,7 @@
 #include "p2Point.h"
 #include "SDL/include/SDL_rect.h"
 struct SDL_Texture;
-class Creature;
+class Entity;
 class Item;
 enum ENTITY_TYPE;
 
@@ -178,8 +178,7 @@ public:
 	bool	LoadAnimationBlock(const char* xml_folder, ENTITY_TYPE entity_type);
 
 	//Animations Methods ----
-	bool	CreaturePlay(Creature* target);
-	bool	ItemPlay(Item* target);
+	bool	EntityPlay(Entity* target);
 
 	//Arrow sprite
 	SDL_Texture* arrow = nullptr;

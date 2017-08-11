@@ -591,6 +591,7 @@ Creature * j1EntitiesManager::GenerateCreature(CREATURE_TYPE creature_type, bool
 	if (generate_body)
 	{
 		AddEntity(new_creature);
+		App->animator->EntityPlay(new_creature);
 	}
 
 	return new_creature;
@@ -623,6 +624,7 @@ Item* j1EntitiesManager::GenerateItem(ITEM_TYPE item_type, bool generate_body)
 	if (generate_body)
 	{
 		AddEntity(new_item);
+		//App->animator->EntityPlay(new_item);
 	}
 
 	return new_item;

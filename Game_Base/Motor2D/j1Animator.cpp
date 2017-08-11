@@ -193,6 +193,7 @@ void Animation_Block::ClearAnimationBlocks()
 	{
 		RELEASE(childs[k]);
 	}
+	childs.clear();
 
 	if (animation != nullptr)
 	{
@@ -520,112 +521,56 @@ bool j1Animator::LoadAnimationBlock(const char * xml_folder, ENTITY_TYPE entity_
 	return true;
 }
 
-bool j1Animator::CreaturePlay(Creature* target)
+bool j1Animator::EntityPlay(Entity* target)
 {
-	/*DIRECTION_TYPE direction = target->GetDirection();
-	switch (direction)
+	//Branch to find the correct tree node
+	Animation_Block* animation_branch = nullptr;
+
+	//Iterate blocks vector
+	uint size = blocks.size();
+	for (uint k = 0; k < size; k++)
 	{
-	case NORTH:	target->SetFlipSprite(false);	break;
-
-	case NORTH_EAST:
-		direction = NORTH_WEST;
-		target->SetFlipSprite(true);
-		break;
-
-	case EAST:
-		direction = WEST;
-		target->SetFlipSprite(true);
-		break;
-
-	case SOUTH_EAST:
-		direction = SOUTH_WEST;
-		target->SetFlipSprite(true);
-		break;
-
-	case SOUTH:			target->SetFlipSprite(false);	break;
-	case SOUTH_WEST:	target->SetFlipSprite(false);	break;
-	case WEST:			target->SetFlipSprite(false);	break;
-	case NORTH_WEST:	target->SetFlipSprite(false);	break;
+		//Search the correct entity type branch
+		if (blocks[k]->GetId() == target->GetEntityType())
+		{
+			animation_branch = blocks[k];
+		}
 
 	}
-	DiplomaticAnimation_Block* block = nullptr;
-
-	//Iterate all blocks of childs vector
-	uint size = unit_blocks.size();
-	for (uint k = 0; k < size; k++)
+	if (animation_branch == nullptr)
 	{
-		//Pointer to the current block
-		block = unit_blocks[k];
-
-		//Compare block unit id
-		if (block->GetId() == target->GetUnitType())
-		{
-			if (block->GetId() == VILLAGER)
-			{
-				//If the unit is a villager we need to check the item that is carrying
-				block = block->SearchId(((Villager*)target)->GetItemType());
-			}
-			//Compare block action id
-			block = block->SearchId(target->GetAction());
-			//If action block is found search the correct direction block
-			if (block != nullptr)block = block->SearchId(direction);
-			//If direction block is found returns the block animation
-			if (block != nullptr)
-			{
-				target->CleanAnimation();
-				DiplomaticAnimation* anim = new DiplomaticAnimation(*block->GetAnimation());
-				if (anim != nullptr)
-				{
-					target->SetAnimation((Animation*)anim);
-					target->GetAnimation()->Reset();
-				}
-				else LOG("Error in unit animation Play");
-
-				return true;
-			}
-		}
-	}*/
-
-	return false;
-}
-
-bool j1Animator::ItemPlay(Item* target)
-{
-	/*DiplomaticAnimation_Block* block = nullptr;
-
-	//Iterate all blocks of childs vector
-	uint size = building_blocks.size();
-	for (uint k = 0; k < size; k++)
+		LOG("Error finding entity branch");
+		return false;
+	}
+	
+	//Find the specific entity type
+	if (target->GetEntityType() == CREATURE)animation_branch = animation_branch->SearchId(((Creature*)target)->GetCreatureType());
+	else animation_branch = animation_branch->SearchId(((Item*)target)->GetItemType());
+	if (animation_branch == nullptr)
 	{
-		//Pointer to the current block
-		block = building_blocks[k];
+		LOG("Error finding specific entity branch");
+		return false;
+	}
 
-		//Compare block unit id
-		if (block->GetId() == target->GetBuildingType())
-		{
-			//Compare block action id
-			block = block->SearchId(target->GetActionType());
-			//If action block is found search the correct direction block or return unidirectional action
-			if (target->GetDirectionType() == NO_DIRECTION)
-			{
-				DiplomaticAnimation* anim = new DiplomaticAnimation(*block->GetAnimation());
-				if (anim == nullptr)LOG("Error in building Play");
-				target->CleanAnimation();
-				target->SetAnimation((Animation*)anim);
-				return true;
-			}
-			if (block != nullptr)block = block->SearchId(target->GetDirectionType());
-			//If direction block is found returns the block animation
-			if (block != nullptr)
-			{
-				DiplomaticAnimation* anim = new DiplomaticAnimation(*block->GetAnimation());
-				if (anim == nullptr)LOG("Error in building Play");
-				target->CleanAnimation();
-				target->SetAnimation((Animation*)anim);
-				return true;
-			}
-		}
-	}*/
+	//Find the action branch
+	animation_branch = animation_branch->SearchId(target->GetActionType());
+	if (animation_branch == nullptr)
+	{
+		LOG("Error finding action branch");
+		return false;
+	}
 
-	return false;
+	//Find the direction branch
+	animation_branch = animation_branch->SearchId(target->GetDirection());
+	if (animation_branch == nullptr)
+	{
+		LOG("Error finding direction branch");
+		return false;
+	}
+
+	//Set the animation of the branch found
+	target->SetAnimation(animation_branch->GetAnimation());
+	target->GetAnimation()->Reset();
+		
+	return true;
 }

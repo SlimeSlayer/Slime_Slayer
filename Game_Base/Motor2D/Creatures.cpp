@@ -6,8 +6,11 @@
 #include "j1Gui.h"
 #include "j1ParticleManager.h"
 #include "j1EntitiesManager.h"
+#include "j1Render.h"
+#include "j1Animator.h"
 
 #include "UI_String.h"
+
 
 /// Evolution_Template --------------------------
 // Constructors =======================
@@ -62,6 +65,14 @@ bool Intelligent_Creature::Update()
 	worker.Update();
 
 	this->UpdatePosition();
+
+	if (current_animation != nullptr)
+	{
+		int x = 0, y = 0;
+		this->body->GetPosition(x, y);
+		const Sprite* sprite = current_animation->GetCurrentSprite();
+		App->render->CallBlit(current_animation->GetTexture(), x, y, sprite->GetFrame(), current_animation->GetLoop());
+	}
 
 	return true;
 }
