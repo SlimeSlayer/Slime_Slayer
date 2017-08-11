@@ -35,7 +35,7 @@ void UI_String::Draw(bool debug) const
 	//This Draw
 	
 	if (debug)App->render->DrawQuad({ box.x - App->render->camera.x,box.y - App->render->camera.y,box.w,box.h }, 255, 255, 255);
-	if (text_texture != nullptr)App->render->CallBlit(text_texture, box.x - App->render->camera.x, box.y - App->render->camera.y, NULL, false, 0);
+	if (text_texture != nullptr)App->render->CallBlit(text_texture, box.x - App->render->camera.x, box.y - App->render->camera.y, NULL, false);
 
 	//Childs Draw
 	DrawChilds(debug);

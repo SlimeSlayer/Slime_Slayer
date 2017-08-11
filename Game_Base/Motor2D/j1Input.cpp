@@ -64,6 +64,9 @@ bool j1Input::Start()
 // Called each loop iteration
 bool j1Input::PreUpdate()
 {
+	//During app fade input is cancelled
+	if (App->fade_in || App->fade_out)return true;
+
 	//Reset mouse motion
 	mouse_motion_x = mouse_motion_y = 0;
 

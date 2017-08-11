@@ -10,7 +10,7 @@
 
 #define TIME_TO_ENABLE 5
 #define FADE_OUT_TIME 1.5f
-#define FADE_IN_TIME 4.0f
+#define FADE_IN_TIME 0.8f
 
 struct SDL_Texture;
 
