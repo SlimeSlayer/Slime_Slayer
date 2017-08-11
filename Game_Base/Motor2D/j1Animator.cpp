@@ -450,7 +450,47 @@ bool j1Animator::LoadAnimationBlock(const char * xml_folder, ENTITY_TYPE entity_
 			DIRECTION direction_id = App->entities_manager->StrToDirection(direction_node.attribute("enum").as_string());
 			direction_animation_block->SetId(direction_id);
 
-			/*Load animation data*/
+			//Allocate the animation 
+			Animation* new_animation = new Animation();
+
+			//Animation texture
+			new_animation->SetTexture(texture);
+
+			//Animation speed
+			new_animation->SetSpeed(data_node.attribute("speed").as_uint());
+			
+			//Animation loop
+			new_animation->SetLoop(data_node.attribute("loop").as_bool());
+
+			//Animation enum id
+			new_animation->SetId(direction_id);
+
+			//Focus the first sprite of the current animation
+			pugi::xml_node sprite = direction_node.first_child();
+			while (sprite != NULL)
+			{
+				//Load sprite rect
+				SDL_Rect rect = { sprite.attribute("x").as_int(),sprite.attribute("y").as_int(),sprite.attribute("w").as_int(),sprite.attribute("h").as_int() };
+				
+				//Load sprite pivot
+				float pX = sprite.attribute("pX").as_float() * rect.w;
+				pX = (pX > (floor(pX) + 0.5f)) ? ceil(pX) : floor(pX);
+				float pY = sprite.attribute("pY").as_float() * rect.h;
+				pY = (pY > (floor(pY) + 0.5f)) ? ceil(pY) : floor(pY);
+				
+				//Load sprite opacity
+				uint opacity = sprite.attribute("opacity").as_uint();
+				if (opacity == 0)opacity = 255;
+
+				//Add sprite at animation
+				new_animation->AddSprite(rect, iPoint(pX, pY), sprite.attribute("z").as_int(), opacity);
+
+				//Focus next animation sprite
+				sprite = sprite.next_sibling();
+			}
+
+			//Add the animation generated to the direction block
+			direction_animation_block->SetAnimation(new_animation);
 
 			//Focus the next direction node
 			direction_node = direction_node.next_sibling();
@@ -466,66 +506,17 @@ bool j1Animator::LoadAnimationBlock(const char * xml_folder, ENTITY_TYPE entity_
 		data_node = data_node.next_sibling();
 	}
 
-	/*while (entity_node != NULL)
+	//Add built entity animation block on the correct blocks vector branch
+
+	uint size = blocks.size();
+	for (uint k = 0; k < size; k++)
 	{
-		//Create a pointer to the new resource AnimationBlock
-		Animation_Block* resource_block = new Animation_Block();
-		resource_block->SetId(StrToResourceEnum(resource_node.attribute("id").as_string()));
-
-		//Focus the first element of the current resource
-		pugi::xml_node element_node = resource_node.first_child();
-		while (element_node != NULL)
+		if (blocks[k]->GetId() == entity_type)
 		{
-			//Build an animation block for the current element
-			Animation_Block* element_block = new Animation_Block();
-
-			//Build current element animation
-			Animation* anim = new Animation();
-			anim->SetLoop(false);
-
-			//Focus the first sprite of the current element
-			pugi::xml_node sprite = element_node.first_child();
-			while (sprite != NULL)
-			{
-				//Load sprite rect
-				SDL_Rect rect = { sprite.attribute("x").as_int(),sprite.attribute("y").as_int(),sprite.attribute("w").as_int(),sprite.attribute("h").as_int() };
-				//Load sprite pivot
-				float pX = sprite.attribute("pX").as_float() * rect.w;
-				pX = (pX > (floor(pX) + 0.5f)) ? ceil(pX) : floor(pX);
-				float pY = sprite.attribute("pY").as_float() * rect.h;
-				pY = (pY > (floor(pY) + 0.5f)) ? ceil(pY) : floor(pY);
-				//Load sprite opacity
-				uint opacity = sprite.attribute("opacity").as_uint();
-				if (opacity == 0)opacity = 255;
-
-				//Add sprite at animation
-				anim->AddSprite(rect, iPoint(pX, pY), sprite.attribute("z").as_int(), opacity);
-
-				//Focus next animation sprite
-				sprite = sprite.next_sibling();
-			}
-
-			//Set built animation texture
-			anim->SetTexture(texture);
-
-			//Set animation of the current element block
-			element_block->SetAnimation(anim);
-
-			//Add element block to the resource childs list
-			resource_block->AddAnimationBlock(element_block);
-
-			//Focus the next element node
-			element_node = element_node.next_sibling();
+			blocks[k]->AddAnimationBlock(entity_animation_block);
 		}
-
-		//Add resource block built at the resources vector
-		resource_blocks.push_back(resource_block);
-
-		resource_node = resource_node.next_sibling();
-	}*/
-
-	/*Add built entity animation block on the correct blocks vector branch*/
-
+	}
+	
 	return true;
 }
 

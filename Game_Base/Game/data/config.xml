@@ -59,11 +59,8 @@
     <key  controller_id="Start"   event ="escape"       num="0"   app_context="in_game_context"/>
     <!--PAUSE CONTEXT-->
     <!--Menus Input-->
-    <key  id ="Up"                event ="focus_next"             app_context="pause_context"/>
     <key  controller_id="12"      event ="focus_next"   num="1"   app_context="pause_context"/>
-    <key  id ="Down"              event ="focus_prev"             app_context="pause_context"/>
     <key  controller_id="11"      event ="focus_prev"   num="1"   app_context="pause_context"/>
-    <key  id ="Enter"             event ="accept"                 app_context="pause_context"/>
     <key  controller_id="A"       event ="accept"       num="0"   app_context="pause_context"/>
     <key  id ="Right"             event ="add_value"              app_context="pause_context"/>
     <key  controller_id="14"      event ="add_value"    num="1"   app_context="pause_context"/>
@@ -75,11 +72,8 @@
     <key  controller_id="B"       event ="escape"       num="0"   app_context="pause_context"/>
     <!--MAIN MENU CONTEXT-->
     <!--Menus Input-->
-    <key  id ="Up"                event ="focus_next"             app_context="main_menu_context"/>
     <key  controller_id="12"      event ="focus_next"   num="1"   app_context="main_menu_context"/>
-    <key  id ="Down"              event ="focus_prev"             app_context="main_menu_context"/>
     <key  controller_id="11"      event ="focus_prev"   num="1"   app_context="main_menu_context"/>
-    <key  id ="Enter"             event ="accept"                 app_context="main_menu_context"/>
     <key  controller_id="A"       event ="accept"       num="0"   app_context="main_menu_context"/>
     <key  id ="Right"             event ="add_value"              app_context="main_menu_context"/>
     <key  controller_id="14"      event ="add_value"    num="1"   app_context="main_menu_context"/>
