@@ -96,6 +96,16 @@ void Animation::SetId(uint id)
 	enum_id = id;
 }
 
+void Animation::SetSpritesFlip(bool sprites_flip)
+{
+	flip_sprites = sprites_flip;
+}
+
+void Animation::SetSpritesScale(float sprites_sc)
+{
+	sprites_scale = sprites_sc;
+}
+
 SDL_Texture * Animation::GetTexture() const
 {
 	return texture;
@@ -150,6 +160,16 @@ const std::vector<Sprite>* Animation::GetAllSprites() const
 uint Animation::GetId() const
 {
 	return enum_id;
+}
+
+bool Animation::GetSpritesFlip() const
+{
+	return flip_sprites;
+}
+
+float Animation::GetSpritesScale() const
+{
+	return sprites_scale;
 }
 
 bool Animation::IsEnd()
@@ -440,6 +460,12 @@ bool j1Animator::LoadAnimationBlock(const char * xml_folder, ENTITY_TYPE entity_
 		//Get the action id
 		ACTION_TYPE action_type = App->entities_manager->StrToActionType(data_node.attribute("enum").as_string());
 		action_animation_block->SetId(action_type);
+		//Get animation speed
+		uint speed = data_node.attribute("speed").as_uint(200);
+		//Get animation loop
+		bool loop = data_node.attribute("loop").as_bool(false);
+		//Get animation scale
+		float scale = data_node.attribute("scale").as_float(1.0f);
 
 		//Iterate the direction nodes
 		while (direction_node != NULL)
@@ -454,15 +480,17 @@ bool j1Animator::LoadAnimationBlock(const char * xml_folder, ENTITY_TYPE entity_
 			//Allocate the animation 
 			Animation* new_animation = new Animation();
 
+			//Set all animation attributes
 			//Animation texture
 			new_animation->SetTexture(texture);
-
 			//Animation speed
-			new_animation->SetSpeed(data_node.attribute("speed").as_uint());
-			
+			new_animation->SetSpeed(speed);
 			//Animation loop
-			new_animation->SetLoop(data_node.attribute("loop").as_bool());
-
+			new_animation->SetLoop(loop);
+			//Animation flip
+			new_animation->SetSpritesFlip(direction_node.attribute("flip").as_bool());
+			//Animation scale
+			new_animation->SetSpritesScale(scale);
 			//Animation enum id
 			new_animation->SetId(direction_id);
 

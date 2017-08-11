@@ -71,7 +71,7 @@ bool Intelligent_Creature::Update()
 		int x = 0, y = 0;
 		this->body->GetPosition(x, y);
 		const Sprite* sprite = current_animation->GetCurrentSprite();
-		App->render->CallBlit(current_animation->GetTexture(), x, y, sprite->GetFrame(), current_animation->GetLoop());
+		App->render->CallBlit(current_animation->GetTexture(), x, y, sprite->GetFrame(), current_animation->GetLoop(),current_animation->GetSpritesScale());
 	}
 
 	return true;

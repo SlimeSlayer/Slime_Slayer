@@ -5,15 +5,15 @@
   <creature id ="player_creature">
 
     <!-- Attack Action-->
-    <action enum="attack_action" speed="200" loop="true">
+    <action enum="attack_action" speed="200" loop="true" scale="3.0">
       
-      <direction enum="right">
+      <direction enum="right" flip="false">
         <sprite x="1"  y="1" w="30" h="56" pX="0.466667" pY="0.767857"/>
         <sprite x="33" y="1" w="28" h="58" pX="0.571429" pY="0.706897"/>
         <sprite x="63" y="1" w="31" h="56" pX="0.677419" pY="0.678571"/>
       </direction>
 
-      <direction enum="left">
+      <direction enum="left" flip="false">
         <sprite x="1" y="1" w="30" h="56" pX="0.466667" pY="0.767857"/>
         <sprite x="33" y="1" w="28" h="58" pX="0.571429" pY="0.706897"/>
         <sprite x="63" y="1" w="31" h="56" pX="0.677419" pY="0.678571"/>
@@ -22,15 +22,15 @@
     </action>
 
     <!--Die Action-->
-    <action enum ="die_action" speed="200" loop="true">
+    <action enum ="die_action" speed="200" loop="true" scale="3.0">
       
-      <direction enum="right">
+      <direction enum="right" flip="false">
         <sprite x="1" y="1" w="30" h="56" pX="0.466667" pY="0.767857"/>
         <sprite x="33" y="1" w="28" h="58" pX="0.571429" pY="0.706897"/>
         <sprite x="63" y="1" w="31" h="56" pX="0.677419" pY="0.678571"/>
       </direction>
 
-      <direction enum="left">
+      <direction enum="left" flip="false">
         <sprite x="1" y="1" w="30" h="56" pX="0.466667" pY="0.767857"/>
         <sprite x="33" y="1" w="28" h="58" pX="0.571429" pY="0.706897"/>
         <sprite x="63" y="1" w="31" h="56" pX="0.677419" pY="0.678571"/>
@@ -39,15 +39,15 @@
     </action>
 
     <!--Disappear Action-->
-    <action enum ="disappear_action" speed="1500" loop="true">
+    <action enum ="disappear_action" speed="1500" loop="true" scale="3.0">
       
-      <direction enum="right">
+      <direction enum="right" flip="false">
         <sprite x="1" y="1" w="30" h="56" pX="0.466667" pY="0.767857"/>
         <sprite x="33" y="1" w="28" h="58" pX="0.571429" pY="0.706897"/>
         <sprite x="63" y="1" w="31" h="56" pX="0.677419" pY="0.678571"/>
       </direction>
 
-      <direction enum="left">
+      <direction enum="left" flip="false">
         <sprite x="1" y="1" w="30" h="56" pX="0.466667" pY="0.767857"/>
         <sprite x="33" y="1" w="28" h="58" pX="0.571429" pY="0.706897"/>
         <sprite x="63" y="1" w="31" h="56" pX="0.677419" pY="0.678571"/>
@@ -56,31 +56,25 @@
     </action>
 
     <!--Idle Action-->
-    <action enum ="idle_action" speed="150" loop="true">
+    <action enum ="idle_action" speed="350" loop="true" scale="3.5">
       
-      <direction enum="no_direction">
+      <direction enum="no_direction" flip="false">
         <sprite x="0"  y="4" w="19" h="16" pX="0.466667" pY="0.767857"/>
         <sprite x="21" y="4" w="18" h="16" pX="0.571429" pY="0.706897"/>
-      </direction>
-
-      <direction enum="left">
-        <sprite x="1" y="1" w="30" h="56" pX="0.466667" pY="0.767857"/>
-        <sprite x="33" y="1" w="28" h="58" pX="0.571429" pY="0.706897"/>
-        <sprite x="63" y="1" w="31" h="56" pX="0.677419" pY="0.678571"/>
       </direction>
       
     </action>
 
     <!--Walk Action-->
-    <action enum ="walk_action" speed="100" loop="true">
+    <action enum ="walk_action" speed="100" loop="true" scale="3.0">
       
-      <direction enum="right">
+      <direction enum="right" flip="false">
         <sprite x="1" y="1" w="30" h="56" pX="0.466667" pY="0.767857"/>
         <sprite x="33" y="1" w="28" h="58" pX="0.571429" pY="0.706897"/>
         <sprite x="63" y="1" w="31" h="56" pX="0.677419" pY="0.678571"/>
       </direction>
 
-      <direction enum="left">
+      <direction enum="left" flip="false">
         <sprite x="1" y="1" w="30" h="56" pX="0.466667" pY="0.767857"/>
         <sprite x="33" y="1" w="28" h="58" pX="0.571429" pY="0.706897"/>
         <sprite x="63" y="1" w="31" h="56" pX="0.677419" pY="0.678571"/>

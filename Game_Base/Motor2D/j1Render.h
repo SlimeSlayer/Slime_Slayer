@@ -15,7 +15,7 @@ class Blit_Call
 public:
 
 	Blit_Call();
-	Blit_Call(const iPoint& position, const iPoint& pivot, SDL_Texture* texture, SDL_Rect* rect, bool flip, int priority, uint opacity, SDL_Color color, double angle);
+	Blit_Call(const iPoint& position, const iPoint& pivot, SDL_Texture* texture, SDL_Rect* rect, bool flip, float scale, int priority, uint opacity, SDL_Color color, double angle);
 	~Blit_Call();
 
 private:
@@ -26,6 +26,7 @@ private:
 	SDL_Color		color = { 255,255,255,255 };
 	SDL_Rect*		rect = nullptr;
 	bool			flip = false;
+	float			scale = 1.0f;
 	uint			opacity = 255;
 	int				priority = 0;
 	double			angle = 0.0;
@@ -42,6 +43,7 @@ public:
 	SDL_Color		GetColor()const;
 	const SDL_Rect*	GetRect()const;
 	bool			GetFlip()const;
+	float			GetScale()const;
 	uint			GetOpacity()const;
 	double			GetAngle()const;
 
@@ -95,7 +97,7 @@ public:
 public:
 
 	//Add blit call ---------
-	bool	CallBlit(SDL_Texture* texture, int x, int y, const SDL_Rect* section = NULL, bool horizontal_flip = false, int priority = 0, uint opacity = 255, int pivot_x = 0, int pivot_y = 0, SDL_Color color = {255,255,255,255}, double angle = 0.0);
+	bool	CallBlit(SDL_Texture* texture, int x, int y, const SDL_Rect* section = NULL, bool horizontal_flip = false, float scale = 1.0f, int priority = 0, uint opacity = 255, int pivot_x = 0, int pivot_y = 0, SDL_Color color = { 255,255,255,255 }, double angle = 0.0);
 
 	//View port Methods ------
 	void	SetViewPort(const SDL_Rect& rect);
@@ -106,9 +108,7 @@ public:
 	iPoint	ScreenToWorld(int x, int y) const;
 
 	// Draw & Blit ----------
-	bool Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section = NULL, bool horizontal_flip = false, uint opacity = 255, int pivot_x = 0, int pivot_y = 0, float speed = 1.0f, double angle = 0) const;
-	bool TileBlit(SDL_Texture* texture, int x, int y, const SDL_Rect* section);
-	bool FogBlit(const iPoint & position, uint cell_size, Uint8 alpha);
+	bool Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section = NULL, bool horizontal_flip = false, float scale = 1.0f, uint opacity = 255, int pivot_x = 0, int pivot_y = 0, float speed = 1.0f, double angle = 0) const;
 
 	bool DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool filled = true, bool use_camera = true) const;
 	bool DrawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool use_camera = true) const;
