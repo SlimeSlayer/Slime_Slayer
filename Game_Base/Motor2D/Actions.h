@@ -15,15 +15,15 @@ class Player;
 class UI_String;
 class b2Fixture;
 
-enum ACTION_TYPE
+enum LG_ACTION_TYPE
 {
-	NO_ACTION = 0,
-	DIALOG_ACTION,
-	SPAWN_DELAY_ACTION,
-	MOVE_ACTION,
-	BASIC_ATTACK_ACTION,
-	SIMPLE_ATTACK_ACTION,
-	DIE_ACTION
+	LG_NO_ACTION = 0,
+	LG_DIALOG_ACTION,
+	LG_SPAWN_DELAY_ACTION,
+	LG_MOVE_ACTION,
+	LG_BASIC_ATTACK_ACTION,
+	LG_SIMPLE_ATTACK_ACTION,
+	LG_DIE_ACTION
 };
 
 /// Action --------------------------------------
@@ -31,7 +31,7 @@ class Action
 {
 public:
 
-	Action(ACTION_TYPE action_type = NO_ACTION);
+	Action(LG_ACTION_TYPE action_type = LG_NO_ACTION);
 	~Action();
 
 public:
@@ -42,9 +42,9 @@ public:
 
 public:
 
-	ACTION_TYPE action_type = NO_ACTION;
-	Entity*		actor = nullptr;
-	uint		priority = 0;
+	LG_ACTION_TYPE	action_type = LG_NO_ACTION;
+	Entity*			actor = nullptr;
+	uint			priority = 0;
 
 public:
 

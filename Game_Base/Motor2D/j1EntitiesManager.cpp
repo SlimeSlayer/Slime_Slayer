@@ -523,6 +523,23 @@ ITEM_TYPE j1EntitiesManager::StrToItemType(const char * str) const
 	return NO_ITEM;
 }
 
+DIRECTION j1EntitiesManager::StrToDirection(const char * str) const
+{
+	if (strcmp(str, "left") == 0)		return LEFT;
+	if (strcmp(str, "right") == 0)		return RIGHT;
+	return NO_DIRECTION;
+}
+
+ACTION_TYPE j1EntitiesManager::StrToActionType(const char * str) const
+{
+	if (strcmp(str, "attack_action") == 0)		return ATTACK_ACTION;
+	if (strcmp(str, "walk_action") == 0)		return WALK_ACTION;
+	if (strcmp(str, "disappear_action") == 0)	return DISAPPEAR_ACTION;
+	if (strcmp(str, "die_action") == 0)			return DIE_ACTION;
+	if (strcmp(str, "idle_action") == 0)		return IDLE_ACTION;
+	return NO_ACTION;
+}
+
 std::vector<ITEM_TYPE> j1EntitiesManager::TokenStrToItemTypes(const char * str) const
 {
 	std::vector<ITEM_TYPE> types_vec;

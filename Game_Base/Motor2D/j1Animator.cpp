@@ -284,7 +284,7 @@ bool j1Animator::Enable()
 	while (current_enable_node != NULL)
 	{
 		//Load the animation data of the current node
-		std::string folder = this->name + "/" + current_enable_node.attribute("file").as_string();
+		std::string folder = current_enable_node.attribute("file").as_string();
 		ENTITY_TYPE entity_type = App->entities_manager->StrToEntityType(current_enable_node.attribute("entity_type").as_string());
 		
 		if (LoadAnimationBlock(folder.c_str(),entity_type))
@@ -389,19 +389,84 @@ bool j1Animator::CleanUp()
 
 bool j1Animator::LoadAnimationBlock(const char * xml_folder, ENTITY_TYPE entity_type)
 {
-	/*//Load animations data from folders
+	//Load animations data from XML folder
+	
 	//XML load
-	LOG("Loading: %s", xml_folder);
+	LOG("Loading: %s ...", xml_folder);
 	std::string load_folder = name + "/" + xml_folder;
 	pugi::xml_document entity_anim_data;
 	if (!App->fs->LoadXML(load_folder.c_str(), &entity_anim_data))return false;
+	
 	//Texture load
 	load_folder = name + "/" + entity_anim_data.child("atlas").attribute("texture").as_string();
 	SDL_Texture* texture = App->tex->Load(load_folder.c_str());
+	if (texture == nullptr)
+	{
+		LOG("Error loading %s texture", load_folder.c_str());
+		return false;
+	}
 
-	//Node to a resource type
-	pugi::xml_node entity_node = entity_anim_data.first_child().first_child();
-	while (entity_node != NULL)
+	//Allocate the animation block
+	Animation_Block* entity_animation_block = new Animation_Block();
+	
+	//Focus document entity family type
+	pugi::xml_node data_node = entity_anim_data.first_child().first_child();
+
+	//Get the entity family specific type
+	uint specific_type = 0;
+	switch (entity_type)
+	{
+	case CREATURE:	specific_type = App->entities_manager->StrToCreatureType(data_node.attribute("id").as_string());		break;
+	case ITEM:		specific_type = App->entities_manager->StrToItemType(data_node.attribute("id").as_string());			break;
+	}
+	if (specific_type == 0)
+	{
+		LOG("Error loading entity specific type!");
+	}
+	entity_animation_block->SetId(specific_type);
+	
+	//Focus the first action node
+	data_node = data_node.first_child();
+
+	while (data_node != NULL)
+	{
+		//Allocate the action animation block
+		Animation_Block* action_animation_block = new Animation_Block();
+
+		//Focus the first direction node of the current action node
+		pugi::xml_node direction_node = data_node.first_child();
+
+		//Get the action id
+		ACTION_TYPE action_type = App->entities_manager->StrToActionType(data_node.attribute("enum").as_string());
+		action_animation_block->SetId(action_type);
+
+		//Iterate the direction nodes
+		while (direction_node != NULL)
+		{
+			//Allocate the direction animation block
+			Animation_Block* direction_animation_block = new Animation_Block();
+			
+			//Get direction id
+			DIRECTION direction_id = App->entities_manager->StrToDirection(direction_node.attribute("enum").as_string());
+			direction_animation_block->SetId(direction_id);
+
+			/*Load animation data*/
+
+			//Focus the next direction node
+			direction_node = direction_node.next_sibling();
+
+			//Add the built direction animation block to the action block
+			action_animation_block->AddAnimationBlock(direction_animation_block);
+		}
+
+		//Add the built action animation block to the entity block
+		entity_animation_block->AddAnimationBlock(action_animation_block);
+
+		//Focus the next action node
+		data_node = data_node.next_sibling();
+	}
+
+	/*while (entity_node != NULL)
 	{
 		//Create a pointer to the new resource AnimationBlock
 		Animation_Block* resource_block = new Animation_Block();
@@ -458,6 +523,8 @@ bool j1Animator::LoadAnimationBlock(const char * xml_folder, ENTITY_TYPE entity_
 
 		resource_node = resource_node.next_sibling();
 	}*/
+
+	/*Add built entity animation block on the correct blocks vector branch*/
 
 	return true;
 }

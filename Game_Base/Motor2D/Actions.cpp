@@ -14,7 +14,7 @@
 
 /// Action --------------------------------------
 // Constructors =======================
-Action::Action(ACTION_TYPE action_type): action_type(action_type)
+Action::Action(LG_ACTION_TYPE action_type): action_type(action_type)
 {
 
 }
@@ -39,7 +39,7 @@ bool Action::Execute()
 
 /// Dialog_Action -------------------------------
 // Constructors =======================
-Dialog_Action::Dialog_Action(): Action(DIALOG_ACTION)
+Dialog_Action::Dialog_Action(): Action(LG_DIALOG_ACTION)
 {
 
 }
@@ -98,7 +98,7 @@ bool Dialog_Action::Execute()
 
 /// Spawn_Delay_Action --------------------------
 // Constructors =======================
-Spawn_Delay_Action::Spawn_Delay_Action() : Action(SPAWN_DELAY_ACTION)
+Spawn_Delay_Action::Spawn_Delay_Action() : Action(LG_SPAWN_DELAY_ACTION)
 {
 
 }
@@ -163,7 +163,7 @@ bool Spawn_Delay_Action::Execute()
 
 /// Move_Action ---------------------------------
 // Constructors =======================
-Move_Action::Move_Action(const iPoint & destination) : Action(MOVE_ACTION), destination(destination)
+Move_Action::Move_Action(const iPoint & destination) : Action(LG_MOVE_ACTION), destination(destination)
 {
 
 }
@@ -310,7 +310,7 @@ bool Move_To_Target_Action::Execute()
 
 /// Basic_Attack Action -------------------------
 // Constructors =======================
-Basic_Attack_Action::Basic_Attack_Action() : Action(BASIC_ATTACK_ACTION)
+Basic_Attack_Action::Basic_Attack_Action() : Action(LG_BASIC_ATTACK_ACTION)
 {
 
 }
@@ -378,7 +378,7 @@ bool Basic_Attack_Action::Execute()
 
 /// Simple_Attack_Action ------------------------
 // Constructors =======================
-Simple_Attack_Action::Simple_Attack_Action() : Action(SIMPLE_ATTACK_ACTION)
+Simple_Attack_Action::Simple_Attack_Action() : Action(LG_SIMPLE_ATTACK_ACTION)
 {
 
 }

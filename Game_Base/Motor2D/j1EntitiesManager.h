@@ -66,6 +66,8 @@ public:
 	ENTITY_TYPE				StrToEntityType(const char* str)const;
 	CREATURE_TYPE			StrToCreatureType(const char* str)const;
 	ITEM_TYPE				StrToItemType(const char* str)const;
+	DIRECTION				StrToDirection(const char* str)const;
+	ACTION_TYPE				StrToActionType(const char* str)const;
 	std::vector<ITEM_TYPE>	TokenStrToItemTypes(const char* str)const;
 
 	// Functionality --------
