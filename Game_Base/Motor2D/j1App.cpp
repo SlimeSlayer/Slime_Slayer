@@ -614,6 +614,9 @@ Scene * j1App::GetCurrentScene() const
 
 void j1App::ActiveMainMenu()
 {
+	//Clear all the input
+	App->input->ResetInputMaps();
+
 	// Deactivate the current scene
 	modules_to_disable.push_back(current_scene);
 	modules_to_disable.push_back(player);
@@ -643,6 +646,9 @@ void j1App::ActiveMainMenu()
 
 void j1App::ActiveTutorial()
 {
+	//Clear all the input
+	App->input->ResetInputMaps();
+
 	// Deactivate all the necessary modules to start/reset the tutorial
 	modules_to_disable.push_back(main_menu);
 	if(current_scene != nullptr)modules_to_disable.push_back(current_scene);
@@ -670,6 +676,7 @@ void j1App::ActiveTutorial()
 
 	//Set the correct app context
 	app_context = IN_GAME_CONTEXT;
+	pause = false;
 
 	//Reset Item Selected
 	App->gui->ItemSelected = current_scene->GetCorrectItemToSelect();
@@ -677,6 +684,9 @@ void j1App::ActiveTutorial()
 
 void j1App::ActiveEndless()
 {
+	//Clear all the input
+	App->input->ResetInputMaps();
+
 	// Deactivate all the necessary modules to start/reset the endless
 	if (current_scene != nullptr)modules_to_disable.push_back(current_scene);
 	modules_to_disable.push_back(player);
@@ -704,6 +714,7 @@ void j1App::ActiveEndless()
 	
 	//Set the correct app context
 	app_context = IN_GAME_CONTEXT;
+	pause = false;
 
 	//Reset Item Selected
 	App->gui->ItemSelected = current_scene->GetCorrectItemToSelect();

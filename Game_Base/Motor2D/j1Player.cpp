@@ -89,7 +89,7 @@ bool j1Player::Update(float dt)
 	App->render->camera.y = -y_pos + PLAYER_CAMERA_Y;
 
 	// Check if player input is blocked ---------
-	if (avatar->GetInputBlocked() || App->GetCurrentScene() == nullptr)return true;
+	if (avatar->GetInputBlocked() || App->GetCurrentScene() == nullptr || App->pause)return true;
 
 	// ATTACK INPUT -----------------------------
 	if (attack_input_state == INPUT_DOWN || (attack_input_state == INPUT_REPEAT && avatar->ReadyToAttack()))

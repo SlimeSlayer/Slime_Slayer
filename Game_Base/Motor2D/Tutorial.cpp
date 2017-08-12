@@ -245,6 +245,7 @@ bool Tutorial::Update(float dt)
 			
 			//Set the correct app context
 			App->app_context = IN_GAME_CONTEXT;
+			App->pause = false;
 
 			//Set the correct input target in the new menu
 			App->gui->ItemSelected = nullptr;
@@ -274,7 +275,8 @@ bool Tutorial::Update(float dt)
 
 			//Set the correct app context
 			App->app_context = PAUSE_CONTEXT;
-			
+			App->pause = true;
+
 			//Set the correct input target in the new menu
 			App->gui->ItemSelected = settings_audio_button;
 		}

@@ -177,7 +177,7 @@ public:
 	bool				want_to_load = false;	/*True when load function called*/
 	std::string			load_game;	/*Folder where the game is loaded*/
 	std::string			save_game;	/*Folder where the game is saved*/
-
+	bool				pause = false;	/*If its true the game is paused*/
 private:
 
 	j1PerfTimer			ptimer;

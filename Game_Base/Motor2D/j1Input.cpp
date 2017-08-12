@@ -330,3 +330,24 @@ int j1Input::GetMouseY() const
 	return mouse_y;
 }
 
+void j1Input::ResetInputMaps()
+{
+	// Keyboard keys ------------------
+	for (uint i = 0; i < MAX_KEYS; ++i)
+	{
+		keyboard[i] = KEY_IDLE;
+	}
+			
+	// Mouse keys -----------
+	for (uint i = 0; i < NUM_MOUSE_BUTTONS; ++i)
+	{
+		mouse_buttons[i] = KEY_IDLE;
+	}
+
+	// Controller keys ------
+	for (uint i = 0; i < NUM_CONTROLLER_BUTTONS; ++i)
+	{
+		controller_buttons[i] = KEY_IDLE;
+	}
+}
+

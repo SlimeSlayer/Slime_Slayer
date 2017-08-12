@@ -371,6 +371,8 @@ bool j1Physics::Start()
 // 
 bool j1Physics::PreUpdate()
 {
+	if (App->pause)return true;
+
 	//Track timing values to generate a fixed time step -------------
 	fixed_timestep_accumulator += App->GetDT();
 

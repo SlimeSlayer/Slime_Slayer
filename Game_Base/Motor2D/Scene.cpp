@@ -398,6 +398,7 @@ bool Scene::Update(float dt)
 
 			//Set the correct app context
 			App->app_context = IN_GAME_CONTEXT;
+			App->pause = false;
 
 			//Set the correct input target in the new menu
 			App->gui->ItemSelected = nullptr;
@@ -427,6 +428,7 @@ bool Scene::Update(float dt)
 
 			//Set the correct app context
 			App->app_context = PAUSE_CONTEXT;
+			App->pause = true;
 
 			//Set the correct input target in the new menu
 			App->gui->ItemSelected = settings_audio_button;
@@ -478,6 +480,7 @@ void Scene::GUI_Input(UI_Element * target, GUI_INPUT input)
 
 			//Set the correct app context
 			App->app_context = PAUSE_CONTEXT;
+			App->pause = true;
 		}
 
 
@@ -492,6 +495,7 @@ void Scene::GUI_Input(UI_Element * target, GUI_INPUT input)
 
 			//Set the correct app context
 			App->app_context = IN_GAME_CONTEXT;
+			App->pause = false;
 
 			//Set the correct input target in the new menu
 			App->gui->ItemSelected = nullptr;
@@ -656,6 +660,7 @@ void Scene::GUI_Controller_Input(INPUT_EVENT input_event)
 
 			//Set the correct app context
 			App->app_context = PAUSE_CONTEXT;
+			App->pause = true;
 		}
 
 
@@ -670,6 +675,7 @@ void Scene::GUI_Controller_Input(INPUT_EVENT input_event)
 
 			//Set the correct app context
 			App->app_context = IN_GAME_CONTEXT;
+			App->pause = false;
 
 			//Set the correct input target in the new menu
 			App->gui->ItemSelected = nullptr;
