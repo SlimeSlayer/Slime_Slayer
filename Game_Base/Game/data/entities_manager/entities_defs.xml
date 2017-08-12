@@ -190,7 +190,7 @@
       listener="player"
       body_shape="square"
       width ="50"
-      height="70"
+      height="50"
       restitution="0.0"
       friction="0.0"
       mass="25.0"

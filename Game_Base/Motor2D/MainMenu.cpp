@@ -79,7 +79,7 @@ bool MainMenu::Start()
 
 	// Start Button
 	start_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
-	start_button->SetBox({ 500,300,570,170 });
+	start_button->SetBox({ 500,200,570,170 });
 	start_button->SetTexOFF({ 0,0,564,165 }, ATLAS);
 	start_button->SetTexOVER({ 0,393,564,165 }, ATLAS_TEST);
 	start_button->SetTexON({ 0,393,564,165 }, ATLAS);
@@ -90,7 +90,7 @@ bool MainMenu::Start()
 
 	//Settings Button
 	settings_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
-	settings_button->SetBox({ 500,600,570,170 });
+	settings_button->SetBox({ 500,500,570,170 });
 	settings_button->SetTexOFF({ 0,199,564,165 }, ATLAS);
 	settings_button->SetTexOVER({ 0,598,564,165 }, ATLAS_TEST);
 	settings_button->SetTexON({ 0,598,564,165 }, ATLAS);
@@ -101,7 +101,7 @@ bool MainMenu::Start()
 
 	//Quit Button
 	quit_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
-	quit_button->SetBox({ 500,800,570,170 });
+	quit_button->SetBox({ 500,700,570,170 });
 	quit_button->SetTexOFF({ 0,199,564,165 }, ATLAS_TEST);
 	quit_button->SetTexOVER({ 0,598,564,165 }, ATLAS_TEST);
 	quit_button->SetTexON({ 0,598,564,165 }, ATLAS_TEST);

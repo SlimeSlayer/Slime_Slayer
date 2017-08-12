@@ -71,7 +71,7 @@ bool Intelligent_Creature::Update()
 		int x = 0, y = 0;
 		this->body->GetPosition(x, y);
 		const Sprite* sprite = current_animation->GetCurrentSprite();
-		App->render->CallBlit(current_animation->GetTexture(), x, y, sprite->GetFrame(), current_animation->GetLoop(),current_animation->GetSpritesScale());
+		App->render->CallBlit(current_animation->GetTexture(), x + sprite->GetXpivot(), y + sprite->GetYpivot(), sprite->GetFrame(), current_animation->GetLoop(),current_animation->GetSpritesScale());
 	}
 
 	return true;
@@ -100,7 +100,7 @@ void Intelligent_Creature::UpdatePosition()
 {
 	int x = 0,y = 0;
 	body->GetPosition(x, y);
-	vision_area->SetPosition((float)x + body->width, (float)y + body->height);
+	vision_area->SetPosition((float)x, (float)y);
 }
 
 void Intelligent_Creature::HandleInteraction(Entity * target)
@@ -250,7 +250,7 @@ void Player::AttackLeft()
 	this->body->GetPosition(x, y);
 	w = this->body->GetWidth();
 	h = this->body->GetHeight();
-	current_attack_area->SetPosition(x - w * 0.5, y + h * 0.5);
+	current_attack_area->SetPosition(x - w * 1.5, y + h * -0.25);
 	//Reset attack timer
 	attack_timer.Start();
 }
@@ -262,7 +262,7 @@ void Player::AttackRight()
 	this->body->GetPosition(x, y);
 	w = this->body->GetWidth();
 	h = this->body->GetHeight();
-	current_attack_area->SetPosition(x + w * 2.5, y + h * 0.5);
+	current_attack_area->SetPosition(x + w * 1.5, y + h * -0.25);
 	//Reset attack timer
 	attack_timer.Start();
 }

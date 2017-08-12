@@ -7,6 +7,7 @@
 #include "j1EntitiesManager.h"
 #include "j1ParticleManager.h"
 #include "j1Player.h"
+#include "j1Render.h"
 
 /// Entity --------------------------------------
 //Base class where the entity pillars are defined
@@ -43,6 +44,15 @@ bool Entity::Update()
 {
 	//Update worker
 	worker.Update();
+
+	//Blit animation 
+	if (current_animation != nullptr)
+	{
+		int x = 0, y = 0;
+		this->body->GetPosition(x, y);
+		const Sprite* sprite = current_animation->GetCurrentSprite();
+		App->render->CallBlit(current_animation->GetTexture(), x + sprite->GetXpivot(), y + sprite->GetYpivot(), sprite->GetFrame(), current_animation->GetLoop(), current_animation->GetSpritesScale());
+	}
 
 	return true;
 }
