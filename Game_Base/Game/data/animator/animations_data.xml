@@ -2,7 +2,9 @@
   <animations>
     <!--Creatures animations-->
       <anim file="player.xml"       entity_type="creature"/>
-     <!-- <anim file="basic_enemy.xml"  entity_type="creature"/>-->
+      <anim file="basic_enemy.xml"  entity_type="creature"/>
+      <anim file="lore_npc.xml"     entity_type="creature"/>
+      <anim file="standard_npc.xml" entity_type="creature"/>
     <!--Items animations-->
 
   </animations>

@@ -14,8 +14,8 @@
     <entity entity_type="item" item_type="jar_item" items_in="coin_item/coin_item/coin_item/coin_item" pos_x="3250" pos_y="885"/>
 
     <!--NPCs-->
-    <entity entity_type="creature" creature_type="standard_npc_creature" pos_x="1200" pos_y="865"/>
-    <entity entity_type="creature" creature_type="lore_npc_creature" pos_x="2000" pos_y="865"/>
+    <entity entity_type="creature" creature_type="standard_npc_creature" pos_x="1200" pos_y="875"/>
+    <entity entity_type="creature" creature_type="lore_npc_creature" pos_x="2000" pos_y="875"/>
 
     <!--Enemies-->
     <entity entity_type="creature" creature_type="basic_enemy_creature" pos_x="2500" pos_y="865"/>
