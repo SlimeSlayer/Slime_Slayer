@@ -161,7 +161,7 @@ bool j1Gui::PostUpdate()
 
 	if (ItemSelected != nullptr && App->gui->controller_mode)
 	{
-		App->render->DrawCircle(ItemSelected->GetBox()->x + ItemSelected->GetBox()->w * 0.5f, ItemSelected->GetBox()->y + ItemSelected->GetBox()->h * 0.5f, 250, 255, 25, 50, 255, false);
+		App->render->DrawCircle(ItemSelected->GetBox()->x + ItemSelected->GetBox()->w * 0.5f, ItemSelected->GetBox()->y + ItemSelected->GetBox()->h * 0.5f, 100, 55, 25, 250, 255, false);
 	}
 
 	return true;
@@ -210,6 +210,7 @@ TEXTURE_ID j1Gui::StrToTextureID(const char * str)
 void j1Gui::ActiveControllerMode()
 {
 	controller_mode = true;
+	SDL_ShowCursor(SDL_DISABLE);
 	if (ItemSelected == nullptr)
 	{
 		if(App->GetCurrentScene() != nullptr)ItemSelected = App->GetCurrentScene()->GetCorrectItemToSelect();
@@ -221,6 +222,7 @@ void j1Gui::ActiveControllerMode()
 void j1Gui::DeactivateControllerMode()
 {
 	controller_mode = false;
+	SDL_ShowCursor(SDL_ENABLE);
 	if (ItemSelected != nullptr)
 	{
 		//Un focus item selected

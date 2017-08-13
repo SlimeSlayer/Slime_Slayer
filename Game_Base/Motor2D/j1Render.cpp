@@ -430,13 +430,13 @@ bool j1Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, U
 	SDL_SetRenderDrawColor(renderer, r, g, b, a);
 
 	int result = -1;
-	SDL_Point points[240];
+	SDL_Point points[360];
 
-	float factor = ((float)M_PI / 180.0f) * 2;
+	float factor = ((float)M_PI / 180.0f);
 	//In case that the circle is fixed at camera coordinates
 	if (!use_camera)
 	{
-		for (uint i = 0; i < 240; ++i)
+		for (uint i = 0; i < 360; ++i)
 		{
 			points[i].x = (int)(x + radius * cos(i * factor));
 			points[i].y = (int)(y + radius * sin(i * factor));
@@ -445,14 +445,14 @@ bool j1Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, U
 	//Else if the circle is not fixed
 	else
 	{
-		for (uint i = 0; i < 240; ++i)
+		for (uint i = 0; i < 360; ++i)
 		{
 			points[i].x = (int)(x + radius * cos(i * factor)) + camera.x;
 			points[i].y = (int)(y + radius * sin(i * factor)) + camera.y;
 		}
 	}
 
-	result = SDL_RenderDrawPoints(renderer, points, 240);
+	result = SDL_RenderDrawPoints(renderer, points, 360);
 
 	if(result != 0)
 	{
