@@ -44,13 +44,13 @@ private:
 	UI_Button*	quit_button = nullptr;
 
 	//Settings Menu
-	UI_Image*	settings_menu = nullptr;
+	UI_Element*	settings_menu = nullptr;
 	UI_Button*	settings_quit_button = nullptr;
 	UI_Button*	settings_audio_button = nullptr;
 	UI_Button*	settings_video_button = nullptr;
 
 	//Audio Menu
-	UI_Image*		audio_menu = nullptr;
+	UI_Element*		audio_menu = nullptr;
 	UI_Button*		audio_quit_button = nullptr;
 
 public:
@@ -63,7 +63,7 @@ public:
 protected:
 
 	//Video Menu
-	UI_Image*		video_menu = nullptr;
+	UI_Element*		video_menu = nullptr;
 	UI_Button*		video_quit_button = nullptr;
 	UI_Button*		vsync_video_button = nullptr;
 	UI_Button*		fullscreen_video_button = nullptr;
