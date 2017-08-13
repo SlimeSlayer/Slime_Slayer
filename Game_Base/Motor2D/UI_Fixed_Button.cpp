@@ -61,12 +61,12 @@ void UI_Fixed_Button::HandleInput()
 {
 	if (button_state == DOWN) return;
 	//Mouse In/Out ------------------------------
-	if (this->MouseIsIn() && App->gui->upper_element == this->layer)
+	if (this->MouseIsIn() && App->gui->upper_element == this->logical_layer)
 	{
 		button_state = OVER_UP;
 		input_target->GUI_Input(this, MOUSE_IN);
 	}
-	else if (this->MouseIsIn()==false && App->gui->upper_element == this->layer && button_state != DOWN)
+	else if (this->MouseIsIn()==false && App->gui->upper_element == this->logical_layer && button_state != DOWN)
 	{
 		button_state = UP;
 		input_target->GUI_Input(this, MOUSE_OUT);
@@ -75,7 +75,7 @@ void UI_Fixed_Button::HandleInput()
 	//Mouse Left Button -------------------------
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
-		if (this->MouseIsIn() && App->gui->upper_element == this->layer)
+		if (this->MouseIsIn() && App->gui->upper_element == this->logical_layer)
 		{
 			App->gui->ItemSelected = this;
 			button_state = OVER_DOWN;
@@ -85,7 +85,7 @@ void UI_Fixed_Button::HandleInput()
 	//Mouse Left Button UP -----------------------
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
 	{
-		if (this->MouseIsIn() && App->gui->upper_element == this->layer)
+		if (this->MouseIsIn() && App->gui->upper_element == this->logical_layer)
 		{
 			button_state = DOWN;
 			App->gui->ItemSelected = nullptr;

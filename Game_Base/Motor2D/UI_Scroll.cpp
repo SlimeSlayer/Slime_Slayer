@@ -61,11 +61,13 @@ bool UI_Scroll::CleanUp()
 void UI_Scroll::SetScrollableItem(const iPoint position, const SDL_Rect rect, TEXTURE_ID id)
 {
 	ScrollItem = UI_Image({ position.x,position.y,rect.w,rect.h }, {0,0}, rect, id);
+	ScrollItem.SetVisualLayer(this->visual_layer + 1);
 }
 
 void UI_Scroll::SetScrollableBack(const iPoint position, const SDL_Rect rect, TEXTURE_ID id)
 {
 	ScrollBack = UI_Image({ position.x,position.y,rect.w,rect.h }, {0,0}, rect, id);
+	ScrollBack.SetVisualLayer(this->visual_layer);
 }
 
 void UI_Scroll::SetContentWindow(const SDL_Rect rect)
@@ -273,7 +275,7 @@ void UI_Scroll::AddScrollItem(UI_Element* new_item)
 	UpdateContentLenght(new_item);
 
 	//Set item layer
-	new_item->SetLayer(this->layer + 1);
+	new_item->SetLogicalLayer(this->logical_layer + 1);
 
 	//Add the new item to the list of items
 	this->Items.push_back(new_item);
@@ -290,7 +292,7 @@ void UI_Scroll::AddScrollItemAtBottom(UI_Element * new_item)
 	UpdateContentLenght(new_item);
 	
 	//Set item layer
-	new_item->SetLayer(this->layer + 1);
+	new_item->SetLogicalLayer(this->logical_layer + 1);
 
 	//Add the new item to the list of items
 	this->Items.push_back(new_item);

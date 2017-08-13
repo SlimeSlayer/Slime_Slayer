@@ -28,9 +28,9 @@ void UI_Image::Draw(bool debug) const
 	else {
 		
 		//Undefined draw size
-		if (texture_rect.w == 0 || texture_rect.h == 0)App->render->Blit(texture, box.x - App->render->camera.x - pivot.x, box.y - App->render->camera.y - pivot.y);
+		if (texture_rect.w == 0 || texture_rect.h == 0)App->render->CallBlit(texture, box.x - App->render->camera.x - pivot.x, box.y - App->render->camera.y - pivot.y, NULL, false, 1.0f, visual_layer);
 		//Defined draw size
-		else App->render->Blit(texture, box.x - App->render->camera.x - pivot.x, box.y - App->render->camera.y - pivot.y, &texture_rect);
+		else App->render->CallBlit(texture, box.x - App->render->camera.x - pivot.x, box.y - App->render->camera.y - pivot.y, &texture_rect, false, 1.0f, visual_layer);
 
 	}
 
@@ -63,9 +63,9 @@ void UI_Image::DrawAt(int x, int y) const
 	y += this->box.y;
 
 	//Undefined draw size
-	if (texture_rect.w == 0 || texture_rect.h == 0)App->render->Blit(texture, x - App->render->camera.x - pivot.x, y - App->render->camera.y - pivot.y);
+	if (texture_rect.w == 0 || texture_rect.h == 0)App->render->CallBlit(texture, x - App->render->camera.x - pivot.x, y - App->render->camera.y - pivot.y, NULL, false, 1.0f, visual_layer);
 	//Defined draw size
-	else App->render->Blit(texture, x - App->render->camera.x - pivot.x, y - App->render->camera.y - pivot.y, &texture_rect);
+	else App->render->CallBlit(texture, x - App->render->camera.x - pivot.x, y - App->render->camera.y - pivot.y, &texture_rect, false, 1.0f, visual_layer);
 		
 }
 

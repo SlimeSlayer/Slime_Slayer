@@ -40,7 +40,7 @@ void UI_String::Draw(bool debug) const
 	}
 	if (text_texture != nullptr)
 	{
-		App->render->Blit(text_texture, box.x - App->render->camera.x, box.y - App->render->camera.y);
+		App->render->CallBlit(text_texture, box.x - App->render->camera.x, box.y - App->render->camera.y, NULL, false, 1.0f, visual_layer);
 	}
 
 	//Childs Draw
@@ -137,7 +137,7 @@ uint UI_String::GetPixelHeightLenght() const
 
 void UI_String::DrawAt(int x, int y) const
 {
-	if(text_texture != nullptr)App->render->Blit(text_texture, box.x + x - App->render->camera.x, box.y + y - App->render->camera.y);
+	if(text_texture != nullptr)App->render->CallBlit(text_texture, box.x + x - App->render->camera.x, box.y + y - App->render->camera.y);
 }
 
 bool UI_String::TokenizeString(uint margin)
@@ -173,7 +173,7 @@ bool UI_String::TokenizeString(uint margin)
 	while (texture_item._Ptr != NULL)
 	{
 		
-		App->render->Blit(texture_item._Ptr->_Myval, 0, (h * k) + margin);
+		App->render->CallBlit(texture_item._Ptr->_Myval, 0, (h * k) + margin);
 		texture_item++;
 		k++;
 	}

@@ -44,11 +44,13 @@ bool UI_Scroll_Bar::CleanUp()
 void UI_Scroll_Bar::SetScrollableItem(const iPoint position, const SDL_Rect rect, TEXTURE_ID id)
 {
 	ScrollItem = UI_Image({ position.x,position.y,rect.w,rect.h }, { 0,0 }, rect, id);
+	ScrollItem.SetVisualLayer(this->visual_layer + 2);
 }
 
 void UI_Scroll_Bar::SetScrollableBack(const iPoint position, const SDL_Rect rect, TEXTURE_ID id)
 {
 	ScrollBack = UI_Image({ position.x,position.y,rect.w,rect.h }, { 0,0 }, rect, id);
+	ScrollBack.SetVisualLayer(this->visual_layer + 1);
 }
 
 void UI_Scroll_Bar::SetScrollMaxValue(int maxvalue)

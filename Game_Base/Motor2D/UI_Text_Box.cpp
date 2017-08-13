@@ -57,7 +57,7 @@ void UI_Text_Box::HandleInput()
 	//Mouse Left Button -------------------------
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
-		if (this->MouseIsIn() && App->gui->upper_element == this->layer)
+		if (this->MouseIsIn() && App->gui->upper_element == this->logical_layer)
 		{
 			App->gui->ItemSelected = this;
 			input_target->GUI_Input(this, MOUSE_LEFT_BUTTON_DOWN);

@@ -32,7 +32,8 @@ public:
 protected:
 
 	SDL_Rect				box = { 0,0,0,0 };
-	uint					layer = 0;
+	uint					visual_layer = 0;
+	uint					logical_layer = 0;
 	mutable bool			IsActive = true;
 	mutable bool			blocked = false;
 	bool					isin = false;
@@ -71,8 +72,10 @@ public:
 	bool				RectIsIn(const SDL_Rect* target, int x_vel, int y_vel, bool x_axis = false)const;
 
 	//Layer functions
-	void				SetLayer(uint new_layer);
-	uint				GetLayer()const;
+	void				SetVisualLayer(uint new_layer);
+	uint				GetVisualLayer()const;
+	void				SetLogicalLayer(uint new_layer);
+	uint				GetLogicalLayer()const;
 	UI_TYPE				GetUItype()const;
 
 	//Active/Deactivate functions

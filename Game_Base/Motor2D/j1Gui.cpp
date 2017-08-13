@@ -317,9 +317,9 @@ uint j1Gui::CalculateUpperElement(UI_Element* parent, uint layer)
 
 		layer = CalculateUpperElement(item._Ptr->_Myval, layer);
 
-		if (item._Ptr->_Myval->GetLayer() > layer && item._Ptr->_Myval->GetActiveState() && item._Ptr->_Myval->MouseIsIn())
+		if (item._Ptr->_Myval->GetLogicalLayer() > layer && item._Ptr->_Myval->GetActiveState() && item._Ptr->_Myval->MouseIsIn())
 		{
-			layer = item._Ptr->_Myval->GetLayer();
+			layer = item._Ptr->_Myval->GetLogicalLayer();
 		}
 		item++;
 

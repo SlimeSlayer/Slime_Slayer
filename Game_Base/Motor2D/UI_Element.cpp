@@ -107,7 +107,7 @@ void UI_Element::HandleInput()
 	//Mouse Left Button -------------------------
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
-		if (this->MouseIsIn() && App->gui->upper_element == this->layer)
+		if (this->MouseIsIn() && App->gui->upper_element == this->logical_layer)
 		{
 			App->gui->ItemSelected = this;
 			input_target->GUI_Input(this, MOUSE_LEFT_BUTTON_DOWN);
@@ -237,14 +237,24 @@ bool UI_Element::RectIsIn(const SDL_Rect* target, int x_vel, int y_vel, bool x_a
 	return ret;
 }
 
-void UI_Element::SetLayer(uint new_layer)
+void UI_Element::SetVisualLayer(uint new_layer)
 {
-	layer = new_layer;
+	visual_layer = new_layer;
 }
 
-uint UI_Element::GetLayer() const
+uint UI_Element::GetVisualLayer() const
 {
-	return layer;
+	return visual_layer;
+}
+
+void UI_Element::SetLogicalLayer(uint new_layer)
+{
+	logical_layer = new_layer;
+}
+
+uint UI_Element::GetLogicalLayer() const
+{
+	return logical_layer;
 }
 
 UI_TYPE UI_Element::GetUItype() const
@@ -293,7 +303,8 @@ void UI_Element::AddChild(UI_Element* child, uint start_layer)
 	//Set the new element parent
 	child->SetParent(this);
 	//Set child layer
-	child->layer = this->layer + 1 + start_layer;
+	child->visual_layer = this->visual_layer + 1 + start_layer;
+	child->logical_layer = this->logical_layer + 1 + start_layer;
 	//Add the new element to the list of this childs
 	childs.push_back(child);
 }

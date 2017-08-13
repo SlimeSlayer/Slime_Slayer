@@ -46,7 +46,7 @@ void UI_Popup_menu::HandleInput()
 	//Mouse Left Button -------------------------
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
-		if (this->MouseIsIn() && App->gui->upper_element == this->layer)
+		if (this->MouseIsIn() && App->gui->upper_element == this->logical_layer)
 		{
 			SetOptionSelection();
 			input_target->GUI_Input(this, MOUSE_LEFT_BUTTON_DOWN);
@@ -98,7 +98,7 @@ void UI_Popup_menu::AddOption(UI_String * new_item)
 	UpdateContentPosition(new_item);
 
 	//Set item layer
-	new_item->SetLayer(layer + 1);
+	new_item->SetLogicalLayer(this->logical_layer + 1);
 
 	//Set first item as Selected item
 	if (option_selected == nullptr) SetOptionSelection(new_item);

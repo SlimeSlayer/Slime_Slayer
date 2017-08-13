@@ -43,7 +43,7 @@ void UI_Button::Draw(bool debug) const
 void UI_Button::HandleInput()
 {
 	//Mouse In/Out ------------------------------
-	if (this->MouseIsIn() && App->gui->upper_element == this->layer)
+	if (this->MouseIsIn() && App->gui->upper_element == this->logical_layer)
 	{
 		button_state = OVER;
 		input_target->GUI_Input(this, MOUSE_IN);
@@ -57,7 +57,7 @@ void UI_Button::HandleInput()
 	//Mouse Left Button -------------------------
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
-		if (this->MouseIsIn() && App->gui->upper_element == this->layer)
+		if (this->MouseIsIn() && App->gui->upper_element == this->logical_layer)
 		{
 			App->gui->ItemSelected = this;
 			button_state = ON;
