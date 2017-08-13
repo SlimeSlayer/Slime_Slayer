@@ -16,6 +16,7 @@
 #include "UI_Button.h"
 #include "UI_Image.h"
 #include "UI_Scroll_Bar.h"
+#include "UI_String.h"
 
 // Constructors ===========================================
 MainMenu::MainMenu()
@@ -88,6 +89,18 @@ bool MainMenu::Start()
 	start_button->Activate();
 	menu_branch->AddChild(start_button);
 
+	// Start Button String
+	UI_String* start_button_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	start_button_string->SetInputTarget(this);
+	Font_Def* menu_ui_font = App->font->GetFontByID(FONT_ID::MENU_UI_FONT);
+	start_button_string->SetFont(menu_ui_font->font);
+	start_button_string->SetColor(menu_ui_font->font_color);
+	start_button_string->SetString("Start");
+	start_button_string->AdjustBox();
+	start_button_string->SetBoxPosition(start_button->GetBox()->w * 0.5f, start_button->GetBox()->h * 0.5f);
+	
+	start_button->AddChild(start_button_string);
+	
 	//Settings Button
 	settings_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
 	settings_button->SetBox({ 500,500,570,170 });

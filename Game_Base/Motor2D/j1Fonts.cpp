@@ -144,6 +144,7 @@ bool j1Fonts::CalcSize(const char* text, int& width, int& height, _TTF_Font* fon
 FONT_ID j1Fonts::StrToFontID(const char * str) const
 {
 	if (strcmp("def_font", str) == 0)				return DEF_FONT;
+	if (strcmp("menu_ui_font", str) == 0)			return MENU_UI_FONT;
 	if (strcmp("dialog_font", str) == 0)			return DIALOG_FONT;
 	if (strcmp("ally_hitpoints_font", str) == 0)	return ALLY_HITPOINTS_FONT;
 	if (strcmp("enemy_hitpoints_font", str) == 0)	return ENEMY_HITPOINTS_FONT;
