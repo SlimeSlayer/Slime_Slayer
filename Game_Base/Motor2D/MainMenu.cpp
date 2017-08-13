@@ -14,7 +14,6 @@
 
 #include "UI_Element.h"
 #include "UI_Button.h"
-#include "UI_Image.h"
 #include "UI_Scroll_Bar.h"
 #include "UI_String.h"
 
@@ -246,10 +245,10 @@ bool MainMenu::Start()
 
 	//Build Audio Menu --------------------------
 	//Audio menu base
-	audio_menu = (UI_Image*)App->gui->GenerateUI_Element(UI_TYPE::IMG);
+	audio_menu = App->gui->GenerateUI_Element(UI_TYPE::IMG);
 	audio_menu->SetInputTarget(this);
 	audio_menu->SetParent(settings_button);
-	audio_menu->SetBox({ 500,200,0,0 });
+	audio_menu->SetBox({ 100,0,0,0 });
 	audio_menu->Desactivate();
 	audio_menu->DesactivateChids();
 	menu_branch->AddChild(audio_menu);
@@ -259,7 +258,7 @@ bool MainMenu::Start()
 	audio_quit_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
 	audio_quit_button->SetInputTarget(this);
 	audio_quit_button->SetParent(settings_menu);
-	audio_quit_button->SetBox({ 500,0,80,80 });
+	audio_quit_button->SetBox({ 1000,200,80,80 });
 	audio_quit_button->SetTexOFF({ 0,776,80,80 }, ATLAS);
 	audio_quit_button->SetTexON({ 0,266,80,80 }, ATLAS);
 	audio_quit_button->SetTexOVER({ 0,266,80,80 }, ATLAS);
@@ -280,7 +279,7 @@ bool MainMenu::Start()
 	//Master scroll
 	master_audio_scroll = (UI_Scroll_Bar*)App->gui->GenerateUI_Element(UI_TYPE::SCROLL_BAR);
 	master_audio_scroll->SetScrollBarType(SCROLL_BAR_TYPE::LATERAL_BAR);
-	master_audio_scroll->SetBox({ 50,50,400,100 });
+	master_audio_scroll->SetBox({ 550,250,400,100 });
 	master_audio_scroll->SetScrollMaxValue(MAX_VOLUME);
 	master_audio_scroll->SetScrollableBack({ 40,50 }, { 0,0,350,50 }, ATLAS);
 	master_audio_scroll->SetScrollableItem({ 50,40 }, { 0,500,30,70 }, ATLAS);
@@ -303,7 +302,7 @@ bool MainMenu::Start()
 	//Music scroll
 	music_audio_scroll = (UI_Scroll_Bar*)App->gui->GenerateUI_Element(UI_TYPE::SCROLL_BAR);
 	music_audio_scroll->SetScrollBarType(SCROLL_BAR_TYPE::LATERAL_BAR);
-	music_audio_scroll->SetBox({ 50,200,400,100 });
+	music_audio_scroll->SetBox({ 550,400,400,100 });
 	music_audio_scroll->SetScrollMaxValue(INITIAL_VOLUME);
 	music_audio_scroll->SetScrollableBack({ 40,50 }, { 0,0,350,50 }, ATLAS);
 	music_audio_scroll->SetScrollableItem({ 10,40 }, { 0,500,30,70 }, ATLAS);
@@ -326,7 +325,7 @@ bool MainMenu::Start()
 	//FX scroll
 	fx_audio_scroll = (UI_Scroll_Bar*)App->gui->GenerateUI_Element(UI_TYPE::SCROLL_BAR);
 	fx_audio_scroll->SetScrollBarType(SCROLL_BAR_TYPE::LATERAL_BAR);
-	fx_audio_scroll->SetBox({ 50,350,400,100 });
+	fx_audio_scroll->SetBox({ 550,550,400,100 });
 	fx_audio_scroll->SetScrollMaxValue(INITIAL_VOLUME);
 	fx_audio_scroll->SetScrollableBack({ 40,50 }, { 0,0,350,50 }, ATLAS);
 	fx_audio_scroll->SetScrollableItem({ 10,40 }, { 0,500,30,70 }, ATLAS);
@@ -361,7 +360,7 @@ bool MainMenu::Start()
 
 	//Build Video Menu --------------------------
 	//Video menu base
-	video_menu = (UI_Image*)App->gui->GenerateUI_Element(UI_TYPE::IMG);
+	video_menu = App->gui->GenerateUI_Element(UI_TYPE::IMG);
 	video_menu->SetInputTarget(this);
 	video_menu->SetParent(settings_button);
 	video_menu->SetBox({ 0,0,0,0 });

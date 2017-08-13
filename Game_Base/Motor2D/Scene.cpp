@@ -17,8 +17,8 @@
 #include "Parallax.h"
 #include "UI_Element.h"
 #include "UI_Button.h"
-#include "UI_Image.h"
 #include "UI_Scroll_Bar.h"
+#include "UI_String.h"
 
 #include "MainMenu.h"
 #include "Tutorial.h"
@@ -106,6 +106,7 @@ bool Scene::Awake(pugi::xml_node& data_node)
 bool Scene::Start()
 {
 	//Build scene UI --------
+	Font_Def* menu_ui_font = App->font->GetFontByID(FONT_ID::MENU_UI_FONT);
 
 	//Scene Branch ------------------------------
 	menu_branch = App->gui->GenerateUI_Element(UI_TYPE::UNDEFINED);
@@ -122,17 +123,26 @@ bool Scene::Start()
 	settings_button->SetParent(menu_branch);
 	settings_button->Desactivate();
 	menu_branch->AddChild(settings_button);
+	
+	//Settings buttons string
+	UI_String* settings_button_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	settings_button_string->SetInputTarget(this);
+	settings_button_string->SetFont(menu_ui_font->font);
+	settings_button_string->SetColor(menu_ui_font->font_color);
+	settings_button_string->SetString("X");
+	settings_button_string->AdjustBox();
+	settings_button_string->SetBoxPosition(settings_button->GetBox()->w * 0.5f - settings_button_string->GetBox()->w * 0.5f, settings_button->GetBox()->h * 0.5f - settings_button_string->GetBox()->h * 0.5f);
+	settings_button->AddChild(settings_button_string);
+	settings_button_string->SetLayer(0);
 	// ------------------------------------------
 
 	//Build Setting Menu ------------------------
 
 	//Settings menu base
-	settings_menu = (UI_Image*)App->gui->GenerateUI_Element(UI_TYPE::IMG);
+	settings_menu = App->gui->GenerateUI_Element(UI_TYPE::IMG);
 	settings_menu->SetInputTarget(this);
 	settings_menu->SetParent(settings_button);
-	settings_menu->SetBox({ 100,100,500,700 });
-	settings_menu->ChangeTextureId(ATLAS);
-	settings_menu->ChangeTextureRect({ 100,100,500,700 });
+	settings_menu->SetBox({ 0,0,0,0 });
 	settings_menu->Desactivate();
 	settings_menu->DesactivateChids();
 	menu_branch->AddChild(settings_menu);
@@ -141,16 +151,26 @@ bool Scene::Start()
 	settings_quit_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
 	settings_quit_button->SetInputTarget(this);
 	settings_quit_button->SetParent(settings_menu);
-	settings_quit_button->SetBox({ 450,20,130,95 });
-	settings_quit_button->SetTexOFF({ 0,766,126,93 }, ATLAS);
-	settings_quit_button->SetTexON({ 0,266,126,93 }, ATLAS);
-	settings_quit_button->SetTexOVER({ 0,266,126,93 }, ATLAS);
+	settings_quit_button->SetBox({ 1100,100,80,80 });
+	settings_quit_button->SetTexOFF({ 0,776,80,80 }, ATLAS);
+	settings_quit_button->SetTexON({ 0,266,80,80 }, ATLAS);
+	settings_quit_button->SetTexOVER({ 0,266,80,80 }, ATLAS);
 	settings_quit_button->Desactivate();
 	settings_menu->AddChild(settings_quit_button);
 
+	UI_String* set_quit_button_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	set_quit_button_string->SetInputTarget(this);
+	set_quit_button_string->SetFont(menu_ui_font->font);
+	set_quit_button_string->SetColor(menu_ui_font->font_color);
+	set_quit_button_string->SetString("X");
+	set_quit_button_string->AdjustBox();
+	set_quit_button_string->SetBoxPosition(settings_quit_button->GetBox()->w * 0.5f - set_quit_button_string->GetBox()->w * 0.5f, settings_quit_button->GetBox()->h * 0.5f - set_quit_button_string->GetBox()->h * 0.5f);
+	settings_quit_button->AddChild(set_quit_button_string);
+	set_quit_button_string->SetLayer(0);
+
 	//Audio button
 	settings_audio_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
-	settings_audio_button->SetBox({ 200,200,570,170 });
+	settings_audio_button->SetBox({ 500,200,570,170 });
 	settings_audio_button->SetTexOFF({ 0,199,564,165 }, ATLAS);
 	settings_audio_button->SetTexOVER({ 0,598,564,165 }, ATLAS_TEST);
 	settings_audio_button->SetTexON({ 0,598,564,165 }, ATLAS);
@@ -159,9 +179,20 @@ bool Scene::Start()
 	settings_audio_button->Desactivate();
 	settings_menu->AddChild(settings_audio_button);
 
+	//Audio Button String
+	UI_String* audio_button_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	audio_button_string->SetInputTarget(this);
+	audio_button_string->SetFont(menu_ui_font->font);
+	audio_button_string->SetColor(menu_ui_font->font_color);
+	audio_button_string->SetString("Audio");
+	audio_button_string->AdjustBox();
+	audio_button_string->SetBoxPosition(settings_audio_button->GetBox()->w * 0.5f - audio_button_string->GetBox()->w * 0.5f, settings_audio_button->GetBox()->h * 0.5f - audio_button_string->GetBox()->h * 0.5f);
+	settings_audio_button->AddChild(audio_button_string);
+	audio_button_string->SetLayer(0);
+
 	//Video button
 	settings_video_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
-	settings_video_button->SetBox({ 200,400,570,170 });
+	settings_video_button->SetBox({ 500,400,570,170 });
 	settings_video_button->SetTexOFF({ 0,199,564,165 }, ATLAS);
 	settings_video_button->SetTexOVER({ 0,598,564,165 }, ATLAS_TEST);
 	settings_video_button->SetTexON({ 0,598,564,165 }, ATLAS);
@@ -170,9 +201,20 @@ bool Scene::Start()
 	settings_video_button->Desactivate();
 	settings_menu->AddChild(settings_video_button);
 
+	//Video Button String
+	UI_String* video_button_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	video_button_string->SetInputTarget(this);
+	video_button_string->SetFont(menu_ui_font->font);
+	video_button_string->SetColor(menu_ui_font->font_color);
+	video_button_string->SetString("Video");
+	video_button_string->AdjustBox();
+	video_button_string->SetBoxPosition(settings_video_button->GetBox()->w * 0.5f - video_button_string->GetBox()->w * 0.5f, settings_video_button->GetBox()->h * 0.5f - video_button_string->GetBox()->h * 0.5f);
+	settings_video_button->AddChild(video_button_string);
+	video_button_string->SetLayer(0);
+
 	//Exit button
 	settings_exit_scene_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
-	settings_exit_scene_button->SetBox({ 200,600,570,170 });
+	settings_exit_scene_button->SetBox({ 500,600,570,170 });
 	settings_exit_scene_button->SetTexOFF({ 0,199,564,165 }, ATLAS);
 	settings_exit_scene_button->SetTexOVER({ 0,598,564,165 }, ATLAS_TEST);
 	settings_exit_scene_button->SetTexON({ 0,598,564,165 }, ATLAS);
@@ -180,6 +222,17 @@ bool Scene::Start()
 	settings_exit_scene_button->SetParent(menu_branch);
 	settings_exit_scene_button->Desactivate();
 	settings_menu->AddChild(settings_exit_scene_button);
+
+	// Exit Button String
+	UI_String* quit_button_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	quit_button_string->SetInputTarget(this);
+	quit_button_string->SetFont(menu_ui_font->font);
+	quit_button_string->SetColor(menu_ui_font->font_color);
+	quit_button_string->SetString("Quit");
+	quit_button_string->AdjustBox();
+	quit_button_string->SetBoxPosition(settings_exit_scene_button->GetBox()->w * 0.5f - quit_button_string->GetBox()->w * 0.5f, settings_exit_scene_button->GetBox()->h * 0.5f - quit_button_string->GetBox()->h * 0.5f);
+	settings_exit_scene_button->AddChild(quit_button_string);
+	quit_button_string->SetLayer(0);
 
 	//Setting Menu Links ----
 	settings_audio_button->SetNextInFocus(settings_video_button);
@@ -196,12 +249,10 @@ bool Scene::Start()
 
 	//Build Audio Menu --------------------------
 	//Audio menu base
-	audio_menu = (UI_Image*)App->gui->GenerateUI_Element(UI_TYPE::IMG);
+	audio_menu = App->gui->GenerateUI_Element(UI_TYPE::IMG);
 	audio_menu->SetInputTarget(this);
 	audio_menu->SetParent(settings_button);
-	audio_menu->SetBox({ 100,100,500,700 });
-	audio_menu->ChangeTextureId(ATLAS);
-	audio_menu->ChangeTextureRect({ 100,100,500,700 });
+	audio_menu->SetBox({ 100,0,0,0 });
 	audio_menu->Desactivate();
 	audio_menu->DesactivateChids();
 	menu_branch->AddChild(audio_menu);
@@ -211,17 +262,28 @@ bool Scene::Start()
 	audio_quit_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
 	audio_quit_button->SetInputTarget(this);
 	audio_quit_button->SetParent(settings_menu);
-	audio_quit_button->SetBox({ 450,20,130,95 });
-	audio_quit_button->SetTexOFF({ 0,766,126,93 }, ATLAS);
-	audio_quit_button->SetTexON({ 0,266,126,93 }, ATLAS);
-	audio_quit_button->SetTexOVER({ 0,266,126,93 }, ATLAS);
+	audio_quit_button->SetBox({ 1000,200,80,80 });
+	audio_quit_button->SetTexOFF({ 0,776,80,80 }, ATLAS);
+	audio_quit_button->SetTexON({ 0,266,80,80 }, ATLAS);
+	audio_quit_button->SetTexOVER({ 0,266,80,80 }, ATLAS);
 	audio_quit_button->Desactivate();
 	audio_menu->AddChild(audio_quit_button);
+
+	//Quit button string
+	UI_String* audio_quit_button_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	audio_quit_button_string->SetInputTarget(this);
+	audio_quit_button_string->SetFont(menu_ui_font->font);
+	audio_quit_button_string->SetColor(menu_ui_font->font_color);
+	audio_quit_button_string->SetString("X");
+	audio_quit_button_string->AdjustBox();
+	audio_quit_button_string->SetBoxPosition(audio_quit_button->GetBox()->w * 0.5f - audio_quit_button_string->GetBox()->w * 0.5f, audio_quit_button->GetBox()->h * 0.5f - audio_quit_button_string->GetBox()->h * 0.5f);
+	audio_quit_button->AddChild(audio_quit_button_string);
+	audio_quit_button_string->SetLayer(0);
 
 	//Master scroll
 	master_audio_scroll = (UI_Scroll_Bar*)App->gui->GenerateUI_Element(UI_TYPE::SCROLL_BAR);
 	master_audio_scroll->SetScrollBarType(SCROLL_BAR_TYPE::LATERAL_BAR);
-	master_audio_scroll->SetBox({ 50,50,400,100 });
+	master_audio_scroll->SetBox({ 550,250,400,100 });
 	master_audio_scroll->SetScrollMaxValue(MAX_VOLUME);
 	master_audio_scroll->SetScrollableBack({ 40,50 }, { 0,0,350,50 }, ATLAS);
 	master_audio_scroll->SetScrollableItem({ 50,40 }, { 0,500,30,70 }, ATLAS);
@@ -230,10 +292,21 @@ bool Scene::Start()
 	master_audio_scroll->SetInputTarget(this);
 	audio_menu->AddChild(master_audio_scroll);
 
+	//Master scroll string
+	UI_String* master_scroll_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	master_scroll_string->SetInputTarget(this);
+	master_scroll_string->SetFont(menu_ui_font->font);
+	master_scroll_string->SetColor(menu_ui_font->font_color);
+	master_scroll_string->SetString("Master");
+	master_scroll_string->AdjustBox();
+	master_scroll_string->SetBoxPosition(-master_audio_scroll->GetBox()->w * 0.20f - master_scroll_string->GetBox()->w * 0.5f, master_audio_scroll->GetBox()->h * 0.75f - master_scroll_string->GetBox()->h * 0.5f);
+	master_audio_scroll->AddChild(master_scroll_string);
+	master_scroll_string->SetLayer(0);
+
 	//Music scroll
 	music_audio_scroll = (UI_Scroll_Bar*)App->gui->GenerateUI_Element(UI_TYPE::SCROLL_BAR);
 	music_audio_scroll->SetScrollBarType(SCROLL_BAR_TYPE::LATERAL_BAR);
-	music_audio_scroll->SetBox({ 50,200,400,100 });
+	music_audio_scroll->SetBox({ 550,400,400,100 });
 	music_audio_scroll->SetScrollMaxValue(INITIAL_VOLUME);
 	music_audio_scroll->SetScrollableBack({ 40,50 }, { 0,0,350,50 }, ATLAS);
 	music_audio_scroll->SetScrollableItem({ 10,40 }, { 0,500,30,70 }, ATLAS);
@@ -242,10 +315,21 @@ bool Scene::Start()
 	music_audio_scroll->SetInputTarget(this);
 	audio_menu->AddChild(music_audio_scroll);
 
+	//Music scroll string
+	UI_String* music_scroll_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	music_scroll_string->SetInputTarget(this);
+	music_scroll_string->SetFont(menu_ui_font->font);
+	music_scroll_string->SetColor(menu_ui_font->font_color);
+	music_scroll_string->SetString("Music");
+	music_scroll_string->AdjustBox();
+	music_scroll_string->SetBoxPosition(-music_audio_scroll->GetBox()->w * 0.20f - music_scroll_string->GetBox()->w * 0.5f, music_audio_scroll->GetBox()->h * 0.75f - music_scroll_string->GetBox()->h * 0.5f);
+	music_audio_scroll->AddChild(music_scroll_string);
+	music_scroll_string->SetLayer(0);
+
 	//FX scroll
 	fx_audio_scroll = (UI_Scroll_Bar*)App->gui->GenerateUI_Element(UI_TYPE::SCROLL_BAR);
 	fx_audio_scroll->SetScrollBarType(SCROLL_BAR_TYPE::LATERAL_BAR);
-	fx_audio_scroll->SetBox({ 50,350,400,100 });
+	fx_audio_scroll->SetBox({ 550,550,400,100 });
 	fx_audio_scroll->SetScrollMaxValue(INITIAL_VOLUME);
 	fx_audio_scroll->SetScrollableBack({ 40,50 }, { 0,0,350,50 }, ATLAS);
 	fx_audio_scroll->SetScrollableItem({ 10,40 }, { 0,500,30,70 }, ATLAS);
@@ -253,6 +337,17 @@ bool Scene::Start()
 	fx_audio_scroll->Desactivate();
 	fx_audio_scroll->SetInputTarget(this);
 	audio_menu->AddChild(fx_audio_scroll);
+
+	//Music scroll string
+	UI_String* fx_scroll_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	fx_scroll_string->SetInputTarget(this);
+	fx_scroll_string->SetFont(menu_ui_font->font);
+	fx_scroll_string->SetColor(menu_ui_font->font_color);
+	fx_scroll_string->SetString("Effects");
+	fx_scroll_string->AdjustBox();
+	fx_scroll_string->SetBoxPosition(-fx_audio_scroll->GetBox()->w * 0.20f - fx_scroll_string->GetBox()->w * 0.5f, fx_audio_scroll->GetBox()->h * 0.75f - fx_scroll_string->GetBox()->h * 0.5f);
+	fx_audio_scroll->AddChild(fx_scroll_string);
+	fx_scroll_string->SetLayer(0);
 
 	// Audio Menu Links -----
 	master_audio_scroll->SetNextInFocus(music_audio_scroll);
@@ -269,12 +364,10 @@ bool Scene::Start()
 
 	//Build Video Menu --------------------------
 	//Video menu base
-	video_menu = (UI_Image*)App->gui->GenerateUI_Element(UI_TYPE::IMG);
+	video_menu = App->gui->GenerateUI_Element(UI_TYPE::IMG);
 	video_menu->SetInputTarget(this);
 	video_menu->SetParent(settings_button);
-	video_menu->SetBox({ 100,100,500,700 });
-	video_menu->ChangeTextureId(ATLAS);
-	video_menu->ChangeTextureRect({ 100,100,500,700 });
+	video_menu->SetBox({ 0,0,0,0 });
 	video_menu->Desactivate();
 	video_menu->DesactivateChids();
 	menu_branch->AddChild(video_menu);
@@ -284,16 +377,27 @@ bool Scene::Start()
 	video_quit_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
 	video_quit_button->SetInputTarget(this);
 	video_quit_button->SetParent(settings_menu);
-	video_quit_button->SetBox({ 450,20,130,95 });
-	video_quit_button->SetTexOFF({ 0,766,126,93 }, ATLAS);
-	video_quit_button->SetTexON({ 0,266,126,93 }, ATLAS);
-	video_quit_button->SetTexOVER({ 0,266,126,93 }, ATLAS);
+	video_quit_button->SetBox({ 1100,200,80,80 });
+	video_quit_button->SetTexOFF({ 0,776,80,80 }, ATLAS);
+	video_quit_button->SetTexON({ 0,266,80,80 }, ATLAS);
+	video_quit_button->SetTexOVER({ 0,266,80,80 }, ATLAS);
 	video_quit_button->Desactivate();
 	video_menu->AddChild(video_quit_button);
 
+	//Quit button string
+	UI_String* video_quit_button_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	video_quit_button_string->SetInputTarget(this);
+	video_quit_button_string->SetFont(menu_ui_font->font);
+	video_quit_button_string->SetColor(menu_ui_font->font_color);
+	video_quit_button_string->SetString("X");
+	video_quit_button_string->AdjustBox();
+	video_quit_button_string->SetBoxPosition(video_quit_button->GetBox()->w * 0.5f - video_quit_button_string->GetBox()->w * 0.5f, video_quit_button->GetBox()->h * 0.5f - video_quit_button_string->GetBox()->h * 0.5f);
+	video_quit_button->AddChild(video_quit_button_string);
+	video_quit_button_string->SetLayer(0);
+
 	//Vsync button
 	vsync_video_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
-	vsync_video_button->SetBox({ 200,200,570,170 });
+	vsync_video_button->SetBox({ 500,300,570,170 });
 	vsync_video_button->SetTexOFF({ 0,199,564,165 }, ATLAS);
 	vsync_video_button->SetTexOVER({ 0,598,564,165 }, ATLAS_TEST);
 	vsync_video_button->SetTexON({ 0,598,564,165 }, ATLAS);
@@ -302,9 +406,20 @@ bool Scene::Start()
 	vsync_video_button->Desactivate();
 	video_menu->AddChild(vsync_video_button);
 
+	//Vsync button string
+	UI_String* vsync_button_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	vsync_button_string->SetInputTarget(this);
+	vsync_button_string->SetFont(menu_ui_font->font);
+	vsync_button_string->SetColor(menu_ui_font->font_color);
+	vsync_button_string->SetString("VSync");
+	vsync_button_string->AdjustBox();
+	vsync_button_string->SetBoxPosition(vsync_video_button->GetBox()->w * 0.5f - vsync_button_string->GetBox()->w * 0.5f, vsync_video_button->GetBox()->h * 0.5f - vsync_button_string->GetBox()->h * 0.5f);
+	vsync_video_button->AddChild(vsync_button_string);
+	vsync_button_string->SetLayer(0);
+
 	//Fullscreen button
 	fullscreen_video_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
-	fullscreen_video_button->SetBox({ 200,350,570,170 });
+	fullscreen_video_button->SetBox({ 500,500,570,170 });
 	fullscreen_video_button->SetTexOFF({ 0,199,564,165 }, ATLAS);
 	fullscreen_video_button->SetTexOVER({ 0,598,564,165 }, ATLAS_TEST);
 	fullscreen_video_button->SetTexON({ 0,598,564,165 }, ATLAS);
@@ -312,6 +427,17 @@ bool Scene::Start()
 	fullscreen_video_button->SetParent(menu_branch);
 	fullscreen_video_button->Desactivate();
 	video_menu->AddChild(fullscreen_video_button);
+
+	//Fullscreen button string
+	UI_String* fullscreen_button_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	fullscreen_button_string->SetInputTarget(this);
+	fullscreen_button_string->SetFont(menu_ui_font->font);
+	fullscreen_button_string->SetColor(menu_ui_font->font_color);
+	fullscreen_button_string->SetString("Full Screen");
+	fullscreen_button_string->AdjustBox();
+	fullscreen_button_string->SetBoxPosition(fullscreen_video_button->GetBox()->w * 0.5f - fullscreen_button_string->GetBox()->w * 0.5f, fullscreen_video_button->GetBox()->h * 0.5f - fullscreen_button_string->GetBox()->h * 0.5f);
+	fullscreen_video_button->AddChild(fullscreen_button_string);
+	fullscreen_button_string->SetLayer(0);
 
 	// Video Menu Links -----
 	vsync_video_button->SetNextInFocus(fullscreen_video_button);
@@ -326,12 +452,10 @@ bool Scene::Start()
 
 	//Build death menu --------------------------
 	//Death menu base
-	death_menu = (UI_Image*)App->gui->GenerateUI_Element(UI_TYPE::IMG);
+	death_menu = App->gui->GenerateUI_Element(UI_TYPE::IMG);
 	death_menu->SetInputTarget(this);
 	death_menu->SetParent(menu_branch);
-	death_menu->SetBox({ 100,100,500,700 });
-	death_menu->ChangeTextureId(ATLAS);
-	death_menu->ChangeTextureRect({ 100,100,500,700 });
+	death_menu->SetBox({ 0,0,0,0 });
 	death_menu->Desactivate();
 	death_menu->DesactivateChids();
 	menu_branch->AddChild(death_menu);
@@ -472,8 +596,6 @@ void Scene::GUI_Input(UI_Element * target, GUI_INPUT input)
 			//Activate settings menu and all the childs
 			settings_menu->Activate();
 			settings_menu->ActivateChilds();
-			settings_audio_button->DesactivateChids();
-			settings_video_button->DesactivateChids();
 
 			//Set the correct input target in the new menu
 			App->gui->ItemSelected = settings_audio_button;
@@ -652,8 +774,6 @@ void Scene::GUI_Controller_Input(INPUT_EVENT input_event)
 			//Activate settings menu and all the childs
 			settings_menu->Activate();
 			settings_menu->ActivateChilds();
-			settings_audio_button->DesactivateChids();
-			settings_video_button->DesactivateChids();
 
 			//Set the correct input target in the new menu
 			App->gui->ItemSelected = settings_audio_button;
