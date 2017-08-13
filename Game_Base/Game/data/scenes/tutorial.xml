@@ -1,23 +1,23 @@
 <data>
   <!--Tutorial base colliders-->
-  <floor_collider x="2500" y="955" w="5000" h="50" friction="0.25"/>
-  <end_trigger x="4000" y="900" w="10" h="100"/>
+  <floor_collider x="2500" y="925" w="5000" h="50" friction="0.25"/>
+  <end_trigger x="4000" y="880" w="10" h="100"/>
   <!--Tutorial parallax-->
   <front_pllx cells="3" tex_folder="scenes/ground_texture.jpg" tex_x="0" tex_y="0" tex_w="800" tex_h="100" pos_y="900"/>
   <mid_pllx cells="5" tex_folder="scenes/mid_texture.png" tex_x="0" tex_y="0" tex_w="400" tex_h="450" pos_y="450"/>
   <back_pllx cells="2" tex_folder="scenes/skyline_texture.jpg" tex_x="0" tex_y="0" tex_w="1600" tex_h="900" pos_y="0"/>
-  <player_avatar pos_x="1500" pos_y="900"/>
+  <player_avatar pos_x="1500" pos_y="875"/>
   <entities>
     <!--All entities tutorial data here to can divide the process in different frames -->
 
     <!--Items-->
-    <entity entity_type="item" item_type="jar_item" items_in="coin_item/coin_item/coin_item/coin_item" pos_x="3250" pos_y="910"/>
+    <entity entity_type="item" item_type="jar_item" items_in="coin_item/coin_item/coin_item/coin_item" pos_x="3250" pos_y="885"/>
 
     <!--NPCs-->
-    <entity entity_type="creature" creature_type="standard_npc_creature" pos_x="1200" pos_y="895"/>
-    <entity entity_type="creature" creature_type="lore_npc_creature" pos_x="2000" pos_y="895"/>
+    <entity entity_type="creature" creature_type="standard_npc_creature" pos_x="1200" pos_y="865"/>
+    <entity entity_type="creature" creature_type="lore_npc_creature" pos_x="2000" pos_y="865"/>
 
     <!--Enemies-->
-    <entity entity_type="creature" creature_type="basic_enemy_creature" pos_x="2500" pos_y="870"/>
+    <entity entity_type="creature" creature_type="basic_enemy_creature" pos_x="2500" pos_y="865"/>
   </entities>
 </data>
