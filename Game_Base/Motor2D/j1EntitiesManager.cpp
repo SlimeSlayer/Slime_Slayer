@@ -139,6 +139,32 @@ bool j1EntitiesManager::Awake(pugi::xml_node & node)
 		return false;
 	}
 
+	//Load entities UI data
+	//Selected entity string data
+	selected_str_margin = node.child("selected_string").attribute("margin").as_uint();
+	selected_update_rate = node.child("selected_string").attribute("update_rate").as_uint();
+
+	//Standard life bar sizes
+	bar_life_margin = node.child("standard_life_bar").attribute("maring").as_uint();
+	iPoint standard_bar_life_sizes = { node.child("standard_life_bar").attribute("w").as_int(), node.child("standard_life_bar").attribute("h").as_int() };
+	ally_bar_life_template.SetBox({ 0,0,standard_bar_life_sizes.x,standard_bar_life_sizes.y });
+	enemy_bar_life_template.SetBox({ 0,0,standard_bar_life_sizes.x,standard_bar_life_sizes.y });
+	
+	//Standard life bar to empty rest value
+	float rest_val = node.child("standard_life_bar").attribute("to_empty_rest_val").as_float();
+	ally_bar_life_template.SetToEmptyRestValue(rest_val);
+	enemy_bar_life_template.SetToEmptyRestValue(rest_val);
+
+	//Ally life bar colors
+	ally_bar_life_template.SetFullColor(TokenStrToColor(node.child("ally_bar_life").attribute("full").as_string()));
+	ally_bar_life_template.SetToEmptyColor(TokenStrToColor(node.child("ally_bar_life").attribute("to_empty").as_string()));
+	ally_bar_life_template.SetEmptyColor(TokenStrToColor(node.child("ally_bar_life").attribute("empty").as_string()));
+	//Enemy life bar colors
+	enemy_bar_life_template.SetFullColor(TokenStrToColor(node.child("enemy_bar_life").attribute("full").as_string()));
+	enemy_bar_life_template.SetToEmptyColor(TokenStrToColor(node.child("enemy_bar_life").attribute("to_empty").as_string()));
+	enemy_bar_life_template.SetEmptyColor(TokenStrToColor(node.child("enemy_bar_life").attribute("empty").as_string()));
+
+
 	return true;
 }
 
@@ -179,7 +205,7 @@ bool j1EntitiesManager::Update(float dt)
 	//Iterate all the current entities to check body rects
 	std::list<Entity*>::const_iterator enti_item = current_entities.begin();
 
-	if (entity_sel_timer.Read() > SELECTED_UPDATE_RATE)
+	if (entity_sel_timer.Read() > selected_update_rate)
 	{
 		//Get mouse position
 		int x = 0, y = 0;
@@ -236,7 +262,7 @@ bool j1EntitiesManager::Update(float dt)
 		int x = 0, y = 0;
 		entity_selected->GetBody()->GetPosition(x, y);
 		
-		entity_sel_string.DrawAt(x - entity_sel_string.GetBox()->w * 0.5f + App->render->camera.x, y - entity_selected->GetBody()->height * 2 + App->render->camera.y - SELECTED_STRING_MARGIN);
+		entity_sel_string.DrawAt(x - entity_sel_string.GetBox()->w * 0.5f + App->render->camera.x, y - entity_selected->GetBody()->height * 2 + App->render->camera.y - selected_str_margin);
 	}
 
 	
@@ -475,7 +501,7 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	
 	//Build life bar
 	UI_Progressive_Bar* life_bar = new_creature->GetLifeBar();
-	life_bar->SetBox({ 0,0,STANDARD_LIFE_BAR_WIDTH,STANDARD_LIFE_BAR_HEIGHT });
+	life_bar->SetBox({ 0,0,ally_bar_life_template.GetBox()->w,ally_bar_life_template.GetBox()->h });
 	life_bar->SetMaxValue(new_creature->GetMaxLife());
 	life_bar->SetVisualLayer(10);
 
@@ -641,6 +667,26 @@ std::vector<ITEM_TYPE> j1EntitiesManager::TokenStrToItemTypes(const char * str) 
 	}
 
 	return types_vec;
+}
+
+SDL_Color j1EntitiesManager::TokenStrToColor(const char * str) const
+{
+	SDL_Color res = { 255,255,255,255 };
+
+	std::vector<Uint8> values_vec;
+
+	std::string copy = str;
+	char* token = strtok((char*)copy.c_str(), "/");
+
+	while (token != NULL)
+	{
+		values_vec.push_back(atoi(token));
+		token = strtok(NULL, "/");
+	}
+	
+	res = { values_vec[0],values_vec[1],values_vec[2],values_vec[3] };
+
+	return res;
 }
 
 //Functionality =================================

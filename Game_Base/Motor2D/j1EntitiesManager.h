@@ -1,12 +1,6 @@
 #ifndef __j1ENTITIES_MANAGER_H__
 #define __j1ENTITIES_MANAGER_H__
 
-#define SELECTED_STRING_MARGIN 25
-#define BAR_LIFE_MARGIN 10
-#define STANDARD_LIFE_BAR_WIDTH 150
-#define	STANDARD_LIFE_BAR_HEIGHT 20
-#define SELECTED_UPDATE_RATE 400
-
 #include "j1Module.h"
 #include "BaseEntities.h"
 #include "Items.h"
@@ -76,6 +70,13 @@ private:
 
 public:
 
+	//Entities UI data ------
+	uint				selected_str_margin = 0;
+	uint				selected_update_rate = 0;
+	uint				bar_life_margin = 0;
+	UI_Progressive_Bar	ally_bar_life_template;
+	UI_Progressive_Bar	enemy_bar_life_template;
+
 	//Enums Methods ---------
 	ENTITY_TYPE				StrToEntityType(const char* str)const;
 	DIPLOMACY				StrToDiplomacy(const char* str)const;
@@ -84,6 +85,7 @@ public:
 	DIRECTION				StrToDirection(const char* str)const;
 	ACTION_TYPE				StrToActionType(const char* str)const;
 	std::vector<ITEM_TYPE>	TokenStrToItemTypes(const char* str)const;
+	SDL_Color				TokenStrToColor(const char* str)const;
 
 	// Functionality --------
 	Creature*	GenerateCreature(CREATURE_TYPE creature_type, bool generate_body = true);

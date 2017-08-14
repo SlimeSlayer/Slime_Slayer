@@ -98,6 +98,10 @@
   </animator>
 
   <entities_manager>
+    <selected_string margin="35" update_rate="400"/>
+    <standard_life_bar margin="15" w="150" h="15" to_empty_rest_val ="1.5"/>
+    <ally_bar_life full="50/255/50/255" to_empty="255/255/255/255" empty="20/20/20/255"/>
+    <enemy_bar_life full="255/50/50/255" to_empty="255/255/255/255" empty="20/20/20/255"/>
     <entities_data file="entities_manager/entities_defs.xml"/>
   </entities_manager>
 

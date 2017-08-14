@@ -144,3 +144,9 @@ void UI_Button::SetTexOVER(SDL_Rect img_rect, TEXTURE_ID text_id)
 {
 	tex_over = UI_Image({ 0,0,0,0 }, { 0,0 }, img_rect, text_id);
 }
+
+void UI_Button::UnBlock()
+{
+	blocked = false;
+	button_state = OFF;
+}

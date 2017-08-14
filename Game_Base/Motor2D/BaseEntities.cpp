@@ -234,7 +234,7 @@ void Creature::Draw()
 	{
 		int x = 0, y = 0;
 		body->GetPosition(x, y);
-		life_bar.DrawAt(x, y - body->height * 2 - BAR_LIFE_MARGIN);
+		life_bar.DrawAt(x, y - body->height * 2 - App->entities_manager->bar_life_margin);
 	}
 
 	if (current_animation != nullptr)
