@@ -6,7 +6,13 @@
 #include "j1InputManager.h"
 
 //Constructors
-UI_Element::UI_Element(const SDL_Rect& box, UI_TYPE ui_type, bool IsActive) :box(box), ui_type(ui_type), IsActive(IsActive), input_target(App->gui->GetDefaultInputTarget()) {}
+UI_Element::UI_Element(const SDL_Rect& box, UI_TYPE ui_type, bool IsActive) :box(box), ui_type(ui_type), IsActive(IsActive)
+{
+	if (App != nullptr)
+	{
+		input_target = App->gui->GetDefaultInputTarget();
+	}
+}
 
 UI_Element::UI_Element(const UI_Element* copy) : box(copy->box), ui_type(copy->ui_type), IsActive(copy->IsActive), input_target(copy->input_target) {}
 

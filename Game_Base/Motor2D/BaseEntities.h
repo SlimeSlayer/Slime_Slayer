@@ -20,6 +20,14 @@ enum ENTITY_TYPE
 	ITEM
 };
 
+enum DIPLOMACY
+{
+	NO_DIPLOMACY,
+	NEUTRAL,
+	ALLY,
+	ENEMY
+};
+
 enum CREATURE_TYPE
 {
 	NO_CREATURE = 0,
@@ -73,6 +81,7 @@ public:
 protected:
 
 	ENTITY_TYPE		entity_type = NO_ENTITY;
+	DIPLOMACY		diplomacy = NO_DIPLOMACY;
 	PhysBody*		body = nullptr;
 	std::string		name = "";
 	std::string		description = "";
@@ -89,6 +98,7 @@ public:
 
 	//Set Methods -----------
 	void			SetEntityType(ENTITY_TYPE type);
+	void			SetDiplomacy(DIPLOMACY dip);
 	void			SetName(std::string new_name);
 	void			SetDescription(std::string new_description);
 	void			SetBody(PhysBody* new_body);
@@ -99,6 +109,7 @@ public:
 
 	//Get Methods -----------
 	ENTITY_TYPE	GetEntityType()const;
+	DIPLOMACY	GetDiplomacy()const;
 	const char*	GetName()const;
 	const char*	GetDescription()const;
 	PhysBody*	GetBody()const;
@@ -107,8 +118,8 @@ public:
 	DIRECTION	GetDirection()const;
 
 	//Functionality ---------
-	virtual void UpdatePosition();
-
+	virtual void		UpdatePosition();
+	virtual const char*	GenerateMouseInString()const;
 };
 /// ---------------------------------------------
 

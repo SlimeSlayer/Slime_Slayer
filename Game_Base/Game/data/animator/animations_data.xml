@@ -6,6 +6,6 @@
       <anim file="lore_npc.xml"     entity_type="creature"/>
       <anim file="standard_npc.xml" entity_type="creature"/>
     <!--Items animations-->
-
+      <anim file="items.xml"        entity_type="item"/>
   </animations>
 </data>

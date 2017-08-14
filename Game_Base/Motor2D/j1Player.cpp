@@ -165,7 +165,7 @@ void j1Player::OnSensorCollision(PhysBody * A, PhysBody * B)
 	if ((atk_input_state == INPUT_DOWN || (atk_input_state == INPUT_REPEAT && avatar->ReadyToAttack())) && A == avatar->GetCurrentAttackArea())
 	{
 		//Check if B is an enemy
-		if (B->entity_related->GetEntityType() == CREATURE && ((Creature*)B->entity_related)->GetCreatureType() == CREATURE_TYPE::BASIC_ENEMY_CREATURE)
+		if (B->entity_related->GetDiplomacy() == ENEMY)
 		{
 			A->entity_related->worker.AddAction(A->entity_related->worker.GenerateSimpleAttackAction(A->entity_related, (Creature*)B->entity_related));
 		}

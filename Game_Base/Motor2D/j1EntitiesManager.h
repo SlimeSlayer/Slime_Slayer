@@ -1,10 +1,16 @@
 #ifndef __j1ENTITIES_MANAGER_H__
 #define __j1ENTITIES_MANAGER_H__
 
+#define SELECTED_STRING_MARGIN 25
+#define SELECTED_UPDATE_RATE 400
+
 #include "j1Module.h"
 #include "BaseEntities.h"
 #include "Items.h"
 #include "Creatures.h"
+#include "j1Timer.h"
+
+#include "UI_String.h"
 
 class j1EntitiesManager : public j1Module
 {
@@ -60,10 +66,16 @@ private:
 	//Vector with all the entities generated in the last frame
 	std::vector<Entity*>	entities_to_add;
 
+	//Entity selected data
+	Entity*		entity_selected = nullptr;
+	UI_String	entity_sel_string;
+	j1Timer		entity_sel_timer;
+
 public:
 
 	//Enums Methods ---------
 	ENTITY_TYPE				StrToEntityType(const char* str)const;
+	DIPLOMACY				StrToDiplomacy(const char* str)const;
 	CREATURE_TYPE			StrToCreatureType(const char* str)const;
 	ITEM_TYPE				StrToItemType(const char* str)const;
 	DIRECTION				StrToDirection(const char* str)const;

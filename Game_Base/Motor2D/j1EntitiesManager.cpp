@@ -11,6 +11,8 @@
 #include "j1Gui.h"
 #include "Worker.h"
 #include "Scene.h"
+#include "j1Input.h"
+#include "j1Render.h"
 
 #include "UI_String.h"
 
@@ -171,6 +173,73 @@ bool j1EntitiesManager::Update(float dt)
 	}
 	entitites_to_clear.clear();
 	
+	//Check if mouse is over an entity
+	bool still_in = false;
+	//Iterate all the current entities to check body rects
+	std::list<Entity*>::const_iterator enti_item = current_entities.begin();
+
+	if (entity_sel_timer.Read() > SELECTED_UPDATE_RATE)
+	{
+		//Get mouse position
+		int x = 0, y = 0;
+		App->input->GetMousePosition(x, y);
+		SDL_Point mouse_coords = { x - App->render->camera.x,y - App->render->camera.y };
+
+		while (enti_item != current_entities.end())
+		{
+			//Build the current entity box
+			int b_x = 0, b_y = 0;
+			enti_item._Ptr->_Myval->GetBody()->GetPosition(b_x, b_y);
+			SDL_Rect cur_enti_body =
+			{
+				b_x - enti_item._Ptr->_Myval->GetBody()->width ,
+				b_y - enti_item._Ptr->_Myval->GetBody()->height,
+				enti_item._Ptr->_Myval->GetBody()->width * 2,
+				enti_item._Ptr->_Myval->GetBody()->height * 2
+			};
+
+			//Check if the built box contacts with the mouse 
+			if (SDL_PointInRect(&mouse_coords, &cur_enti_body))
+			{
+				still_in = bool(entity_selected == enti_item._Ptr->_Myval);
+
+				//Get the correct font
+				Font_Def* font = nullptr;
+				if (enti_item._Ptr->_Myval->GetDiplomacy() == ENEMY)font = App->font->GetFontByID(FONT_ID::ENEMY_INF_FONT);
+				else font = App->font->GetFontByID(FONT_ID::ALLY_INF_FONT);
+				//Set the font
+				entity_sel_string.SetFont(font->font);
+				//Set the color
+				entity_sel_string.SetColor(font->font_color);
+				//Set the string & generate the texture
+				entity_sel_string.SetString(enti_item._Ptr->_Myval->GenerateMouseInString());
+				entity_sel_string.AdjustBox();
+				entity_sel_string.SetVisualLayer(10);
+
+				//Set the current entity selected
+				entity_selected = enti_item._Ptr->_Myval;
+
+				break;
+			}
+
+			enti_item++;
+		}
+	}
+
+	if (enti_item == current_entities.end() && !still_in)
+	{
+		entity_sel_string.SetString("none", false);
+	}
+	else
+	{
+		int x = 0, y = 0;
+		entity_selected->GetBody()->GetPosition(x, y);
+		
+		entity_sel_string.DrawAt(x - entity_sel_string.GetBox()->w * 0.5f + App->render->camera.x, y - entity_selected->GetBody()->height * 2 + App->render->camera.y - SELECTED_STRING_MARGIN);
+	}
+
+	
+
 	return ret;
 }
 
@@ -311,6 +380,7 @@ void j1EntitiesManager::AddItemDefinition(const pugi::xml_node * data_node)
 
 	//Set new item general stats
 	/*Entity Type*/		new_item->SetEntityType(ITEM);
+	/*Diplomacy*/		new_item->SetDiplomacy(StrToDiplomacy(data_node->attribute("diplomacy").as_string()));
 	/*Item Type*/		new_item->SetItemType(item_type);
 	/*Volatile*/		if (data_node->attribute("volatile").as_bool())new_item->SetAsVolatile();
 	/*Name*/			new_item->SetName(data_node->attribute("name").as_string());
@@ -389,6 +459,7 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 
 	//Set the new creature general states
 	/*Entity Type*/		new_creature->SetEntityType(CREATURE);
+	/*Diplomacy*/		new_creature->SetDiplomacy(StrToDiplomacy(data_node->attribute("diplomacy").as_string()));
 	/*Creature Type*/	new_creature->SetCreatureType(creature_type);
 	/*Name*/			new_creature->SetName(data_node->attribute("name").as_string());
 	/*Description*/		new_creature->SetDescription(data_node->attribute("description").as_string());
@@ -504,6 +575,14 @@ ENTITY_TYPE j1EntitiesManager::StrToEntityType(const char * str) const
 	if (strcmp(str, "creature") == 0)				return CREATURE;
 	if (strcmp(str, "creature_evo_template") == 0)	return CREATURE_EVO_TEMPLATE;
 	return NO_ENTITY;
+}
+
+DIPLOMACY j1EntitiesManager::StrToDiplomacy(const char * str) const
+{
+	if (strcmp(str, "neutral") == 0)	return NEUTRAL;
+	if (strcmp(str, "ally") == 0)		return ALLY;
+	if (strcmp(str, "enemy") == 0)		return ENEMY;
+	return NO_DIPLOMACY;
 }
 
 CREATURE_TYPE j1EntitiesManager::StrToCreatureType(const char * str) const

@@ -18,7 +18,7 @@ Entity::Entity()
 
 }
 
-Entity::Entity(const Entity & copy, bool generate_body) : entity_type(copy.entity_type), name(copy.name), description(copy.description), action_type(copy.action_type), direction(copy.direction)
+Entity::Entity(const Entity & copy, bool generate_body) : entity_type(copy.entity_type), diplomacy(copy.diplomacy), name(copy.name), description(copy.description), action_type(copy.action_type), direction(copy.direction)
 {
 	if (generate_body)
 	{
@@ -63,6 +63,11 @@ void Entity::SetEntityType(ENTITY_TYPE type)
 	entity_type = type;
 }
 
+void Entity::SetDiplomacy(DIPLOMACY dip)
+{
+	diplomacy = dip;
+}
+
 void Entity::SetName(std::string new_name)
 {
 	name = new_name;
@@ -104,6 +109,11 @@ ENTITY_TYPE Entity::GetEntityType() const
 	return entity_type;
 }
 
+DIPLOMACY Entity::GetDiplomacy() const
+{
+	return diplomacy;
+}
+
 const char* Entity::GetName() const
 {
 	return name.c_str();
@@ -138,6 +148,11 @@ DIRECTION Entity::GetDirection() const
 void Entity::UpdatePosition()
 {
 
+}
+
+const char* Entity::GenerateMouseInString()const
+{
+	return name.c_str();
 }
 
 /// Item ----------------------------------------

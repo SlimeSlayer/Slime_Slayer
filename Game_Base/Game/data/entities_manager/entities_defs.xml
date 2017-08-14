@@ -15,6 +15,7 @@
       fixed_rotation="true"
       interaction_type="dynamic"
       
+      diplomacy="neutral"
       item_type="coin_item"
       volatile="true"
       name="Coin"
@@ -37,6 +38,7 @@
       fixed_rotation="true"
       interaction_type="static"
       
+      diplomacy="neutral"
       item_type="jar_item"
       volatile="false"
       name="Jar"
@@ -63,6 +65,7 @@
       fixed_rotation="true"
       interaction_type="static"
       
+      diplomacy="neutral"
       creature_type="standard_npc_creature"
       name="NPC"
       description="Insert epic description here"
@@ -87,6 +90,7 @@
       fixed_rotation="true"
       interaction_type="static"
       
+      diplomacy="ally"
       creature_type="lore_npc_creature"
       name="Lore NPC"
       description="Insert epic description here"
@@ -128,6 +132,7 @@
       fixed_rotation="true"
       interaction_type="static"
       
+      diplomacy="ally"
       creature_type="lore_npc_b_creature"
       name="Lore NPC"
       description="Insert epic description here"
@@ -167,6 +172,7 @@
       fixed_rotation="true"
       interaction_type="dynamic"
       
+      diplomacy="enemy"
       creature_type="basic_enemy_creature"
       name="Enemy"
       description="Insert epic description here"
@@ -197,6 +203,7 @@
       fixed_rotation="true"
       interaction_type="dynamic"
       
+      diplomacy="ally"
       creature_type="player_creature"
       name="Player"
       description="Insert epic description here"
