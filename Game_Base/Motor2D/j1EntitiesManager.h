@@ -71,6 +71,7 @@ private:
 public:
 
 	//Entities UI data ------
+	uint				entities_ui_visual_layer = 0;
 	uint				selected_str_margin = 0;
 	uint				selected_update_rate = 0;
 	uint				bar_life_margin = 0;

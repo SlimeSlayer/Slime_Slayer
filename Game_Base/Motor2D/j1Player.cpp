@@ -63,14 +63,13 @@ bool j1Player::Start()
 bool j1Player::Update(float dt)
 {
 	//When player is dead
-	if (avatar == nullptr)return true;
+	if (avatar == nullptr || avatar->GetBody() == nullptr)return true;
 
 
 	//Update player avatar ----------------------
 	avatar->Update();
-	avatar->Draw();
-
-	if (avatar == nullptr)return true;
+	if (avatar == nullptr || avatar->GetBody() == nullptr)return true;
+	avatar->Draw();	
 
 	// Read all player inputs states ------------
 	INPUT_STATE go_left_input_state = App->input_manager->GetEvent(INPUT_EVENT::GO_LEFT);

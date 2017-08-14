@@ -50,6 +50,8 @@ bool Entity::Update()
 
 void Entity::Draw()
 {
+	if (body == nullptr)return;
+
 	if (current_animation != nullptr)
 	{
 		int x = 0, y = 0;
@@ -230,11 +232,13 @@ bool Creature::Update()
 // Game Loop ==========================
 void Creature::Draw()
 {
+	if (body == nullptr)return;
+
 	if (diplomacy == ENEMY)
 	{
 		int x = 0, y = 0;
 		body->GetPosition(x, y);
-		life_bar.DrawAt(x, y - body->height * 2 - App->entities_manager->bar_life_margin);
+		life_bar.DrawAt(x - life_bar.GetBox()->w * 0.5, y - body->height * 2 - App->entities_manager->bar_life_margin);
 	}
 
 	if (current_animation != nullptr)
@@ -254,12 +258,15 @@ void Creature::SetCreatureType(CREATURE_TYPE new_creature_type)
 
 void Creature::SetCurrentLife(uint new_life)
 {
-	current_life = new_life;
+	float vl = new_life;
+	life_bar.AddValue(vl - current_life);
+	current_life = new_life;	
 }
 
 void Creature::SetMaxLife(uint new_max_life)
 {
 	max_life = new_max_life;
+	life_bar.SetMaxValue(new_max_life);
 }
 
 void Creature::SetAttackHitPoints(uint new_attack)

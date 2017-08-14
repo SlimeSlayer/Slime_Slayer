@@ -140,6 +140,9 @@ bool j1EntitiesManager::Awake(pugi::xml_node & node)
 	}
 
 	//Load entities UI data
+	//Entities UI visual layer
+	entities_ui_visual_layer = node.child("entities_ui").attribute("visual_layer").as_int();
+	
 	//Selected entity string data
 	selected_str_margin = node.child("selected_string").attribute("margin").as_uint();
 	selected_update_rate = node.child("selected_string").attribute("update_rate").as_uint();
@@ -241,7 +244,7 @@ bool j1EntitiesManager::Update(float dt)
 				//Set the string & generate the texture
 				entity_sel_string.SetString(enti_item._Ptr->_Myval->GenerateMouseInString());
 				entity_sel_string.AdjustBox();
-				entity_sel_string.SetVisualLayer(10);
+				entity_sel_string.SetVisualLayer(entities_ui_visual_layer);
 
 				//Set the current entity selected
 				entity_selected = enti_item._Ptr->_Myval;
@@ -251,13 +254,15 @@ bool j1EntitiesManager::Update(float dt)
 
 			enti_item++;
 		}
+
+		entity_sel_timer.Start();
 	}
 
 	if (enti_item == current_entities.end() && !still_in)
 	{
 		entity_sel_string.SetString("none", false);
 	}
-	else
+	else if (entity_selected != nullptr && entity_selected->GetBody() != nullptr)
 	{
 		int x = 0, y = 0;
 		entity_selected->GetBody()->GetPosition(x, y);
@@ -501,9 +506,19 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	
 	//Build life bar
 	UI_Progressive_Bar* life_bar = new_creature->GetLifeBar();
-	life_bar->SetBox({ 0,0,ally_bar_life_template.GetBox()->w,ally_bar_life_template.GetBox()->h });
-	life_bar->SetMaxValue(new_creature->GetMaxLife());
-	life_bar->SetVisualLayer(10);
+	UI_Progressive_Bar* temp = nullptr;
+	//Get the correct template
+	if (new_creature->GetDiplomacy() == ENEMY)
+	{
+		*life_bar = enemy_bar_life_template;
+	}
+	else
+	{
+		*life_bar = ally_bar_life_template;
+	}
+	/*Values*/			life_bar->SetMaxValue(new_creature->GetMaxLife());
+						life_bar->SetCurrentValue(new_creature->GetMaxLife());
+	/*Visual Layer*/	life_bar->SetVisualLayer(entities_ui_visual_layer);
 
 	//Set new creature specific stats
 	switch (creature_type)

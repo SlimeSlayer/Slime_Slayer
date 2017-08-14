@@ -5,7 +5,7 @@
 #include "j1Textures.h"
 
 //Constructors ============================================
-UI_Progressive_Bar::UI_Progressive_Bar(const UI_Progressive_Bar* copy) :UI_Element(copy->box, PROGRESSIVE_BAR), max_value(copy->max_value), current_value(copy->current_value), full_color(copy->full_color), empty_color(copy->empty_color)
+UI_Progressive_Bar::UI_Progressive_Bar(const UI_Progressive_Bar* copy) :UI_Element(copy->box, PROGRESSIVE_BAR), max_value(copy->max_value), current_value(copy->current_value), full_color(copy->full_color), empty_color(copy->empty_color), to_empty_color(copy->to_empty_color), to_empty_rest_val(copy->to_empty_rest_val), to_empty_val(copy->to_empty_val)
 {
 
 }
@@ -100,9 +100,36 @@ void UI_Progressive_Bar::GenerateTexture()
 
 void UI_Progressive_Bar::UpdateTexture()
 {
+	//Focus render at the bar box
 	SDL_SetRenderTarget(App->render->renderer, bar_texture);
 	SDL_SetRenderDrawBlendMode(App->render->renderer, SDL_BLENDMODE_BLEND);
+	
+	//Calculate the percents
+	float empty_per_cent_val = current_value / max_value;
+	float to_empty_per_cent_val = abs(to_empty_val / max_value);
+	SDL_Rect full_rect = { 0,0,ceil(box.w * empty_per_cent_val),box.h };
+	
+
+	//Update to empty value
+	to_empty_val = MAX(abs(to_empty_val) - to_empty_rest_val * App->GetDT(), 0.0f);
+
+	//Blit the empty color
+	if (empty_per_cent_val > 0.000)
+	{
+		SDL_SetRenderDrawColor(App->render->renderer, empty_color.r, empty_color.g, empty_color.b, empty_color.a);
+		SDL_RenderFillRect(App->render->renderer, &box);
+	}
+	//Blit the empty color
 	SDL_SetRenderDrawColor(App->render->renderer, full_color.r, full_color.g, full_color.b, full_color.a);
-	SDL_RenderFillRect(App->render->renderer, &box);
+	SDL_RenderFillRect(App->render->renderer, &full_rect);
+	//Blit the to_empty color
+	if (to_empty_per_cent_val > 0.000)
+	{
+		SDL_Rect to_empty_rect = { full_rect.w,0,ceil(box.w * to_empty_per_cent_val),box.h };
+		SDL_SetRenderDrawColor(App->render->renderer, to_empty_color.r, to_empty_color.g, to_empty_color.b, to_empty_color.a);
+		SDL_RenderFillRect(App->render->renderer, &to_empty_rect);
+	}
+
+	//Reset render target to window
 	SDL_SetRenderTarget(App->render->renderer, NULL);
 }

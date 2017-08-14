@@ -120,7 +120,9 @@
     <ClCompile Include="Particles.cpp">
       <Filter>Modules\ParticleManager</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Progressive_Bar.cpp" />
+    <ClCompile Include="UI_Progressive_Bar.cpp">
+      <Filter>UI\UI_Elements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
