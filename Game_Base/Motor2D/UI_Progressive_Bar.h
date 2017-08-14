@@ -13,13 +13,13 @@ public:
 
 protected:
 
-	float			max_value = 0;
-	float			current_value = 0;
+	float			max_value = 0.0;
+	float			current_value = 0.0;
 	SDL_Color		full_color = { 255,255,255,255 };
 	SDL_Color		empty_color = { 255,255,255,255 };
 	SDL_Color		to_empty_color = { 255,255,255,255 };
-	float			to_empty_rest_val = 0;
-	float			to_empty_val = 0;
+	float			to_empty_rest_val = 0.0;
+	float			to_empty_val = 0.0;
 	SDL_Texture*	bar_texture = nullptr;
 
 public:

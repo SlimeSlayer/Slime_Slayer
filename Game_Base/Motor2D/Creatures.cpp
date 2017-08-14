@@ -65,6 +65,7 @@ bool Intelligent_Creature::Update()
 	worker.Update();
 
 	UpdatePosition();
+	life_bar.Update();
 
 	return true;
 }

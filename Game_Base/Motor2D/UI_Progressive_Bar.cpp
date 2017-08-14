@@ -104,4 +104,5 @@ void UI_Progressive_Bar::UpdateTexture()
 	SDL_SetRenderDrawBlendMode(App->render->renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(App->render->renderer, full_color.r, full_color.g, full_color.b, full_color.a);
 	SDL_RenderFillRect(App->render->renderer, &box);
+	SDL_SetRenderTarget(App->render->renderer, NULL);
 }

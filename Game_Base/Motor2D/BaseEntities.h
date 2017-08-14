@@ -161,6 +161,12 @@ public:
 	Creature(const Creature& copy, bool generate_body = true);
 	~Creature();
 
+public:
+
+	//Game Loop
+	bool Update();
+	void Draw();
+
 protected:
 
 	CREATURE_TYPE creature_type = NO_CREATURE;
@@ -191,15 +197,16 @@ public:
 	void SetRewardExperience(uint experience);
 
 	//Get Methods -----------
-	CREATURE_TYPE	GetCreatureType()const;
-	uint			GetCurrentLife()const;
-	uint			GetMaxLife()const;
-	uint			GetAttackHitPoints()const;
-	uint			GetAttackRate()const;
-	float			GetMovSpeed()const;
-	float			GetJumpForce()const;
-	uint			GetMoney()const;
-	uint			GetRewardExperience()const;
+	CREATURE_TYPE		GetCreatureType()const;
+	uint				GetCurrentLife()const;
+	uint				GetMaxLife()const;
+	UI_Progressive_Bar*	GetLifeBar();
+	uint				GetAttackHitPoints()const;
+	uint				GetAttackRate()const;
+	float				GetMovSpeed()const;
+	float				GetJumpForce()const;
+	uint				GetMoney()const;
+	uint				GetRewardExperience()const;
 
 	//Functionality ---------
 	void			AddMoney(uint gained_money);

@@ -205,7 +205,7 @@ Creature::Creature()
 
 }
 
-Creature::Creature(const Creature & copy, bool generate_body) : Entity(copy, generate_body), creature_type(copy.creature_type), current_life(copy.current_life),max_life(copy.max_life), life_bar(copy.life_bar), attack_hitpoints(copy.attack_hitpoints), attack_rate(copy.attack_rate), mov_speed(copy.mov_speed), jump_force(copy.jump_force), money(copy.money), reward_experience(copy.reward_experience), level(copy.level)
+Creature::Creature(const Creature & copy, bool generate_body) : Entity(copy, generate_body), creature_type(copy.creature_type), current_life(copy.current_life),max_life(copy.max_life), life_bar(&copy.life_bar), attack_hitpoints(copy.attack_hitpoints), attack_rate(copy.attack_rate), mov_speed(copy.mov_speed), jump_force(copy.jump_force), money(copy.money), reward_experience(copy.reward_experience), level(copy.level)
 {
 	entity_type = CREATURE;
 	action_type = IDLE_ACTION;
@@ -215,6 +215,35 @@ Creature::Creature(const Creature & copy, bool generate_body) : Entity(copy, gen
 Creature::~Creature()
 {
 
+}
+
+bool Creature::Update()
+{
+	//Update worker
+	worker.Update();
+
+	life_bar.Update();
+
+	return true;
+}
+
+// Game Loop ==========================
+void Creature::Draw()
+{
+	if (diplomacy == ENEMY)
+	{
+		int x = 0, y = 0;
+		body->GetPosition(x, y);
+		life_bar.DrawAt(x, y - body->height * 2 - BAR_LIFE_MARGIN);
+	}
+
+	if (current_animation != nullptr)
+	{
+		int x = 0, y = 0;
+		this->body->GetPosition(x, y);
+		const Sprite* sprite = current_animation->GetCurrentSprite();
+		App->render->CallBlit(current_animation->GetTexture(), x + sprite->GetXpivot(), y + sprite->GetYpivot(), sprite->GetFrame(), current_animation->GetLoop(), current_animation->GetSpritesScale());
+	}
 }
 
 //Set Methods =========================
@@ -277,6 +306,11 @@ uint Creature::GetCurrentLife() const
 uint Creature::GetMaxLife() const
 {
 	return max_life;
+}
+
+UI_Progressive_Bar* Creature::GetLifeBar()
+{
+	return &life_bar;
 }
 
 uint Creature::GetAttackHitPoints() const

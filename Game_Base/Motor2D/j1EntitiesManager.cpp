@@ -473,6 +473,12 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	/*Money*/			new_creature->SetMoney(data_node->attribute("money").as_uint(0));
 	/*Reward Exp*/		new_creature->SetRewardExperience(data_node->attribute("reward_experience").as_uint(0));
 	
+	//Build life bar
+	UI_Progressive_Bar* life_bar = new_creature->GetLifeBar();
+	life_bar->SetBox({ 0,0,STANDARD_LIFE_BAR_WIDTH,STANDARD_LIFE_BAR_HEIGHT });
+	life_bar->SetMaxValue(new_creature->GetMaxLife());
+	life_bar->SetVisualLayer(10);
+
 	//Set new creature specific stats
 	switch (creature_type)
 	{
@@ -671,8 +677,15 @@ Creature * j1EntitiesManager::GenerateCreature(CREATURE_TYPE creature_type, bool
 	// Add  the generated creature at the current creatures list
 	if (generate_body)
 	{
+		//Add the entity to the entity manager
 		AddEntity(new_creature);
+		//Play entity animation
 		App->animator->EntityPlay(new_creature);
+		//Active life bar if is an enemy
+		if (new_creature->GetDiplomacy() == ENEMY)
+		{
+			new_creature->GetLifeBar()->GenerateTexture();
+		}
 	}
 
 	return new_creature;
