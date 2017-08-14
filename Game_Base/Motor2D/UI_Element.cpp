@@ -5,7 +5,7 @@
 #include "SDL/include/SDL.h"
 #include "j1InputManager.h"
 
-//Constructors
+//Constructors ============================================
 UI_Element::UI_Element(const SDL_Rect& box, UI_TYPE ui_type, bool IsActive) :box(box), ui_type(ui_type), IsActive(IsActive)
 {
 	if (App != nullptr)
@@ -18,7 +18,7 @@ UI_Element::UI_Element(const UI_Element* copy) : box(copy->box), ui_type(copy->u
 
 UI_Element::UI_Element() : box({0,0,0,0}), ui_type(UNDEFINED), IsActive(false), input_target(nullptr) {}
 
-//Destructor
+//Destructor ==============================================
 UI_Element::~UI_Element()
 {
 	childs.clear();

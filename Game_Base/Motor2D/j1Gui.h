@@ -30,7 +30,6 @@ enum GUI_INPUT {
 	BACKSPACE,
 	ENTER,
 	TAB
-
 };
 
 enum CURSOR_TARGET

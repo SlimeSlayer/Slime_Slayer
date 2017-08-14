@@ -463,7 +463,8 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	/*Creature Type*/	new_creature->SetCreatureType(creature_type);
 	/*Name*/			new_creature->SetName(data_node->attribute("name").as_string());
 	/*Description*/		new_creature->SetDescription(data_node->attribute("description").as_string());
-	/*Life*/			new_creature->SetLife(data_node->attribute("life").as_uint());
+	/*Life*/			new_creature->SetMaxLife(data_node->attribute("life").as_uint());
+						new_creature->SetCurrentLife(new_creature->GetMaxLife());
 	/*AttackHitPoints*/	new_creature->SetAttackHitPoints(data_node->attribute("attack_hitpoints").as_uint());
 	/*AttackRate*/		new_creature->SetAttackRate(data_node->attribute("attack_rate").as_uint());
 	/*Mov Speed*/		new_creature->SetMovSpeed(data_node->attribute("mov_speed").as_float());
@@ -728,7 +729,8 @@ bool j1EntitiesManager::LevelUpCreature(Creature * target)
 	//If the template is found we can apply it
 	if (evo_template != nullptr)
 	{
-		/*Life*/			target->SetLife(target->GetLife() + evo_template->life);
+		/*Life*/			target->SetMaxLife(target->GetMaxLife() + evo_template->life);
+							target->SetCurrentLife(target->GetCurrentLife());
 		/*Attack Points*/	target->SetAttackHitPoints(target->GetAttackHitPoints() + evo_template->attack_hitpoints);
 		/*Money*/			target->AddMoney(evo_template->money);
 	}

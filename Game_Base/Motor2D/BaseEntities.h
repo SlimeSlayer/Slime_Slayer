@@ -8,6 +8,7 @@
 #include "p2Defs.h"
 #include <string>
 #include "Worker.h"
+#include "UI_Progressive_Bar.h"
 
 class PhysBody;
 class Animation;
@@ -163,11 +164,13 @@ protected:
 
 	CREATURE_TYPE creature_type = NO_CREATURE;
 
-	uint	life = 0;
-	uint	attack_hitpoints = 0;
-	uint	attack_rate = 0;
-	float	mov_speed = 0.0f;
-	float	jump_force = 0.0f;
+	uint				current_life = 0;
+	uint				max_life = 0;
+	UI_Progressive_Bar	life_bar;
+	uint				attack_hitpoints = 0;
+	uint				attack_rate = 0;
+	float				mov_speed = 0.0f;
+	float				jump_force = 0.0f;
 
 	uint	money = 0;						/*Current money*/
 	uint	reward_experience = 0;			/*Player get reward * lvl when beat the creature*/
@@ -177,7 +180,8 @@ public:
 
 	//Set Methods -----------
 	void SetCreatureType(CREATURE_TYPE new_creature_type);
-	void SetLife(uint new_life);
+	void SetCurrentLife(uint new_life);
+	void SetMaxLife(uint new_max_life);
 	void SetAttackHitPoints(uint new_attack);
 	void SetAttackRate(uint atk_rate);
 	void SetMovSpeed(float new_mov_speed);
@@ -187,7 +191,8 @@ public:
 
 	//Get Methods -----------
 	CREATURE_TYPE	GetCreatureType()const;
-	uint			GetLife()const;
+	uint			GetCurrentLife()const;
+	uint			GetMaxLife()const;
 	uint			GetAttackHitPoints()const;
 	uint			GetAttackRate()const;
 	float			GetMovSpeed()const;

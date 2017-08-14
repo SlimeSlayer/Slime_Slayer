@@ -324,7 +324,7 @@ Basic_Attack_Action::~Basic_Attack_Action()
 bool Basic_Attack_Action::Init()
 {
 	//Check if the target is already dead
-	if (target->GetLife() == 0)return false;
+	if (target->GetCurrentLife() == 0)return false;
 
 	//Start the attack rate timer
 	attack_timer.Start();
@@ -335,7 +335,7 @@ bool Basic_Attack_Action::Init()
 // Game Loop ==========================
 bool Basic_Attack_Action::Execute()
 {
-	if (((Creature*)target)->GetLife() == 0)return true;
+	if (((Creature*)target)->GetCurrentLife() == 0)return true;
 
 	//Check if the target is in range
 	int tar_x = 0, tar_y = 0;
@@ -355,18 +355,18 @@ bool Basic_Attack_Action::Execute()
 	if (attack_timer.Read() > ((Creature*)actor)->GetAttackRate())
 	{
 		//Apply damage
-		target->SetLife(MAX(target->GetLife() - ((Creature*)actor)->GetAttackHitPoints(), 0));
+		target->SetCurrentLife(MAX(target->GetCurrentLife() - ((Creature*)actor)->GetAttackHitPoints(), 0));
 		
 		//Reset attack timer
 		attack_timer.Start();
 
 		//Generate score particle
 		App->particle_manager->GenerateTextParticle(target,PARTICLE_TYPE::ALLY_HITPOINTS_PARTICLE, ((Creature*)actor)->GetAttackHitPoints());
-		LOG("TL: %i", target->GetLife());
+		LOG("TL: %i", target->GetCurrentLife());
 	}
 
 	//When target is dead actor stops
-	if (((Creature*)target)->GetLife() == 0)
+	if (((Creature*)target)->GetCurrentLife() == 0)
 	{
 		target->worker.AddPriorizedAction(target->worker.GenerateDieAction(target));
 		return true;
@@ -392,18 +392,18 @@ Simple_Attack_Action::~Simple_Attack_Action()
 // Game Loop ==========================
 bool Simple_Attack_Action::Execute()
 {
-	if (target->GetLife() == 0)return true;
+	if (target->GetCurrentLife() == 0)return true;
 
 	//Apply damage to the target
 	uint atk_hitpnts = ((Creature*)actor)->GetAttackHitPoints();
-	int life = target->GetLife();
-	target->SetLife(MAX((int)life - (int)atk_hitpnts, 0));
+	int life = target->GetCurrentLife();
+	target->SetCurrentLife(MAX((int)life - (int)atk_hitpnts, 0));
 
 	//Generate a particle with the damage done
 	App->particle_manager->GenerateTextParticle(target,PARTICLE_TYPE::ENEMY_HITPOINTS_PARTICLE, atk_hitpnts);
 
 	//If the target is dead call die action
-	if (target->GetLife() == 0)
+	if (target->GetCurrentLife() == 0)
 	{
 		target->worker.AddPriorizedAction(target->worker.GenerateDieAction(target));
 	}

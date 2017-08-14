@@ -203,7 +203,7 @@ Creature::Creature()
 
 }
 
-Creature::Creature(const Creature & copy, bool generate_body) : Entity(copy, generate_body), creature_type(copy.creature_type), life(copy.life), attack_hitpoints(copy.attack_hitpoints), attack_rate(copy.attack_rate), mov_speed(copy.mov_speed), jump_force(copy.jump_force), money(copy.money), reward_experience(copy.reward_experience), level(copy.level)
+Creature::Creature(const Creature & copy, bool generate_body) : Entity(copy, generate_body), creature_type(copy.creature_type), current_life(copy.current_life),max_life(copy.max_life), life_bar(copy.life_bar), attack_hitpoints(copy.attack_hitpoints), attack_rate(copy.attack_rate), mov_speed(copy.mov_speed), jump_force(copy.jump_force), money(copy.money), reward_experience(copy.reward_experience), level(copy.level)
 {
 	entity_type = CREATURE;
 	action_type = IDLE_ACTION;
@@ -221,9 +221,14 @@ void Creature::SetCreatureType(CREATURE_TYPE new_creature_type)
 	creature_type = new_creature_type;
 }
 
-void Creature::SetLife(uint new_life)
+void Creature::SetCurrentLife(uint new_life)
 {
-	life = new_life;
+	current_life = new_life;
+}
+
+void Creature::SetMaxLife(uint new_max_life)
+{
+	max_life = new_max_life;
 }
 
 void Creature::SetAttackHitPoints(uint new_attack)
@@ -262,9 +267,14 @@ CREATURE_TYPE Creature::GetCreatureType() const
 	return creature_type;
 }
 
-uint Creature::GetLife() const
+uint Creature::GetCurrentLife() const
 {
-	return life;
+	return current_life;
+}
+
+uint Creature::GetMaxLife() const
+{
+	return max_life;
 }
 
 uint Creature::GetAttackHitPoints() const
