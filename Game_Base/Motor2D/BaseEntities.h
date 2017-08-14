@@ -78,6 +78,7 @@ public:
 
 	//Game Loop -------------
 	virtual bool Update();
+	virtual void Draw();
 
 protected:
 

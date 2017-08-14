@@ -64,15 +64,7 @@ bool Intelligent_Creature::Update()
 {
 	worker.Update();
 
-	this->UpdatePosition();
-
-	if (current_animation != nullptr)
-	{
-		int x = 0, y = 0;
-		this->body->GetPosition(x, y);
-		const Sprite* sprite = current_animation->GetCurrentSprite();
-		App->render->CallBlit(current_animation->GetTexture(), x + sprite->GetXpivot(), y + sprite->GetYpivot(), sprite->GetFrame(), current_animation->GetLoop(),current_animation->GetSpritesScale());
-	}
+	UpdatePosition();
 
 	return true;
 }

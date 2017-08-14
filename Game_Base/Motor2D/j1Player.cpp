@@ -68,6 +68,8 @@ bool j1Player::Update(float dt)
 
 	//Update player avatar ----------------------
 	avatar->Update();
+	avatar->Draw();
+
 	if (avatar == nullptr)return true;
 
 	// Read all player inputs states ------------

@@ -159,6 +159,7 @@ bool j1EntitiesManager::Update(float dt)
 	while (list_item != current_entities.end())
 	{
 		ret = list_item._Ptr->_Myval->Update();
+		list_item._Ptr->_Myval->Draw();
 		list_item++;
 	}
 

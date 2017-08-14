@@ -45,7 +45,11 @@ bool Entity::Update()
 	//Update worker
 	worker.Update();
 
-	//Blit animation 
+	return true;
+}
+
+void Entity::Draw()
+{
 	if (current_animation != nullptr)
 	{
 		int x = 0, y = 0;
@@ -53,8 +57,6 @@ bool Entity::Update()
 		const Sprite* sprite = current_animation->GetCurrentSprite();
 		App->render->CallBlit(current_animation->GetTexture(), x + sprite->GetXpivot(), y + sprite->GetYpivot(), sprite->GetFrame(), current_animation->GetLoop(), current_animation->GetSpritesScale());
 	}
-
-	return true;
 }
 
 //Set Methods =========================
