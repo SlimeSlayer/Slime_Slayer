@@ -202,6 +202,7 @@ TEXTURE_ID j1Gui::StrToTextureID(const char * str)
 {
 	if (strcmp(str, "atlas") == 0)			return ATLAS;
 	if (strcmp(str, "atlas_test") == 0)		return ATLAS_TEST;
+	if (strcmp(str, "github_icon") == 0)	return GITHUB_ICON;
 	return TEXTURE_NONE;
 }
 

@@ -16,6 +16,7 @@
 #include "UI_Button.h"
 #include "UI_Scroll_Bar.h"
 #include "UI_String.h"
+#include "UI_Image.h"
 
 // Constructors ===========================================
 MainMenu::MainMenu()
@@ -143,6 +144,14 @@ bool MainMenu::Start()
 	quit_button_string->SetBoxPosition(quit_button->GetBox()->w * 0.5f - quit_button_string->GetBox()->w * 0.5f, quit_button->GetBox()->h * 0.5f - quit_button_string->GetBox()->h * 0.5f);
 	quit_button->AddChild(quit_button_string);
 	quit_button_string->SetLogicalLayer(0);
+
+	// Github Link
+	github_link = (UI_Image*)App->gui->GenerateUI_Element(UI_TYPE::IMG);
+	github_link->SetInputTarget(this);
+	github_link->ChangeTextureId(TEXTURE_ID::GITHUB_ICON);
+	github_link->AdjustBox();
+	github_link->SetBoxPosition(1435, 750);
+	menu_branch->AddChild(github_link);
 
 	// Main Menu Links -----
 	start_button->SetNextInFocus(settings_button);
@@ -611,6 +620,11 @@ void MainMenu::GUI_Input(UI_Element * target, GUI_INPUT input)
 		else if (target == vsync_video_button)
 		{
 			App->render->ChangeVSYNCstate(!App->render->vsync);
+		}
+		//Links Buttons ---------------
+		else if (target == github_link)
+		{
+			ShellExecute(NULL, "open", "https://github.com/SlimeSlayer/Slime_Slayer", NULL, NULL, SW_SHOWMAXIMIZED);
 		}
 	}
 	else if (input == GUI_INPUT::MOUSE_LEFT_BUTTON_REPEAT)

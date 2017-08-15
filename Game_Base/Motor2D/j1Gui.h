@@ -48,7 +48,8 @@ enum TEXTURE_ID
 {
 	TEXTURE_NONE = 0,
 	ATLAS,
-	ATLAS_TEST
+	ATLAS_TEST,
+	GITHUB_ICON
 };
 // ---------------------------------------------------
 

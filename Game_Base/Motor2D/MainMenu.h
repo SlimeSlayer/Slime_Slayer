@@ -42,6 +42,7 @@ private:
 	UI_Button*	start_button = nullptr;
 	UI_Button*	settings_button = nullptr;
 	UI_Button*	quit_button = nullptr;
+	UI_Image*	github_link = nullptr;
 
 	//Settings Menu
 	UI_Element*	settings_menu = nullptr;
