@@ -261,7 +261,7 @@ bool j1Input::PreUpdate()
 
 		case SDL_CONTROLLERBUTTONDOWN:
 
-			LOG("BOTON: %i", event.cbutton.button);
+			//LOG("BOTON: %i", event.cbutton.button);
 			controller_buttons[event.cbutton.button] = KEY_DOWN;
 			App->input_manager->SendControllerInputEvent(event.cbutton.button, INPUT_STATE::INPUT_DOWN);
 			break;

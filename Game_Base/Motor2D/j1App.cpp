@@ -60,13 +60,13 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(font);
-	AddModule(gui);
 	AddModule(video);
 	AddModule(physics);
 	AddModule(animator);
 	AddModule(entities_manager);
 	AddModule(particle_manager);
 	AddModule(player);
+	AddModule(gui);
 
 	// scene last
 	AddModule(main_menu);

@@ -74,7 +74,9 @@ void PhysBody::GetPosition(int& x, int &y) const
 {
 	b2Vec2 pos = body->GetPosition();
 	x = METERS_TO_PIXELS(pos.x);
+	x = (x > (floor(x) + 0.5f)) ? ceil(x) : floor(x);
 	y = METERS_TO_PIXELS(pos.y);
+	y = (y > (floor(y) + 0.5f)) ? ceil(y) : floor(y);
 }
 
 float PhysBody::GetRotation() const

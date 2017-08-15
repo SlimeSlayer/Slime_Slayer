@@ -139,7 +139,7 @@ bool Scene::Start()
 	//Build Setting Menu ------------------------
 
 	//Settings menu base
-	settings_menu = App->gui->GenerateUI_Element(UI_TYPE::IMG);
+	settings_menu = App->gui->GenerateUI_Element(UI_TYPE::UNDEFINED);
 	settings_menu->SetInputTarget(this);
 	settings_menu->SetParent(settings_button);
 	settings_menu->SetBox({ 0,0,0,0 });
@@ -249,7 +249,7 @@ bool Scene::Start()
 
 	//Build Audio Menu --------------------------
 	//Audio menu base
-	audio_menu = App->gui->GenerateUI_Element(UI_TYPE::IMG);
+	audio_menu = App->gui->GenerateUI_Element(UI_TYPE::UNDEFINED);
 	audio_menu->SetInputTarget(this);
 	audio_menu->SetParent(settings_button);
 	audio_menu->SetBox({ 100,0,0,0 });
@@ -364,7 +364,7 @@ bool Scene::Start()
 
 	//Build Video Menu --------------------------
 	//Video menu base
-	video_menu = App->gui->GenerateUI_Element(UI_TYPE::IMG);
+	video_menu = App->gui->GenerateUI_Element(UI_TYPE::UNDEFINED);
 	video_menu->SetInputTarget(this);
 	video_menu->SetParent(settings_button);
 	video_menu->SetBox({ 0,0,0,0 });
@@ -452,7 +452,7 @@ bool Scene::Start()
 
 	//Build death menu --------------------------
 	//Death menu base
-	death_menu = App->gui->GenerateUI_Element(UI_TYPE::IMG);
+	death_menu = App->gui->GenerateUI_Element(UI_TYPE::UNDEFINED);
 	death_menu->SetInputTarget(this);
 	death_menu->SetParent(menu_branch);
 	death_menu->SetBox({ 0,0,0,0 });

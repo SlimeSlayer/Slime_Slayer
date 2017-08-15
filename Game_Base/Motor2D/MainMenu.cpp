@@ -245,7 +245,7 @@ bool MainMenu::Start()
 
 	//Build Audio Menu --------------------------
 	//Audio menu base
-	audio_menu = App->gui->GenerateUI_Element(UI_TYPE::IMG);
+	audio_menu = App->gui->GenerateUI_Element(UI_TYPE::UNDEFINED);
 	audio_menu->SetInputTarget(this);
 	audio_menu->SetParent(settings_button);
 	audio_menu->SetBox({ 100,0,0,0 });
@@ -360,7 +360,7 @@ bool MainMenu::Start()
 
 	//Build Video Menu --------------------------
 	//Video menu base
-	video_menu = App->gui->GenerateUI_Element(UI_TYPE::IMG);
+	video_menu = App->gui->GenerateUI_Element(UI_TYPE::UNDEFINED);
 	video_menu->SetInputTarget(this);
 	video_menu->SetParent(settings_button);
 	video_menu->SetBox({ 0,0,0,0 });

@@ -69,6 +69,8 @@
     <key  controller_id="14"      event ="add_value"    num="1"   app_context="pause_context"/>
     <key  id ="Left"              event ="rest_value"             app_context="pause_context"/>
     <key  controller_id="13"      event ="rest_value"   num="1"   app_context="pause_context"/>
+    <!--Debug-->
+    <key  id ="F2"                event="ui_debug"                app_context="pause_context"/>
     <!--Escape-->
     <key  id ="Escape"            event ="escape"                 app_context="pause_context"/>
     <key  controller_id="Start"   event ="escape"       num="0"   app_context="pause_context"/>
@@ -82,6 +84,8 @@
     <key  controller_id="14"      event ="add_value"    num="1"   app_context="main_menu_context"/>
     <key  id ="Left"              event ="rest_value"             app_context="main_menu_context"/>
     <key  controller_id="13"      event ="rest_value"   num="1"   app_context="main_menu_context"/>
+    <!--Debug-->
+    <key  id ="F2"                event="ui_debug"                app_context="main_menu_context"/>
     <!--Escape-->
     <key  id ="Escape"            event ="escape"                 app_context="main_menu_context"/>
     <key  controller_id="Start"   event ="escape"       num="0"   app_context="main_menu_context"/>
