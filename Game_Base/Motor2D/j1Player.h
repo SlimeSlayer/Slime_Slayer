@@ -6,8 +6,7 @@
 
 #define PLAYER_CAMERA_X 500
 #define PLAYER_CAMERA_Y 800
-#define DEFAULT_DIALOG_X 600
-#define DEFAULT_DIALOG_Y 700
+#define DEFAULT_DIALOG_Y_MARGIN 35
 
 class Player;
 
@@ -40,9 +39,6 @@ public:
 
 	//User avatar -----------
 	Player* avatar = nullptr;
-
-	//Dialogs Location ------
-	iPoint dialogs_location = { DEFAULT_DIALOG_X,DEFAULT_DIALOG_Y };
 
 public:
 

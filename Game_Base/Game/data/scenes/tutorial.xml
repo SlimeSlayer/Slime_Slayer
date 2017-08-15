@@ -11,7 +11,7 @@
     <!--All entities tutorial data here to can divide the process in different frames -->
 
     <!--Items-->
-    <entity entity_type="item" item_type="jar_item" items_in="coin_item/coin_item/coin_item/coin_item" pos_x="3250" pos_y="885"/>
+    <entity entity_type="item" item_type="basic_box_item" items_in="coin_item/coin_item/coin_item/coin_item" pos_x="3250" pos_y="885"/>
 
     <!--NPCs-->
     <entity entity_type="creature" creature_type="standard_npc_creature" pos_x="1200" pos_y="875"/>

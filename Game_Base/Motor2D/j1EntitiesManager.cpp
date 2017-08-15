@@ -387,8 +387,8 @@ void j1EntitiesManager::AddItemDefinition(const pugi::xml_node * data_node)
 	//Allocate the correct class checking the item type
 	switch (item_type)
 	{
-	case COIN_ITEM:	new_item = new Coin();			break;
-	case JAR_ITEM:	new_item = new Items_Tank();	break;
+	case COIN_ITEM:			new_item = new Coin();			break;
+	case BASIC_BOX_ITEM:	new_item = new Items_Tank();	break;
 	}
 	
 	//Load the new item body data
@@ -428,7 +428,7 @@ void j1EntitiesManager::AddItemDefinition(const pugi::xml_node * data_node)
 
 		break;
 
-	case JAR_ITEM:
+	case BASIC_BOX_ITEM:
 
 		/*Drop Imp*/	((Items_Tank*)new_item)->SetDropImpulse(data_node->attribute("drop_impulse").as_float());
 		/*Drop T Rad*/	((Items_Tank*)new_item)->SetDropTotalRad(data_node->attribute("drop_total_rad").as_float());
@@ -566,7 +566,8 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 			new_str->SetFont(d_font->font);
 			new_str->SetColor(d_color);
 			new_str->SetString(dialog_atr.as_string("str_error"));
-			
+			new_str->AdjustBox();
+
 			//Add the generated ui_str
 			((NPC*)new_creature)->AddDialogStr(new_str);
 			
@@ -646,8 +647,8 @@ CREATURE_TYPE j1EntitiesManager::StrToCreatureType(const char * str) const
 
 ITEM_TYPE j1EntitiesManager::StrToItemType(const char * str) const
 {
-	if (strcmp(str, "jar_item") == 0)	return JAR_ITEM;
-	if (strcmp(str, "coin_item") == 0)	return COIN_ITEM;
+	if (strcmp(str, "basic_box_item") == 0)	return BASIC_BOX_ITEM;
+	if (strcmp(str, "coin_item") == 0)		return COIN_ITEM;
 	return NO_ITEM;
 }
 
@@ -765,7 +766,7 @@ Item* j1EntitiesManager::GenerateItem(ITEM_TYPE item_type, bool generate_body)
 			switch (item_type)
 			{
 			case COIN_ITEM:			new_item = new Coin(*(Coin*)items_defs[k], generate_body);						break;
-			case JAR_ITEM:			new_item = new Items_Tank(*(Items_Tank*)items_defs[k], generate_body);			break;
+			case BASIC_BOX_ITEM:	new_item = new Items_Tank(*(Items_Tank*)items_defs[k], generate_body);			break;
 			default:				new_item = new Item(*items_defs[k], generate_body);								break;
 			}
 

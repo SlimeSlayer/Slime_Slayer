@@ -180,7 +180,8 @@ private:
 public:
 
 	//Load animation block
-	bool	LoadAnimationBlock(const char* xml_folder, ENTITY_TYPE entity_type);
+	bool	LoadSimpleAnimationBlock(const char* xml_folder, ENTITY_TYPE entity_type);
+	bool	LoadMultipleAnimationBlock(const char* xml_folder, ENTITY_TYPE entity_type);
 
 	//Animations Methods ----
 	bool	EntityPlay(Entity* target);

@@ -8,6 +8,7 @@
 #include "j1Player.h"
 #include "j1InputManager.h"
 #include "j1Physics.h"
+#include "j1Render.h"
 
 #include "UI_Element.h"
 #include "UI_String.h"
@@ -64,11 +65,13 @@ bool Dialog_Action::Init()
 
 bool Dialog_Action::Execute()
 {
+	int x = 0, y = 0;
+	actor->GetBody()->GetPosition(x, y);
 	//Get the first dialog string
 	if (current_dialog == nullptr)
 	{
 		current_dialog = ((NPC*)actor)->GetDialogByIndex(0);
-		current_dialog->SetBoxPosition(DEFAULT_DIALOG_X - current_dialog->GetBox()->w, DEFAULT_DIALOG_Y - current_dialog->GetBox()->h);
+		current_dialog->SetBoxPosition(x - current_dialog->GetBox()->w * 0.5 + App->render->camera.x, y - current_dialog->GetBox()->h + App->render->camera.y - DEFAULT_DIALOG_Y_MARGIN);
 	}
 
 	//Focus the next dialog string
@@ -86,7 +89,7 @@ bool Dialog_Action::Execute()
 		}
 
 		//Set the correct dialog box position
-		else current_dialog->SetBoxPosition(DEFAULT_DIALOG_X - current_dialog->GetBox()->w, DEFAULT_DIALOG_Y - current_dialog->GetBox()->h);
+		else current_dialog->SetBoxPosition(x - current_dialog->GetBox()->w * 0.5 + App->render->camera.x, y - current_dialog->GetBox()->h + App->render->camera.y - DEFAULT_DIALOG_Y_MARGIN);
 	}
 
 	//Draw the current string

@@ -43,7 +43,7 @@ enum ITEM_TYPE
 {
 	NO_ITEM = 0,
 	COIN_ITEM,
-	JAR_ITEM
+	BASIC_BOX_ITEM
 };
 
 enum ACTION_TYPE

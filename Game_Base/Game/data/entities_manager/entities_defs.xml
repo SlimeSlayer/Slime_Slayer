@@ -39,7 +39,7 @@
       interaction_type="static"
       
       diplomacy="neutral"
-      item_type="jar_item"
+      item_type="basic_box_item"
       volatile="false"
       name="Jar"
       description="Contain coins"      

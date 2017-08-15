@@ -157,7 +157,7 @@ bool Tutorial::Enable()
 			case ITEM:
 				ITEM_TYPE item_type = App->entities_manager->StrToItemType(current_enable_node.attribute("item_type").as_string());
 				new_entity = App->entities_manager->GenerateItem(item_type);
-				if (item_type == JAR_ITEM)
+				if (item_type == BASIC_BOX_ITEM)
 				{
 					//Get the items in the items tank
 					std::vector<ITEM_TYPE> items_ty_vec = App->entities_manager->TokenStrToItemTypes(current_enable_node.attribute("items_in").as_string());
@@ -286,7 +286,7 @@ bool Tutorial::Update(float dt)
 	//TEST ZONE ---------------------------------
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
-		Item* jar = App->entities_manager->GenerateItem(JAR_ITEM);
+		Item* jar = App->entities_manager->GenerateItem(BASIC_BOX_ITEM);
 		jar->GetBody()->SetPosition(App->input->GetMouseX() - App->render->camera.x, App->input->GetMouseY() - App->render->camera.y);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)

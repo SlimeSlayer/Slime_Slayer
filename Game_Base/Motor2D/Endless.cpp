@@ -260,7 +260,7 @@ bool Endless::Update(float dt)
 	//TEST ZONE ---------------------------------
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
-		Item* jar = App->entities_manager->GenerateItem(JAR_ITEM);
+		Item* jar = App->entities_manager->GenerateItem(BASIC_BOX_ITEM);
 		jar->GetBody()->SetPosition((float)App->input->GetMouseX() - App->render->camera.x, (float)App->input->GetMouseY() - App->render->camera.y);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)

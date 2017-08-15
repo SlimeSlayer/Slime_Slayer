@@ -292,6 +292,8 @@ void j1Animator::Init()
 
 bool j1Animator::Enable()
 {
+	bool ret = true;
+
 	//Timer to count the operations time and respect the TIME_TO_ENABLE
 	j1Timer process_timer;
 
@@ -308,11 +310,25 @@ bool j1Animator::Enable()
 		std::string folder = current_enable_node.attribute("file").as_string();
 		ENTITY_TYPE entity_type = App->entities_manager->StrToEntityType(current_enable_node.attribute("entity_type").as_string());
 		
-		if (LoadAnimationBlock(folder.c_str(),entity_type))
+		//Check if the block to load is for multiple entities
+		if (current_enable_node.attribute("multiple").as_bool())
+		{
+			ret = LoadMultipleAnimationBlock(folder.c_str(), entity_type);
+		}
+		else
+		{
+			ret = LoadSimpleAnimationBlock(folder.c_str(), entity_type);
+		}
+
+		//Log the result to help tracking
+		if (ret)
 		{
 			LOG("%s correctly loaded!", folder.c_str());
 		}
-		else LOG("Error loading: %s", folder.c_str());
+		else
+		{
+			LOG("Error loading: %s", folder.c_str());
+		}
 		
 		//Focus the next node
 		current_enable_node = current_enable_node.next_sibling();
@@ -408,7 +424,7 @@ bool j1Animator::CleanUp()
 	return true;
 }
 
-bool j1Animator::LoadAnimationBlock(const char * xml_folder, ENTITY_TYPE entity_type)
+bool j1Animator::LoadSimpleAnimationBlock(const char * xml_folder, ENTITY_TYPE entity_type)
 {
 	//Load animations data from XML folder
 	
@@ -547,6 +563,11 @@ bool j1Animator::LoadAnimationBlock(const char * xml_folder, ENTITY_TYPE entity_
 	}
 	
 	return true;
+}
+
+bool j1Animator::LoadMultipleAnimationBlock(const char * xml_folder, ENTITY_TYPE entity_type)
+{
+	return false;
 }
 
 bool j1Animator::EntityPlay(Entity* target)
