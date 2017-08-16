@@ -1,32 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<atlas texture="player.png" width="782" height="782">
+<atlas texture="items_spritesheet.png">
   <!-- Coin animation-->
-  <item id ="coin_item">
+  <entity id ="coin_item">
 
     <!--Idle Action-->
-    <action enum ="idle_action" speed="350" loop="true" scale="3.5">
+    <action enum ="idle_action" speed="10" loop="false" scale="10">
 
       <direction enum="no_direction" flip="false">
-        <sprite x="0"  y="4" w="19" h="16" pX="-0.65" pY="-1.7"/>
-        <sprite x="21" y="4" w="18" h="16" pX="-0.65" pY="-1.7"/>
+        <sprite x="141"  y="132" w="1" h="1" pX="-5" pY="-5"/>
       </direction>
 
     </action>
     
-  </item>
+  </entity>
   
   <!-- Basic Box animation-->
-  <item id ="basic_box_item">
+  <entity id ="basic_box_item">
 
     <!--Idle Action-->
-    <action enum ="idle_action" speed="350" loop="true" scale="3.5">
+    <action enum ="idle_action" speed="0" loop="false" scale="1.0">
 
       <direction enum="no_direction" flip="false">
-        <sprite x="0"  y="4" w="19" h="16" pX="-0.65" pY="-1.7"/>
-        <sprite x="21" y="4" w="18" h="16" pX="-0.65" pY="-1.7"/>
+        <sprite x="156"  y="0" w="50" h="50" pX="-0.5" pY="-0.5"/>
       </direction>
 
     </action>
 
-  </item>
+  </entity>
 </atlas>

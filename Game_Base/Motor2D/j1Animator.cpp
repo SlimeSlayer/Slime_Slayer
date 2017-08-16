@@ -477,7 +477,7 @@ bool j1Animator::LoadSimpleAnimationBlock(const char * xml_folder, ENTITY_TYPE e
 		ACTION_TYPE action_type = App->entities_manager->StrToActionType(data_node.attribute("enum").as_string());
 		action_animation_block->SetId(action_type);
 		//Get animation speed
-		uint speed = data_node.attribute("speed").as_uint(200);
+		uint speed = MAX(1, data_node.attribute("speed").as_uint(0));
 		//Get animation loop
 		bool loop = data_node.attribute("loop").as_bool(false);
 		//Get animation scale
@@ -567,7 +567,146 @@ bool j1Animator::LoadSimpleAnimationBlock(const char * xml_folder, ENTITY_TYPE e
 
 bool j1Animator::LoadMultipleAnimationBlock(const char * xml_folder, ENTITY_TYPE entity_type)
 {
-	return false;
+	//Load animations data from XML folder
+
+	//XML load
+	LOG("Loading: %s ...", xml_folder);
+	std::string load_folder = name + "/" + xml_folder;
+	pugi::xml_document entity_anim_data;
+	if (!App->fs->LoadXML(load_folder.c_str(), &entity_anim_data))return false;
+
+	//Texture load
+	load_folder = name + "/" + entity_anim_data.child("atlas").attribute("texture").as_string();
+	SDL_Texture* texture = App->tex->Load(load_folder.c_str());
+	if (texture == nullptr)
+	{
+		LOG("Error loading %s texture", load_folder.c_str());
+		return false;
+	}
+
+	//Focus the first entity animation block
+	pugi::xml_node entity_node = entity_anim_data.first_child().child("entity");
+
+	while (entity_node != NULL)
+	{
+		//Allocate the animation block
+		Animation_Block* entity_animation_block = new Animation_Block();
+
+		//Get the entity family specific type
+		uint specific_type = 0;
+		switch (entity_type)
+		{
+		case CREATURE:	specific_type = App->entities_manager->StrToCreatureType(entity_node.attribute("id").as_string());		break;
+		case ITEM:		specific_type = App->entities_manager->StrToItemType(entity_node.attribute("id").as_string());			break;
+		}
+		if (specific_type == 0)
+		{
+			LOG("Error loading entity specific type!");
+		}
+		entity_animation_block->SetId(specific_type);
+
+		//Focus the first action node
+		pugi::xml_node action_node = entity_node.first_child();
+
+		while (action_node != NULL)
+		{
+			//Allocate the action animation block
+			Animation_Block* action_animation_block = new Animation_Block();
+
+			//Focus the first direction node of the current action node
+			pugi::xml_node direction_node = action_node.first_child();
+
+			//Get the action id
+			ACTION_TYPE action_type = App->entities_manager->StrToActionType(action_node.attribute("enum").as_string());
+			action_animation_block->SetId(action_type);
+			//Get animation speed
+			uint speed = MAX(1, action_node.attribute("speed").as_uint(0));
+			//Get animation loop
+			bool loop = action_node.attribute("loop").as_bool(false);
+			//Get animation scale
+			float scale = action_node.attribute("scale").as_float(1.0f);
+
+			//Iterate the direction nodes
+			while (direction_node != NULL)
+			{
+				//Allocate the direction animation block
+				Animation_Block* direction_animation_block = new Animation_Block();
+
+				//Get direction id
+				DIRECTION direction_id = App->entities_manager->StrToDirection(direction_node.attribute("enum").as_string());
+				direction_animation_block->SetId(direction_id);
+
+				//Allocate the animation 
+				Animation* new_animation = new Animation();
+
+				//Set all animation attributes
+				//Animation texture
+				new_animation->SetTexture(texture);
+				//Animation speed
+				new_animation->SetSpeed(speed);
+				//Animation loop
+				new_animation->SetLoop(loop);
+				//Animation flip
+				new_animation->SetSpritesFlip(direction_node.attribute("flip").as_bool());
+				//Animation scale
+				new_animation->SetSpritesScale(scale);
+				//Animation enum id
+				new_animation->SetId(direction_id);
+
+				//Focus the first sprite of the current animation
+				pugi::xml_node sprite = direction_node.first_child();
+				while (sprite != NULL)
+				{
+					//Load sprite rect
+					SDL_Rect rect = { sprite.attribute("x").as_int(),sprite.attribute("y").as_int(),sprite.attribute("w").as_int(),sprite.attribute("h").as_int() };
+
+					//Load sprite pivot
+					float pX = sprite.attribute("pX").as_float() * rect.w;
+					pX = (pX > (floor(pX) + 0.5f)) ? ceil(pX) : floor(pX);
+					float pY = sprite.attribute("pY").as_float() * rect.h;
+					pY = (pY > (floor(pY) + 0.5f)) ? ceil(pY) : floor(pY);
+
+					//Load sprite opacity
+					uint opacity = sprite.attribute("opacity").as_uint();
+					if (opacity == 0)opacity = 255;
+
+					//Add sprite at animation
+					new_animation->AddSprite(rect, iPoint(pX, pY), sprite.attribute("z").as_int(), opacity);
+
+					//Focus next animation sprite
+					sprite = sprite.next_sibling();
+				}
+
+				//Add the animation generated to the direction block
+				direction_animation_block->SetAnimation(new_animation);
+
+				//Focus the next direction node
+				direction_node = direction_node.next_sibling();
+
+				//Add the built direction animation block to the action block
+				action_animation_block->AddAnimationBlock(direction_animation_block);
+			}
+
+			//Add the built action animation block to the entity block
+			entity_animation_block->AddAnimationBlock(action_animation_block);
+
+			//Focus the next action node
+			action_node = action_node.next_sibling();
+		}
+
+		//Add built entity animation block on the correct blocks vector branch
+
+		uint size = blocks.size();
+		for (uint k = 0; k < size; k++)
+		{
+			if (blocks[k]->GetId() == entity_type)
+			{
+				blocks[k]->AddAnimationBlock(entity_animation_block);
+			}
+		}
+
+		entity_node = entity_node.next_sibling();
+	}
 }
 
 bool j1Animator::EntityPlay(Entity* target)

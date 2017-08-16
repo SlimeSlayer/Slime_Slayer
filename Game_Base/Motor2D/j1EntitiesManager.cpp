@@ -332,7 +332,7 @@ void j1EntitiesManager::BeginCollision(PhysBody * A, PhysBody * B)
 	
 	if (strcmp(B->entity_related->GetName(), "Player") == 0)
 	{
-		if (strcmp(A->entity_related->GetName(), "Jar") == 0)
+		if (strcmp(A->entity_related->GetName(), "Chest") == 0)
 		{
 			((Items_Tank*)A->entity_related)->SetReadyToDrop();
 		}
@@ -780,7 +780,7 @@ Item* j1EntitiesManager::GenerateItem(ITEM_TYPE item_type, bool generate_body)
 	if (generate_body)
 	{
 		AddEntity(new_item);
-		//App->animator->EntityPlay(new_item);
+		App->animator->EntityPlay(new_item);
 	}
 
 	return new_item;

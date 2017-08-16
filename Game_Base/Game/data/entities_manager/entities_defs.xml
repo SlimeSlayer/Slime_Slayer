@@ -31,7 +31,7 @@
       listener="entities_manager"
       body_shape="square"
       width ="50"
-      height="30"
+      height="50"
       restitution="0.1"
       friction="1.0"
       density="150.0"
@@ -41,7 +41,7 @@
       diplomacy="neutral"
       item_type="basic_box_item"
       volatile="false"
-      name="Jar"
+      name="Chest"
       description="Contain coins"      
       
       drop_impulse="5"

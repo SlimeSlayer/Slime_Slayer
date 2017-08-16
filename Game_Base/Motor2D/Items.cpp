@@ -3,6 +3,7 @@
 #include "j1App.h"
 #include "j1EntitiesManager.h"
 #include "j1Physics.h"
+#include "j1Animator.h"
 
 /// Items_Tank ----------------------------------
 //Constructors ========================
@@ -111,6 +112,9 @@ void Items_Tank::DropItems()
 		float per_cent = (rand() % 100) * 0.01;
 		list_item._Ptr->_Myval->GetBody()->body->SetLinearVelocity({ drop_total_rad * per_cent,-drop_impulse });
 		
+		//Drop animation
+		App->animator->EntityPlay(list_item._Ptr->_Myval);
+
 		//Items dropped have a ghost delay
 		Action* act = list_item._Ptr->_Myval->worker.GenerateSpawnDelayAction(list_item._Ptr->_Myval);
 		list_item._Ptr->_Myval->worker.AddAction(act);
