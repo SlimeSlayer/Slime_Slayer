@@ -46,8 +46,10 @@
     <!--Player-->
     <key  id ="A"                 event ="go_left"                app_context="in_game_context"/>
     <key  controller_id="13"      event ="go_left"      num="1"   app_context="in_game_context"/>
+    <key  controller_id="c_axis_left_x_left"   event ="go_left"   num="1"   app_context="in_game_context"   joy="1"/>
     <key  id ="D"                 event ="go_right"               app_context="in_game_context"/>
     <key  controller_id="14"      event ="go_right"     num="1"   app_context="in_game_context"/>
+    <key  controller_id="c_axis_left_x_right"   event ="go_right"   num="1"   app_context="in_game_context"   joy="1"/>
     <key  id ="W"                 event ="jump"                   app_context="in_game_context"/>
     <key  controller_id="A"       event ="jump"         num="0"   app_context="in_game_context"/>
     <key  id ="S"                 event ="crouch"                 app_context="in_game_context"/>
@@ -68,8 +70,10 @@
     <key  controller_id="A"       event ="accept"       num="0"   app_context="pause_context"/>
     <key  id ="Right"             event ="add_value"              app_context="pause_context"/>
     <key  controller_id="14"      event ="add_value"    num="1"   app_context="pause_context"/>
+    <key  controller_id="c_axis_left_x_right"  event ="add_value"   num="1"   app_context="pause_context"   joy="1"/>
     <key  id ="Left"              event ="rest_value"             app_context="pause_context"/>
     <key  controller_id="13"      event ="rest_value"   num="1"   app_context="pause_context"/>
+    <key  controller_id="c_axis_left_x_left"   event ="rest_value"   num="1"   app_context="pause_context"   joy="1"/>
     <!--Debug-->
     <key  id ="F2"                event="ui_debug"                app_context="pause_context"/>
     <!--Escape-->
@@ -79,12 +83,15 @@
     <!--MAIN MENU CONTEXT-->
     <!--Menus Input-->
     <key  controller_id="12"      event ="focus_next"   num="1"   app_context="main_menu_context"/>
+   
     <key  controller_id="11"      event ="focus_prev"   num="1"   app_context="main_menu_context"/>
     <key  controller_id="A"       event ="accept"       num="0"   app_context="main_menu_context"/>
     <key  id ="Right"             event ="add_value"              app_context="main_menu_context"/>
     <key  controller_id="14"      event ="add_value"    num="1"   app_context="main_menu_context"/>
+    <key  controller_id="c_axis_left_x_right"  event ="add_value"   num="1"   app_context="main_menu_context"   joy="1"/>
     <key  id ="Left"              event ="rest_value"             app_context="main_menu_context"/>
     <key  controller_id="13"      event ="rest_value"   num="1"   app_context="main_menu_context"/>
+    <key  controller_id="c_axis_left_x_left"   event ="rest_value"   num="1"   app_context="main_menu_context"   joy="1"/>
     <!--Debug-->
     <key  id ="F2"                event="ui_debug"                app_context="main_menu_context"/>
     <!--Escape-->

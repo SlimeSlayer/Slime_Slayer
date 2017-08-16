@@ -134,17 +134,20 @@ bool j1Input::PreUpdate()
 			controller_buttons[i] = KEY_IDLE;
 	}
 
-	/*for (int i = 0; i < NUM_CONTROLLER_AXIS; ++i)
+	// Controller joysticks -
+	for (int i = 0; i < NUM_CONTROLLER_AXIS; ++i)
 	{
 		if (controller_axis[i] == j1JoystickState::JOYSTICK_NEGATIVE)
-			App->inputM->JoystickDetected(i, JSTATE::J_NEGATIVE);
+		{
+			App->input_manager->SendControllerJoystickEvent(i, INPUT_STATE::JSTICK_NEGATIVE);
+		}
 
 
 		if (controller_axis[i] == j1JoystickState::JOYSTICK_POSITIVE)
-			App->inputM->JoystickDetected(i, JSTATE::J_POSITIVE);
-
-
-	}*/
+		{
+			App->input_manager->SendControllerJoystickEvent(i, INPUT_STATE::JSTICK_POSITIVE);
+		}
+	}
 
 
 	// SDL Events ----------------------------------------------
@@ -228,7 +231,7 @@ bool j1Input::PreUpdate()
 		case SDL_CONTROLLERAXISMOTION:
 
 
-			/*if (event.caxis.value < -DEAD_ZONE)
+			if (event.caxis.value < -DEAD_ZONE)
 				controller_axis[event.caxis.axis] = j1JoystickState::JOYSTICK_NEGATIVE;
 
 			else
@@ -249,13 +252,13 @@ bool j1Input::PreUpdate()
 					controller_axis[event.caxis.axis] = j1JoystickState::JOYSTICK_NOTHING;
 
 					if (event.caxis.axis == SDL_CONTROLLER_AXIS_TRIGGERLEFT)
-						App->inputM->JoystickDetected(event.caxis.axis, J_NONE);
+						App->input_manager->SendControllerJoystickEvent(event.caxis.axis, INPUT_STATE::JSTICK_NONE);
 
 					if (event.caxis.axis == SDL_CONTROLLER_AXIS_TRIGGERRIGHT)
-						App->inputM->JoystickDetected(event.caxis.axis, J_NONE);
+						App->input_manager->SendControllerJoystickEvent(event.caxis.axis, INPUT_STATE::JSTICK_NONE);
 				}
 
-			}*/
+			}
 
 			break;
 

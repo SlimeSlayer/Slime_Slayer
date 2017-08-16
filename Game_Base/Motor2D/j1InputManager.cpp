@@ -94,22 +94,46 @@ bool j1InputManager::Awake(pugi::xml_node& config)
 			}
 		}
 		//Controller case
-		else if (controller_scancode != SDL_CONTROLLER_BUTTON_INVALID)
+		bool joy_case = key_node.attribute("joy").as_bool();
+		if (controller_scancode != SDL_CONTROLLER_BUTTON_INVALID || joy_case)
 		{
-			//Map pair where new key is allocated
-			std::pair<int, Suitable_Input_Event> new_key;
-
-			//Build pair with the loaded data
-			new_key.first = controller_scancode;
-			new_key.second = Suitable_Input_Event(StrToInputEvent(key_node.attribute("event").as_string()), App->StrToAppContext(key_node.attribute("app_context").as_string()));
-			if (new_key.second.input_event == UNKNOWN_INPUT)
+			//Check if is a button or joystick event
+			if (joy_case)
 			{
-				LOG("Error Loading Controller Input Key!");
+				//Map pair where new key is allocated
+				std::pair<std::pair<int, int>, Suitable_Input_Event> new_key;
+
+				//Build pair with the loaded data
+				new_key.first = StrToControllerJoyID(key_node.attribute("controller_id").as_string());
+				new_key.second = Suitable_Input_Event(StrToInputEvent(key_node.attribute("event").as_string()), App->StrToAppContext(key_node.attribute("app_context").as_string()));
+				if (new_key.second.input_event == UNKNOWN_INPUT)
+				{
+					LOG("Error Loading Controller Input Key!");
+				}
+				else
+				{
+					controller_joysticks_events_map.insert(new_key);
+				}
+				
 			}
 			else
 			{
-				controller_events_map.insert(new_key);
+				//Map pair where new key is allocated
+				std::pair<int, Suitable_Input_Event> new_key;
+
+				//Build pair with the loaded data
+				new_key.first = controller_scancode;
+				new_key.second = Suitable_Input_Event(StrToInputEvent(key_node.attribute("event").as_string()), App->StrToAppContext(key_node.attribute("app_context").as_string()));
+				if (new_key.second.input_event == UNKNOWN_INPUT)
+				{
+					LOG("Error Loading Controller Input Key!");
+				}
+				else
+				{
+					controller_events_map.insert(new_key);
+				}
 			}
+			
 		}
 		//Error case
 		else
@@ -161,6 +185,21 @@ INPUT_EVENT j1InputManager::StrToInputEvent(const char * str) const
 	if (strcmp(str, "add_value") == 0)				return INPUT_EVENT::ADD_VALUE;
 	if (strcmp(str, "rest_value") == 0)				return INPUT_EVENT::REST_VALUE;
 	return UNKNOWN_INPUT;
+}
+
+std::pair<int, int> j1InputManager::StrToControllerJoyID(const char * str) const
+{
+	std::pair<int, int> ret = { SDL_CONTROLLER_AXIS_INVALID,JSTICK_NONE };
+	if (strcmp(str, "c_axis_left_x_right") == 0)	ret = { SDL_CONTROLLER_AXIS_LEFTX ,JSTICK_POSITIVE };
+	if (strcmp(str, "c_axis_left_x_left") == 0)		ret = { SDL_CONTROLLER_AXIS_LEFTX ,JSTICK_NEGATIVE };
+	if (strcmp(str, "c_axis_left_y_up") == 0)		ret = { SDL_CONTROLLER_AXIS_LEFTY ,JSTICK_POSITIVE };
+	if (strcmp(str, "c_axis_left_y_down") == 0)		ret = { SDL_CONTROLLER_AXIS_LEFTY ,JSTICK_NEGATIVE };
+	/*if (strcmp(str, "c_axis_right_x") == 0)			return SDL_CONTROLLER_AXIS_RIGHTX;
+	if (strcmp(str, "c_axis_right_y") == 0)			return SDL_CONTROLLER_AXIS_RIGHTY;
+	if (strcmp(str, "c_axis_trigger_left") == 0)	return SDL_CONTROLLER_AXIS_TRIGGERLEFT;
+	if (strcmp(str, "c_axis_trigger_left") == 0)	return SDL_CONTROLLER_AXIS_TRIGGERRIGHT;
+	if (strcmp(str, "c_axis_max") == 0)				return SDL_CONTROLLER_AXIS_MAX;*/
+	return ret;
 }
 
 void j1InputManager::SendKeyboardInputEvent(int id, INPUT_STATE state)
@@ -219,6 +258,44 @@ void j1InputManager::SendControllerInputEvent(int id, INPUT_STATE state)
 				current_events.insert(key_pressed);
 			}
 
+			break;
+		}
+		key_event++;
+	}
+}
+
+void j1InputManager::SendControllerJoystickEvent(int id, INPUT_STATE state)
+{
+	//Search the event in the map
+	std::map<std::pair<int,int>, Suitable_Input_Event>::const_iterator key_event = controller_joysticks_events_map.begin();
+
+	while (key_event != controller_joysticks_events_map.end())
+	{
+
+		//If the event is found we add it to the current events map
+		if (key_event->first.first == id  && key_event->first.second == state && key_event->second.app_context == App->app_context)
+		{
+			std::pair<Suitable_Input_Event, INPUT_STATE> key_pressed;
+			key_pressed.first = key_event->second;
+			key_pressed.second = INPUT_REPEAT;
+
+			//Check the event to avoid double input
+			std::map<Suitable_Input_Event, INPUT_STATE>::const_iterator cur_event = current_events.begin();
+			while (cur_event != current_events.end())
+			{
+				if (cur_event._Ptr->_Myval.first.input_event == key_pressed.first.input_event && cur_event._Ptr->_Myval.first.app_context == App->app_context)break;
+
+				cur_event++;
+			}
+			//If the event is found just update the state
+			if (cur_event == current_events.end())
+			{
+				current_events.insert(key_pressed);
+			}
+			else
+			{
+				if (cur_event._Ptr->_Myval.second == INPUT_STATE::INPUT_NONE)cur_event._Ptr->_Myval.second = INPUT_STATE::INPUT_REPEAT;
+			}
 			break;
 		}
 		key_event++;

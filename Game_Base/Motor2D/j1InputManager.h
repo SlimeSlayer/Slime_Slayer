@@ -38,11 +38,7 @@ enum INPUT_STATE
 	INPUT_NONE = 0,
 	INPUT_UP,
 	INPUT_DOWN,
-	INPUT_REPEAT
-};
-
-enum JOYSTICK_STATE
-{
+	INPUT_REPEAT,
 	JSTICK_NONE,
 	JSTICK_POSITIVE,
 	JSTICK_NEGATIVE
@@ -89,16 +85,20 @@ public:
 	
 	//Functionality -------------------
 	//Used when loading input keys
-	INPUT_EVENT StrToInputEvent(const char* str)const;
-	void		SendKeyboardInputEvent(int id, INPUT_STATE state);
-	void		SendControllerInputEvent(int id, INPUT_STATE state);
-	INPUT_STATE GetEvent(INPUT_EVENT _event);
+	INPUT_EVENT				StrToInputEvent(const char* str)const;
+	std::pair<int, int>		StrToControllerJoyID(const char* str)const;
+	//Used to manage the programmed input events
+	void					SendKeyboardInputEvent(int id, INPUT_STATE state);
+	void					SendControllerInputEvent(int id, INPUT_STATE state);
+	void					SendControllerJoystickEvent(int id, INPUT_STATE state);
+	INPUT_STATE				GetEvent(INPUT_EVENT _event);
 
 private:
 
 	//Maps with all the input events mapped
-	std::multimap<int, Suitable_Input_Event> keyboard_events_map; /*for the keyboard*/
-	std::multimap<int, Suitable_Input_Event> controller_events_map; /*for the controller*/
+	std::multimap<int, Suitable_Input_Event>				keyboard_events_map; /*for the keyboard*/
+	std::multimap<int, Suitable_Input_Event>				controller_events_map; /*for the controller*/
+	std::multimap<std::pair<int,int>, Suitable_Input_Event> controller_joysticks_events_map; /*for the controller axis (track sdl & my ID)*/
 
 	//Events that are happening during this frame
 	std::multimap<Suitable_Input_Event, INPUT_STATE> current_events;
