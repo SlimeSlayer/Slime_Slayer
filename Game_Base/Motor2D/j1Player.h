@@ -9,6 +9,9 @@
 #define DEFAULT_DIALOG_Y_MARGIN 35
 
 class Player;
+class UI_Image;
+class UI_String;
+class UI_Progressive_Bar;
 
 class j1Player : public j1Module
 {
@@ -34,6 +37,13 @@ public:
 
 	// Collisions functions
 	void OnSensorCollision(PhysBody* A, PhysBody* B);
+
+private:
+
+	UI_Element*			avatar_ui_branch = nullptr;
+	UI_Image*			avatar_icon = nullptr;
+	UI_Progressive_Bar*	life_bar = nullptr;
+	UI_Progressive_Bar*	exp_bar = nullptr;
 
 public:
 

@@ -70,11 +70,6 @@ bool j1Gui::Start()
 
 	atlas_file_names.clear();
 	
-	//LoadCursorTypes();
-	//ChangeMouseTexture(DEFAULT);
-
-	//SDL_ShowCursor(0);
-
 	LOG("GUI TIME: %.3f", time.ReadSec());
 
 	return true;
@@ -203,6 +198,7 @@ TEXTURE_ID j1Gui::StrToTextureID(const char * str)
 	if (strcmp(str, "atlas") == 0)			return ATLAS;
 	if (strcmp(str, "atlas_test") == 0)		return ATLAS_TEST;
 	if (strcmp(str, "github_icon") == 0)	return GITHUB_ICON;
+	if (strcmp(str, "avatar_icon") == 0)	return AVATAR_ICON;
 	return TEXTURE_NONE;
 }
 

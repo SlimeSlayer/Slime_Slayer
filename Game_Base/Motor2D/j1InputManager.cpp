@@ -135,11 +135,6 @@ bool j1InputManager::Awake(pugi::xml_node& config)
 			}
 			
 		}
-		//Error case
-		else
-		{
-			LOG("Error loading scancode!");
-		}
 		
 		//Focus the next key node
 		key_node = key_node.next_sibling();

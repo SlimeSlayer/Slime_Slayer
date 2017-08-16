@@ -10,6 +10,10 @@
 #include "j1Animator.h"
 
 #include "p2Log.h"
+#include "UI_Image.h"
+#include "UI_Progressive_Bar.h"
+#include "UI_String.h"
+#include "j1Textures.h"
 
 // Constructors =================================
 j1Player::j1Player()
@@ -40,6 +44,11 @@ bool j1Player::Enable()
 	avatar->GetBody()->body->GetFixtureList()->SetFriction(0.0f);
 	avatar->GetBody()->entity_related = avatar;
 	App->animator->EntityPlay(avatar);
+
+	//Activate Player UI 
+	avatar_ui_branch->Activate();
+	avatar_ui_branch->ActivateChilds();
+
 	enabled = true;
 	active = false;
 
@@ -50,12 +59,33 @@ void j1Player::Disable()
 {
 	RELEASE(avatar);
 
+	//Deactivate player UI
+	avatar_ui_branch->Desactivate();
+	avatar_ui_branch->DesactivateChids();
+
 	active = enabled = false;
 }
 
 bool j1Player::Start()
 {
 
+	//Build avatar UI -------
+	avatar_ui_branch = App->gui->GenerateUI_Element(UI_TYPE::UNDEFINED);
+	avatar_ui_branch->SetInputTarget(this);
+
+	//Avatar Icon -------------------------------
+	avatar_icon = (UI_Image*)App->gui->GenerateUI_Element(UI_TYPE::IMG);
+	avatar_icon->ChangeTextureId(TEXTURE_ID::AVATAR_ICON);
+	avatar_icon->SetVisualLayer(10);
+	avatar_icon->SetInputTarget(this);
+	avatar_icon->SetBoxPosition(40, 40);
+	avatar_icon->SetTextureScale(0.5f);
+	avatar_icon->AdjustBox();
+	avatar_ui_branch->AddChild(avatar_icon);
+	// ------------------------------------------
+
+	//Add the built branch at the GUI 
+	App->gui->PushScreen(avatar_ui_branch);
 
 	return true;
 }

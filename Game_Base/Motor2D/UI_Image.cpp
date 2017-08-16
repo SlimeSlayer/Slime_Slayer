@@ -7,7 +7,7 @@ UI_Image::UI_Image(const SDL_Rect& box, const iPoint pivot, const SDL_Rect& text
 	texture = App->gui->Get_UI_Texture(texture_id);
 }
 
-UI_Image::UI_Image(const UI_Image* copy) : UI_Element(copy->box, IMG), pivot(copy->pivot), texture_rect(copy->texture_rect), texture_id(copy->texture_id) {}
+UI_Image::UI_Image(const UI_Image* copy) : UI_Element(copy->box, IMG), pivot(copy->pivot), texture_rect(copy->texture_rect), texture_scale(copy->texture_scale), texture_id(copy->texture_id) {}
 
 UI_Image::UI_Image() : UI_Element({ 0,0,0,0 }, IMG), pivot(0,0), texture_rect({ 0,0,0,0 }) {}
 
@@ -22,15 +22,18 @@ UI_Image::~UI_Image()
 void UI_Image::Draw(bool debug) const
 {
 	//This Draw
-	if(debug)App->render->DrawQuad({ box.x - App->render->camera.x, box.y - App->render->camera.y, box.w, box.h }, 150, 50, 0);
+	if (debug)
+	{
+		App->render->DrawQuad({ box.x - App->render->camera.x, box.y - App->render->camera.y, box.w, box.h }, 150, 50, 0);
+	}
 
 	//Draw from other textures
 	else {
 		
 		//Undefined draw size
-		if (texture_rect.w == 0 || texture_rect.h == 0)App->render->CallBlit(texture, box.x - App->render->camera.x - pivot.x, box.y - App->render->camera.y - pivot.y, NULL, false, 1.0f, visual_layer);
+		if (texture_rect.w == 0 || texture_rect.h == 0)App->render->CallBlit(texture, box.x - App->render->camera.x - pivot.x, box.y - App->render->camera.y - pivot.y, NULL, false, texture_scale, visual_layer);
 		//Defined draw size
-		else App->render->CallBlit(texture, box.x - App->render->camera.x - pivot.x, box.y - App->render->camera.y - pivot.y, &texture_rect, false, 1.0f, visual_layer);
+		else App->render->CallBlit(texture, box.x - App->render->camera.x - pivot.x, box.y - App->render->camera.y - pivot.y, &texture_rect, false, texture_scale, visual_layer);
 
 	}
 
@@ -50,8 +53,8 @@ SDL_Rect UI_Image::AdjustBox()
 		int w, h;
 		SDL_QueryTexture(texture, NULL, NULL, &w, &h);
 
-		box.w = w;
-		box.h = h;
+		box.w = w * texture_scale;
+		box.h = h * texture_scale;
 	}
 
 	return box;
@@ -63,9 +66,9 @@ void UI_Image::DrawAt(int x, int y) const
 	y += this->box.y;
 
 	//Undefined draw size
-	if (texture_rect.w == 0 || texture_rect.h == 0)App->render->CallBlit(texture, x - App->render->camera.x - pivot.x, y - App->render->camera.y - pivot.y, NULL, false, 1.0f, visual_layer);
+	if (texture_rect.w == 0 || texture_rect.h == 0)App->render->CallBlit(texture, x - App->render->camera.x - pivot.x, y - App->render->camera.y - pivot.y, NULL, false, texture_scale, visual_layer);
 	//Defined draw size
-	else App->render->CallBlit(texture, x - App->render->camera.x - pivot.x, y - App->render->camera.y - pivot.y, &texture_rect, false, 1.0f, visual_layer);
+	else App->render->CallBlit(texture, x - App->render->camera.x - pivot.x, y - App->render->camera.y - pivot.y, &texture_rect, false, texture_scale, visual_layer);
 		
 }
 
@@ -88,4 +91,14 @@ iPoint UI_Image::GetPivot() const
 SDL_Rect UI_Image::GetTextureBox() const
 {
 	return texture_rect;
+}
+
+float UI_Image::GetTextureScale() const
+{
+	return texture_scale;
+}
+
+void UI_Image::SetTextureScale(float val)
+{
+	texture_scale = val;
 }

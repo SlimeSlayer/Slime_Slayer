@@ -13,9 +13,10 @@ public:
 
 	~UI_Image();
 
-private:
+protected:
 
 	SDL_Rect		texture_rect = { 0,0,0,0 };
+	float			texture_scale = 1.0f;
 	iPoint			pivot = { 0,0 };
 	TEXTURE_ID		texture_id = TEXTURE_NONE;
 	SDL_Texture*	texture = nullptr;
@@ -32,6 +33,8 @@ public:
 	void				ChangeTextureId(TEXTURE_ID texture_id);
 	iPoint				GetPivot()const;
 	SDL_Rect			GetTextureBox()const;
+	float				GetTextureScale()const;
+	void				SetTextureScale(float val);
 };
 
 #endif // __UI_IMG__
