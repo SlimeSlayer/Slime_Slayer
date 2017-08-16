@@ -36,11 +36,12 @@ void UI_String::Draw(bool debug) const
 	
 	if (debug)
 	{
-		App->render->DrawQuad({ box.x - App->render->camera.x,box.y - App->render->camera.y,box.w,box.h }, 255, 255, 255);
+		if(!use_camera)App->render->DrawQuad({ box.x - App->render->camera.x,box.y - App->render->camera.y,box.w,box.h }, 255, 255, 255);
+		else App->render->DrawQuad({ box.x,box.y,box.w,box.h }, 255, 255, 255);
 	}
 	if (text_texture != nullptr)
 	{
-		App->render->CallBlit(text_texture, box.x - App->render->camera.x, box.y - App->render->camera.y, NULL, false, 1.0f, visual_layer);
+		App->render->CallBlit(text_texture, box.x, box.y, NULL, use_camera, false, 1.0f, visual_layer);
 	}
 
 	//Childs Draw
@@ -137,7 +138,7 @@ uint UI_String::GetPixelHeightLenght() const
 
 void UI_String::DrawAt(int x, int y) const
 {
-	if(text_texture != nullptr)App->render->CallBlit(text_texture, box.x + x - App->render->camera.x, box.y + y - App->render->camera.y);
+	if (text_texture != nullptr)App->render->CallBlit(text_texture, box.x + x, box.y + y, NULL, use_camera);
 }
 
 bool UI_String::TokenizeString(uint margin)

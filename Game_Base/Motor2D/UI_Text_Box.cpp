@@ -8,7 +8,10 @@
 //Constructors ============================================
 UI_Text_Box::UI_Text_Box(const SDL_Rect& box, const UI_String& Text_entered, uint Cursor_w, uint Cursor_h, bool IsPassword, const SDL_Color& Cursor_color) :UI_Element(box, TEXT_BOX), Text_entered(Text_entered), Cursor_w(Cursor_w), Cursor_h(Cursor_h), IsPassword(IsPassword), Cursor_color(Cursor_color) {}
 
-UI_Text_Box::UI_Text_Box(const UI_Text_Box* copy) : UI_Element(copy->box, copy->ui_type), Text_entered(copy->Text_entered) , IsPassword(copy->IsPassword) {}
+UI_Text_Box::UI_Text_Box(const UI_Text_Box* copy) : UI_Element(copy), Text_entered(copy->Text_entered) , IsPassword(copy->IsPassword)
+{
+	ui_type = UI_TYPE::TEXT_BOX;
+}
 
 UI_Text_Box::UI_Text_Box() : UI_Element({0,0,0,0}, TEXT_BOX), IsPassword(false),Text_entered() {}
 

@@ -14,7 +14,7 @@ UI_Element::UI_Element(const SDL_Rect& box, UI_TYPE ui_type, bool IsActive) :box
 	}
 }
 
-UI_Element::UI_Element(const UI_Element* copy) : box(copy->box), ui_type(copy->ui_type), IsActive(copy->IsActive), input_target(copy->input_target) {}
+UI_Element::UI_Element(const UI_Element* copy) : box(copy->box), ui_type(copy->ui_type), visual_layer(copy->visual_layer), logical_layer(copy->logical_layer), IsActive(copy->IsActive), parent(copy->parent), input_target(copy->input_target), use_camera(copy->use_camera) {}
 
 UI_Element::UI_Element() : box({0,0,0,0}), ui_type(UNDEFINED), IsActive(false), input_target(nullptr) {}
 
@@ -241,6 +241,11 @@ bool UI_Element::RectIsIn(const SDL_Rect* target, int x_vel, int y_vel, bool x_a
 		ret = (target->x <= box.x + x_vel && (target->x + target->w) >= (box.x + box.w + x_vel));
 	}
 	return ret;
+}
+
+void UI_Element::SetUseCamera(bool val)
+{
+	use_camera = val;
 }
 
 void UI_Element::SetVisualLayer(uint new_layer)

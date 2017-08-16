@@ -8,7 +8,10 @@
 //Constructors ===============================================
 UI_Popup_menu::UI_Popup_menu(const SDL_Rect & box, const UI_Image & tex_menu, const UI_Image & tex_selection): UI_Element(box, POPUP_MENU), tex_menu(tex_menu), tex_selection(tex_selection){}
 
-UI_Popup_menu::UI_Popup_menu(const UI_Popup_menu * copy): UI_Element(copy->box, copy->GetUItype()), tex_menu(copy->tex_menu), tex_selection(copy->tex_selection){}
+UI_Popup_menu::UI_Popup_menu(const UI_Popup_menu * copy): UI_Element(copy), tex_menu(copy->tex_menu), tex_selection(copy->tex_selection)
+{
+	ui_type = UI_TYPE::POPUP_MENU;
+}
 
 UI_Popup_menu::UI_Popup_menu() : UI_Element({ 0,0,0,0 }, POPUP_MENU), tex_selection(UI_Image({ 0,0,0,0 }, { 0,0 }, { 0, 0, 0, 0 }, TEXTURE_NONE)), tex_menu(UI_Image({ 0,0,0,0 }, {0,0}, { 0, 0, 0, 0 }, TEXTURE_NONE)) {}
 

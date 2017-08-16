@@ -8,7 +8,10 @@
 //Constructors ============================================
 UI_Fixed_Button::UI_Fixed_Button(const SDL_Rect& box, const UI_Image& tex_up, const UI_Image& tex_down, const UI_Image& tex_over, const UI_Image& tex_over_down) :UI_Element(box, BUTTON), tex_up(tex_up), tex_down(tex_down), tex_over(tex_over), tex_over_down(tex_over_down), button_state(UP) {}
 
-UI_Fixed_Button::UI_Fixed_Button(const UI_Fixed_Button* copy) : UI_Element(copy->box, copy->ui_type), tex_up(copy->tex_up), tex_down(copy->tex_down), tex_over(copy->tex_over), tex_over_down(copy->tex_over_down), button_state(UP) {};
+UI_Fixed_Button::UI_Fixed_Button(const UI_Fixed_Button* copy) : UI_Element(copy), tex_up(copy->tex_up), tex_down(copy->tex_down), tex_over(copy->tex_over), tex_over_down(copy->tex_over_down), button_state(UP)
+{
+	ui_type = UI_TYPE::FIXED_BUTTON;
+}
 
 UI_Fixed_Button::UI_Fixed_Button() : UI_Element({ 0,0,0,0 }, FIXED_BUTTON), button_state(UP) {}
 

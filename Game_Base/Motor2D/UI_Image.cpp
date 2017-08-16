@@ -7,7 +7,10 @@ UI_Image::UI_Image(const SDL_Rect& box, const iPoint pivot, const SDL_Rect& text
 	texture = App->gui->Get_UI_Texture(texture_id);
 }
 
-UI_Image::UI_Image(const UI_Image* copy) : UI_Element(copy->box, IMG), pivot(copy->pivot), texture_rect(copy->texture_rect), texture_scale(copy->texture_scale), texture_id(copy->texture_id) {}
+UI_Image::UI_Image(const UI_Image* copy) : UI_Element(copy), pivot(copy->pivot), texture_rect(copy->texture_rect), texture_scale(copy->texture_scale), texture_id(copy->texture_id)
+{
+	ui_type = UI_TYPE::IMG;
+}
 
 UI_Image::UI_Image() : UI_Element({ 0,0,0,0 }, IMG), pivot(0,0), texture_rect({ 0,0,0,0 }) {}
 
@@ -31,9 +34,9 @@ void UI_Image::Draw(bool debug) const
 	else {
 		
 		//Undefined draw size
-		if (texture_rect.w == 0 || texture_rect.h == 0)App->render->CallBlit(texture, box.x - App->render->camera.x - pivot.x, box.y - App->render->camera.y - pivot.y, NULL, false, texture_scale, visual_layer);
+		if (texture_rect.w == 0 || texture_rect.h == 0)App->render->CallBlit(texture, box.x - pivot.x, box.y - pivot.y, NULL, use_camera, false, texture_scale, visual_layer);
 		//Defined draw size
-		else App->render->CallBlit(texture, box.x - App->render->camera.x - pivot.x, box.y - App->render->camera.y - pivot.y, &texture_rect, false, texture_scale, visual_layer);
+		else App->render->CallBlit(texture, box.x - pivot.x, box.y - pivot.y, &texture_rect, use_camera, false, texture_scale, visual_layer);
 
 	}
 
@@ -66,9 +69,9 @@ void UI_Image::DrawAt(int x, int y) const
 	y += this->box.y;
 
 	//Undefined draw size
-	if (texture_rect.w == 0 || texture_rect.h == 0)App->render->CallBlit(texture, x - App->render->camera.x - pivot.x, y - App->render->camera.y - pivot.y, NULL, false, texture_scale, visual_layer);
+	if (texture_rect.w == 0 || texture_rect.h == 0)App->render->CallBlit(texture, x - pivot.x, y - pivot.y, NULL, use_camera, false, texture_scale, visual_layer);
 	//Defined draw size
-	else App->render->CallBlit(texture, x - App->render->camera.x - pivot.x, y - App->render->camera.y - pivot.y, &texture_rect, false, texture_scale, visual_layer);
+	else App->render->CallBlit(texture, x - pivot.x, y - pivot.y, &texture_rect, use_camera, false, texture_scale, visual_layer);
 		
 }
 

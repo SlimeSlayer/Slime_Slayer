@@ -506,7 +506,7 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	
 	//Build life bar
 	UI_Progressive_Bar* life_bar = new_creature->GetLifeBar();
-	UI_Progressive_Bar* temp = nullptr;
+
 	//Get the correct template
 	if (new_creature->GetDiplomacy() == ENEMY)
 	{
@@ -519,6 +519,7 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	/*Values*/			life_bar->SetMaxValue(new_creature->GetMaxLife());
 						life_bar->SetCurrentValue(new_creature->GetMaxLife());
 	/*Visual Layer*/	life_bar->SetVisualLayer(entities_ui_visual_layer);
+	/*No Use Cam*/		life_bar->SetUseCamera(false);
 
 	//Set new creature specific stats
 	switch (creature_type)

@@ -33,6 +33,7 @@ public:
 protected:
 
 	SDL_Rect				box = { 0,0,0,0 };
+	bool					use_camera = true;
 	uint					visual_layer = 0;
 	uint					logical_layer = 0;
 	mutable bool			IsActive = true;
@@ -71,6 +72,7 @@ public:
 	virtual SDL_Rect	AdjustBox();
 	SDL_Rect*			GetBox()const;
 	bool				RectIsIn(const SDL_Rect* target, int x_vel, int y_vel, bool x_axis = false)const;
+	void				SetUseCamera(bool val);
 
 	//Layer functions
 	void				SetVisualLayer(uint new_layer);

@@ -14,8 +14,8 @@ Blit_Call::Blit_Call()
 
 }
 
-Blit_Call::Blit_Call(const iPoint & position, const iPoint& pivot, SDL_Texture* texture, SDL_Rect* rect, bool flip, float scale, int priority, uint opacity, SDL_Color color, double angle)
-	:position(position), pivot(pivot), texture(texture), rect(rect), flip(flip),scale(scale), priority(priority), opacity(opacity), color(color), angle(angle)
+Blit_Call::Blit_Call(const iPoint & position, const iPoint& pivot, SDL_Texture* texture, SDL_Rect* rect, bool use_camera, bool flip, float scale, int priority, uint opacity, SDL_Color color, double angle)
+	:position(position), pivot(pivot), texture(texture), rect(rect), use_camera(use_camera), flip(flip), scale(scale), priority(priority), opacity(opacity), color(color), angle(angle)
 {
 
 }
@@ -59,6 +59,11 @@ SDL_Color Blit_Call::GetColor() const
 const SDL_Rect* Blit_Call::GetRect() const
 {
 	return rect;
+}
+
+bool Blit_Call::GetUseCamera() const
+{
+	return use_camera;
 }
 
 bool Blit_Call::GetFlip() const
@@ -167,7 +172,7 @@ bool j1Render::Update(float dt)
 		bool color_change = (color.r != 255 || color.g != 255 || color.b != 255);
 			
 		if(color_change)SDL_SetTextureColorMod(tex, color.r, color.g, color.b);
-		Blit(blit->GetTex(), blit->GetX(), blit->GetY(), blit->GetRect(), blit->GetFlip(), blit->GetScale(), blit->GetOpacity(), blit->GetXPivot(), blit->GetYPivot(),1.0f,blit->GetAngle());
+		Blit(blit->GetTex(), blit->GetX(), blit->GetY(), blit->GetRect(), blit->GetUseCamera(), blit->GetFlip(), blit->GetScale(), blit->GetOpacity(), blit->GetXPivot(), blit->GetYPivot(), 1.0f, blit->GetAngle());
 		blit_queue.pop();
 
 		if (color_change)
@@ -271,12 +276,12 @@ void j1Render::ChangeVSYNCstate(bool state)
 	SDL_GL_SetSwapInterval(state);
 }
 
-bool j1Render::CallBlit(SDL_Texture * texture, int x, int y, const SDL_Rect * section, bool horizontal_flip, float scale, int priority, uint opacity, int pivot_x, int pivot_y, SDL_Color color, double angle)
+bool j1Render::CallBlit(SDL_Texture * texture, int x, int y, const SDL_Rect * section,bool use_camera, bool horizontal_flip, float scale, int priority, uint opacity, int pivot_x, int pivot_y, SDL_Color color, double angle)
 {
 	bool ret = false;
 
 	if (texture != nullptr)ret = true;
-	blit_queue.emplace(iPoint(x, y), iPoint(pivot_x, pivot_y), texture, (SDL_Rect*)section, horizontal_flip, scale, priority, opacity, color,angle);
+	blit_queue.emplace(iPoint(x, y), iPoint(pivot_x, pivot_y), texture, (SDL_Rect*)section, use_camera, horizontal_flip, scale, priority, opacity, color, angle);
 	return true;
 }
 
@@ -308,7 +313,7 @@ iPoint j1Render::ScreenToWorld(int x, int y) const
 }
 
 // Blit to screen
-bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, bool horizontal_flip, float scale, uint opacity, int pivot_x, int pivot_y, float speed, double angle) const
+bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, bool use_camera, bool horizontal_flip, float scale, uint opacity, int pivot_x, int pivot_y, float speed, double angle) const
 {
 	bool ret = true;
 	uint window_scale = App->win->GetScale();
@@ -336,6 +341,12 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	{
 		rect.x -= (rect.w-pivot_x);
 		rect.y -= pivot_y;
+	}
+
+	if (use_camera)
+	{
+		rect.x -= (int)(camera.x);
+		rect.y -= (int)(camera.y);
 	}
 
 	rect.w *= (window_scale * scale);

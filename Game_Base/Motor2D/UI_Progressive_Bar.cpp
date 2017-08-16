@@ -5,9 +5,9 @@
 #include "j1Textures.h"
 
 //Constructors ============================================
-UI_Progressive_Bar::UI_Progressive_Bar(const UI_Progressive_Bar* copy) :UI_Element(copy->box, PROGRESSIVE_BAR), max_value(copy->max_value), current_value(copy->current_value), full_color(copy->full_color), empty_color(copy->empty_color), to_empty_color(copy->to_empty_color), to_empty_rest_val(copy->to_empty_rest_val), to_empty_val(copy->to_empty_val)
+UI_Progressive_Bar::UI_Progressive_Bar(const UI_Progressive_Bar* copy) :UI_Element(copy), max_value(copy->max_value), current_value(copy->current_value), full_color(copy->full_color), empty_color(copy->empty_color), to_empty_color(copy->to_empty_color), to_empty_rest_val(copy->to_empty_rest_val), to_empty_val(copy->to_empty_val)
 {
-
+	this->ui_type = UI_TYPE::PROGRESSIVE_BAR;
 }
 
 UI_Progressive_Bar::UI_Progressive_Bar(): UI_Element({ 0,0,0,0 }, PROGRESSIVE_BAR)
@@ -33,12 +33,12 @@ bool UI_Progressive_Bar::Update()
 // Game Loop ==============================================
 void UI_Progressive_Bar::Draw(bool debug) const
 {
-	App->render->CallBlit(bar_texture, box.x, box.y, NULL, false, 1.0f, visual_layer);
+	App->render->CallBlit(bar_texture, box.x, box.y, NULL, use_camera, false, 1.0f, visual_layer);
 }
 
 void UI_Progressive_Bar::DrawAt(int x, int y) const
 {
-	App->render->CallBlit(bar_texture, x, y, NULL, false, 1.0f, visual_layer);
+	App->render->CallBlit(bar_texture, x, y, NULL, use_camera, false, 1.0f, visual_layer);
 }
 
 // Functionality ==========================================

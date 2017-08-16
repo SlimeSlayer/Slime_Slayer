@@ -59,8 +59,8 @@
     <action enum ="idle_action" speed="350" loop="true" scale="3.5">
       
       <direction enum="no_direction" flip="false">
-        <sprite x="0"  y="4" w="19" h="16" pX="-0.65" pY="-1.7"/>
-        <sprite x="21" y="4" w="18" h="16" pX="-0.65" pY="-1.7"/>
+        <sprite x="0"  y="4" w="19" h="16" pX="-1.7" pY="-1.7"/>
+        <sprite x="21" y="4" w="18" h="16" pX="-1.7" pY="-1.7"/>
       </direction>
       
     </action>

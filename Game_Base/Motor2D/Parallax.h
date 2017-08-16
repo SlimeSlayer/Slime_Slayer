@@ -54,7 +54,7 @@ public:
 	{
 		for (uint k = 0; k < cells_num; k++)
 		{
-			App->render->CallBlit(texture, (int)parallax_cells[k].x, (int)parallax_cells[k].y, &texture_rect, false, 1.0f, priority);
+			App->render->CallBlit(texture, (int)parallax_cells[k].x, (int)parallax_cells[k].y, &texture_rect, false, false, 1.0f, priority);
 		}
 
 				//Move parallax cells when moving right
