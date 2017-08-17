@@ -281,10 +281,12 @@ UI_Element* j1Gui::GenerateUI_Element(UI_TYPE element_type)
 
 	case PROGRESSIVE_BAR:
 		new_element = new UI_Progressive_Bar();
+		break;
 
 	case POPUP_MENU:
 		new_element = new UI_Popup_menu();
 		break;
+
 	case FIXED_BUTTON:
 		new_element = new UI_Fixed_Button();
 		break;

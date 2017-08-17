@@ -26,6 +26,9 @@ public:
 	bool Enable();
 	void Disable();
 
+	// Called before render is available
+	bool Awake(pugi::xml_node& node);
+
 	// Called before the first frame
 	bool Start();
 
@@ -40,12 +43,16 @@ public:
 
 private:
 
+	//Data used during initial load
+	pugi::xml_document data_doc;
+	
+public:
+
+	//User UI ---------------
 	UI_Element*			avatar_ui_branch = nullptr;
 	UI_Image*			avatar_icon = nullptr;
 	UI_Progressive_Bar*	life_bar = nullptr;
 	UI_Progressive_Bar*	exp_bar = nullptr;
-
-public:
 
 	//User avatar -----------
 	Player* avatar = nullptr;

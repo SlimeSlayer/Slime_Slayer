@@ -2,10 +2,9 @@
 
 <config>
   
-  <app framerate_cap="">
+  <app framerate_cap="240">
     <title>RogueScroll</title>
     <organization>Vifa</organization>
-
   </app>
 	
   <renderer>
@@ -106,6 +105,9 @@
     <path>data</path>
   </file_system>
 
+  <player>
+    <data_doc folder="player/player_data.xml"/>
+  </player>
   <animator>
     <animations_data file="animator/animations_data.xml"/>
   </animator>

@@ -8,7 +8,7 @@
 #include "Scene.h"
 #include "Worker.h"
 #include "j1Animator.h"
-
+#include "j1FileSystem.h"
 #include "p2Log.h"
 #include "UI_Image.h"
 #include "UI_Progressive_Bar.h"
@@ -45,6 +45,16 @@ bool j1Player::Enable()
 	avatar->GetBody()->entity_related = avatar;
 	App->animator->EntityPlay(avatar);
 
+	//Adjust Player UI 
+	//Life bar
+	life_bar->SetMaxValue(avatar->GetMaxLife());
+	life_bar->SetCurrentValue(avatar->GetCurrentLife());
+	life_bar->GenerateTexture();
+	//EXP bar
+	exp_bar->SetMaxValue(avatar->GetNextLevelExperience());
+	exp_bar->SetCurrentValue(avatar->GetExperience());
+	exp_bar->GenerateTexture();
+
 	//Activate Player UI 
 	avatar_ui_branch->Activate();
 	avatar_ui_branch->ActivateChilds();
@@ -66,9 +76,24 @@ void j1Player::Disable()
 	active = enabled = false;
 }
 
+bool j1Player::Awake(pugi::xml_node & node)
+{
+	LOG("Loading Player data document...");
+	//Load player data document
+	if (App->fs->LoadXML(node.child("data_doc").attribute("folder").as_string(), &data_doc))
+	{
+		LOG("Player data document correctly loaded!");
+	}
+	else
+	{
+		LOG("Error loading Player data document");
+	}
+
+	return true;
+}
+
 bool j1Player::Start()
 {
-
 	//Build avatar UI -------
 	avatar_ui_branch = App->gui->GenerateUI_Element(UI_TYPE::UNDEFINED);
 	avatar_ui_branch->SetInputTarget(this);
@@ -82,6 +107,32 @@ bool j1Player::Start()
 	avatar_icon->SetTextureScale(0.5f);
 	avatar_icon->AdjustBox();
 	avatar_ui_branch->AddChild(avatar_icon);
+	// ------------------------------------------
+
+	//Avatar Life Bar ---------------------------
+	pugi::xml_node life_bar_node = data_doc.first_child().child("life_bar");
+	life_bar = (UI_Progressive_Bar*)App->gui->GenerateUI_Element(UI_TYPE::PROGRESSIVE_BAR);
+	life_bar->SetBox({ life_bar_node.attribute("x").as_int(),life_bar_node.attribute("y").as_int(),life_bar_node.attribute("w").as_int(),life_bar_node.attribute("h").as_int() });
+	life_bar->SetFullColor(App->entities_manager->TokenStrToColor(life_bar_node.attribute("full").as_string()));
+	life_bar->SetToEmptyColor(App->entities_manager->TokenStrToColor(life_bar_node.attribute("to_empty").as_string()));
+	life_bar->SetEmptyColor(App->entities_manager->TokenStrToColor(life_bar_node.attribute("empty").as_string()));
+	life_bar->SetToEmptyRestValue(life_bar_node.attribute("to_empty_rest_val").as_float());
+	life_bar->SetVisualLayer(10);
+	life_bar->SetInputTarget(this);
+	avatar_ui_branch->AddChild(life_bar);
+	// ------------------------------------------
+
+	//Avatar EXP Bar ----------------------------
+	pugi::xml_node exp_bar_node = data_doc.first_child().child("exp_bar");
+	exp_bar = (UI_Progressive_Bar*)App->gui->GenerateUI_Element(UI_TYPE::PROGRESSIVE_BAR);
+	exp_bar->SetBox({ exp_bar_node.attribute("x").as_int(),exp_bar_node.attribute("y").as_int(),exp_bar_node.attribute("w").as_int(),exp_bar_node.attribute("h").as_int() });
+	exp_bar->SetFullColor(App->entities_manager->TokenStrToColor(exp_bar_node.attribute("full").as_string()));
+	exp_bar->SetToEmptyColor(App->entities_manager->TokenStrToColor(exp_bar_node.attribute("to_empty").as_string()));
+	exp_bar->SetEmptyColor(App->entities_manager->TokenStrToColor(exp_bar_node.attribute("empty").as_string()));
+	exp_bar->SetToEmptyRestValue(exp_bar_node.attribute("to_empty_rest_val").as_float());
+	exp_bar->SetVisualLayer(10);
+	exp_bar->SetInputTarget(this);
+	avatar_ui_branch->AddChild(exp_bar);
 	// ------------------------------------------
 
 	//Add the built branch at the GUI 
@@ -100,6 +151,10 @@ bool j1Player::Update(float dt)
 	avatar->Update();
 	if (avatar == nullptr || avatar->GetBody() == nullptr)return true;
 	avatar->Draw();	
+
+	//Update Player UI --------------------------
+	life_bar->Update();
+	//exp_bar->Update();
 
 	// Read all player inputs states ------------
 	INPUT_STATE go_left_input_state = App->input_manager->GetEvent(INPUT_EVENT::GO_LEFT);

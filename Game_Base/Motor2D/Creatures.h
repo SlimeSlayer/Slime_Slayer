@@ -109,6 +109,7 @@ private:
 public:
 
 	//Set Methods -----------
+	void SetCurrentLife(uint new_life);
 	void SetAttackRange(uint range);
 	void SetCurrentAttackArea(PhysBody* new_attack_area);
 	void SetExperience(uint experience);

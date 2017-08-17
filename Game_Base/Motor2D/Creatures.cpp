@@ -8,7 +8,7 @@
 #include "j1EntitiesManager.h"
 #include "j1Render.h"
 #include "j1Animator.h"
-
+#include "j1Player.h"
 #include "UI_String.h"
 
 
@@ -169,6 +169,14 @@ Player::~Player()
 	RELEASE(current_attack_area);
 }
 
+void Player::SetCurrentLife(uint new_life)
+{
+	float vl = new_life;
+	life_bar.AddValue(vl - current_life);
+	App->player->life_bar->AddValue(vl - current_life);
+	current_life = new_life;
+}
+
 // Set Methods ========================
 void Player::SetAttackRange(uint range)
 {
@@ -274,7 +282,7 @@ void Player::AddExperience(uint gained_exp)
 	if (experience >= this->next_lvl_experience)
 	{
 		//Update the avatar level
-		experience -= next_lvl_experience;
+		experience = experience - next_lvl_experience;
 		level++;
 		next_lvl_experience = ceil(experience_scale * next_lvl_experience);
 
@@ -284,6 +292,11 @@ void Player::AddExperience(uint gained_exp)
 		//Generate a output particle 
 		App->particle_manager->GenerateTextParticle(this, PARTICLE_TYPE::LEVEL_UP_PARTICLE, NULL);
 	}
+
+	//Update player UI 
+	App->player->exp_bar->SetMaxValue(this->GetNextLevelExperience());
+	App->player->exp_bar->SetCurrentValue(this->GetExperience());
+	App->player->exp_bar->UpdateTexture();
 }
 /// ---------------------------------------------
 

@@ -105,10 +105,11 @@ void UI_Progressive_Bar::UpdateTexture()
 	SDL_SetRenderDrawBlendMode(App->render->renderer, SDL_BLENDMODE_BLEND);
 	
 	//Calculate the percents
-	float empty_per_cent_val = current_value / max_value;
+	float empty_per_cent_val = 1 - (current_value / max_value);
+	float full_per_cent = 1 - empty_per_cent_val;
 	float to_empty_per_cent_val = abs(to_empty_val / max_value);
-	SDL_Rect full_rect = { 0,0,ceil(box.w * empty_per_cent_val),box.h };
-	
+	SDL_Rect full_rect = { 0,0,ceil(box.w * full_per_cent),box.h };
+	SDL_Rect loc_box = { 0,0,box.w,box.h };
 
 	//Update to empty value
 	to_empty_val = MAX(abs(to_empty_val) - to_empty_rest_val * App->GetDT(), 0.0f);
@@ -117,8 +118,9 @@ void UI_Progressive_Bar::UpdateTexture()
 	if (empty_per_cent_val > 0.000)
 	{
 		SDL_SetRenderDrawColor(App->render->renderer, empty_color.r, empty_color.g, empty_color.b, empty_color.a);
-		SDL_RenderFillRect(App->render->renderer, &box);
+		SDL_RenderFillRect(App->render->renderer, &loc_box);
 	}
+
 	//Blit the empty color
 	SDL_SetRenderDrawColor(App->render->renderer, full_color.r, full_color.g, full_color.b, full_color.a);
 	SDL_RenderFillRect(App->render->renderer, &full_rect);

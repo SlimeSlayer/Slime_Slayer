@@ -187,7 +187,7 @@ public:
 
 	//Set Methods -----------
 	void SetCreatureType(CREATURE_TYPE new_creature_type);
-	void SetCurrentLife(uint new_life);
+	virtual void SetCurrentLife(uint new_life);
 	void SetMaxLife(uint new_max_life);
 	void SetAttackHitPoints(uint new_attack);
 	void SetAttackRate(uint atk_rate);
