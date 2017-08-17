@@ -209,11 +209,10 @@ void j1Gui::ActiveControllerMode()
 {
 	controller_mode = true;
 	SDL_ShowCursor(SDL_DISABLE);
-	if (ItemSelected == nullptr)
-	{
-		if(App->GetCurrentScene() != nullptr)ItemSelected = App->GetCurrentScene()->GetCorrectItemToSelect();
-		else ItemSelected = App->main_menu->GetCorrectItemToSelect();
-	}
+
+	if(App->GetCurrentScene() != nullptr)ItemSelected = App->GetCurrentScene()->GetCorrectItemToSelect();
+	else ItemSelected = App->main_menu->GetCorrectItemToSelect();
+
 	LOG("Controller Mode Activated!");
 }
 
