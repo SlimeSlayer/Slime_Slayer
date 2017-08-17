@@ -195,7 +195,7 @@ bool j1Render::PostUpdate()
 		{
 			App->alpha += (App->GetDT() * 255.0f) / FADE_OUT_TIME;
 			App->audio->FadeMusicOut(FADE_OUT_TIME);
-			if (App->alpha > 255.0f)
+			if (App->alpha >= 255.0f)
 			{
 				App->fade_in = true;
 				App->fade_out = false;
@@ -205,7 +205,7 @@ bool j1Render::PostUpdate()
 		{
 			App->alpha -= (App->GetDT() * 255.0f) / FADE_IN_TIME;
 			App->audio->FadeMusicIn(FADE_IN_TIME);
-			if (App->alpha < 0.0f)
+			if (App->alpha <= 0.0f)
 			{
 				App->fade_in = false;
 				App->fade_out = false;
@@ -228,7 +228,7 @@ bool j1Render::PostUpdate()
 	}
 
 	// Render Present ---------------------------
-	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.g, background.a);
+	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.b, background.a);
 	SDL_RenderPresent(renderer);
 
 	if (App->render->vsync && !App->win->fullscreen)SDL_GL_SwapWindow(App->win->window);
