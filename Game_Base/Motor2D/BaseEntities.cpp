@@ -60,7 +60,7 @@ void Entity::Draw()
 		int x = 0, y = 0;
 		this->body->GetPosition(x, y);
 		const Sprite* sprite = current_animation->GetCurrentSprite();
-		App->render->CallBlit(current_animation->GetTexture(), x, y, sprite->GetFrame(), false, current_animation->GetSpritesFlip(), current_animation->GetSpritesScale(),0,255, -sprite->GetXpivot(), -sprite->GetYpivot());
+		App->render->CallBlit(current_animation->GetTexture(), x, y, sprite->GetFrame(), false, current_animation->GetSpritesFlip(), current_animation->GetSpritesScale(),0,255, -sprite->GetXpivot(), -sprite->GetYpivot(),current_animation->GetTexColor());
 	}
 }
 
@@ -248,7 +248,7 @@ void Creature::Draw()
 		int x = 0, y = 0;
 		this->body->GetPosition(x, y);
 		const Sprite* sprite = current_animation->GetCurrentSprite();
-		App->render->CallBlit(current_animation->GetTexture(), x, y, sprite->GetFrame(),false, current_animation->GetSpritesFlip(), current_animation->GetSpritesScale(),0,255, -sprite->GetXpivot(), -sprite->GetYpivot());
+		App->render->CallBlit(current_animation->GetTexture(), x, y, sprite->GetFrame(),false, current_animation->GetSpritesFlip(), current_animation->GetSpritesScale(),0,255, -sprite->GetXpivot(), -sprite->GetYpivot(),current_animation->GetTexColor());
 	}
 }
 

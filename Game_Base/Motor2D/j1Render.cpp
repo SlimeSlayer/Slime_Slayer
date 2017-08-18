@@ -167,19 +167,8 @@ bool j1Render::Update(float dt)
 	for (uint k = 0; k < size; k++)
 	{
 		const Blit_Call* blit = &blit_queue.top();
-		SDL_Texture* tex = blit->GetTex();
-		SDL_Color color = blit->GetColor();
-		bool color_change = (color.r != 255 || color.g != 255 || color.b != 255);
-			
-		if(color_change)SDL_SetTextureColorMod(tex, color.r, color.g, color.b);
-		Blit(blit->GetTex(), blit->GetX(), blit->GetY(), blit->GetRect(), blit->GetUseCamera(), blit->GetFlip(), blit->GetScale(), blit->GetOpacity(), blit->GetXPivot(), blit->GetYPivot(), 1.0f, blit->GetAngle());
+		Blit(blit->GetTex(), blit->GetX(), blit->GetY(), blit->GetRect(), blit->GetUseCamera(), blit->GetFlip(), blit->GetScale(), blit->GetOpacity(), blit->GetColor(), blit->GetXPivot(), blit->GetYPivot(), 1.0f, blit->GetAngle());
 		blit_queue.pop();
-
-		if (color_change)
-		{
-			color.r = color.g = color.b = 255;
-			SDL_SetTextureColorMod(tex, 255, 255, 255);
-		}
 	}
 
 	return true;
@@ -313,7 +302,7 @@ iPoint j1Render::ScreenToWorld(int x, int y) const
 }
 
 // Blit to screen
-bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, bool use_camera, bool horizontal_flip, float scale, uint opacity, int pivot_x, int pivot_y, float speed, double angle) const
+bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, bool use_camera, bool horizontal_flip, float scale, uint opacity, SDL_Color color, int pivot_x, int pivot_y, float speed, double angle) const
 {
 	bool ret = true;
 	uint window_scale = App->win->GetScale();
@@ -361,11 +350,16 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 		pivot.y = pivot_y;
 		p = &pivot;
 	}
+
 	int op_check = 2;
 	if (opacity != 255)
 	{
 		op_check = SDL_SetTextureAlphaMod(texture, opacity);
 	}
+
+	bool color_change = (color.r != 255 || color.g != 255 || color.b != 255);
+
+	if (color_change)SDL_SetTextureColorMod(texture, color.r, color.g, color.b);
 
 	if(SDL_RenderCopyEx(renderer, texture, section, &rect, angle, p, (SDL_RendererFlip)horizontal_flip))
 	{
@@ -377,6 +371,13 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	{
 		op_check = SDL_SetTextureAlphaMod(texture,255);
 	}
+
+	if (color_change)
+	{
+		color.r = color.g = color.b = 255;
+		SDL_SetTextureColorMod(texture, 255, 255, 255);
+	}
+
 	return ret;
 }
 

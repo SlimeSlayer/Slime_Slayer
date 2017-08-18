@@ -75,6 +75,11 @@ void Animation::SetTexture(const SDL_Texture * tex)
 	texture = (SDL_Texture*)tex;
 }
 
+void Animation::SetTexColor(SDL_Color val)
+{
+	tex_color = val;
+}
+
 void Animation::SetLoop(bool loop_state)
 {
 	loop = loop_state;
@@ -109,6 +114,11 @@ void Animation::SetSpritesScale(float sprites_sc)
 SDL_Texture * Animation::GetTexture() const
 {
 	return texture;
+}
+
+SDL_Color Animation::GetTexColor() const
+{
+	return tex_color;
 }
 
 bool Animation::GetLoop() const
@@ -443,6 +453,9 @@ bool j1Animator::LoadSimpleAnimationBlock(const char * xml_folder, ENTITY_TYPE e
 		return false;
 	}
 
+	//Color Load
+	SDL_Color tex_color = App->entities_manager->TokenStrToColor(entity_anim_data.child("atlas").attribute("color").as_string());
+
 	//Allocate the animation block
 	Animation_Block* entity_animation_block = new Animation_Block();
 	
@@ -499,6 +512,8 @@ bool j1Animator::LoadSimpleAnimationBlock(const char * xml_folder, ENTITY_TYPE e
 			//Set all animation attributes
 			//Animation texture
 			new_animation->SetTexture(texture);
+			//Animation color
+			new_animation->SetTexColor(tex_color);
 			//Animation speed
 			new_animation->SetSpeed(speed);
 			//Animation loop
@@ -605,6 +620,9 @@ bool j1Animator::LoadMultipleAnimationBlock(const char * xml_folder, ENTITY_TYPE
 		}
 		entity_animation_block->SetId(specific_type);
 
+		//Load texture color
+		SDL_Color	tex_color = App->entities_manager->TokenStrToColor(entity_node.attribute("color").as_string());
+
 		//Focus the first action node
 		pugi::xml_node action_node = entity_node.first_child();
 
@@ -642,6 +660,8 @@ bool j1Animator::LoadMultipleAnimationBlock(const char * xml_folder, ENTITY_TYPE
 				//Set all animation attributes
 				//Animation texture
 				new_animation->SetTexture(texture);
+				//Animation color
+				new_animation->SetTexColor(tex_color);
 				//Animation speed
 				new_animation->SetSpeed(speed);
 				//Animation loop

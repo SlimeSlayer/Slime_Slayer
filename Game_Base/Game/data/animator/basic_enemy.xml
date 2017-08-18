@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<atlas texture="basic_enemy.png" width="782" height="782">
+<atlas texture="basic_creature.png" color="255/0/0/255">
   <!-- Define the creature type-->
   <creature id ="basic_enemy_creature">
 

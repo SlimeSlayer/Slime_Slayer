@@ -132,9 +132,6 @@ public:
 	void				ChangeMouseTexture(CURSOR_TARGET type);
 	void				LoadCursorTypes();
 
-	//Draw mouse
-	void				DrawMouseTexture();
-
 	//Gui taget funtions
 	void				SetDefaultInputTarget(j1Module* target);
 	j1Module*			GetDefaultInputTarget()const;

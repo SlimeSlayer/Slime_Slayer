@@ -701,7 +701,7 @@ SDL_Color j1EntitiesManager::TokenStrToColor(const char * str) const
 		token = strtok(NULL, "/");
 	}
 	
-	res = { values_vec[0],values_vec[1],values_vec[2],values_vec[3] };
+	if(values_vec.size() == 4)res = { values_vec[0],values_vec[1],values_vec[2],values_vec[3] };
 
 	return res;
 }

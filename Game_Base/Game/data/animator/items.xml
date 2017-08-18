@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <atlas texture="items_spritesheet.png">
   <!-- Coin animation-->
-  <entity id ="coin_item">
+  <entity id ="coin_item" color="255/255/255/255">
 
     <!--Idle Action-->
     <action enum ="idle_action" speed="10" loop="false" scale="10">
@@ -15,7 +15,7 @@
   </entity>
   
   <!-- Basic Box animation-->
-  <entity id ="basic_box_item">
+  <entity id ="basic_box_item" color="255/255/255/255">
 
     <!--Idle Action-->
     <action enum ="idle_action" speed="0" loop="false" scale="1.0">

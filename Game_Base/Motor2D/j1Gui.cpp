@@ -379,13 +379,6 @@ void j1Gui::LoadCursorTypes()
 
 }
 
-void j1Gui::DrawMouseTexture()
-{
-	int x = 0, y = 0;
-	App->input->GetMousePosition(x, y);
-	//App->render->Blit(App->gui->Get_UI_Texture(ICONS), x - cursor_pivot.x - App->render->camera.x, y - cursor_pivot.y - App->render->camera.y, &cursor_rect);
-}
-
 void j1Gui::SetDefaultInputTarget(j1Module * target)
 {
 	default_input_target = target;

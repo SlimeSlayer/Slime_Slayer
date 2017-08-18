@@ -53,6 +53,8 @@ protected:
 	std::vector<Sprite>		sprites;
 	//Pointer to the animation texture
 	SDL_Texture*			texture = nullptr;
+	//Color & alpha to modify the texture when is rendered
+	SDL_Color				tex_color = { 255,255,255,255 };
 	//Id of the animation enum type
 	uint					enum_id = 0;
 	//Current frame calculated by the timer
@@ -74,6 +76,7 @@ public:
 
 	//Set Methods -----------
 	void	SetTexture(const SDL_Texture* tex);
+	void	SetTexColor(SDL_Color val);
 	void	SetLoop(bool loop_state);
 	void	SetCurrentFrame(uint curr);
 	void	SetSpeed(uint new_speed);
@@ -83,6 +86,7 @@ public:
 
 	//Get Methods -----------
 	SDL_Texture*					GetTexture()const;
+	SDL_Color						GetTexColor()const;
 	bool							GetLoop()const;
 	uint							GetCurrentFrame()const;
 	uint							GetSpeed()const;

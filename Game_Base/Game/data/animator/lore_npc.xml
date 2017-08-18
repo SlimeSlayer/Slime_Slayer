@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<atlas texture="lore_npc.png" width="782" height="782">
+<atlas texture="basic_creature.png" color="50/255/255/255">
   <!-- Define the creature type-->
   <creature id ="lore_npc_creature">
 
