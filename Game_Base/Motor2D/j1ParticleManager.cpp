@@ -281,7 +281,7 @@ Particle * j1ParticleManager::GenerateTextParticle(const Entity * target, PARTIC
 	int x = 0, y = 0, w = 0;
 	target->GetBody()->GetPosition(x, y);
 	SDL_QueryTexture(tex, NULL, NULL, &w, NULL);
-	new_particle->SetPosition((float)x + target->GetBody()->width - w * 0.5, (float)y);
+	new_particle->SetPosition((float)x - (w * 0.5f), (float)y - target->GetBody()->height);
 
 	if (new_particle->GetVolatile())
 	{
