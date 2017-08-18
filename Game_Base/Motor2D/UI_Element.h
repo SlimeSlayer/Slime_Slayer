@@ -75,9 +75,9 @@ public:
 	void				SetUseCamera(bool val);
 
 	//Layer functions
-	void				SetVisualLayer(uint new_layer);
+	virtual void		SetVisualLayer(uint new_layer);
 	uint				GetVisualLayer()const;
-	void				SetLogicalLayer(uint new_layer);
+	virtual void		SetLogicalLayer(uint new_layer);
 	uint				GetLogicalLayer()const;
 	UI_TYPE				GetUItype()const;
 

@@ -5,6 +5,7 @@
 class UI_Button;
 class UI_Image;
 class UI_Scroll_Bar;
+class UI_String;
 
 class MainMenu : public j1Module
 {
@@ -43,6 +44,12 @@ private:
 	UI_Button*	settings_button = nullptr;
 	UI_Button*	quit_button = nullptr;
 	UI_Image*	github_link = nullptr;
+
+	//Quit Menu
+	UI_Image*	quit_menu_base = nullptr;
+	UI_String*	quit_menu_string = nullptr;
+	UI_Button*	quit_menu_yes_button = nullptr;
+	UI_Button*	quit_menu_no_button = nullptr;
 
 	//Settings Menu
 	UI_Element*	settings_menu = nullptr;

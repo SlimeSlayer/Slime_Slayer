@@ -1,6 +1,8 @@
 #include "UI_Image.h"
 #include "j1Render.h"
 
+#include "p2Log.h"
+
 //Constructors ============================================
 UI_Image::UI_Image(const SDL_Rect& box, const iPoint pivot, const SDL_Rect& texture_rect, TEXTURE_ID texture_id) : UI_Element(box, IMG), pivot(pivot), texture_rect(texture_rect), texture_id(texture_id)
 {
@@ -37,7 +39,6 @@ void UI_Image::Draw(bool debug) const
 		if (texture_rect.w == 0 || texture_rect.h == 0)App->render->CallBlit(texture, box.x - pivot.x, box.y - pivot.y, NULL, use_camera, false, texture_scale, visual_layer);
 		//Defined draw size
 		else App->render->CallBlit(texture, box.x - pivot.x, box.y - pivot.y, &texture_rect, use_camera, false, texture_scale, visual_layer);
-
 	}
 
 	//Childs Draw
@@ -48,8 +49,8 @@ void UI_Image::Draw(bool debug) const
 SDL_Rect UI_Image::AdjustBox()
 {
 	
-	box.w = texture_rect.w;
-	box.h = texture_rect.h;
+	box.w = texture_rect.w * texture_scale;
+	box.h = texture_rect.h * texture_scale;
 
 	if (box.w == 0 || box.h == 0) {
 	

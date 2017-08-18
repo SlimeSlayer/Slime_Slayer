@@ -41,6 +41,8 @@ public:
 	void			SetTexOFF(SDL_Rect img_rect, TEXTURE_ID text_id = TEXTURE_NONE);
 	void			SetTexOVER(SDL_Rect img_rect, TEXTURE_ID text_id = TEXTURE_NONE);
 	void			UnBlock();
+	void			SetVisualLayer(uint new_layer);
+	void			SetLogicalLayer(uint new_layer);
 };
 
 #endif // __UI_BUTTON__

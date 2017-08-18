@@ -61,6 +61,18 @@ bool UI_Scroll::CleanUp()
 	return ret;
 }
 
+void UI_Scroll::SetVisualLayer(uint new_layer)
+{
+	ScrollBack.SetVisualLayer(new_layer);
+	ScrollItem.SetVisualLayer(new_layer + 1);
+}
+
+void UI_Scroll::SetLogicalLayer(uint new_layer)
+{
+	ScrollBack.SetLogicalLayer(new_layer);
+	ScrollItem.SetLogicalLayer(new_layer + 1);
+}
+
 void UI_Scroll::SetScrollableItem(const iPoint position, const SDL_Rect rect, TEXTURE_ID id)
 {
 	ScrollItem = UI_Image({ position.x,position.y,rect.w,rect.h }, {0,0}, rect, id);

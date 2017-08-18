@@ -314,8 +314,8 @@ void UI_Element::AddChild(UI_Element* child, uint start_layer)
 	//Set the new element parent
 	child->SetParent(this);
 	//Set child layer
-	child->visual_layer = this->visual_layer + 1 + start_layer;
-	child->logical_layer = this->logical_layer + 1 + start_layer;
+	child->SetVisualLayer(this->visual_layer + 1 + start_layer);
+	child->SetLogicalLayer(this->logical_layer + 1 + start_layer);
 	//Add the new element to the list of this childs
 	childs.push_back(child);
 }

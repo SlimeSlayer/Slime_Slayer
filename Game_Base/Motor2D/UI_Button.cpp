@@ -153,3 +153,19 @@ void UI_Button::UnBlock()
 	blocked = false;
 	button_state = OFF;
 }
+
+void UI_Button::SetVisualLayer(uint new_layer)
+{
+	tex_on.SetVisualLayer(new_layer);
+	tex_off.SetVisualLayer(new_layer);
+	tex_over.SetVisualLayer(new_layer);
+	visual_layer = new_layer;
+}
+
+void UI_Button::SetLogicalLayer(uint new_layer)
+{
+	tex_on.SetLogicalLayer(new_layer);
+	tex_off.SetLogicalLayer(new_layer);
+	tex_over.SetLogicalLayer(new_layer);
+	logical_layer = new_layer;
+}

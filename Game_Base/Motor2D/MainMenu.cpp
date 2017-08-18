@@ -54,7 +54,9 @@ bool MainMenu::Enable()
 	audio_menu->DesactivateChids();
 	video_menu->Desactivate();
 	video_menu->DesactivateChids();
-	
+	quit_menu_base->Desactivate();
+	quit_menu_base->DesactivateChids();
+
 	App->audio->PlayMusic(MUSIC_ID::MUSIC_MENU);
 
 	return true;
@@ -81,7 +83,7 @@ bool MainMenu::Start()
 
 	// Start Button
 	start_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
-	start_button->SetBox({ 500,200,570,170 });
+	start_button->SetBox({ 515,200,570,170 });
 	start_button->SetTexOFF({ 0,0,564,165 }, ATLAS);
 	start_button->SetTexOVER({ 0,393,564,165 }, ATLAS_TEST);
 	start_button->SetTexON({ 0,393,564,165 }, ATLAS);
@@ -103,7 +105,7 @@ bool MainMenu::Start()
 
 	//Settings Button
 	settings_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
-	settings_button->SetBox({ 500,500,570,170 });
+	settings_button->SetBox({ 515,500,570,170 });
 	settings_button->SetTexOFF({ 0,199,564,165 }, ATLAS);
 	settings_button->SetTexOVER({ 0,598,564,165 }, ATLAS_TEST);
 	settings_button->SetTexON({ 0,598,564,165 }, ATLAS);
@@ -125,7 +127,7 @@ bool MainMenu::Start()
 
 	//Quit Button
 	quit_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
-	quit_button->SetBox({ 500,700,570,170 });
+	quit_button->SetBox({ 515,700,570,170 });
 	quit_button->SetTexOFF({ 0,199,564,165 }, ATLAS_TEST);
 	quit_button->SetTexOVER({ 0,598,564,165 }, ATLAS_TEST);
 	quit_button->SetTexON({ 0,598,564,165 }, ATLAS_TEST);
@@ -153,7 +155,7 @@ bool MainMenu::Start()
 	github_link->SetBoxPosition(1435, 750);
 	menu_branch->AddChild(github_link);
 
-	// Main Menu Links -----
+	// Main Menu Links ------
 	start_button->SetNextInFocus(settings_button);
 	start_button->SetPrevInFocus(quit_button);
 	settings_button->SetNextInFocus(quit_button);
@@ -164,6 +166,81 @@ bool MainMenu::Start()
 
 	// ------------------------------------------
 
+	//Build	Quit Menu ---------------------------
+	//Base
+	quit_menu_base = (UI_Image*)App->gui->GenerateUI_Element(UI_TYPE::IMG);
+	quit_menu_base->ChangeTextureId(TEXTURE_ID::ATLAS_TEST);
+	quit_menu_base->ChangeTextureRect({0, 0, 100, 50});
+	quit_menu_base->SetTextureScale(8.0f);
+	quit_menu_base->AdjustBox();
+	quit_menu_base->SetBoxPosition(400, 260);
+	quit_menu_base->SetInputTarget(this);
+	menu_branch->AddChild(quit_menu_base);
+	quit_menu_base->SetVisualLayer(10);
+
+	//Base string
+	quit_menu_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	Font_Def* str_font = App->font->GetFontByID(FONT_ID::MENU_DIALOG_FONT);
+	quit_menu_string->SetFont(str_font->font);
+	quit_menu_string->SetColor(str_font->font_color);
+	quit_menu_string->SetString("Do you want to quit?");
+	quit_menu_string->AdjustBox();
+	quit_menu_string->SetBoxPosition(quit_menu_base->GetBox()->w * 0.5f - quit_menu_string->GetBox()->w * 0.5f, 60);
+	quit_menu_string->SetInputTarget(this);
+	quit_menu_base->AddChild(quit_menu_string);
+	
+	//Accept button
+	quit_menu_yes_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
+	quit_menu_yes_button->SetBox({ 150,260,90,40 });
+	quit_menu_yes_button->SetTexOFF({ 0,776,90,40 }, ATLAS);
+	quit_menu_yes_button->SetTexON({ 0,266,90,40 }, ATLAS);
+	quit_menu_yes_button->SetTexOVER({ 0,266,90,40 }, ATLAS);
+	quit_menu_yes_button->SetInputTarget(this);
+	quit_menu_yes_button->SetLogicalLayer(10);
+	quit_menu_base->AddChild(quit_menu_yes_button);
+
+	//Accept button str
+	UI_String* yes_btn_str = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	yes_btn_str->SetFont(str_font->font);
+	yes_btn_str->SetColor(str_font->font_color);
+	yes_btn_str->SetString("Accept");
+	yes_btn_str->AdjustBox();
+	yes_btn_str->SetBoxPosition(quit_menu_yes_button->GetBox()->w * 0.5f - yes_btn_str->GetBox()->w * 0.5f, quit_menu_yes_button->GetBox()->h * 0.5f - yes_btn_str->GetBox()->h * 0.5f);
+	yes_btn_str->SetInputTarget(this);
+	quit_menu_yes_button->AddChild(yes_btn_str);
+	yes_btn_str->SetLogicalLayer(0);
+
+	//Decline button
+	quit_menu_no_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
+	quit_menu_no_button->SetBox({ 550,260,90,40 });
+	quit_menu_no_button->SetTexOFF({ 0,776,90,40 }, ATLAS);
+	quit_menu_no_button->SetTexON({ 0,266,90,40 }, ATLAS);
+	quit_menu_no_button->SetTexOVER({ 0,266,90,40 }, ATLAS);
+	quit_menu_no_button->SetInputTarget(this);
+	quit_menu_no_button->SetLogicalLayer(10);
+	quit_menu_base->AddChild(quit_menu_no_button);
+	
+	//Decline button str
+	UI_String* no_btn_str = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	no_btn_str->SetFont(str_font->font);
+	no_btn_str->SetColor(str_font->font_color);
+	no_btn_str->SetString("Decline");
+	no_btn_str->AdjustBox();
+	no_btn_str->SetBoxPosition(quit_menu_no_button->GetBox()->w * 0.5f - yes_btn_str->GetBox()->w * 0.5f, quit_menu_no_button->GetBox()->h * 0.5f - yes_btn_str->GetBox()->h * 0.5f);
+	no_btn_str->SetInputTarget(this);
+	quit_menu_no_button->AddChild(no_btn_str);
+	no_btn_str->SetLogicalLayer(0);
+	
+	// Quit Menu Links ------
+	quit_menu_no_button->SetNextInFocus(quit_menu_yes_button);
+	quit_menu_no_button->SetPrevInFocus(quit_menu_yes_button);
+	quit_menu_yes_button->SetNextInFocus(quit_menu_no_button);
+	quit_menu_yes_button->SetPrevInFocus(quit_menu_no_button);
+	// ----------------------
+	quit_menu_base->Desactivate();
+	quit_menu_base->DesactivateChids();
+	// ------------------------------------------
+
 	//Build Setting Menu ------------------------
 	
 	//Settings menu base
@@ -171,8 +248,6 @@ bool MainMenu::Start()
 	settings_menu->SetInputTarget(this);
 	settings_menu->SetParent(settings_button);
 	settings_menu->SetBox({ 0,0,0,0 });
-	settings_menu->Desactivate();
-	settings_menu->DesactivateChids();
 	menu_branch->AddChild(settings_menu);
 
 	//Quit button
@@ -183,7 +258,6 @@ bool MainMenu::Start()
 	settings_quit_button->SetTexOFF({ 0,776,80,80 }, ATLAS);
 	settings_quit_button->SetTexON({ 0,266,80,80 }, ATLAS);
 	settings_quit_button->SetTexOVER({ 0,266,80,80 }, ATLAS);
-	settings_quit_button->Desactivate();
 	settings_menu->AddChild(settings_quit_button);
 
 	//Quit button string
@@ -199,13 +273,12 @@ bool MainMenu::Start()
 
 	//Audio button
 	settings_audio_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
-	settings_audio_button->SetBox({ 500,300,570,170 });
+	settings_audio_button->SetBox({ 515,300,570,170 });
 	settings_audio_button->SetTexOFF({ 0,199,564,165 }, ATLAS);
 	settings_audio_button->SetTexOVER({ 0,598,564,165 }, ATLAS_TEST);
 	settings_audio_button->SetTexON({ 0,598,564,165 }, ATLAS);
 	settings_audio_button->SetInputTarget(this);
 	settings_audio_button->SetParent(menu_branch);
-	settings_audio_button->Desactivate();
 	settings_menu->AddChild(settings_audio_button);
 
 	//Audio Button String
@@ -221,13 +294,12 @@ bool MainMenu::Start()
 
 	//Video button
 	settings_video_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
-	settings_video_button->SetBox({ 500,500,570,170 });
+	settings_video_button->SetBox({ 515,500,570,170 });
 	settings_video_button->SetTexOFF({ 0,199,564,165 }, ATLAS);
 	settings_video_button->SetTexOVER({ 0,598,564,165 }, ATLAS_TEST);
 	settings_video_button->SetTexON({ 0,598,564,165 }, ATLAS);
 	settings_video_button->SetInputTarget(this);
 	settings_video_button->SetParent(menu_branch);
-	settings_video_button->Desactivate();
 	settings_menu->AddChild(settings_video_button);
 
 	//Video Button String
@@ -249,7 +321,8 @@ bool MainMenu::Start()
 	settings_quit_button->SetNextInFocus(settings_audio_button);
 	settings_quit_button->SetPrevInFocus(settings_video_button);
 	// ----------------------
-
+	settings_menu->Desactivate();
+	settings_menu->DesactivateChids();
 	// ------------------------------------------
 
 	//Build Audio Menu --------------------------
@@ -258,8 +331,6 @@ bool MainMenu::Start()
 	audio_menu->SetInputTarget(this);
 	audio_menu->SetParent(settings_button);
 	audio_menu->SetBox({ 100,0,0,0 });
-	audio_menu->Desactivate();
-	audio_menu->DesactivateChids();
 	menu_branch->AddChild(audio_menu);
 	audio_menu->SetLogicalLayer(0);
 
@@ -271,7 +342,6 @@ bool MainMenu::Start()
 	audio_quit_button->SetTexOFF({ 0,776,80,80 }, ATLAS);
 	audio_quit_button->SetTexON({ 0,266,80,80 }, ATLAS);
 	audio_quit_button->SetTexOVER({ 0,266,80,80 }, ATLAS);
-	audio_quit_button->Desactivate();
 	audio_menu->AddChild(audio_quit_button);
 
 	//Quit button string
@@ -293,7 +363,6 @@ bool MainMenu::Start()
 	master_audio_scroll->SetScrollableBack({ 40,50 }, { 0,0,350,50 }, ATLAS);
 	master_audio_scroll->SetScrollableItem({ 50,40 }, { 0,500,30,70 }, ATLAS);
 	master_audio_scroll->SetScrollValue(INITIAL_VOLUME);
-	master_audio_scroll->Desactivate();
 	master_audio_scroll->SetInputTarget(this);
 	audio_menu->AddChild(master_audio_scroll);
 
@@ -316,7 +385,6 @@ bool MainMenu::Start()
 	music_audio_scroll->SetScrollableBack({ 40,50 }, { 0,0,350,50 }, ATLAS);
 	music_audio_scroll->SetScrollableItem({ 10,40 }, { 0,500,30,70 }, ATLAS);
 	music_audio_scroll->SetScrollValue(INITIAL_VOLUME);
-	music_audio_scroll->Desactivate();
 	music_audio_scroll->SetInputTarget(this);
 	audio_menu->AddChild(music_audio_scroll);
 
@@ -339,7 +407,6 @@ bool MainMenu::Start()
 	fx_audio_scroll->SetScrollableBack({ 40,50 }, { 0,0,350,50 }, ATLAS);
 	fx_audio_scroll->SetScrollableItem({ 10,40 }, { 0,500,30,70 }, ATLAS);
 	fx_audio_scroll->SetScrollValue(INITIAL_VOLUME);
-	fx_audio_scroll->Desactivate();
 	fx_audio_scroll->SetInputTarget(this);
 	audio_menu->AddChild(fx_audio_scroll);
 	
@@ -364,7 +431,8 @@ bool MainMenu::Start()
 	audio_quit_button->SetNextInFocus(master_audio_scroll);
 	audio_quit_button->SetPrevInFocus(fx_audio_scroll);
 	// ----------------------
-	
+	audio_menu->Desactivate();
+	audio_menu->DesactivateChids();
 	// ------------------------------------------
 
 	//Build Video Menu --------------------------
@@ -373,8 +441,6 @@ bool MainMenu::Start()
 	video_menu->SetInputTarget(this);
 	video_menu->SetParent(settings_button);
 	video_menu->SetBox({ 0,0,0,0 });
-	video_menu->Desactivate();
-	video_menu->DesactivateChids();
 	menu_branch->AddChild(video_menu);
 	video_menu->SetLogicalLayer(0);
 
@@ -386,7 +452,6 @@ bool MainMenu::Start()
 	video_quit_button->SetTexOFF({ 0,776,80,80 }, ATLAS);
 	video_quit_button->SetTexON({ 0,266,80,80 }, ATLAS);
 	video_quit_button->SetTexOVER({ 0,266,80,80 }, ATLAS);
-	video_quit_button->Desactivate();
 	video_menu->AddChild(video_quit_button);
 
 	//Quit button string
@@ -402,13 +467,12 @@ bool MainMenu::Start()
 
 	//Vsync button
 	vsync_video_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
-	vsync_video_button->SetBox({ 500,300,570,170 });
+	vsync_video_button->SetBox({ 515,300,570,170 });
 	vsync_video_button->SetTexOFF({ 0,199,564,165 }, ATLAS);
 	vsync_video_button->SetTexOVER({ 0,598,564,165 }, ATLAS_TEST);
 	vsync_video_button->SetTexON({ 0,598,564,165 }, ATLAS);
 	vsync_video_button->SetInputTarget(this);
 	vsync_video_button->SetParent(menu_branch);
-	vsync_video_button->Desactivate();
 	video_menu->AddChild(vsync_video_button);
 
 	//Vsync button string
@@ -424,13 +488,12 @@ bool MainMenu::Start()
 
 	//Fullscreen button
 	fullscreen_video_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
-	fullscreen_video_button->SetBox({ 500,500,570,170 });
+	fullscreen_video_button->SetBox({ 515,500,570,170 });
 	fullscreen_video_button->SetTexOFF({ 0,199,564,165 }, ATLAS);
 	fullscreen_video_button->SetTexOVER({ 0,598,564,165 }, ATLAS_TEST);
 	fullscreen_video_button->SetTexON({ 0,598,564,165 }, ATLAS);
 	fullscreen_video_button->SetInputTarget(this);
 	fullscreen_video_button->SetParent(menu_branch);
-	fullscreen_video_button->Desactivate();
 	video_menu->AddChild(fullscreen_video_button);
 
 	//Fullscreen button string
@@ -452,7 +515,8 @@ bool MainMenu::Start()
 	video_quit_button->SetNextInFocus(vsync_video_button);
 	video_quit_button->SetPrevInFocus(fullscreen_video_button);
 	// ----------------------
-
+	video_menu->Desactivate();
+	video_menu->DesactivateChids();
 	// ------------------------------------------
 
 	//Add the built branch at the GUI 
@@ -499,7 +563,28 @@ bool MainMenu::Update(float dt)
 			//Set the correct input target in the new menu
 			if (App->gui->controller_mode)App->gui->ItemSelected = settings_audio_button;
 		}
-		else App->SetQuit();
+		else if (!quit_menu_base->GetActiveState())
+		{
+			quit_menu_base->Activate();
+			quit_menu_base->ActivateChilds();
+			quit_button->Block();
+			settings_button->Block();
+			start_button->Block();
+			github_link->Block();
+			//Set the correct input target in the new menu
+			if (App->gui->controller_mode)App->gui->ItemSelected = quit_menu_no_button;
+		}
+		else if (quit_menu_base->GetActiveState())
+		{
+			quit_menu_base->Desactivate();
+			quit_menu_base->DesactivateChids();
+			quit_button->UnBlock();
+			settings_button->UnBlock();
+			start_button->UnBlock();
+			github_link->UnBlock();
+			//Set the correct input target in the new menu
+			if (App->gui->controller_mode)App->gui->ItemSelected = start_button;
+		}
 	}
 	// ------------------------------------------
 
@@ -541,7 +626,12 @@ void MainMenu::GUI_Input(UI_Element * target, GUI_INPUT input)
 		}
 		else if (target == quit_button)
 		{
-			App->SetQuit();
+			quit_menu_base->Activate();
+			quit_menu_base->ActivateChilds();
+			quit_button->Block();
+			settings_button->Block();
+			start_button->Block();
+			github_link->Block();
 		}
 
 		//Settings Buttons ------------
@@ -709,7 +799,13 @@ void MainMenu::GUI_Controller_Input(INPUT_EVENT input_event)
 		}
 		else if (target == quit_button)
 		{
-			App->SetQuit();
+			quit_menu_base->Activate();
+			quit_menu_base->ActivateChilds();
+			quit_button->Block();
+			settings_button->Block();
+			start_button->Block();
+			github_link->Block();
+			App->gui->ItemSelected = quit_menu_no_button;
 		}
 
 		//Settings Buttons ------------
@@ -793,8 +889,17 @@ void MainMenu::GUI_Controller_Input(INPUT_EVENT input_event)
 	else if (App->input_manager->GetEvent(INPUT_EVENT::ADD_VALUE) != INPUT_NONE || App->input_manager->GetEvent(INPUT_EVENT::REST_VALUE) != INPUT_NONE)
 	{
 		uint value_to_add = 0;
-		if (App->input_manager->GetEvent(INPUT_EVENT::ADD_VALUE) != INPUT_NONE)value_to_add = CONTROLLER_ON_ADD_VALUE * App->GetDT();
-		else value_to_add = CONTROLLER_ON_REST_VALUE * App->GetDT();
+		INPUT_STATE input_state = INPUT_NONE;
+		if (App->input_manager->GetEvent(INPUT_EVENT::ADD_VALUE) != INPUT_NONE)
+		{
+			value_to_add = CONTROLLER_ON_ADD_VALUE * App->GetDT();
+			input_state = App->input_manager->GetEvent(INPUT_EVENT::ADD_VALUE);
+		}
+		else
+		{
+			value_to_add = CONTROLLER_ON_REST_VALUE * App->GetDT();
+			input_state = App->input_manager->GetEvent(INPUT_EVENT::REST_VALUE);
+		}
 
 		//Audio Scrolls ---------------
 		if (target == master_audio_scroll)
@@ -835,6 +940,18 @@ void MainMenu::GUI_Controller_Input(INPUT_EVENT input_event)
 			App->tutorial->fx_audio_scroll->MoveScroll(0, value_to_add);
 			App->audio->SetFXVolume(fx_audio_scroll->GetValue());
 		}
+		//Quit menu
+		if (input_state == INPUT_DOWN)
+		{
+			if (target == quit_menu_no_button)
+			{
+				App->gui->ItemSelected = quit_menu_no_button->GetNextInFocus();
+			}
+			else if (target == quit_menu_yes_button)
+			{
+				App->gui->ItemSelected = quit_menu_yes_button->GetNextInFocus();
+			}
+		}
 	}
 }
 
@@ -858,6 +975,12 @@ UI_Element * MainMenu::GetCorrectItemToSelect() const
 	else if (video_menu->GetActiveState())
 	{
 		item_to_select = vsync_video_button;
+	}
+
+	//Quit Menu Case --------
+	else if (quit_menu_base->GetActiveState())
+	{
+		item_to_select = quit_menu_no_button;
 	}
 
 	//Main Menu Menu Case ---

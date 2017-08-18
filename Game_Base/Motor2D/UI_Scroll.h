@@ -58,6 +58,9 @@ public:
 	
 
 	//Functionality
+	void		SetVisualLayer(uint new_layer);
+	void		SetLogicalLayer(uint new_layer);
+	
 	void		SetScrollableItem(const iPoint position, const SDL_Rect rect, TEXTURE_ID id = TEXTURE_NONE);
 	void		SetScrollableBack(const iPoint position, const SDL_Rect rect, TEXTURE_ID id = TEXTURE_NONE);
 	void		SetContentWindow(const SDL_Rect rect);
