@@ -43,6 +43,8 @@ public:
 	void			UnBlock();
 	void			SetVisualLayer(uint new_layer);
 	void			SetLogicalLayer(uint new_layer);
+	void			SetTextureScale(float scale);
+	SDL_Rect		AdjustBox();
 };
 
 #endif // __UI_BUTTON__

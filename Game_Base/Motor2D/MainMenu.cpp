@@ -191,12 +191,14 @@ bool MainMenu::Start()
 	
 	//Accept button
 	quit_menu_yes_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
-	quit_menu_yes_button->SetBox({ 150,260,90,40 });
 	quit_menu_yes_button->SetTexOFF({ 0,776,90,40 }, ATLAS);
 	quit_menu_yes_button->SetTexON({ 0,266,90,40 }, ATLAS);
 	quit_menu_yes_button->SetTexOVER({ 0,266,90,40 }, ATLAS);
 	quit_menu_yes_button->SetInputTarget(this);
 	quit_menu_yes_button->SetLogicalLayer(10);
+	quit_menu_yes_button->SetTextureScale(1.5f);
+	quit_menu_yes_button->AdjustBox();
+	quit_menu_yes_button->SetBoxPosition(150, 260);
 	quit_menu_base->AddChild(quit_menu_yes_button);
 
 	//Accept button str
@@ -212,10 +214,12 @@ bool MainMenu::Start()
 
 	//Decline button
 	quit_menu_no_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
-	quit_menu_no_button->SetBox({ 550,260,90,40 });
 	quit_menu_no_button->SetTexOFF({ 0,776,90,40 }, ATLAS);
 	quit_menu_no_button->SetTexON({ 0,266,90,40 }, ATLAS);
 	quit_menu_no_button->SetTexOVER({ 0,266,90,40 }, ATLAS);
+	quit_menu_no_button->SetTextureScale(1.5f);
+	quit_menu_no_button->AdjustBox();
+	quit_menu_no_button->SetBoxPosition(550, 260);
 	quit_menu_no_button->SetInputTarget(this);
 	quit_menu_no_button->SetLogicalLayer(10);
 	quit_menu_base->AddChild(quit_menu_no_button);
@@ -226,7 +230,7 @@ bool MainMenu::Start()
 	no_btn_str->SetColor(str_font->font_color);
 	no_btn_str->SetString("Decline");
 	no_btn_str->AdjustBox();
-	no_btn_str->SetBoxPosition(quit_menu_no_button->GetBox()->w * 0.5f - yes_btn_str->GetBox()->w * 0.5f, quit_menu_no_button->GetBox()->h * 0.5f - yes_btn_str->GetBox()->h * 0.5f);
+	no_btn_str->SetBoxPosition(quit_menu_no_button->GetBox()->w * 0.5f - no_btn_str->GetBox()->w * 0.5f, quit_menu_no_button->GetBox()->h * 0.5f - no_btn_str->GetBox()->h * 0.5f);
 	no_btn_str->SetInputTarget(this);
 	quit_menu_no_button->AddChild(no_btn_str);
 	no_btn_str->SetLogicalLayer(0);
@@ -634,6 +638,21 @@ void MainMenu::GUI_Input(UI_Element * target, GUI_INPUT input)
 			github_link->Block();
 		}
 
+		//Quit Buttons ----------------
+		else if (target == quit_menu_yes_button)
+		{
+			App->SetQuit();
+		}
+		else if (target == quit_menu_no_button)
+		{
+			quit_menu_base->Desactivate();
+			quit_menu_base->DesactivateChids();
+			quit_button->UnBlock();
+			settings_button->UnBlock();
+			start_button->UnBlock();
+			github_link->UnBlock();
+		}
+
 		//Settings Buttons ------------
 		else if (target == settings_quit_button)
 		{
@@ -806,6 +825,23 @@ void MainMenu::GUI_Controller_Input(INPUT_EVENT input_event)
 			start_button->Block();
 			github_link->Block();
 			App->gui->ItemSelected = quit_menu_no_button;
+		}
+
+		//Quit Buttons ----------------
+		else if (target == quit_menu_yes_button)
+		{
+			App->SetQuit();
+		}
+		else if (target == quit_menu_no_button)
+		{
+			quit_menu_base->Desactivate();
+			quit_menu_base->DesactivateChids();
+			quit_button->UnBlock();
+			settings_button->UnBlock();
+			start_button->UnBlock();
+			github_link->UnBlock();
+			//Set the correct input target in the new menu
+			App->gui->ItemSelected = start_button;
 		}
 
 		//Settings Buttons ------------

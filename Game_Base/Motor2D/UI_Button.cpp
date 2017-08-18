@@ -169,3 +169,15 @@ void UI_Button::SetLogicalLayer(uint new_layer)
 	tex_over.SetLogicalLayer(new_layer);
 	logical_layer = new_layer;
 }
+
+void UI_Button::SetTextureScale(float scale)
+{
+	tex_off.SetTextureScale(scale);
+	tex_on.SetTextureScale(scale);
+	tex_over.SetTextureScale(scale);
+}
+
+SDL_Rect UI_Button::AdjustBox()
+{
+	return box = tex_off.AdjustBox();
+}
