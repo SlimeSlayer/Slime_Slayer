@@ -18,10 +18,15 @@ public:
 
 private:
 	
+	//Text
 	std::string			text;
 	_TTF_Font*			text_font = nullptr;
 	SDL_Texture*		text_texture = nullptr;
 	SDL_Color			text_color = { 255,255,255,255 };
+	//Background
+	bool				background = false;
+	SDL_Color			back_color = { 255,255,255,0 };
+	iPoint				back_margins = { 0,0 };
 
 public:
 
@@ -47,6 +52,9 @@ public:
 	SDL_Rect	AdjustBox();
 	bool		SetFont(_TTF_Font* new_font);
 	void		SetColor(SDL_Color new_color);
+	void		SetBack(bool back);
+	void		SetBackMargins(iPoint marg);
+	void		SetBackColor(SDL_Color new_color);
 };
 
 #endif

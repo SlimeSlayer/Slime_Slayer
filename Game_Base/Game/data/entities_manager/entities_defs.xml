@@ -107,9 +107,11 @@
       
       font="dialog_font"
       size="16"
-      t_color_r="255"
-      t_color_g="255"
-      t_color_b="255"
+      f_color="0/0/0/255"
+      back="1"
+      b_color="255/255/255/255"
+      margin_x="10"
+      margin_y="5"
       
       d_0="Hello I'm Ray and I will show you how to survive in this wild world!"
       d_1="This guy begind me is an enemy, defeat him to recive money and xp!"
@@ -148,9 +150,12 @@
       money="12"
       
       font="dialog_font"
-      t_color_r="255"
-      t_color_g="205"
-      t_color_b="255"
+      size="16"
+      f_color="0/0/0/255"
+      back="1"
+      b_color="255/255/255/255"
+      margin_x="10"
+      margin_y="5"
       
       d_0="Helloooo!"
       d_1="......."

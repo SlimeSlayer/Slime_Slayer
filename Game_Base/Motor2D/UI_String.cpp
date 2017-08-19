@@ -7,7 +7,7 @@
 //Constructors ============================================
 UI_String::UI_String(const SDL_Rect& box, char * text, const SDL_Color& text_color, _TTF_Font * text_font) : UI_Element(box, STRING), text(text), text_font(text_font), text_color(text_color) {}
 
-UI_String::UI_String(const UI_String* copy) : UI_Element(copy->box, STRING), text(copy->text), text_font(copy->text_font), text_texture(copy->text_texture), text_color(copy->text_color) {}
+UI_String::UI_String(const UI_String* copy) : UI_Element(copy->box, STRING), text(copy->text), text_font(copy->text_font), text_texture(copy->text_texture), text_color(copy->text_color), background(copy->background), back_color(copy->back_color), back_margins(copy->back_margins) {}
 
 UI_String::UI_String() : UI_Element({0,0,0,0}, STRING), text(""), text_font(nullptr) {}
 
@@ -68,8 +68,35 @@ void UI_String::SetString(const char * new_text, bool generate)
 		text_texture = nullptr;
 	}
 	text = new_text;
-	if(generate && strlen(new_text) > 0) 
+	if (generate && strlen(new_text) > 0)
+	{
+		//Generate new text texture
 		text_texture = App->font->Print(text.c_str(), text_color, text_font);
+
+		if (background)
+		{
+			//Generate background texture
+			//Build texture rect
+			uint t_w = 0, t_h = 0;
+			App->tex->GetSize(text_texture, t_w, t_h);
+			SDL_Rect back_tex_rect = { 0,0,t_w + back_margins.x * 2, t_h + back_margins.y * 2 };
+			//Generate base texture
+			SDL_Texture* back_texture = SDL_CreateTexture(App->render->renderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_TARGET, back_tex_rect.w, back_tex_rect.h);
+			//Focus and blit back color on it
+			SDL_SetRenderTarget(App->render->renderer, back_texture);
+			SDL_SetRenderDrawColor(App->render->renderer, back_color.r, back_color.g, back_color.b, back_color.a);
+			SDL_RenderFillRect(App->render->renderer, &back_tex_rect);
+			//Blit text texture over
+			App->render->Blit(text_texture, back_margins.x, back_margins.y);
+
+			//Delete text texture and set fused texture as text texture
+			App->tex->UnLoad(text_texture);
+			text_texture = back_texture;
+
+			//Reset render target
+			SDL_SetRenderTarget(App->render->renderer, NULL);
+		}
+	}
 }
 
 void UI_String::PushString(const char * new_text, uint position)
@@ -187,8 +214,41 @@ bool UI_String::TokenizeString(uint margin)
 bool UI_String::GenerateTexture()
 {
 	if (text.length() == 0)return false;
-	if(strlen(text.c_str()) > 0)text_texture = App->font->Print(this->text.c_str(), text_color, text_font);
-	if(text_texture != nullptr)return true;
+	if (strlen(text.c_str()) > 0)
+	{
+		//Unload old texture
+		if (text_texture != nullptr)
+		{
+			App->tex->UnLoad(text_texture);
+		}
+		//Generate new text texture
+		text_texture = App->font->Print(text.c_str(), text_color, text_font);
+
+		if (background)
+		{
+			//Generate background texture
+			//Build texture rect
+			uint t_w = 0, t_h = 0;
+			App->tex->GetSize(text_texture, t_w, t_h);
+			SDL_Rect back_tex_rect = { 0,0,t_w + back_margins.x * 2, t_h + back_margins.y * 2 };
+			//Generate base texture
+			SDL_Texture* back_texture = SDL_CreateTexture(App->render->renderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_TARGET, back_tex_rect.w, back_tex_rect.h);
+			//Focus and blit back color on it
+			SDL_SetRenderTarget(App->render->renderer, back_texture);
+			SDL_SetRenderDrawColor(App->render->renderer, back_color.r, back_color.g, back_color.b, back_color.a);
+			SDL_RenderFillRect(App->render->renderer, &back_tex_rect);
+			//Blit text texture over
+			App->render->Blit(text_texture, back_margins.x, back_margins.y);
+
+			//Delete text texture and set fused texture as text texture
+			App->tex->UnLoad(text_texture);
+			text_texture = back_texture;
+			 
+			//Reset render target
+			SDL_SetRenderTarget(App->render->renderer, NULL);
+		}
+		return true;
+	}
 	return false;
 }
 
@@ -213,5 +273,20 @@ bool UI_String::SetFont(_TTF_Font * new_font)
 void UI_String::SetColor(SDL_Color new_color)
 {
 	text_color = new_color;
+}
+
+void UI_String::SetBack(bool back)
+{
+	background = back;
+}
+
+void UI_String::SetBackMargins(iPoint marg)
+{
+	back_margins = marg;
+}
+
+void UI_String::SetBackColor(SDL_Color new_color)
+{
+	back_color = new_color;
 }
 

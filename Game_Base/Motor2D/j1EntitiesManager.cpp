@@ -554,18 +554,20 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	{
 		//Load NPC dialogs
 		/*Font/Size*/	Font_Def* d_font = App->font->GetFontByID(App->font->StrToFontID(data_node->attribute("font").as_string()));
-		/*Color*/		SDL_Color d_color = { 0,0,0,255 };
-		/*R*/			d_color.r = data_node->attribute("t_color_r").as_int();
-		/*G*/			d_color.g = data_node->attribute("t_color_g").as_int();
-		/*B*/			d_color.b = data_node->attribute("t_color_b").as_int();
-
+		/*Font Color*/	SDL_Color f_color = App->entities_manager->TokenStrToColor(data_node->attribute("f_color").as_string());
+		/*Back*/		bool back = data_node->attribute("back").as_bool();
+		/*Back Color*/	SDL_Color back_color = App->entities_manager->TokenStrToColor(data_node->attribute("b_color").as_string("0/0/0/0"));
+		
 		pugi::xml_attribute dialog_atr = data_node->attribute("d_0");
 		while (dialog_atr != NULL)
 		{
 			//Build the string with the loaded data
 			UI_String* new_str = new UI_String();
 			new_str->SetFont(d_font->font);
-			new_str->SetColor(d_color);
+			new_str->SetColor(f_color);
+			new_str->SetBack(back);
+			new_str->SetBackColor(back_color);
+			new_str->SetBackMargins({ data_node->attribute("margin_x").as_int(),data_node->attribute("margin_y").as_int() });
 			new_str->SetString(dialog_atr.as_string("str_error"));
 			new_str->AdjustBox();
 

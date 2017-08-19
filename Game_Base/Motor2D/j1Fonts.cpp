@@ -4,6 +4,7 @@
 #include "j1App.h"
 #include "j1Textures.h"
 #include "j1FileSystem.h"
+#include "j1EntitiesManager.h"
 
 #include "SDL\include\SDL.h"
 #include "SDL_TTF\include\SDL_ttf.h"
@@ -34,12 +35,7 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 		const char* path = conf.child("default_font").attribute("file").as_string(DEFAULT_FONT);
 		int size = conf.child("default_font").attribute("size").as_int(DEFAULT_FONT_SIZE);
 		FONT_ID font_id = StrToFontID(conf.child("default_font").attribute("id").as_string());
-		SDL_Color font_color = {
-			conf.child("default_font").attribute("r").as_uint(),
-			conf.child("default_font").attribute("g").as_uint(),
-			conf.child("default_font").attribute("b").as_uint(),
-			conf.child("default_font").attribute("a").as_uint()
-		};
+		SDL_Color font_color = App->entities_manager->TokenStrToColor(conf.child("default_font").attribute("f_color").as_string());
 		default = Load(path, size, font_color, font_id);
 	}
 
@@ -49,12 +45,8 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 		const char* path = font_node.attribute("file").as_string(DEFAULT_FONT);
 		int size = font_node.attribute("size").as_int(DEFAULT_FONT_SIZE);
 		FONT_ID font_id = StrToFontID(font_node.attribute("id").as_string());
-		SDL_Color font_color = {
-			font_node.attribute("r").as_uint(),
-			font_node.attribute("g").as_uint(),
-			font_node.attribute("b").as_uint(),
-			font_node.attribute("a").as_uint()
-		};
+		SDL_Color font_color = App->entities_manager->TokenStrToColor(font_node.attribute("f_color").as_string());
+		
 		Load(path, size, font_color, font_id);
 
 		font_node = font_node.next_sibling();
@@ -104,6 +96,7 @@ TTF_Font* const j1Fonts::Load(const char* path, int size, SDL_Color color, FONT_
 		font_def->font = font;
 		font_def->font_color = color;
 		font_def->font_id = font_id;
+
 		fonts.push_back(font_def);
 	}
 
