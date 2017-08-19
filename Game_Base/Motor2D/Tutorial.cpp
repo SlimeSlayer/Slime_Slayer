@@ -315,10 +315,21 @@ bool Tutorial::CleanUp()
 	return true;
 }
 
+bool Tutorial::Save(pugi::xml_node & node) const
+{
+	//Save if the tutorial is done
+	pugi::xml_node tut_node = node.append_child("tutorial_completed");
+	tut_node.append_attribute("val") = tutorial_completed;
+
+	return true;
+}
+
 void Tutorial::BeginSensorCollision(PhysBody * A, PhysBody * B)
 {
 	if (A == end_trigger && B->entity_related == App->player->avatar)
 	{
+		tutorial_completed = true;
+		App->SaveGame("SlimeSlayer.xml");
 		App->ActiveEndless();
 	}
 }

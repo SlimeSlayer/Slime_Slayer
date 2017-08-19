@@ -3,7 +3,7 @@
 <config>
   
   <app framerate_cap="240">
-    <title>RogueScroll</title>
+    <title>SlimeSlayer</title>
     <organization>Vifa</organization>
   </app>
 	
@@ -104,6 +104,7 @@
   
   <file_system>
     <path>data</path>
+    <save_dir>save/</save_dir>
   </file_system>
 
   <player>
