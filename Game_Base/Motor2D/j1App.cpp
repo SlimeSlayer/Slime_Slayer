@@ -265,7 +265,7 @@ void j1App::PrepareUpdate()
 // ---------------------------------------------
 void j1App::FinishUpdate()
 {
-	if (want_to_save == true && !want_to_enable)
+	if ((want_to_g_save || want_to_p_save) && !want_to_enable)
 	{
 		SavegameNow();
 	}
@@ -427,9 +427,15 @@ void j1App::LoadGame(const char* file,bool activate_modules)
 }
 
 // ---------------------------------------
-void j1App::SaveGame(const char* file)
+void j1App::SaveGeneralData(const char* file)
 {
-	want_to_save = true;
+	want_to_g_save = true;
+	save_game = file;
+}
+
+void j1App::SavePartyData(const char * file)
+{
+	want_to_p_save = true;
 	save_game = file;
 }
 
@@ -517,13 +523,15 @@ bool j1App::SavegameNow()
 	pugi::xml_document data;
 	pugi::xml_node root;
 
-	root = data.append_child("game_state");
+	if(want_to_p_save)root = data.append_child("party_state");
+	else if(want_to_g_save)root = data.append_child("game_state");
 
 	std::list<j1Module*>::const_iterator item = modules.begin();
 
 	while (item != modules.end() && ret == true)
 	{
-		ret = item._Ptr->_Myval->Save(root.append_child(item._Ptr->_Myval->name.c_str()));
+		if(want_to_p_save)ret = item._Ptr->_Myval->PartySave(root.append_child(item._Ptr->_Myval->name.c_str()));
+		else if (want_to_g_save)ret = item._Ptr->_Myval->GeneralSave(root.append_child(item._Ptr->_Myval->name.c_str()));
 		item++;
 	}
 
@@ -540,7 +548,7 @@ bool j1App::SavegameNow()
 		LOG("Save process halted from an error in module %s", (item._Ptr->_Myval != NULL) ? item._Ptr->_Myval->name.c_str() : "unknown");
 
 	data.reset();
-	want_to_save = false;
+	want_to_g_save = want_to_p_save = false;
 	return ret;
 }
 

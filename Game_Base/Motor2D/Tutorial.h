@@ -24,7 +24,7 @@ public:
 	// Called before quitting
 	bool CleanUp();
 	
-	bool Save(pugi::xml_node& node) const;
+	bool GeneralSave(pugi::xml_node& node) const;
 
 	//Collisions functions
 	void BeginSensorCollision(PhysBody* A, PhysBody* B);

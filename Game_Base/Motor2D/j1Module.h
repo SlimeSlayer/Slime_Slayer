@@ -93,7 +93,12 @@ public:
 		return true;
 	}
 
-	virtual bool Save(pugi::xml_node&) const
+	virtual bool GeneralSave(pugi::xml_node& node) const
+	{
+		return true;
+	}
+
+	virtual bool PartySave(pugi::xml_node& node) const
 	{
 		return true;
 	}

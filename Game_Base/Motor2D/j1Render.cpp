@@ -244,7 +244,7 @@ bool j1Render::Load(pugi::xml_node& node)
 }
 
 // Save Game State
-bool j1Render::Save(pugi::xml_node& node) const
+bool j1Render::PartySave(pugi::xml_node& node) const
 {
 	pugi::xml_node cam = node.append_child("camera");
 

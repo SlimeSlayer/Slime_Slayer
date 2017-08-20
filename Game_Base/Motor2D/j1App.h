@@ -76,7 +76,8 @@ public:
 	float		GetDT() const;
 
 	void LoadGame(const char* file, bool activate_modules = true);
-	void SaveGame(const char* file);
+	void SaveGeneralData(const char* file);
+	void SavePartyData(const char* file);
 
 	bool IsXMLdir(const char* dir)const;
 
@@ -173,11 +174,14 @@ private:
 
 public:
 
-	mutable bool		want_to_save = false;	/*True when save function called*/
-	bool				want_to_load = false;	/*True when load function called*/
+	mutable bool		want_to_g_save = false;	/*True when general save function called*/
+	mutable bool		want_to_p_save = false;	/*True when party save function called*/
+	mutable bool		want_to_load = false;	/*True when load function called*/
+
 	std::string			load_game;	/*Folder where the game is loaded*/
 	std::string			save_game;	/*Folder where the game is saved*/
 	bool				pause = false;	/*If its true the game is paused*/
+
 private:
 
 	j1PerfTimer			ptimer;

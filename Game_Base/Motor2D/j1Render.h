@@ -80,7 +80,7 @@ public:
 
 	// Load / Save
 	bool Load(pugi::xml_node& node);
-	bool Save(pugi::xml_node& node) const;
+	bool PartySave(pugi::xml_node& node) const;
 
 private:
 
