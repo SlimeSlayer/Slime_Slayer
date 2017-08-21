@@ -26,6 +26,8 @@ public:
 	
 	bool GeneralSave(pugi::xml_node& node) const;
 
+	bool GeneralLoad(pugi::xml_node& node);
+
 	//Collisions functions
 	void BeginSensorCollision(PhysBody* A, PhysBody* B);
 

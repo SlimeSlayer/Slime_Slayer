@@ -75,7 +75,8 @@ public:
 	const char* GetOrganization() const;
 	float		GetDT() const;
 
-	void LoadGame(const char* file, bool activate_modules = true);
+	void LoadGeneralData(const char* file);
+	void LoadPartyData(const char* file);
 	void SaveGeneralData(const char* file);
 	void SavePartyData(const char* file);
 
@@ -176,7 +177,9 @@ public:
 
 	mutable bool		want_to_g_save = false;	/*True when general save function called*/
 	mutable bool		want_to_p_save = false;	/*True when party save function called*/
-	mutable bool		want_to_load = false;	/*True when load function called*/
+	mutable bool		want_to_g_load = false;	/*True when general load function called*/
+	mutable bool		want_to_p_load = false;	/*True when party load function called*/
+
 
 	std::string			load_game;	/*Folder where the game is loaded*/
 	std::string			save_game;	/*Folder where the game is saved*/

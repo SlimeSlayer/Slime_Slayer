@@ -235,7 +235,7 @@ bool j1Render::CleanUp()
 }
 
 // Load Game State
-bool j1Render::Load(pugi::xml_node& node)
+bool j1Render::PartyLoad(pugi::xml_node& node)
 {
 	camera.x = node.child("camera").attribute("x").as_int();
 	camera.y = node.child("camera").attribute("y").as_int();

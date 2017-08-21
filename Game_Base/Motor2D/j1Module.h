@@ -88,7 +88,13 @@ public:
 		return true;
 	}
 
-	virtual bool Load(pugi::xml_node&)
+	//Save / Load functions -----------
+	virtual bool GeneralLoad(pugi::xml_node&)
+	{
+		return true;
+	}
+
+	virtual bool PartyLoad(pugi::xml_node&)
 	{
 		return true;
 	}

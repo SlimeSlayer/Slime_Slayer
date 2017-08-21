@@ -149,6 +149,11 @@ bool j1App::Awake()
 
 	PERF_PEEK(ptimer);
 
+	//Load Game State
+	load_game = App->fs->general_save_file;
+	want_to_g_load = true;
+	this->LoadGameNow();
+
 	return ret;
 }
 
@@ -265,12 +270,12 @@ void j1App::PrepareUpdate()
 // ---------------------------------------------
 void j1App::FinishUpdate()
 {
-	if ((want_to_g_save || want_to_p_save) && !want_to_enable)
+	if ((want_to_g_save ^ want_to_p_save) && !want_to_enable)
 	{
 		SavegameNow();
 	}
 
-	if (want_to_load == true && !want_to_enable)
+	if ((want_to_g_load ^ want_to_p_load) == true && !want_to_enable)
 	{
 		LoadGameNow();
 	}
@@ -403,27 +408,16 @@ const char* j1App::GetOrganization() const
 }
 
 // Load / Save
-void j1App::LoadGame(const char* file,bool activate_modules)
+void j1App::LoadGeneralData(const char* file)
 {
-	if (activate_modules)
-	{
-		//Clean all the previous data
-		App->gui->ChangeMouseTexture(DEFAULT);
-		
+	want_to_g_load = true;
+	load_game = std::string(fs->save_directory.c_str()) + std::string(file);
+}
 
-		App->video->Disable();
-
-		App->video->Active();
-		App->tutorial->Enable();
-		
-		want_to_enable = true;
-
-		EnableActiveModules();
-	}
-
-
-	want_to_load = true;
-	load_game = std::string(fs->GetSaveDirectory()) + std::string(file);
+void j1App::LoadPartyData(const char * file)
+{
+	want_to_p_load = true;
+	load_game = std::string(fs->save_directory.c_str()) + std::string(file);
 }
 
 // ---------------------------------------
@@ -485,14 +479,17 @@ bool j1App::LoadGameNow()
 		{
 			LOG("Loading new Game State from %s...", load_game.c_str());
 
-			root = data.child("game_state");
+			if(want_to_g_load)root = data.child("game_state");
+			else if (want_to_p_load)root = data.child("party_state");
 
 			std::list<j1Module*>::const_iterator item = modules.begin();
 			ret = true;
 
 			while (item != modules.end() && ret == true)
 			{
-				ret = item._Ptr->_Myval->Load(root.child(item._Ptr->_Myval->name.c_str()));
+				if (want_to_g_load)ret = item._Ptr->_Myval->GeneralLoad(root.child(item._Ptr->_Myval->name.c_str()));
+				if (want_to_p_load)ret = item._Ptr->_Myval->PartyLoad(root.child(item._Ptr->_Myval->name.c_str()));
+				
 				item++;
 			}
 
@@ -508,7 +505,7 @@ bool j1App::LoadGameNow()
 	else
 		LOG("Could not load game state xml file %s", load_game.c_str());
 
-	want_to_load = false;
+	want_to_p_load = want_to_g_load = false;
 
 	return ret;
 }

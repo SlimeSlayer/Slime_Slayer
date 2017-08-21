@@ -7,6 +7,7 @@
 #include "j1EntitiesManager.h"
 #include "j1Input.h"
 #include "j1Player.h"
+#include "j1FileSystem.h"
 
 #include "Parallax.h"
 #include "UI_Element.h"
@@ -324,12 +325,19 @@ bool Tutorial::GeneralSave(pugi::xml_node & node) const
 	return true;
 }
 
+bool Tutorial::GeneralLoad(pugi::xml_node & node)
+{
+	tutorial_completed = node.child("tutorial_completed").attribute("val").as_bool();
+
+	return true;
+}
+
 void Tutorial::BeginSensorCollision(PhysBody * A, PhysBody * B)
 {
 	if (A == end_trigger && B->entity_related == App->player->avatar)
 	{
 		tutorial_completed = true;
-		App->SaveGeneralData("SlimeSlayerGameData.xml");
+		App->SaveGeneralData(App->fs->general_save_file.c_str());
 		App->ActiveEndless();
 	}
 }

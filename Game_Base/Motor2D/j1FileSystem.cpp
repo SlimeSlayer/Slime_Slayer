@@ -49,12 +49,15 @@ bool j1FileSystem::Awake(pugi::xml_node& config)
 	{
 		// We add the writing directory as a reading directory too with speacial mount point
 		LOG("Writing directory is %s\n", write_path);
-		AddPath(write_path, GetSaveDirectory());
+		AddPath(write_path, save_directory.c_str());
 	}
 
 	SDL_free(write_path);
 
+	//Load save / load folders
 	save_directory = config.child("save_dir").child_value();
+	general_save_file = config.child("general_file").child_value();
+	party_save_file = config.child("party_file").child_value();
 
 	return ret;
 }
@@ -170,11 +173,6 @@ int close_sdl_rwops(SDL_RWops *rw)
 	RELEASE_ARRAY(rw->hidden.mem.base);
 	SDL_FreeRW(rw);
 	return 0;
-}
-
-const char* j1FileSystem::GetSaveDirectory()const
-{
-	return save_directory.c_str();
 }
 
 // Save a whole buffer to disk

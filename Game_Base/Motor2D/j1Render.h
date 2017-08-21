@@ -78,8 +78,8 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	// Load / Save
-	bool Load(pugi::xml_node& node);
+	//Save / Load functions -----------
+	bool PartyLoad(pugi::xml_node& node);
 	bool PartySave(pugi::xml_node& node) const;
 
 private:

@@ -22,9 +22,11 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-private:
+public:
 
-	std::string save_directory = "def_save";
+	std::string save_directory;
+	std::string general_save_file;
+	std::string	party_save_file;
 
 public:
 
@@ -39,7 +41,6 @@ public:
 	SDL_RWops*		Load(const char* file) const;
 	bool			LoadXML(const char* file, pugi::xml_document* doc)const;
 
-	const char*		GetSaveDirectory() const;
 	unsigned int	Save(const char* file, const char* buffer, unsigned int size) const;
 
 
