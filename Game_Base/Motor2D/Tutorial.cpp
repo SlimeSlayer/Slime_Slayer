@@ -334,10 +334,19 @@ bool Tutorial::GeneralLoad(pugi::xml_node & node)
 
 void Tutorial::BeginSensorCollision(PhysBody * A, PhysBody * B)
 {
-	if (A == end_trigger && B->entity_related == App->player->avatar)
+	if (A == end_trigger && B->entity_related == App->player->avatar && !tutorial_completed)
 	{
 		tutorial_completed = true;
 		App->SaveGeneralData(App->fs->general_save_file.c_str());
 		App->ActiveEndless();
 	}
+	else
+	{
+		App->ActiveMainMenu();
+	}
+}
+
+bool Tutorial::TutorialCompleted() const
+{
+	return tutorial_completed;
 }

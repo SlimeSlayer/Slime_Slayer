@@ -44,8 +44,7 @@ void MainMenu::Active()
 
 bool MainMenu::Enable()
 {
-	active = false;
-	enabled = true;
+
 	menu_branch->Activate();
 	menu_branch->ActivateChilds();
 	settings_menu->Desactivate();
@@ -57,7 +56,40 @@ bool MainMenu::Enable()
 	quit_menu_base->Desactivate();
 	quit_menu_base->DesactivateChids();
 
+	if (App->tutorial->TutorialCompleted())
+	{
+		start_button->Desactivate();
+
+		// Main Menu Links ------
+		continue_button->SetNextInFocus(tutorial_button);
+		continue_button->SetPrevInFocus(quit_button);
+		tutorial_button->SetNextInFocus(settings_button);
+		tutorial_button->SetPrevInFocus(continue_button);
+		settings_button->SetNextInFocus(quit_button);
+		settings_button->SetPrevInFocus(tutorial_button);
+		quit_button->SetNextInFocus(continue_button);
+		quit_button->SetPrevInFocus(settings_button);
+		// ---------------------
+	}
+	else
+	{
+		continue_button->Desactivate();
+		tutorial_button->Desactivate();
+
+		// Main Menu Links ------
+		start_button->SetNextInFocus(settings_button);
+		start_button->SetPrevInFocus(quit_button);
+		settings_button->SetNextInFocus(quit_button);
+		settings_button->SetPrevInFocus(start_button);
+		quit_button->SetNextInFocus(start_button);
+		quit_button->SetPrevInFocus(settings_button);
+		// ---------------------
+	}
+
 	App->audio->PlayMusic(MUSIC_ID::MUSIC_MENU);
+
+	active = false;
+	enabled = true;
 
 	return true;
 }
@@ -67,6 +99,8 @@ void MainMenu::Disable()
 	active = false;
 	enabled = false;
 	start_button->UnBlock();
+	continue_button->UnBlock();
+	tutorial_button->UnBlock();
 	menu_branch->Desactivate();
 	menu_branch->DesactivateChids();
 }
@@ -83,7 +117,7 @@ bool MainMenu::Start()
 
 	// Start Button
 	start_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
-	start_button->SetBox({ 515,200,570,170 });
+	start_button->SetBox({ 515,100,570,170 });
 	start_button->SetTexOFF({ 0,0,564,165 }, ATLAS);
 	start_button->SetTexOVER({ 0,393,564,165 }, ATLAS_TEST);
 	start_button->SetTexON({ 0,393,564,165 }, ATLAS);
@@ -102,6 +136,50 @@ bool MainMenu::Start()
 	start_button_string->SetBoxPosition(start_button->GetBox()->w * 0.5f - start_button_string->GetBox()->w * 0.5f, start_button->GetBox()->h * 0.5f - start_button_string->GetBox()->h * 0.5f);
 	start_button->AddChild(start_button_string);
 	start_button_string->SetLogicalLayer(0);
+
+	//Continue Button
+	continue_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
+	continue_button->SetBox({ 515,100,570,170 });
+	continue_button->SetTexOFF({ 0,0,564,165 }, ATLAS);
+	continue_button->SetTexOVER({ 0,393,564,165 }, ATLAS_TEST);
+	continue_button->SetTexON({ 0,393,564,165 }, ATLAS);
+	continue_button->SetInputTarget(this);
+	continue_button->SetParent(menu_branch);
+	continue_button->Activate();
+	menu_branch->AddChild(continue_button);
+
+	//Continue Button String
+	UI_String* continue_button_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	continue_button_string->SetInputTarget(this);
+	continue_button_string->SetFont(menu_ui_font->font);
+	continue_button_string->SetColor(menu_ui_font->font_color);
+	continue_button_string->SetString("Continue");
+	continue_button_string->AdjustBox();
+	continue_button_string->SetBoxPosition(continue_button->GetBox()->w * 0.5f - continue_button_string->GetBox()->w * 0.5f, continue_button->GetBox()->h * 0.5f - continue_button_string->GetBox()->h * 0.5f);
+	continue_button->AddChild(continue_button_string);
+	continue_button_string->SetLogicalLayer(0);
+
+	//Tutorial Button
+	tutorial_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
+	tutorial_button->SetBox({ 515,300,570,170 });
+	tutorial_button->SetTexOFF({ 0,0,564,165 }, ATLAS);
+	tutorial_button->SetTexOVER({ 0,393,564,165 }, ATLAS_TEST);
+	tutorial_button->SetTexON({ 0,393,564,165 }, ATLAS);
+	tutorial_button->SetInputTarget(this);
+	tutorial_button->SetParent(menu_branch);
+	tutorial_button->Activate();
+	menu_branch->AddChild(tutorial_button);
+
+	//Tutorial Button String
+	UI_String* tutorial_button_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	tutorial_button_string->SetInputTarget(this);
+	tutorial_button_string->SetFont(menu_ui_font->font);
+	tutorial_button_string->SetColor(menu_ui_font->font_color);
+	tutorial_button_string->SetString("Tutorial");
+	tutorial_button_string->AdjustBox();
+	tutorial_button_string->SetBoxPosition(tutorial_button->GetBox()->w * 0.5f - tutorial_button_string->GetBox()->w * 0.5f, tutorial_button->GetBox()->h * 0.5f - tutorial_button_string->GetBox()->h * 0.5f);
+	tutorial_button->AddChild(tutorial_button_string);
+	tutorial_button_string->SetLogicalLayer(0);
 
 	//Settings Button
 	settings_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
@@ -155,15 +233,39 @@ bool MainMenu::Start()
 	github_link->SetBoxPosition(1435, 750);
 	menu_branch->AddChild(github_link);
 
-	// Main Menu Links ------
-	start_button->SetNextInFocus(settings_button);
-	start_button->SetPrevInFocus(quit_button);
-	settings_button->SetNextInFocus(quit_button);
-	settings_button->SetPrevInFocus(start_button);
-	quit_button->SetNextInFocus(start_button);
-	quit_button->SetPrevInFocus(settings_button);
-	// ---------------------
 
+	if (App->tutorial->TutorialCompleted())
+	{
+		start_button->Desactivate();
+		start_button->DesactivateChids();
+
+		// Main Menu Links ------
+		continue_button->SetNextInFocus(tutorial_button);
+		continue_button->SetPrevInFocus(quit_button);
+		tutorial_button->SetNextInFocus(settings_button);
+		tutorial_button->SetPrevInFocus(continue_button);
+		settings_button->SetNextInFocus(quit_button);
+		settings_button->SetPrevInFocus(tutorial_button);
+		quit_button->SetNextInFocus(continue_button);
+		quit_button->SetPrevInFocus(settings_button);
+		// ---------------------
+	}
+	else
+	{
+		tutorial_button->Desactivate();
+		tutorial_button->DesactivateChids();
+		continue_button->Desactivate();
+		continue_button->DesactivateChids();
+
+		// Main Menu Links ------
+		start_button->SetNextInFocus(settings_button);
+		start_button->SetPrevInFocus(quit_button);
+		settings_button->SetNextInFocus(quit_button);
+		settings_button->SetPrevInFocus(start_button);
+		quit_button->SetNextInFocus(start_button);
+		quit_button->SetPrevInFocus(settings_button);
+		// ---------------------
+	}
 	// ------------------------------------------
 
 	//Build	Quit Menu ---------------------------
@@ -545,12 +647,24 @@ bool MainMenu::Update(float dt)
 			settings_menu->DesactivateChids();
 			
 			//Activate menu buttons
-			start_button->Activate();
+			if (App->tutorial->TutorialCompleted())
+			{
+				continue_button->Activate();
+				tutorial_button->Activate();
+			}
+			else
+			{
+				start_button->Activate();
+			}
 			settings_button->Activate();
 			quit_button->Activate();
 			
 			//Set the correct input target in the new menu
-			if(App->gui->controller_mode)App->gui->ItemSelected = start_button;
+			if (App->gui->controller_mode)
+			{
+				if (App->tutorial->TutorialCompleted())App->gui->ItemSelected = continue_button;
+				else App->gui->ItemSelected = start_button;
+			}
 		}
 		else if (video_menu->GetActiveState() || audio_menu->GetActiveState())
 		{
@@ -572,6 +686,8 @@ bool MainMenu::Update(float dt)
 			quit_menu_base->Activate();
 			quit_menu_base->ActivateChilds();
 			quit_button->Block();
+			continue_button->Block();
+			tutorial_button->Block();
 			settings_button->Block();
 			start_button->Block();
 			github_link->Block();
@@ -583,11 +699,17 @@ bool MainMenu::Update(float dt)
 			quit_menu_base->Desactivate();
 			quit_menu_base->DesactivateChids();
 			quit_button->UnBlock();
+			continue_button->UnBlock();
+			tutorial_button->UnBlock();
 			settings_button->UnBlock();
 			start_button->UnBlock();
 			github_link->UnBlock();
 			//Set the correct input target in the new menu
-			if (App->gui->controller_mode)App->gui->ItemSelected = start_button;
+			if (App->gui->controller_mode)
+			{
+				if (App->tutorial->TutorialCompleted())App->gui->ItemSelected = continue_button;
+				else App->gui->ItemSelected = start_button;
+			}
 		}
 	}
 	// ------------------------------------------
@@ -614,10 +736,22 @@ void MainMenu::GUI_Input(UI_Element * target, GUI_INPUT input)
 			start_button->Block();
 			App->ActiveTutorial();
 		}
+		else if (target == continue_button && !continue_button->GetBlockState())
+		{
+			continue_button->Block();
+			App->ActiveEndless();
+		}
+		else if (target == tutorial_button && !tutorial_button->GetBlockState())
+		{
+			tutorial_button->Block();
+			App->ActiveTutorial();
+		}
 		else if (target == settings_button)
 		{
 			//Deactivate start, settings & quit buttons
 			start_button->Desactivate();
+			continue_button->Desactivate();
+			tutorial_button->Desactivate();
 			settings_button->Desactivate();
 			quit_button->Desactivate();
 			
@@ -633,6 +767,8 @@ void MainMenu::GUI_Input(UI_Element * target, GUI_INPUT input)
 			quit_menu_base->Activate();
 			quit_menu_base->ActivateChilds();
 			quit_button->Block();
+			continue_button->Block();
+			tutorial_button->Block();
 			settings_button->Block();
 			start_button->Block();
 			github_link->Block();
@@ -648,6 +784,8 @@ void MainMenu::GUI_Input(UI_Element * target, GUI_INPUT input)
 			quit_menu_base->Desactivate();
 			quit_menu_base->DesactivateChids();
 			quit_button->UnBlock();
+			continue_button->UnBlock();
+			tutorial_button->UnBlock();
 			settings_button->UnBlock();
 			start_button->UnBlock();
 			github_link->UnBlock();
@@ -661,12 +799,24 @@ void MainMenu::GUI_Input(UI_Element * target, GUI_INPUT input)
 			settings_menu->DesactivateChids();
 			
 			//Activate menu buttons
-			start_button->Activate();
+			if (App->tutorial->TutorialCompleted())
+			{
+				continue_button->Activate();
+				tutorial_button->Activate();
+			}
+			else
+			{
+				start_button->Activate();
+			}
 			settings_button->Activate();
 			quit_button->Activate();
 			
 			//Set the correct input target in the new menu
-			if (App->gui->controller_mode)App->gui->ItemSelected = start_button;
+			if (App->gui->controller_mode)
+			{
+				if (App->tutorial->TutorialCompleted())App->gui->ItemSelected = continue_button;
+				else App->gui->ItemSelected = start_button;
+			}
 		}
 		else if (target == settings_audio_button)
 		{
@@ -802,10 +952,22 @@ void MainMenu::GUI_Controller_Input(INPUT_EVENT input_event)
 			start_button->Block();
 			App->ActiveTutorial();
 		}
+		else if (target == continue_button && !start_button->GetBlockState())
+		{
+			continue_button->Block();
+			App->ActiveEndless();
+		}
+		else if (target == tutorial_button && !start_button->GetBlockState())
+		{
+			tutorial_button->Block();
+			App->ActiveTutorial();
+		}
 		else if (target == settings_button)
 		{
 			//Deactivate start, settings & quit buttons
 			start_button->Desactivate();
+			continue_button->Desactivate();
+			tutorial_button->Desactivate();
 			settings_button->Desactivate();
 			quit_button->Desactivate();
 
@@ -821,6 +983,8 @@ void MainMenu::GUI_Controller_Input(INPUT_EVENT input_event)
 			quit_menu_base->Activate();
 			quit_menu_base->ActivateChilds();
 			quit_button->Block();
+			continue_button->Block();
+			tutorial_button->Block();
 			settings_button->Block();
 			start_button->Block();
 			github_link->Block();
@@ -837,11 +1001,17 @@ void MainMenu::GUI_Controller_Input(INPUT_EVENT input_event)
 			quit_menu_base->Desactivate();
 			quit_menu_base->DesactivateChids();
 			quit_button->UnBlock();
+			continue_button->UnBlock();
+			tutorial_button->UnBlock();
 			settings_button->UnBlock();
 			start_button->UnBlock();
 			github_link->UnBlock();
 			//Set the correct input target in the new menu
-			App->gui->ItemSelected = start_button;
+			if (App->gui->controller_mode)
+			{
+				if (App->tutorial->TutorialCompleted())App->gui->ItemSelected = continue_button;
+				else App->gui->ItemSelected = start_button;
+			}
 		}
 
 		//Settings Buttons ------------
@@ -852,12 +1022,24 @@ void MainMenu::GUI_Controller_Input(INPUT_EVENT input_event)
 			settings_menu->DesactivateChids();
 
 			//Activate menu buttons
-			start_button->Activate();
+			if (App->tutorial->TutorialCompleted())
+			{
+				continue_button->Activate();
+				tutorial_button->Activate();
+			}
+			else
+			{
+				start_button->Activate();
+			}
 			settings_button->Activate();
 			quit_button->Activate();
 
 			//Set the correct input target in the new menu
-			if (App->gui->controller_mode)App->gui->ItemSelected = start_button;
+			if (App->gui->controller_mode)
+			{
+				if (App->tutorial->TutorialCompleted())App->gui->ItemSelected = continue_button;
+				else App->gui->ItemSelected = start_button;
+			}
 		}
 		else if (target == settings_audio_button)
 		{
@@ -1020,6 +1202,10 @@ UI_Element * MainMenu::GetCorrectItemToSelect() const
 	}
 
 	//Main Menu Menu Case ---
+	else if(App->tutorial->TutorialCompleted())
+	{
+		item_to_select = continue_button;
+	}
 	else
 	{
 		item_to_select = start_button;

@@ -695,6 +695,7 @@ void j1App::ActiveEndless()
 
 	// Deactivate all the necessary modules to start/reset the endless
 	if (current_scene != nullptr)modules_to_disable.push_back(current_scene);
+	else modules_to_disable.push_back(main_menu);
 	modules_to_disable.push_back(player);
 	modules_to_disable.push_back(entities_manager);
 	modules_to_disable.push_back(particle_manager);

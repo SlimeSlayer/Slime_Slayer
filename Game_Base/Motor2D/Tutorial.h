@@ -37,5 +37,10 @@ private:
 	PhysBody*	end_trigger = nullptr;
 	bool		tutorial_completed = false;
 
+public:
+
+	//Functionality
+	bool TutorialCompleted()const;
+
 };
 #endif // !_TUTORIAL_H_

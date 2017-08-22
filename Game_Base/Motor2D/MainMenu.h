@@ -40,10 +40,13 @@ private:
 	// MENU DATA
 	//Main Menu
 	UI_Element*	menu_branch = nullptr;
-	UI_Button*	start_button = nullptr;
-	UI_Button*	settings_button = nullptr;
-	UI_Button*	quit_button = nullptr;
-	UI_Image*	github_link = nullptr;
+	UI_Button*	start_button = nullptr;		/*The first game contact(tutorial)*/
+	UI_Button*	continue_button = nullptr;	/*When a prev party has been played(endless)*/
+	UI_Button*	tutorial_button = nullptr;	/*When endless unlocked but u can repeat tutorial*/
+	UI_Button*	delete_party = nullptr;		/*Reset the current party saved*/
+	UI_Button*	settings_button = nullptr;	/*All settings*/
+	UI_Button*	quit_button = nullptr;		/*Quit from app*/
+	UI_Image*	github_link = nullptr;		/*Take to github user*/
 
 	//Quit Menu
 	UI_Image*	quit_menu_base = nullptr;
@@ -68,7 +71,7 @@ public:
 	UI_Scroll_Bar*	music_audio_scroll = nullptr;
 	UI_Scroll_Bar*	fx_audio_scroll = nullptr;
 
-protected:
+private:
 
 	//Video Menu
 	UI_Element*		video_menu = nullptr;
