@@ -6,6 +6,8 @@
 #include "j1App.h"
 #include "j1EntitiesManager.h"
 #include "j1FileSystem.h"
+#include "j1Animator.h"
+#include "j1Textures.h"
 
 // Constructors =================================
 j1ParticleManager::j1ParticleManager()
@@ -32,14 +34,16 @@ bool j1ParticleManager::Enable()
 	//If the current enable node is NULL it is focused to the first node
 	if (current_enable_node.root() == NULL)
 	{
-		current_enable_node = definitions_doc.first_child().first_child();
+		if(animations_loaded)current_enable_node = definitions_doc.first_child().first_child();
+		else current_enable_node = animations_doc.first_child().first_child();
 	}
 
 	// Iterate all the nodes to enable
 	while (current_enable_node != NULL)
 	{
-		//Generate a particle definition with the data of the current node
-		AddParticleDefinition(&current_enable_node);
+		//Generate a particle definition or animation definition with the data of the current node
+		if(animations_loaded)AddParticleDefinition(&current_enable_node);
+		else AddAnimationDefinition(&current_enable_node);
 
 		//Focus the next enable node
 		current_enable_node = current_enable_node.next_sibling();
@@ -53,6 +57,7 @@ bool j1ParticleManager::Enable()
 
 	enabled = true;
 	active = false;
+	animations_loaded = false;
 
 	return true;
 }
@@ -66,6 +71,15 @@ void j1ParticleManager::Disable()
 		RELEASE(particles_defs[k]);
 	}
 	particles_defs.clear();
+
+	// Clean all the particles animations definitions
+	size = p_animations_defs.size();
+	for (uint k = 0; k < size; k++)
+	{
+		RELEASE(p_animations_defs[k]);
+	}
+	p_animations_defs.clear();
+
 
 	//Release all the particles
 	std::list<Particle*>::const_iterator particle = current_particles.begin();
@@ -86,10 +100,17 @@ void j1ParticleManager::Disable()
 bool j1ParticleManager::Awake(pugi::xml_node & node)
 {
 	LOG("Loading Particles Definitions Doc");
-	App->fs->LoadXML(node.child("particles_data").attribute("file").as_string(), &definitions_doc);
+	App->fs->LoadXML(node.child("particles_data").attribute("defs_file").as_string(), &definitions_doc);
 	if (definitions_doc.root() == NULL)
 	{
 		LOG("Error loading Particles Defs Doc");
+		return false;
+	}
+	LOG("Loading Particles Animations Doc");
+	App->fs->LoadXML(node.child("particles_data").attribute("animations_file").as_string(), &animations_doc);
+	if (animations_doc.root() == NULL)
+	{
+		LOG("Error loading Particles Animations Doc");
 		return false;
 	}
 
@@ -139,6 +160,14 @@ bool j1ParticleManager::CleanUp()
 	}
 	particles_defs.clear();
 
+	// Clean all the particles animations definitions
+	size = p_animations_defs.size();
+	for (uint k = 0; k < size; k++)
+	{
+		RELEASE(p_animations_defs[k]);
+	}
+	p_animations_defs.clear();
+
 	//Release all the particles
 	std::list<Particle*>::const_iterator particle = current_particles.begin();
 	while (particle != current_particles.end())
@@ -159,14 +188,17 @@ bool j1ParticleManager::CleanUp()
 }
 
 // Functionality ================================
-void j1ParticleManager::AddParticleDefinition(const pugi::xml_node * data_node)
+bool j1ParticleManager::AddParticleDefinition(const pugi::xml_node * data_node)
 {
 	//General pointer to the undefined particle
 	Particle* new_particle = nullptr;
 	
 	//Get the new particle type
 	PARTICLE_TYPE particle_type = StrToParticleType(data_node->attribute("particle_type").as_string());
+	if (particle_type == NO_PARTICLE)return false;
+
 	bool need_font = false;
+	bool need_animation = false;
 	switch (particle_type)
 	{
 	case ALLY_HITPOINTS_PARTICLE:
@@ -175,6 +207,10 @@ void j1ParticleManager::AddParticleDefinition(const pugi::xml_node * data_node)
 	case LEVEL_UP_PARTICLE:
 		new_particle = new Static_Text_Particle();
 		need_font = true;
+		break;
+	case MAIN_MENU_SLIME_PARTICLE:
+		new_particle = new Animated_Particle();
+		need_animation = true;
 		break;
 	}
 
@@ -193,9 +229,82 @@ void j1ParticleManager::AddParticleDefinition(const pugi::xml_node * data_node)
 	{
 		/*Text Font*/ ((Static_Text_Particle*)new_particle)->SetFont(App->font->GetFontByID(App->font->StrToFontID(data_node->attribute("font_id").as_string())));
 	}
+	if (need_animation)
+	{
+		/*Particle Animation*/	((Animated_Particle*)new_particle)->SetAnimation(GetParticleAnimationByID(StrToParticleAnimationID(data_node->attribute("animation_id").as_string())));
+	}
 		
 	//Add the built particle at the particles definitions vector
 	particles_defs.push_back(new_particle);
+
+	return true;
+}
+
+bool j1ParticleManager::AddAnimationDefinition(const pugi::xml_node * data_node)
+{
+	//Allocate the new animation
+	Animation* new_animation = new Animation();
+
+	//Load all animation data form the node
+	//Animation ID
+	PARTICLE_ANIMATION_ID animation_id = StrToParticleAnimationID(data_node->attribute("id").as_string());
+	if (animation_id == NO_ANIM_ID)
+	{
+		RELEASE(new_animation);
+		LOG("Error loading particle animation: Animation ID undefined");
+		return false;
+	}
+	new_animation->SetId(animation_id);
+	//Texture
+	std::string tex_folder = name + "/" + data_node->attribute("texture").as_string();
+	SDL_Texture* texture = App->tex->Load(tex_folder.c_str());
+	if (texture == nullptr)
+	{
+		RELEASE(new_animation);
+		LOG("Error loading %s texture", tex_folder.c_str());
+		return false;
+	}
+	new_animation->SetTexture(texture);
+	//Loop
+	new_animation->SetLoop(data_node->attribute("loop").as_bool());
+	//Speed
+	new_animation->SetSpeed(data_node->attribute("speed").as_uint());
+	//Scale
+	new_animation->SetSpritesScale(data_node->attribute("scale").as_float());
+	//Flip Sprites
+	new_animation->SetSpritesFlip(data_node->attribute("flip_sprites").as_bool());
+	//Color Texture 
+	new_animation->SetTexColor(App->entities_manager->TokenStrToColor(data_node->attribute("tex_color").as_string()));
+
+	pugi::xml_node sprite_node = data_node->child("sprite");
+	while (sprite_node != NULL)
+	{
+		//Load current sprite node data
+
+		//Load sprite rect
+		SDL_Rect rect = { sprite_node.attribute("x").as_int(),sprite_node.attribute("y").as_int(),sprite_node.attribute("w").as_int(),sprite_node.attribute("h").as_int() };
+
+		//Load sprite pivot
+		float pX = sprite_node.attribute("pX").as_float() * rect.w;
+		pX = (pX > (floor(pX) + 0.5f)) ? ceil(pX) : floor(pX);
+		float pY = sprite_node.attribute("pY").as_float() * rect.h;
+		pY = (pY > (floor(pY) + 0.5f)) ? ceil(pY) : floor(pY);
+
+		//Load sprite opacity
+		uint opacity = sprite_node.attribute("opacity").as_uint(255);
+
+		//Add sprite at animation
+		new_animation->AddSprite(rect, iPoint(pX, pY), sprite_node.attribute("z").as_int(), opacity);
+
+
+		//Focus next sprite node
+		sprite_node = sprite_node.next_sibling();
+	}
+
+	//Add the built animation to the definitions vector
+	p_animations_defs.push_back(new_animation);
+
+	return true;
 }
 
 // Enums Methods ================================
@@ -205,7 +314,27 @@ PARTICLE_TYPE j1ParticleManager::StrToParticleType(const char * str) const
 	if (strcmp(str, "enemy_hitpoints_particle") == 0)		return ENEMY_HITPOINTS_PARTICLE;
 	if (strcmp(str, "experience_points_particle") == 0)		return EXPERIENCE_POINTS_PARTICLE;
 	if (strcmp(str, "level_up_particle") == 0)				return LEVEL_UP_PARTICLE;
+	if (strcmp(str, "main_menu_slime_particle") == 0)		return MAIN_MENU_SLIME_PARTICLE;
 	return NO_PARTICLE;
+}
+
+PARTICLE_ANIMATION_ID j1ParticleManager::StrToParticleAnimationID(const char * str) const
+{
+	if (strcmp(str, "idle_slime") == 0)	return IDLE_SLIME;
+	return NO_ANIM_ID;
+}
+
+bool j1ParticleManager::IsTextType(PARTICLE_TYPE type) const
+{
+	return (type == ALLY_HITPOINTS_PARTICLE || 
+			type == ENEMY_HITPOINTS_PARTICLE || 
+			type == EXPERIENCE_POINTS_PARTICLE ||
+			type == LEVEL_UP_PARTICLE);
+}
+
+bool j1ParticleManager::IsAnimationType(PARTICLE_TYPE type) const
+{
+	return (type == MAIN_MENU_SLIME_PARTICLE);
 }
 
 // Functionality ================================
@@ -217,6 +346,12 @@ void j1ParticleManager::DeleteParticle(Particle * target)
 // Factory ======================================
 Particle * j1ParticleManager::GenerateTextParticle(const Entity * target, PARTICLE_TYPE particle_type, uint value)
 {
+	if (!IsTextType(particle_type))
+	{
+		LOG("Error generating text particle: Invalid type");
+		return nullptr;
+	}
+
 	//First we search the particle
 	Particle* particle_template = nullptr;
 	uint size = particles_defs.size();
@@ -293,4 +428,26 @@ Particle * j1ParticleManager::GenerateTextParticle(const Entity * target, PARTIC
 	current_particles.push_back(new_particle);
 
 	return new_particle;
+}
+
+Animation * j1ParticleManager::GenerateAnimationParticle(PARTICLE_TYPE particle_type)
+{
+	if (!IsAnimationType(particle_type))
+	{
+		LOG("Error generating text particle: Invalid type");
+		return nullptr;
+	}
+
+	return nullptr;
+}
+
+Animation * j1ParticleManager::GetParticleAnimationByID(PARTICLE_ANIMATION_ID id)
+{
+	uint size = p_animations_defs.size();
+	for (uint k = 0; k < size; k++)
+	{
+		if (p_animations_defs[k]->GetId() == id)return p_animations_defs[k];
+	}
+
+	return nullptr;
 }

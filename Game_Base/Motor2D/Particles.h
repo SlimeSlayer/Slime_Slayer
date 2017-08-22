@@ -6,6 +6,7 @@
 
 struct SDL_Texture;
 struct Font_Def;
+class Animation;
 
 enum PARTICLE_TYPE
 {
@@ -13,7 +14,14 @@ enum PARTICLE_TYPE
 	ALLY_HITPOINTS_PARTICLE,
 	ENEMY_HITPOINTS_PARTICLE,
 	EXPERIENCE_POINTS_PARTICLE,
-	LEVEL_UP_PARTICLE
+	LEVEL_UP_PARTICLE,
+	MAIN_MENU_SLIME_PARTICLE
+};
+
+enum PARTICLE_ANIMATION_ID
+{
+	NO_ANIM_ID = 0,
+	IDLE_SLIME
 };
 
 /// Particle ------------------------------------
@@ -119,7 +127,26 @@ public:
 /// ---------------------------------------------
 
 /// Animated_Particle ---------------------------
-//This will have an animation not texture
+class Animated_Particle : public Particle
+{
+public:
+
+	Animated_Particle();
+	Animated_Particle(const Animated_Particle& copy);
+	~Animated_Particle();
+
+protected:
+
+	Animation* animation = nullptr;
+
+public:
+
+	//Set Methods -----------
+	void SetAnimation(const Animation* anim);
+
+	//Get Methods -----------
+	Animation*	GetAnimation()const;
+};
 /// ---------------------------------------------
 
 #endif // !_PARTICLES_H_

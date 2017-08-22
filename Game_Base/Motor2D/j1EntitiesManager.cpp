@@ -261,6 +261,7 @@ bool j1EntitiesManager::Update(float dt)
 	if (enti_item == current_entities.end() && !still_in)
 	{
 		entity_sel_string.SetString("none", false);
+		entity_selected = nullptr;
 	}
 	else if (entity_selected != nullptr && entity_selected->GetBody() != nullptr)
 	{

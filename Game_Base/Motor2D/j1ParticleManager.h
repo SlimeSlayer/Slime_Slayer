@@ -39,27 +39,39 @@ private:
 
 	//Data used during the segmented enable process
 	pugi::xml_document	definitions_doc;
+	pugi::xml_document	animations_doc;
+	bool				animations_loaded = false;
 	pugi::xml_node		current_enable_node;
 
 	// Add definitions methods
-	void AddParticleDefinition(const pugi::xml_node* data_node);
+	bool AddParticleDefinition(const pugi::xml_node* data_node);
+	bool AddAnimationDefinition(const pugi::xml_node* data_node);
 
 	// Vector with all the particles definitions
 	std::vector<Particle*>	particles_defs;
-	
+	// Vector with all the animations that particles can use
+	std::vector<Animation*> p_animations_defs;
+
 	// List with the current particles in game
 	std::list<Particle*>	current_particles;
 	// Vector with all the dead particles ready to be deleted
 	std::vector<Particle*>	particles_to_delete;
 
 public:
+
 	//Enums Methods ---------
-	PARTICLE_TYPE	StrToParticleType(const char* str)const;
+	PARTICLE_TYPE			StrToParticleType(const char* str)const;
+	PARTICLE_ANIMATION_ID	StrToParticleAnimationID(const char* str)const;
 
 	// Functionality --------
+	bool IsTextType(PARTICLE_TYPE type)const;
+	bool IsAnimationType(PARTICLE_TYPE type)const;
 	void DeleteParticle(Particle* target);
 
 	// Factory --------------
-	Particle* GenerateTextParticle(const Entity* target, PARTICLE_TYPE particle_type, uint value);
+	Particle*	GenerateTextParticle(const Entity* target, PARTICLE_TYPE particle_type, uint value);
+	Animation*	GenerateAnimationParticle(PARTICLE_TYPE particle_type);
+
+	Animation*	GetParticleAnimationByID(PARTICLE_ANIMATION_ID id);
 };
 #endif // !_PARTICLE_MANAGER_H_

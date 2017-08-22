@@ -126,7 +126,7 @@
   </entities_manager>
 
   <particles_manager>
-    <particles_data file="particles/particles_defs.xml"/>
+    <particles_data defs_file="particles_manager/particles_defs.xml"  animations_file="particles_manager/particles_animations.xml"/>
   </particles_manager>
   <tutorial>
     <data_folder>scenes/tutorial.xml</data_folder>

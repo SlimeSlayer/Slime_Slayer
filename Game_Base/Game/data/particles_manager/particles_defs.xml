@@ -1,6 +1,16 @@
 <data>
   <!--Definitions of all the particles-->
   <particle
+  particle_type ="main_menu_slime_particle"
+  initial_vel_x="0.0"
+  initial_vel_y="-20.0"
+  acceleration_x="0.0"
+  acceleration_y="-150.0"
+  volatile="true"
+  life_time="1500"
+  animation_id="idle_slime"
+    />
+  <particle
     particle_type ="ally_hitpoints_particle"
     font_id="ally_hitpoints_font"
     initial_vel_x="0.0"
@@ -40,4 +50,5 @@
     volatile="true"
     life_time="1500"
     />
+
 </data>

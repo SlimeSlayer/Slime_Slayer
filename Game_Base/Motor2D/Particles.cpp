@@ -182,3 +182,33 @@ Font_Def * Static_Text_Particle::GetFont() const
 	return text_font;
 }
 /// ---------------------------------------------
+
+/// Animated_Particle ---------------------------
+// Constructors =======================
+Animated_Particle::Animated_Particle()
+{
+
+}
+
+Animated_Particle::Animated_Particle(const Animated_Particle & copy) :Particle(copy), animation(copy.animation)
+{
+
+}
+
+// Destructors ==================================
+Animated_Particle::~Animated_Particle()
+{
+	RELEASE(animation);
+}
+
+// Set Methods ==================================
+void Animated_Particle::SetAnimation(const Animation * anim)
+{
+	animation = (Animation*)anim;
+}
+
+// Get Methods ==================================
+Animation * Animated_Particle::GetAnimation() const
+{
+	return animation;
+}
