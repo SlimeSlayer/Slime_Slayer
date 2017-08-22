@@ -134,4 +134,6 @@ void UI_Progressive_Bar::UpdateTexture()
 
 	//Reset render target to window
 	SDL_SetRenderTarget(App->render->renderer, NULL);
+	//Reset render color
+	SDL_SetRenderDrawColor(App->render->renderer, App->render->background.r, App->render->background.g, App->render->background.b, App->render->background.a);
 }

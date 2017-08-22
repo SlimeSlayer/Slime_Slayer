@@ -153,7 +153,7 @@ bool j1Player::Update(float dt)
 	avatar->Draw();	
 
 	//Update Player UI --------------------------
-	life_bar->Update();
+	//life_bar->Update();
 	//exp_bar->Update();
 
 	// Read all player inputs states ------------

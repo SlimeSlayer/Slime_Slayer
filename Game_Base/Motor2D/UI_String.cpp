@@ -95,6 +95,8 @@ void UI_String::SetString(const char * new_text, bool generate)
 
 			//Reset render target
 			SDL_SetRenderTarget(App->render->renderer, NULL);
+			//Reset render color
+			SDL_SetRenderDrawColor(App->render->renderer, App->render->background.r, App->render->background.g, App->render->background.b, App->render->background.a);
 		}
 	}
 }
@@ -246,6 +248,8 @@ bool UI_String::GenerateTexture()
 			 
 			//Reset render target
 			SDL_SetRenderTarget(App->render->renderer, NULL);
+			//Reset render color
+			SDL_SetRenderDrawColor(App->render->renderer, App->render->background.r, App->render->background.g, App->render->background.b, App->render->background.a);
 		}
 		return true;
 	}
