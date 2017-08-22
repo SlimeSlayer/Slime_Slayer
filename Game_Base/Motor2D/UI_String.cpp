@@ -62,43 +62,8 @@ uint UI_String::GetLenght()const
 
 void UI_String::SetString(const char * new_text, bool generate)
 {
-	if (text_texture != nullptr)
-	{
-		App->tex->UnLoad(text_texture);
-		text_texture = nullptr;
-	}
 	text = new_text;
-	if (generate && strlen(new_text) > 0)
-	{
-		//Generate new text texture
-		text_texture = App->font->Print(text.c_str(), text_color, text_font);
-
-		if (background)
-		{
-			//Generate background texture
-			//Build texture rect
-			uint t_w = 0, t_h = 0;
-			App->tex->GetSize(text_texture, t_w, t_h);
-			SDL_Rect back_tex_rect = { 0,0,t_w + back_margins.x * 2, t_h + back_margins.y * 2 };
-			//Generate base texture
-			SDL_Texture* back_texture = SDL_CreateTexture(App->render->renderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_TARGET, back_tex_rect.w, back_tex_rect.h);
-			//Focus and blit back color on it
-			SDL_SetRenderTarget(App->render->renderer, back_texture);
-			SDL_SetRenderDrawColor(App->render->renderer, back_color.r, back_color.g, back_color.b, back_color.a);
-			SDL_RenderFillRect(App->render->renderer, &back_tex_rect);
-			//Blit text texture over
-			App->render->Blit(text_texture, back_margins.x, back_margins.y);
-
-			//Delete text texture and set fused texture as text texture
-			App->tex->UnLoad(text_texture);
-			text_texture = back_texture;
-
-			//Reset render target
-			SDL_SetRenderTarget(App->render->renderer, NULL);
-			//Reset render color
-			SDL_SetRenderDrawColor(App->render->renderer, App->render->background.r, App->render->background.g, App->render->background.b, App->render->background.a);
-		}
-	}
+	if (generate)GenerateTexture();
 }
 
 void UI_String::PushString(const char * new_text, uint position)

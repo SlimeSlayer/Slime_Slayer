@@ -110,7 +110,7 @@ NPC::NPC()
 
 }
 
-NPC::NPC(const NPC & copy, bool generate_body) :Intelligent_Creature(copy, generate_body)
+NPC::NPC(const NPC& copy, bool generate_body) :Intelligent_Creature(copy, generate_body)
 {
 	uint size = copy.dialog_strings.size();
 	for (uint k = 0; k < size; k++)

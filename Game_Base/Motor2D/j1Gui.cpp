@@ -133,19 +133,7 @@ bool j1Gui::PostUpdate()
 		App->ui_debug = !App->ui_debug;
 	}
 
-	/*if (App->debug_mode)
-	{
-		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
-		{
-			SDL_ShowCursor(0);
-		}
-		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-		{
-			SDL_ShowCursor(1);
-		}
-	}*/
-
-	// Update & draw the UI screens
+	// Draw the UI screens
 	std::list<UI_Element*>::iterator item = screens.begin();
 	while (item != screens.end()) {
 
@@ -155,7 +143,7 @@ bool j1Gui::PostUpdate()
 		item++;
 	}
 
-	if (ItemSelected != nullptr && App->gui->controller_mode)
+	if (ItemSelected != nullptr && App->gui->controller_mode && (!App->fade_in && !App->fade_out) )
 	{
 		App->render->DrawCircle(ItemSelected->GetBox()->x + ItemSelected->GetBox()->w * 0.5f, ItemSelected->GetBox()->y + ItemSelected->GetBox()->h * 0.5f, 100, 55, 25, 250, 255, false);
 	}
