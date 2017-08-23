@@ -274,6 +274,11 @@ bool j1Render::CallBlit(SDL_Texture * texture, int x, int y, const SDL_Rect * se
 	return true;
 }
 
+void j1Render::ClearBlitQueue()
+{
+	while (!blit_queue.empty()) { blit_queue.pop(); }
+}
+
 void j1Render::SetViewPort(const SDL_Rect& rect)
 {
 	SDL_RenderSetViewport(renderer, &rect);

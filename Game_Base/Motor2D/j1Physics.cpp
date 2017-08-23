@@ -475,7 +475,7 @@ bool j1Physics::PostUpdate()
 		App->collisions_debug = !App->collisions_debug;
 	}
 
-	if (!App->collisions_debug) return true;
+	if (!App->collisions_debug || App->is_loading) return true;
 
 
 	//Iterate all world bodies for draw & active player mouse input

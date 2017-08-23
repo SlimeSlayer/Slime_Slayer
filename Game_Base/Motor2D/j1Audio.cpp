@@ -267,9 +267,17 @@ void j1Audio::FadeMusicOut(float total_time)
 
 void j1Audio::FadeMusicIn(float total_time)
 {
-	current_music_fade_volume = MIN(current_music_volume, current_music_fade_volume + ((App->GetDT() * MAX_VOLUME) / total_time));
+	if (App->is_loading)
+	{
+		current_music_fade_volume = 0.0f;
+		current_fx_fade_volume = 0.0f;
+	}
+	else
+	{
+		current_music_fade_volume = MIN(current_music_volume, current_music_fade_volume + ((App->GetDT() * MAX_VOLUME) / total_time));
+		current_fx_fade_volume = MIN(current_fx_volume, current_fx_fade_volume + ((App->GetDT() * MAX_VOLUME) / total_time));
+	}
 	Mix_VolumeMusic(current_music_fade_volume);
-	current_fx_fade_volume = MIN(current_fx_volume, current_fx_fade_volume + ((App->GetDT() * MAX_VOLUME) / total_time));
 	Mix_Volume(-1, current_fx_fade_volume);
 }
 

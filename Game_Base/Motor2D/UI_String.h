@@ -41,9 +41,10 @@ public:
 	bool		DeleteChar(uint position);
 	bool		DeleteSegment(uint start, uint end);
 
-	uint		GetPixelLenght(uint end)const;
-	uint		GetPixelHeightLenght()const;
-	uint		GetLenght()const;
+	SDL_Texture*	GetTextTexture()const;
+	uint			GetPixelLenght(uint end)const;
+	uint			GetPixelHeightLenght()const;
+	uint			GetLenght()const;
 
 	void		DrawAt(int x, int y)const;
 	bool		TokenizeString(uint margin = 0);

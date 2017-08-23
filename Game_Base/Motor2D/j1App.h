@@ -9,8 +9,9 @@
 #include "SDL_image/include/SDL_image.h"
 
 #define TIME_TO_ENABLE 5
-#define FADE_OUT_TIME 1.5f
-#define FADE_IN_TIME 0.8f
+#define ENABLE_TIME_MARK 250
+#define FADE_OUT_TIME 2.5f
+#define FADE_IN_TIME 2.5f
 
 struct SDL_Texture;
 
@@ -37,6 +38,9 @@ class Scene;
 class MainMenu;
 class Tutorial;
 class Endless;
+class UI_Element;
+class UI_String;
+class UI_Progressive_Bar;
 
 enum APP_CONTEXT
 {
@@ -139,6 +143,11 @@ public:
 
 	APP_CONTEXT		app_context = UNKNOWN_CONTEXT;
 
+	//Loading screen data
+	j1Timer				enable_timer;
+	UI_String*			loading_string = nullptr;
+	UI_Progressive_Bar*	loading_bar = nullptr;
+
 	// Used in data loading
 	APP_CONTEXT	StrToAppContext(const char* str)const;
 
@@ -204,6 +213,7 @@ private:
 	
 public:
 
+	bool				is_loading = false;
 	//Fade data -----------------------
 	bool				fade_out = false;
 	bool				fade_in = false;

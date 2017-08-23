@@ -127,7 +127,8 @@ bool j1Gui::PreUpdate()
 // Called after all Updates
 bool j1Gui::PostUpdate()
 {
-	
+	if (App->is_loading)return true;
+
 	if (App->input_manager->GetEvent(UI_DEBUG_MODE) == INPUT_DOWN)
 	{
 		App->ui_debug = !App->ui_debug;

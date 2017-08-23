@@ -115,6 +115,11 @@ bool UI_String::DeleteSegment(uint start, uint end)
 	return ret;
 }
 
+SDL_Texture * UI_String::GetTextTexture() const
+{
+	return text_texture;
+}
+
 uint UI_String::GetPixelLenght(uint end) const
 {
 	std::string segment = text.substr(0, end);

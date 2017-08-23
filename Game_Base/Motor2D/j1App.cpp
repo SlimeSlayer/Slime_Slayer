@@ -160,6 +160,7 @@ bool j1App::Awake()
 // Called before the first frame
 bool j1App::Start()
 {
+	//Start all the modules
 	PERF_START(ptimer);
 	bool ret = true;
 	std::list<j1Module*>::iterator item = modules.begin();
@@ -173,6 +174,18 @@ bool j1App::Start()
 
 	PERF_PEEK(ptimer);
 
+	//Build Loading Screen
+	//String
+	loading_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	loading_string->SetFont(App->font->GetFontByID(FONT_ID::MENU_UI_FONT)->font);
+	loading_string->SetInputTarget(App->gui);
+	loading_string->SetUseCamera(false);
+	loading_string->SetString("Loading...");
+	loading_string->AdjustBox();
+
+	//Bar
+	//loading_bar = (UI_Progressive_Bar*)App->gui->GenerateUI_Element(UI_TYPE::PROGRESSIVE_BAR);
+
 	//App starts in the main menu context
 	app_context = MAIN_MENU_CONTEXT;
 
@@ -184,11 +197,18 @@ bool j1App::Update()
 {
 	bool ret = true;
 
+	//Enable loading process
 	if (want_to_enable && !fade_out)
 	{
+		is_loading = true;
+		fade_in = fade_out = false;
+		App->render->ClearBlitQueue();
 		EnableActiveModulesNow();
+		//App->render->Blit(loading_string->GetTextTexture(), loading_string->GetBox()->x, loading_string->GetBox()->y);
+		App->render->DrawQuad(App->render->camera, 0, 0, 0, 255);
 	}
-	
+
+	//Game Loop
 	PrepareUpdate();
 
 	if (input->GetWindowEvent(WE_QUIT) == true)
@@ -208,10 +228,9 @@ bool j1App::Update()
 	{
 		ret = PostUpdate();
 	}
-
 	
-
 	FinishUpdate();
+
 	return ret;
 }
 
@@ -225,18 +244,27 @@ void j1App::EnableActiveModulesNow()
 	}
 	modules_to_disable.clear();
 
+	if (enable_timer.Read() < ENABLE_TIME_MARK)return;
+
 	//Enable one module for iteration
-	if (modules_to_enable[enable_index]->Enable())enable_index++;
+	if (modules_to_enable[enable_index]->Enable())
+	{
+		enable_index++;
+		enable_timer.Start();
+	}
 
 	//Check if all the modules have been enabled
 	size = modules_to_enable.size();
 	if (enable_index == size)
 	{
 		//If true enable process ends
-		want_to_enable = false;
+		want_to_enable = is_loading = false;
+		alpha = 255.0f;
+		fade_in = true;
 		modules_to_enable.clear();
 		enable_index = 0;
 	}
+
 }
 
 // ---------------------------------------------
