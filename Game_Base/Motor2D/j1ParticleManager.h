@@ -29,6 +29,9 @@ public:
 	// Called before render is available
 	bool Awake(pugi::xml_node& node);
 
+	// Called before the first frame
+	bool Start();
+
 	// Called each loop iteration
 	bool Update(float dt);
 
@@ -70,7 +73,7 @@ public:
 
 	// Factory --------------
 	Particle*	GenerateTextParticle(const Entity* target, PARTICLE_TYPE particle_type, uint value);
-	Animation*	GenerateAnimationParticle(PARTICLE_TYPE particle_type);
+	Particle*	GenerateAnimationParticle(PARTICLE_TYPE particle_type);
 
 	Animation*	GetParticleAnimationByID(PARTICLE_ANIMATION_ID id);
 };

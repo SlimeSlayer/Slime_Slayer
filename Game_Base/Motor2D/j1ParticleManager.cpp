@@ -24,7 +24,8 @@ j1ParticleManager::~j1ParticleManager()
 // Game Loop ====================================
 void j1ParticleManager::Init()
 {
-	active = enabled = false;
+	active = true;
+	enabled = false;
 }
 
 bool j1ParticleManager::Enable()
@@ -53,6 +54,12 @@ bool j1ParticleManager::Enable()
 		{
 			return false;
 		}
+	}
+
+	if (!animations_loaded)
+	{
+		animations_loaded = true;
+		return false;
 	}
 
 	enabled = true;
@@ -113,6 +120,13 @@ bool j1ParticleManager::Awake(pugi::xml_node & node)
 		LOG("Error loading Particles Animations Doc");
 		return false;
 	}
+
+	return true;
+}
+
+bool j1ParticleManager::Start()
+{
+	while (!Enable()) {}
 
 	return true;
 }
@@ -430,15 +444,47 @@ Particle * j1ParticleManager::GenerateTextParticle(const Entity * target, PARTIC
 	return new_particle;
 }
 
-Animation * j1ParticleManager::GenerateAnimationParticle(PARTICLE_TYPE particle_type)
+Particle * j1ParticleManager::GenerateAnimationParticle(PARTICLE_TYPE particle_type)
 {
+	//Check particle type
 	if (!IsAnimationType(particle_type))
 	{
-		LOG("Error generating text particle: Invalid type");
+		LOG("Error generating animation particle: Invalid type");
 		return nullptr;
 	}
 
-	return nullptr;
+	//General animated particle pointer
+	Animated_Particle* new_particle = nullptr;
+
+	//First we search the particle
+	Particle* particle_template = nullptr;
+	uint size = particles_defs.size();
+	for (uint k = 0; k < size; k++)
+	{
+		if (particles_defs[k]->GetParticleType() == particle_type)
+		{
+			particle_template = particles_defs[k];
+			break;
+		}
+	}
+	if (particle_template == nullptr)
+	{
+		LOG("Error generating particle(template not found)");
+		return nullptr;
+	}
+
+	//Allocate the correct particle class
+	switch (particle_type)
+	{
+	case MAIN_MENU_SLIME_PARTICLE:
+		new_particle = new Animated_Particle(*(Animated_Particle*)particle_template);
+		break;
+	}
+
+	//Add the generated particle at the current particle for update
+	current_particles.push_back(new_particle);
+
+	return new_particle;
 }
 
 Animation * j1ParticleManager::GetParticleAnimationByID(PARTICLE_ANIMATION_ID id)
@@ -446,7 +492,10 @@ Animation * j1ParticleManager::GetParticleAnimationByID(PARTICLE_ANIMATION_ID id
 	uint size = p_animations_defs.size();
 	for (uint k = 0; k < size; k++)
 	{
-		if (p_animations_defs[k]->GetId() == id)return p_animations_defs[k];
+		if (p_animations_defs[k]->GetId() == id)
+		{
+			return new Animation(*p_animations_defs[k]);
+		}
 	}
 
 	return nullptr;

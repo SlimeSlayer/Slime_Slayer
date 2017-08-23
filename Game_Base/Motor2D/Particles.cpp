@@ -5,6 +5,7 @@
 #include "j1Render.h"
 #include "j1ParticleManager.h"
 #include "j1Textures.h"
+#include "j1Animator.h"
 
 /// Particle ------------------------------------
 // Constructors =======================
@@ -190,15 +191,25 @@ Animated_Particle::Animated_Particle()
 
 }
 
-Animated_Particle::Animated_Particle(const Animated_Particle & copy) :Particle(copy), animation(copy.animation)
+Animated_Particle::Animated_Particle(const Animated_Particle & copy) :Particle(copy)
 {
-
+	animation = new Animation(*copy.animation);
 }
 
 // Destructors ==================================
 Animated_Particle::~Animated_Particle()
 {
 	RELEASE(animation);
+}
+
+// Game Loop ====================================
+void Animated_Particle::Draw()
+{
+	if (animation != nullptr)
+	{
+		const Sprite* sprite = animation->GetCurrentSprite();
+		App->render->CallBlit(animation->GetTexture(), position.x, position.y, sprite->GetFrame(), false, animation->GetSpritesFlip(), animation->GetSpritesScale(), 0, 255, -sprite->GetXpivot(), -sprite->GetYpivot(), animation->GetTexColor());
+	}
 }
 
 // Set Methods ==================================

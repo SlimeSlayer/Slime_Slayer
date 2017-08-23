@@ -2,6 +2,7 @@
 #define __j1MENU_H__
 
 #include "j1Module.h"
+#include "j1Timer.h"
 class UI_Button;
 class UI_Image;
 class UI_Scroll_Bar;
@@ -21,6 +22,9 @@ public:
 	bool Enable();
 	void Disable();
 
+	// Called before render is available
+	bool Awake(pugi::xml_node& node);
+
 	// Called before the first frame
 	bool Start();
 
@@ -36,6 +40,16 @@ public:
 	UI_Element*	GetCorrectItemToSelect()const;
 
 private:
+
+	//SLIME RAIN DATA
+	j1Timer spawn_timer;
+	uint	cur_spawn_rate = 0;		/*The generated value with random margin*/
+	uint	spawn_rate = 0;			/*Base spawn rate*/
+	float	spawn_rand = 0.0f;		/*Random percent of spawn rate*/
+	float	initial_vel_max = 0.0f;	/*Initial vel of the slimes*/
+	float	gravity = 0.0f;			/*Base gravity value*/
+	float	gravity_rand = 0.0f;	/*Random percent of gravity*/
+	int		spawn_y_margin = 0;
 
 	// MENU DATA
 	//Main Menu

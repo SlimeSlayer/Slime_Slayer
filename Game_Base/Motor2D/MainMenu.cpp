@@ -8,6 +8,8 @@
 #include "j1Input.h"
 #include "j1Window.h"
 #include "j1Render.h"
+#include "j1ParticleManager.h"
+#include "j1Animator.h"
 
 #include "Endless.h"
 #include "Tutorial.h"
@@ -21,7 +23,7 @@
 // Constructors ===========================================
 MainMenu::MainMenu()
 {
-	name = "menu";
+	name = "main_menu";
 }
 
 // Destructors ============================================
@@ -103,6 +105,20 @@ void MainMenu::Disable()
 	tutorial_button->UnBlock();
 	menu_branch->Desactivate();
 	menu_branch->DesactivateChids();
+}
+
+bool MainMenu::Awake(pugi::xml_node & node)
+{
+	//Load all the slime rain data to configure it
+	pugi::xml_node slime_rain_node = node.child("slime_rain");
+	/*Spawn Rate*/		spawn_rate = slime_rain_node.attribute("spawn_rate").as_uint();
+	/*Spawn Rand*/		spawn_rand = slime_rain_node.attribute("spawn_rand").as_float();
+	/*Initial Vel*/		initial_vel_max = slime_rain_node.attribute("initial_vel_max").as_float();
+	/*Gravity*/			gravity = slime_rain_node.attribute("gravity").as_float();
+	/*Gravity Rand*/	gravity_rand = slime_rain_node.attribute("gravity_rand").as_float();
+	/*Spawn Y Margin*/	spawn_y_margin = slime_rain_node.attribute("spawn_y_margin").as_int();
+
+	return true;
 }
 
 bool MainMenu::Start()
@@ -710,6 +726,42 @@ bool MainMenu::Update(float dt)
 				if (App->tutorial->TutorialCompleted())App->gui->ItemSelected = continue_button;
 				else App->gui->ItemSelected = start_button;
 			}
+		}
+	}
+	// ------------------------------------------
+
+	// Slime rain particles generation ----------
+	if (cur_spawn_rate < spawn_timer.Read())
+	{
+		//Generate random spawn time respecting the spawn random margin
+		cur_spawn_rate = spawn_rate + (((rand() % spawn_rate)* spawn_rand) - ((rand() % spawn_rate)* spawn_rand));
+		//Reset spawn timer
+		spawn_timer.Start();
+
+		//Generate slime particle
+		Animated_Particle* slime_particle = (Animated_Particle*)App->particle_manager->GenerateAnimationParticle(PARTICLE_TYPE::MAIN_MENU_SLIME_PARTICLE);
+		
+		if (slime_particle != nullptr)
+		{
+			//Randomize particle attributes respecting random margins
+			
+			//Position
+			int up_down = rand() % 100 > 50 ? 1 : -1;
+			fPoint position = { 0,0 };
+			if (up_down < 0)position.y = App->render->camera.h + spawn_y_margin;
+			else
+			{
+				position.y = -spawn_y_margin;
+			}
+			position.x = App->render->camera.w * ((rand() % 100) * 0.01);
+			slime_particle->SetPosition(position.x, position.y);
+			//Initial y velocity
+			slime_particle->SetVelocity(0.0f,(initial_vel_max + initial_vel_max * ((rand() % 100)/100)) * up_down);
+			//Gravity
+			slime_particle->SetAcceleration(0, gravity * up_down);
+			//Animation color
+			SDL_Color random_color = { (Uint8)rand() % 255, (Uint8)rand() % 255, (Uint8)rand() % 255, 255 };
+			slime_particle->GetAnimation()->SetTexColor(random_color);
 		}
 	}
 	// ------------------------------------------

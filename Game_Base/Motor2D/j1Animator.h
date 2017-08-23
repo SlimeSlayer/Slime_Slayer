@@ -45,6 +45,7 @@ class Animation
 public:
 
 	Animation();
+	Animation(const Animation& copy);
 	virtual ~Animation();
 
 protected:

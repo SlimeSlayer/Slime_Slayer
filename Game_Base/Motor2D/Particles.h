@@ -31,7 +31,7 @@ public:
 
 	Particle();
 	Particle(const Particle& copy);
-	~Particle();
+	virtual ~Particle();
 
 public:
 
@@ -134,6 +134,11 @@ public:
 	Animated_Particle();
 	Animated_Particle(const Animated_Particle& copy);
 	~Animated_Particle();
+
+public:
+
+	//Game Loop -------------
+	void Draw();
 
 protected:
 

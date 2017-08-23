@@ -55,6 +55,16 @@ Animation::Animation()
 
 }
 
+Animation::Animation(const Animation & copy) :texture(copy.texture), tex_color(copy.tex_color), enum_id(copy.enum_id), current_frame(copy.current_frame), loop(copy.loop), speed(copy.speed), flip_sprites(copy.flip_sprites), sprites_scale(copy.sprites_scale)
+{
+	const std::vector<Sprite>* sprites = copy.GetAllSprites();
+	uint size = sprites->size();
+	for (uint k = 0; k < size; k++)
+	{
+		this->sprites.push_back(Sprite(sprites->at(k)));
+	}
+}
+
 //Destructor ==========================
 Animation::~Animation()
 {
