@@ -90,6 +90,10 @@ bool MainMenu::Enable()
 
 	App->audio->PlayMusic(MUSIC_ID::MUSIC_MENU);
 
+	//Reset camera & game state
+	App->render->camera.x = App->render->camera.y = 0;
+	App->pause = false;
+
 	active = false;
 	enabled = true;
 

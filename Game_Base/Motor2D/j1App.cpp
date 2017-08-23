@@ -633,6 +633,7 @@ void j1App::ActiveMainMenu()
 
 	// Active all the necessary scene modules
 	App->main_menu->Active();
+	App->particle_manager->Active();
 
 	//Enable active modules
 	want_to_enable = true;

@@ -1,5 +1,5 @@
 <data>
-  <animation id="idle_slime" texture="idle_slime.png" tex_color="255/255/255/255" loop="true" speed="200" scale="6.0" flip_sprites="false">
+  <animation id="idle_slime" texture="idle_slime.png" tex_color="255/255/255/255" loop="true" speed="400" scale="6.0" flip_sprites="false">
     <sprite x="0"  y="4" w="19" h="16" pX="-1.7" pY="-1.7"/>
     <sprite x="21" y="4" w="18" h="16" pX="-1.7" pY="-1.7"/>
   </animation>

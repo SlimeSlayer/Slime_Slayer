@@ -197,6 +197,7 @@ bool j1ParticleManager::CleanUp()
 
 	//Reset definitions doc
 	definitions_doc.reset();
+	animations_doc.reset();
 
 	return true;
 }
