@@ -200,13 +200,10 @@ bool j1App::Update()
 	//Enable loading process
 	if (want_to_enable && !fade_out)
 	{
-		is_loading = true;
-		fade_in = fade_out = false;
-		App->render->ClearBlitQueue();
-		EnableActiveModulesNow();
-		//App->render->Blit(loading_string->GetTextTexture(), loading_string->GetBox()->x, loading_string->GetBox()->y);
-		App->render->DrawQuad(App->render->camera, 0, 0, 0, 255);
+		fade_in = is_loading = true;
+		EnableActiveModulesNow();	
 	}
+
 
 	//Game Loop
 	PrepareUpdate();
@@ -244,7 +241,7 @@ void j1App::EnableActiveModulesNow()
 	}
 	modules_to_disable.clear();
 
-	if (enable_timer.Read() < ENABLE_TIME_MARK)return;
+	if (enable_timer.Read() < ENABLE_TIME_MARK && load_scene_enabled)return;
 
 	//Enable one module for iteration
 	if (modules_to_enable[enable_index]->Enable())
@@ -258,9 +255,19 @@ void j1App::EnableActiveModulesNow()
 	if (enable_index == size)
 	{
 		//If true enable process ends
-		want_to_enable = is_loading = false;
-		alpha = 255.0f;
-		fade_in = true;
+		want_to_enable = false;
+
+		if (!App->load_scene_enabled)
+		{
+			App->is_loading = false;
+			fade_out = false;
+			fade_in = true;
+		}
+		else
+		{
+			fade_out = true;
+			fade_in = false;
+		}
 		modules_to_enable.clear();
 		enable_index = 0;
 	}
@@ -702,6 +709,7 @@ void j1App::ActiveTutorial()
 
 	//Enable active modules
 	want_to_enable = true;
+	load_scene_enabled = true;
 	EnableActiveModules();
 
 	//Start render & audio fade
@@ -741,6 +749,7 @@ void j1App::ActiveEndless()
 
 	//Enable active modules
 	want_to_enable = true;
+	load_scene_enabled = true;
 	EnableActiveModules();
 
 	//Start render & audio fade

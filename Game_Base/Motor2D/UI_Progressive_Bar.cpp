@@ -66,7 +66,7 @@ void UI_Progressive_Bar::AddValue(float to_add)
 {
 	if (to_add < 0)
 	{
-		to_empty_val = to_add;
+		to_empty_val += to_add;
 		current_value = MAX(0.0, current_value + to_add);
 	}
 	else current_value = MIN(max_value, current_value + to_add);
@@ -94,6 +94,8 @@ void UI_Progressive_Bar::SetToEmptyColor(SDL_Color clr)
 
 void UI_Progressive_Bar::GenerateTexture()
 {
+	if (bar_texture != nullptr)return;
+
 	bar_texture = SDL_CreateTexture(App->render->renderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_TARGET, box.w, box.h);
 	App->tex->textures.push_back(bar_texture);
 }
@@ -101,8 +103,9 @@ void UI_Progressive_Bar::GenerateTexture()
 void UI_Progressive_Bar::UpdateTexture()
 {
 	//Focus render at the bar box
-	SDL_SetRenderTarget(App->render->renderer, bar_texture);
 	SDL_SetRenderDrawBlendMode(App->render->renderer, SDL_BLENDMODE_BLEND);
+	SDL_SetRenderTarget(App->render->renderer, bar_texture);
+	
 	
 	//Calculate the percents
 	float empty_per_cent_val = 1 - (current_value / max_value);
@@ -124,6 +127,7 @@ void UI_Progressive_Bar::UpdateTexture()
 	//Blit the empty color
 	SDL_SetRenderDrawColor(App->render->renderer, full_color.r, full_color.g, full_color.b, full_color.a);
 	SDL_RenderFillRect(App->render->renderer, &full_rect);
+	
 	//Blit the to_empty color
 	if (to_empty_per_cent_val > 0.000)
 	{
@@ -131,9 +135,10 @@ void UI_Progressive_Bar::UpdateTexture()
 		SDL_SetRenderDrawColor(App->render->renderer, to_empty_color.r, to_empty_color.g, to_empty_color.b, to_empty_color.a);
 		SDL_RenderFillRect(App->render->renderer, &to_empty_rect);
 	}
+	//Reset render color
+	SDL_SetRenderDrawColor(App->render->renderer, App->render->background.r, App->render->background.g, App->render->background.b, App->render->background.a);
+
 
 	//Reset render target to window
 	SDL_SetRenderTarget(App->render->renderer, NULL);
-	//Reset render color
-	SDL_SetRenderDrawColor(App->render->renderer, App->render->background.r, App->render->background.g, App->render->background.b, App->render->background.a);
 }

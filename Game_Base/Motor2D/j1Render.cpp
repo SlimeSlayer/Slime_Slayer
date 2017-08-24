@@ -176,6 +176,21 @@ bool j1Render::Update(float dt)
 
 bool j1Render::PostUpdate()
 {
+	//Load Screen System ------------------------
+	if (App->is_loading && App->load_scene_enabled)
+	{
+		if (App->fade_in || App->fade_out)
+		{
+			App->render->DrawQuad(App->render->viewport, 150, 220, 2, 255, true, false);
+			LOG("BLIT");
+		}
+		else
+		{
+			App->is_loading = App->load_scene_enabled = false;
+			App->fade_in = true;
+		}
+	}
+	
 	// Fade System ------------------------------
 	if (App->fade_out || App->fade_in)
 	{
@@ -186,8 +201,8 @@ bool j1Render::PostUpdate()
 			App->audio->FadeMusicOut(FADE_OUT_TIME);
 			if (App->alpha >= 255.0f)
 			{
-				App->fade_in = true;
 				App->fade_out = false;
+				App->alpha = 255.0f;
 			}
 		}
 		else if (App->fade_in)
@@ -197,13 +212,11 @@ bool j1Render::PostUpdate()
 			if (App->alpha <= 0.0f)
 			{
 				App->fade_in = false;
-				App->fade_out = false;
 				App->alpha = 0.0f;
 			}
 		}
 	}
 
-	
 	if (App->render->vsync && App->win->fullscreen)
 	{
 		float delay = 0;

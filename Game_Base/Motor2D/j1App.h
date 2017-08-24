@@ -9,9 +9,9 @@
 #include "SDL_image/include/SDL_image.h"
 
 #define TIME_TO_ENABLE 5
-#define ENABLE_TIME_MARK 250
-#define FADE_OUT_TIME 2.5f
-#define FADE_IN_TIME 2.5f
+#define ENABLE_TIME_MARK 300
+#define FADE_OUT_TIME 2.0f
+#define FADE_IN_TIME 1.2f
 
 struct SDL_Texture;
 
@@ -173,8 +173,7 @@ private:
 
 	std::vector<j1Module*>	modules_to_disable;
 	std::vector<j1Module*>	modules_to_enable;
-
-	uint enable_index = 0;
+	uint					enable_index = 0;	/*Index of the current enabled module*/
 
 	int					argc = 0;
 	char**				args = nullptr;
@@ -192,7 +191,7 @@ public:
 
 	std::string			load_game;	/*Folder where the game is loaded*/
 	std::string			save_game;	/*Folder where the game is saved*/
-	bool				pause = false;	/*If its true the game is paused*/
+	
 
 private:
 
@@ -207,13 +206,18 @@ private:
 	int					capped_ms = 0;
 
 	//Modules management data ---------
-	Scene*				current_scene = nullptr;
-	bool				want_to_quit = false;
-	bool				want_to_enable = false;
+	Scene*				current_scene = nullptr;	/*Current scene pointer used to adapt modules to game state*/
+	bool				want_to_quit = false;		/*Ready to close app*/
+	bool				want_to_enable = false;		/*If its true modules will be enabled at next frame*/
 	
 public:
 
+	bool				pause = false;				/*If its true the game is paused*/
+
+	//Scene change data
+	bool				load_scene_enabled = false;
 	bool				is_loading = false;
+
 	//Fade data -----------------------
 	bool				fade_out = false;
 	bool				fade_in = false;
@@ -227,13 +231,15 @@ public:
 	void SetQuit();
 	bool GetQuit()const;
 	
+	//Scene change methods
 	Scene*	GetCurrentScene()const;
 	void	ActiveMainMenu();
 	void	ActiveTutorial();
 	void	ActiveEndless();
 
-	bool collisions_debug = true;
-	bool ui_debug = false;
+	//Debug booleans
+	bool	collisions_debug = true;
+	bool	ui_debug = false;
 
 };
 
