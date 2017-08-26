@@ -98,6 +98,7 @@
     <ClCompile Include="j1Player.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Particles.cpp" />
+    <ClCompile Include="Render_Effects.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="j1Timer.cpp" />
     <ClCompile Include="p2Log.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="j1PerfTimer.h" />
     <ClInclude Include="j1Player.h" />
     <ClInclude Include="Particles.h" />
+    <ClInclude Include="Render_Effects.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="j1Timer.h" />
     <ClInclude Include="j1Audio.h" />

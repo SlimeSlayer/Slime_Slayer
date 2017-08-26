@@ -713,11 +713,16 @@ void j1App::ActiveTutorial()
 	EnableActiveModules();
 
 	//Start render & audio fade
+	bool		fade_music = true;
+	float		fade_time = FADE_OUT_TIME;
+	float		start_alpha = 0.0f;
+	float		end_alpha = 0.0f;
+	SDL_Color	color = { 255,255,255,255 };
+	App->render->CallRenderEffect(RENDER_EF_TYPE::FADE_EFFECT, (void*)&fade_music, (void*)&fade_time, (void*)&start_alpha, (void*)&end_alpha, (void*)&color);
 	fade_out = true;
-	current_scene = App->tutorial;
-	App->audio->StartMusicFade();
-
+	
 	//Set the correct app context
+	current_scene = App->tutorial;
 	app_context = IN_GAME_CONTEXT;
 	pause = false;
 

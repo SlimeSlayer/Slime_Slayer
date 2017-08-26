@@ -10,9 +10,6 @@
     <ClCompile Include="j1Input.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="j1Render.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
     <ClCompile Include="j1Textures.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -123,6 +120,12 @@
     <ClCompile Include="UI_Progressive_Bar.cpp">
       <Filter>UI\UI_Elements</Filter>
     </ClCompile>
+    <ClCompile Include="j1Render.cpp">
+      <Filter>Modules\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render_Effects.cpp">
+      <Filter>Modules\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -132,9 +135,6 @@
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="j1Input.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Render.h">
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="j1Textures.h">
@@ -262,6 +262,12 @@
     <ClInclude Include="UI_Progressive_Bar.h">
       <Filter>UI\UI_Elements</Filter>
     </ClInclude>
+    <ClInclude Include="j1Render.h">
+      <Filter>Modules\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render_Effects.h">
+      <Filter>Modules\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scenes">
@@ -296,6 +302,9 @@
     </Filter>
     <Filter Include="Modules\ParticleManager">
       <UniqueIdentifier>{de8e6c24-783a-4119-b76e-ae361ac91363}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules\Render">
+      <UniqueIdentifier>{92a6eccb-76e2-4959-8075-e338fb62cd96}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

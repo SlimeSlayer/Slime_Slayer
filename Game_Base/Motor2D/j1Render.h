@@ -5,6 +5,7 @@
 #include "p2Point.h"
 #include "j1Module.h"
 #include <queue>
+#include "Render_Effects.h"
 
 #define FULLSCREEN_MS_VSYNC 16
 
@@ -87,6 +88,9 @@ private:
 	//Priority queue to organize all the blits
 	std::priority_queue<Blit_Call> blit_queue;
 
+	//Queue of the render effects
+	std::queue<Render_Effect> effects_queue;
+
 public:
 
 	bool vsync = false;
@@ -101,6 +105,12 @@ public:
 	//Add blit call ---------
 	bool	CallBlit(SDL_Texture* texture, int x, int y, const SDL_Rect* section = NULL, bool use_camera = false, bool horizontal_flip = false, float scale = 1.0f, int priority = 0, uint opacity = 255, int pivot_x = 0, int pivot_y = 0, SDL_Color color = { 255,255,255,255 }, double angle = 0.0);
 	void	ClearBlitQueue();
+
+	//Add render effect ------
+	/*
+	- FADE_EFFECT: bool fade_music, float fade_time. float start_alpha, float end_alpha
+	*/
+	bool	CallRenderEffect(RENDER_EF_TYPE type, void* var_1 = nullptr, void* var_2 = nullptr, void* var_3 = nullptr, void* var_4  = nullptr, void* var_5 = nullptr);
 
 	//View port Methods ------
 	void	SetViewPort(const SDL_Rect& rect);

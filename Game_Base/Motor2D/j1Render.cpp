@@ -229,6 +229,15 @@ bool j1Render::PostUpdate()
 		}
 	}
 
+	// Update the current render effect ---------
+	if (!effects_queue.empty())
+	{
+		if (effects_queue.front().Update())
+		{
+			effects_queue.pop();
+		}
+	}
+
 	// Render Present ---------------------------
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.b, background.a);
 	SDL_RenderPresent(renderer);
@@ -290,6 +299,22 @@ bool j1Render::CallBlit(SDL_Texture * texture, int x, int y, const SDL_Rect * se
 void j1Render::ClearBlitQueue()
 {
 	while (!blit_queue.empty()) { blit_queue.pop(); }
+}
+
+bool j1Render::CallRenderEffect(RENDER_EF_TYPE type, void * var_1, void * var_2, void * var_3, void * var_4, void* var_5)
+{
+	bool ret = false;
+
+	//Look the effect type to allocate the correct class
+	switch (type)
+	{
+	case FADE_EFFECT:
+		effects_queue.push(Fade_Effect(*(bool*)var_1, *(float*)var_2, *(float*)var_3, *(float*)var_4, *(SDL_Color*)var_5));
+		ret = true;
+		break;
+	}
+
+	return ret;
 }
 
 void j1Render::SetViewPort(const SDL_Rect& rect)
