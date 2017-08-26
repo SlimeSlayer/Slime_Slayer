@@ -681,8 +681,12 @@ void j1App::ActiveMainMenu()
 	EnableActiveModules();
 
 	//Start render & audio fade
+	SDL_Color	color = { 0,0,0,255 };
+	App->render->CallRenderEffect(RENDER_EF_TYPE::FADE_EFFECT, true, FADE_OUT_TIME, 0.0, 255.0, color);
+	App->render->CallRenderEffect(RENDER_EF_TYPE::LAYER_EFFECT, color);
+
+	//Start render & audio fade
 	current_scene = nullptr;
-	App->audio->StartMusicFade();
 
 	//Set the correct app context
 	app_context = MAIN_MENU_CONTEXT;
@@ -759,8 +763,12 @@ void j1App::ActiveEndless()
 	EnableActiveModules();
 
 	//Start render & audio fade
+	SDL_Color	color = { 0,0,0,255 };
+	App->render->CallRenderEffect(RENDER_EF_TYPE::FADE_EFFECT, true, FADE_OUT_TIME, 0.0, 255.0, color);
+	App->render->CallRenderEffect(RENDER_EF_TYPE::LAYER_EFFECT, color);
+
+	//Start render & audio fade
 	current_scene = App->endless;
-	App->audio->StartMusicFade();
 	
 	//Set the correct app context
 	app_context = IN_GAME_CONTEXT;
