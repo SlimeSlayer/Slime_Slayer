@@ -10,8 +10,6 @@
 
 #define TIME_TO_ENABLE 5
 #define ENABLE_TIME_MARK 300
-#define FADE_OUT_TIME 2.0f
-#define FADE_IN_TIME 1.2f
 
 struct SDL_Texture;
 
@@ -217,12 +215,6 @@ public:
 	//Scene change data
 	bool				load_scene_enabled = false;
 	bool				is_loading = false;
-
-	//Fade data -----------------------
-	bool				fade_out = false;
-	bool				fade_in = false;
-	SDL_Color			fade_color = { 0,0,0,0 };
-	float				alpha = 0.0f;
 
 public:
 

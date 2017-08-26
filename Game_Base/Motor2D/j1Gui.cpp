@@ -144,7 +144,7 @@ bool j1Gui::PostUpdate()
 		item++;
 	}
 
-	if (ItemSelected != nullptr && App->gui->controller_mode && (!App->fade_in && !App->fade_out) )
+	if (ItemSelected != nullptr && App->gui->controller_mode && App->render->GetCurrentEfType() != RENDER_EF_TYPE::FADE_EFFECT)
 	{
 		App->render->DrawCircle(ItemSelected->GetBox()->x + ItemSelected->GetBox()->w * 0.5f, ItemSelected->GetBox()->y + ItemSelected->GetBox()->h * 0.5f, 100, 55, 25, 250, 255, false);
 	}

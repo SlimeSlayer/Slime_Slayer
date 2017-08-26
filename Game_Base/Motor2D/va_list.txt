@@ -1,0 +1,9 @@
+
+- va_list 
+	
+You can't use va_arg(va_list, float) because the types are promoted to double; 
+you must use va_arg(va_list, double). 
+Similarly, short and char types are promoted to int and must be retrieved using int.
+
+Call va_start to fill a va_list whit the ellipsis next the specified var va_start(va_list,var)
+Call va_end when you end with the variables to close up the list

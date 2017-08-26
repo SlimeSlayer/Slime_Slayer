@@ -7,6 +7,7 @@
 #include "UI_Text_Box.h"
 #include "j1Window.h"
 #include "j1InputManager.h"
+#include "j1Render.h"
 
 #include "SDL/include/SDL.h"
 
@@ -65,7 +66,7 @@ bool j1Input::Start()
 bool j1Input::PreUpdate()
 {
 	//During app fade input is cancelled
-	if (App->fade_in || App->fade_out)return true;
+	if (App->render->GetCurrentEfType() == RENDER_EF_TYPE::FADE_EFFECT)return true;
 
 	//Reset mouse motion
 	mouse_motion_x = mouse_motion_y = 0;

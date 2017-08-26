@@ -68,7 +68,7 @@ bool Fade_Effect::Update()
 
 	//Calculate the alpha value that has to be added/rested in this frame
 	float to_fade = (App->GetDT() * abs(start_alpha - end_alpha) / fade_time);
-	if (start_alpha < end_alpha)
+	if (start_alpha > end_alpha)
 	{
 		current_alpha -= to_fade;
 		if (fade_music)App->audio->FadeMusicIn(fade_time);
@@ -82,12 +82,36 @@ bool Fade_Effect::Update()
 	//Check if the alpha has reached the end value
 	return bool(floor(current_alpha) == end_alpha);
 }
+/// ---------------------------------------------
 
+///Layer_Effect ---------------------------------
+// Constructors =================================
+Layer_Effect::Layer_Effect():Render_Effect(LAYER_EFFECT)
+{
 
+}
 
-// Functionality ================================
+Layer_Effect::Layer_Effect(SDL_Color color) : Render_Effect(LAYER_EFFECT), color(color)
+{
 
-// Set Methods ==================================
+}
 
-// Get Methods ==================================
+// Destructors ==================================
+Layer_Effect::~Layer_Effect()
+{
 
+}
+
+// Game Loop ====================================
+bool Layer_Effect::Update()
+{
+	//Draw a colorized rect over the viewport constantly
+	App->render->DrawQuad(App->render->viewport, color.r, color.g, color.b, color.a, true, false);
+	
+	return end_ready;
+}
+
+void Layer_Effect::End()
+{
+	end_ready = true;
+}

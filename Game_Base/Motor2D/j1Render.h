@@ -89,7 +89,7 @@ private:
 	std::priority_queue<Blit_Call> blit_queue;
 
 	//Queue of the render effects
-	std::queue<Render_Effect> effects_queue;
+	std::queue<Render_Effect*> effects_queue;
 
 public:
 
@@ -108,9 +108,13 @@ public:
 
 	//Add render effect ------
 	/*
-	- FADE_EFFECT: bool fade_music, float fade_time. float start_alpha, float end_alpha
+	- FADE_EFFECT: bool fade_music, float fade_time. float start_alpha, float end_alpha, SDL_Color color
 	*/
-	bool	CallRenderEffect(RENDER_EF_TYPE type, void* var_1 = nullptr, void* var_2 = nullptr, void* var_3 = nullptr, void* var_4  = nullptr, void* var_5 = nullptr);
+	bool	CallRenderEffect(RENDER_EF_TYPE type, ...);
+
+	//Render effect methods --
+	RENDER_EF_TYPE	GetCurrentEfType()const;
+	const Render_Effect*	GetCurrentRenderEffect()const;
 
 	//View port Methods ------
 	void	SetViewPort(const SDL_Rect& rect);

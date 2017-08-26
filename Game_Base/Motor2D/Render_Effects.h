@@ -1,13 +1,17 @@
 #ifndef _RENDER_EFFECTS_H_
 #define _RENDER_EFFECTS_H_
 
+#define FADE_OUT_TIME 2.0f
+#define FADE_IN_TIME 1.2f
+
 #include "SDL/include/SDL.h"
 
 //Effects enums -------------
 enum RENDER_EF_TYPE
 {
 	NO_EFFECT = 0,
-	FADE_EFFECT
+	FADE_EFFECT,
+	LAYER_EFFECT
 };
 
 ///Render_Effect --------------------------------
@@ -59,7 +63,31 @@ protected:
 	float		end_alpha = 0.0f;
 	float		current_alpha = 0.0f;
 	SDL_Color	color = { 255,255,255,255 };
-	
+
 };
 /// ---------------------------------------------
+
+///Layer_Effect ---------------------------------
+class Layer_Effect : public Render_Effect
+{
+public:
+
+	Layer_Effect();
+	Layer_Effect(SDL_Color color);
+	~Layer_Effect();
+
+public:
+
+	bool Update();
+
+protected:
+
+	SDL_Color	color = { 255,255,255,255 };
+	bool		end_ready = false;
+public:
+
+	void End();
+};
+/// ---------------------------------------------
+
 #endif // !_RENDER_EFFECTS_H_

@@ -198,10 +198,13 @@ bool j1App::Update()
 	bool ret = true;
 
 	//Enable loading process
-	if (want_to_enable && !fade_out)
+	if (want_to_enable)
 	{
-		fade_in = is_loading = true;
-		EnableActiveModulesNow();	
+		if (App->render->GetCurrentEfType() == RENDER_EF_TYPE::LAYER_EFFECT)
+		{
+			is_loading = true;
+			EnableActiveModulesNow();
+		}
 	}
 
 
@@ -259,14 +262,17 @@ void j1App::EnableActiveModulesNow()
 
 		if (!App->load_scene_enabled)
 		{
+			((Layer_Effect*)App->render->GetCurrentRenderEffect())->End();
+			SDL_Color color = { 0,0,0,255 };
+			App->render->CallRenderEffect(RENDER_EF_TYPE::FADE_EFFECT, true, FADE_IN_TIME, 255.0, 0.0, color);
 			App->is_loading = false;
-			fade_out = false;
-			fade_in = true;
 		}
 		else
 		{
-			fade_out = true;
-			fade_in = false;
+			((Layer_Effect*)App->render->GetCurrentRenderEffect())->End();
+			SDL_Color color = { 0,0,0,255 };
+			App->render->CallRenderEffect(RENDER_EF_TYPE::FADE_EFFECT, true, FADE_IN_TIME, 255.0, 0.0, color);
+			App->is_loading = false;
 		}
 		modules_to_enable.clear();
 		enable_index = 0;
@@ -675,7 +681,6 @@ void j1App::ActiveMainMenu()
 	EnableActiveModules();
 
 	//Start render & audio fade
-	fade_out = true;
 	current_scene = nullptr;
 	App->audio->StartMusicFade();
 
@@ -713,13 +718,9 @@ void j1App::ActiveTutorial()
 	EnableActiveModules();
 
 	//Start render & audio fade
-	bool		fade_music = true;
-	float		fade_time = FADE_OUT_TIME;
-	float		start_alpha = 0.0f;
-	float		end_alpha = 0.0f;
-	SDL_Color	color = { 255,255,255,255 };
-	App->render->CallRenderEffect(RENDER_EF_TYPE::FADE_EFFECT, (void*)&fade_music, (void*)&fade_time, (void*)&start_alpha, (void*)&end_alpha, (void*)&color);
-	fade_out = true;
+	SDL_Color	color = { 0,0,0,255 };
+	App->render->CallRenderEffect(RENDER_EF_TYPE::FADE_EFFECT, true, FADE_OUT_TIME, 0.0, 255.0, color);
+	App->render->CallRenderEffect(RENDER_EF_TYPE::LAYER_EFFECT, color);
 	
 	//Set the correct app context
 	current_scene = App->tutorial;
@@ -758,7 +759,6 @@ void j1App::ActiveEndless()
 	EnableActiveModules();
 
 	//Start render & audio fade
-	fade_out = true;
 	current_scene = App->endless;
 	App->audio->StartMusicFade();
 	

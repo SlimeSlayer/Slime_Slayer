@@ -2,314 +2,333 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="j1Window.cpp">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClCompile>
     <ClCompile Include="j1Audio.cpp">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClCompile>
     <ClCompile Include="j1Input.cpp">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClCompile>
     <ClCompile Include="j1Textures.cpp">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClCompile>
     <ClCompile Include="j1FileSystem.cpp">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClCompile>
     <ClCompile Include="PugiXml\src\pugixml.cpp">
-      <Filter>Tools\PuguiXML</Filter>
+      <Filter>App\Tools\PuguiXML</Filter>
     </ClCompile>
     <ClCompile Include="j1Timer.cpp">
-      <Filter>Tools</Filter>
+      <Filter>App\Tools</Filter>
     </ClCompile>
     <ClCompile Include="j1PerfTimer.cpp">
-      <Filter>Tools</Filter>
+      <Filter>App\Tools</Filter>
     </ClCompile>
     <ClCompile Include="j1Fonts.cpp">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClCompile>
     <ClCompile Include="j1Gui.cpp">
-      <Filter>UI</Filter>
+      <Filter>App\UI</Filter>
     </ClCompile>
     <ClCompile Include="UI_Button.cpp">
-      <Filter>UI\UI_Elements</Filter>
+      <Filter>App\UI\UI_Elements</Filter>
     </ClCompile>
     <ClCompile Include="UI_Element.cpp">
-      <Filter>UI\UI_Elements</Filter>
+      <Filter>App\UI\UI_Elements</Filter>
     </ClCompile>
     <ClCompile Include="UI_Scroll.cpp">
-      <Filter>UI\UI_Elements</Filter>
+      <Filter>App\UI\UI_Elements</Filter>
     </ClCompile>
     <ClCompile Include="UI_String.cpp">
-      <Filter>UI\UI_Elements</Filter>
+      <Filter>App\UI\UI_Elements</Filter>
     </ClCompile>
     <ClCompile Include="UI_Text_Box.cpp">
-      <Filter>UI\UI_Elements</Filter>
+      <Filter>App\UI\UI_Elements</Filter>
     </ClCompile>
     <ClCompile Include="UI_Image.cpp">
-      <Filter>UI\UI_Elements</Filter>
+      <Filter>App\UI\UI_Elements</Filter>
     </ClCompile>
     <ClCompile Include="p2Log.cpp">
-      <Filter>Tools</Filter>
+      <Filter>App\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="j1App.cpp" />
-    <ClCompile Include="j1Main.cpp" />
     <ClCompile Include="j1Animator.cpp">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClCompile>
     <ClCompile Include="UI_Popup_Menu.cpp">
-      <Filter>UI\UI_Elements</Filter>
+      <Filter>App\UI\UI_Elements</Filter>
     </ClCompile>
     <ClCompile Include="UI_Fixed_Button.cpp">
-      <Filter>UI\UI_Elements</Filter>
+      <Filter>App\UI\UI_Elements</Filter>
     </ClCompile>
     <ClCompile Include="j1InputManager.cpp">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClCompile>
     <ClCompile Include="theoraplay.c">
-      <Filter>Tools\Theora%28Video CODEC lib%29</Filter>
+      <Filter>App\Tools\Theora%28Video CODEC lib%29</Filter>
     </ClCompile>
     <ClCompile Include="j1Video.cpp">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClCompile>
     <ClCompile Include="j1EntitiesManager.cpp">
-      <Filter>Modules\EntitiesManager</Filter>
+      <Filter>App\Modules\EntitiesManager</Filter>
     </ClCompile>
     <ClCompile Include="BaseEntities.cpp">
-      <Filter>Modules\EntitiesManager</Filter>
+      <Filter>App\Modules\EntitiesManager</Filter>
     </ClCompile>
     <ClCompile Include="j1Physics.cpp">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClCompile>
     <ClCompile Include="j1Player.cpp">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>Scenes</Filter>
+      <Filter>App\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">
-      <Filter>Scenes</Filter>
+      <Filter>App\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Items.cpp">
-      <Filter>Modules\EntitiesManager</Filter>
+      <Filter>App\Modules\EntitiesManager</Filter>
     </ClCompile>
     <ClCompile Include="UI_Scroll_Bar.cpp">
-      <Filter>UI\UI_Elements</Filter>
+      <Filter>App\UI\UI_Elements</Filter>
     </ClCompile>
     <ClCompile Include="Tutorial.cpp">
-      <Filter>Scenes</Filter>
+      <Filter>App\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Creatures.cpp">
-      <Filter>Modules\EntitiesManager</Filter>
+      <Filter>App\Modules\EntitiesManager</Filter>
     </ClCompile>
     <ClCompile Include="Endless.cpp">
-      <Filter>Scenes</Filter>
+      <Filter>App\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Actions.cpp">
-      <Filter>Act_System</Filter>
+      <Filter>App\Act_System</Filter>
     </ClCompile>
     <ClCompile Include="Worker.cpp">
-      <Filter>Act_System</Filter>
+      <Filter>App\Act_System</Filter>
     </ClCompile>
     <ClCompile Include="j1ParticleManager.cpp">
-      <Filter>Modules\ParticleManager</Filter>
+      <Filter>App\Modules\ParticleManager</Filter>
     </ClCompile>
     <ClCompile Include="Particles.cpp">
-      <Filter>Modules\ParticleManager</Filter>
+      <Filter>App\Modules\ParticleManager</Filter>
     </ClCompile>
     <ClCompile Include="UI_Progressive_Bar.cpp">
-      <Filter>UI\UI_Elements</Filter>
+      <Filter>App\UI\UI_Elements</Filter>
     </ClCompile>
     <ClCompile Include="j1Render.cpp">
-      <Filter>Modules\Render</Filter>
+      <Filter>App\Modules\Render</Filter>
     </ClCompile>
     <ClCompile Include="Render_Effects.cpp">
-      <Filter>Modules\Render</Filter>
+      <Filter>App\Modules\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="j1App.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Main.cpp">
+      <Filter>App</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClInclude>
     <ClInclude Include="j1Audio.h">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClInclude>
     <ClInclude Include="j1Input.h">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClInclude>
     <ClInclude Include="j1Textures.h">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClInclude>
     <ClInclude Include="j1FileSystem.h">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClInclude>
     <ClInclude Include="PugiXml\src\pugiconfig.hpp">
-      <Filter>Tools\PuguiXML</Filter>
+      <Filter>App\Tools\PuguiXML</Filter>
     </ClInclude>
     <ClInclude Include="PugiXml\src\pugixml.hpp">
-      <Filter>Tools\PuguiXML</Filter>
+      <Filter>App\Tools\PuguiXML</Filter>
     </ClInclude>
     <ClInclude Include="j1Timer.h">
-      <Filter>Tools</Filter>
+      <Filter>App\Tools</Filter>
     </ClInclude>
     <ClInclude Include="j1PerfTimer.h">
-      <Filter>Tools</Filter>
+      <Filter>App\Tools</Filter>
     </ClInclude>
     <ClInclude Include="j1Fonts.h">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClInclude>
     <ClInclude Include="j1Gui.h">
-      <Filter>UI</Filter>
+      <Filter>App\UI</Filter>
     </ClInclude>
     <ClInclude Include="UI_Button.h">
-      <Filter>UI\UI_Elements</Filter>
+      <Filter>App\UI\UI_Elements</Filter>
     </ClInclude>
     <ClInclude Include="UI_Element.h">
-      <Filter>UI\UI_Elements</Filter>
+      <Filter>App\UI\UI_Elements</Filter>
     </ClInclude>
     <ClInclude Include="UI_Scroll.h">
-      <Filter>UI\UI_Elements</Filter>
+      <Filter>App\UI\UI_Elements</Filter>
     </ClInclude>
     <ClInclude Include="UI_String.h">
-      <Filter>UI\UI_Elements</Filter>
+      <Filter>App\UI\UI_Elements</Filter>
     </ClInclude>
     <ClInclude Include="UI_Text_Box.h">
-      <Filter>UI\UI_Elements</Filter>
+      <Filter>App\UI\UI_Elements</Filter>
     </ClInclude>
     <ClInclude Include="UI_Image.h">
-      <Filter>UI\UI_Elements</Filter>
+      <Filter>App\UI\UI_Elements</Filter>
     </ClInclude>
     <ClInclude Include="p2Point.h">
-      <Filter>Tools</Filter>
+      <Filter>App\Tools</Filter>
     </ClInclude>
     <ClInclude Include="p2Log.h">
-      <Filter>Tools</Filter>
+      <Filter>App\Tools</Filter>
     </ClInclude>
     <ClInclude Include="p2Defs.h">
-      <Filter>Tools</Filter>
+      <Filter>App\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="j1App.h" />
-    <ClInclude Include="j1Module.h" />
     <ClInclude Include="j1Animator.h">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClInclude>
     <ClInclude Include="UI_Popup_Menu.h">
-      <Filter>UI\UI_Elements</Filter>
+      <Filter>App\UI\UI_Elements</Filter>
     </ClInclude>
     <ClInclude Include="UI_Fixed_Button.h">
-      <Filter>UI\UI_Elements</Filter>
+      <Filter>App\UI\UI_Elements</Filter>
     </ClInclude>
     <ClInclude Include="Quadtree.h">
-      <Filter>Tools</Filter>
+      <Filter>App\Tools</Filter>
     </ClInclude>
     <ClInclude Include="j1InputManager.h">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClInclude>
     <ClInclude Include="theoraplay.h">
-      <Filter>Tools\Theora%28Video CODEC lib%29</Filter>
+      <Filter>App\Tools\Theora%28Video CODEC lib%29</Filter>
     </ClInclude>
     <ClInclude Include="j1Video.h">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClInclude>
     <ClInclude Include="j1EntitiesManager.h">
-      <Filter>Modules\EntitiesManager</Filter>
+      <Filter>App\Modules\EntitiesManager</Filter>
     </ClInclude>
     <ClInclude Include="BaseEntities.h">
-      <Filter>Modules\EntitiesManager</Filter>
+      <Filter>App\Modules\EntitiesManager</Filter>
     </ClInclude>
     <ClInclude Include="j1Physics.h">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClInclude>
     <ClInclude Include="j1Player.h">
-      <Filter>Modules</Filter>
+      <Filter>App\Modules</Filter>
     </ClInclude>
     <ClInclude Include="Parallax.h">
-      <Filter>Tools</Filter>
+      <Filter>App\Tools</Filter>
     </ClInclude>
     <ClInclude Include="MainMenu.h">
-      <Filter>Scenes</Filter>
+      <Filter>App\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>Scenes</Filter>
+      <Filter>App\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="UI_Scroll_Bar.h">
-      <Filter>UI\UI_Elements</Filter>
+      <Filter>App\UI\UI_Elements</Filter>
     </ClInclude>
     <ClInclude Include="Items.h">
-      <Filter>Modules\EntitiesManager</Filter>
+      <Filter>App\Modules\EntitiesManager</Filter>
     </ClInclude>
     <ClInclude Include="Creatures.h">
-      <Filter>Modules\EntitiesManager</Filter>
+      <Filter>App\Modules\EntitiesManager</Filter>
     </ClInclude>
     <ClInclude Include="Tutorial.h">
-      <Filter>Scenes</Filter>
+      <Filter>App\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Endless.h">
-      <Filter>Scenes</Filter>
+      <Filter>App\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Worker.h">
-      <Filter>Act_System</Filter>
+      <Filter>App\Act_System</Filter>
     </ClInclude>
     <ClInclude Include="Actions.h">
-      <Filter>Act_System</Filter>
+      <Filter>App\Act_System</Filter>
     </ClInclude>
     <ClInclude Include="j1ParticleManager.h">
-      <Filter>Modules\ParticleManager</Filter>
+      <Filter>App\Modules\ParticleManager</Filter>
     </ClInclude>
     <ClInclude Include="Particles.h">
-      <Filter>Modules\ParticleManager</Filter>
+      <Filter>App\Modules\ParticleManager</Filter>
     </ClInclude>
     <ClInclude Include="UI_Progressive_Bar.h">
-      <Filter>UI\UI_Elements</Filter>
+      <Filter>App\UI\UI_Elements</Filter>
     </ClInclude>
     <ClInclude Include="j1Render.h">
-      <Filter>Modules\Render</Filter>
+      <Filter>App\Modules\Render</Filter>
     </ClInclude>
     <ClInclude Include="Render_Effects.h">
-      <Filter>Modules\Render</Filter>
+      <Filter>App\Modules\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Module.h">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="j1App.h">
+      <Filter>App</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Scenes">
-      <UniqueIdentifier>{e07660eb-d36f-4cc9-af59-324d31c2f2f6}</UniqueIdentifier>
+    <Filter Include="_AA_Doc">
+      <UniqueIdentifier>{ac7fe660-d1e3-42fc-a186-4a0bd91d659e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Tools">
+    <Filter Include="App">
+      <UniqueIdentifier>{a4224c80-7b67-4475-bbc5-4eaf7b3f7f36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="App\Tools">
       <UniqueIdentifier>{42c748be-4a37-49de-970f-5be811d06b38}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Tools\PuguiXML">
+    <Filter Include="App\Tools\PuguiXML">
       <UniqueIdentifier>{7cb78d67-17cc-45eb-af97-e2106becce7b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Tools\Theora%28Video CODEC lib%29">
+    <Filter Include="App\Tools\Theora%28Video CODEC lib%29">
       <UniqueIdentifier>{a0daceba-c1f2-47d8-b759-ff6558a38795}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Tools\Snippets">
+    <Filter Include="App\Tools\Snippets">
       <UniqueIdentifier>{6194d0d5-fc00-447f-b9c1-6a6b14afd0c1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI">
+    <Filter Include="App\UI">
       <UniqueIdentifier>{0f4402cd-a1c7-4a46-bc2c-860ce81aea96}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\UI_Elements">
+    <Filter Include="App\UI\UI_Elements">
       <UniqueIdentifier>{284cbc2b-c97f-4e37-9735-d7d07abfd941}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Modules">
+    <Filter Include="App\Scenes">
+      <UniqueIdentifier>{e07660eb-d36f-4cc9-af59-324d31c2f2f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="App\Modules">
       <UniqueIdentifier>{244722d1-90ce-423d-8e7a-556211865a32}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Modules\EntitiesManager">
+    <Filter Include="App\Modules\EntitiesManager">
       <UniqueIdentifier>{c3fdcd08-8ee7-43bb-b863-0a367e721999}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Act_System">
-      <UniqueIdentifier>{15659d92-be84-44dd-ae74-16a439078d81}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Modules\ParticleManager">
+    <Filter Include="App\Modules\ParticleManager">
       <UniqueIdentifier>{de8e6c24-783a-4119-b76e-ae361ac91363}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Modules\Render">
+    <Filter Include="App\Modules\Render">
       <UniqueIdentifier>{92a6eccb-76e2-4959-8075-e338fb62cd96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="App\Act_System">
+      <UniqueIdentifier>{15659d92-be84-44dd-ae74-16a439078d81}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Snippets\CodeShortcuts.snippet">
-      <Filter>Tools\Snippets</Filter>
+      <Filter>App\Tools\Snippets</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="va_list.txt">
+      <Filter>_AA_Doc</Filter>
+    </Text>
   </ItemGroup>
 </Project>
