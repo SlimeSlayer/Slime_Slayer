@@ -2,6 +2,11 @@
 A simple game about a pink slime who hates red slimes and is friendly with the green ones.
 This is an endless game where you have to farm and upgrade your slime beating the waves of red slimes.
 
+# Updates v0.5.5
+- Main menu slaim particles added
+- Render effects implemented
+- Basic load screen added
+
 # Updates v0.5
 - Creatures animations optimized
 - Game state is saved (only tutorial avaliable at first play)
@@ -10,7 +15,7 @@ This is an endless game where you have to farm and upgrade your slime beating th
 - Quit confirmation menu added
 - Dialogs back texture added
 - #2 Solved
-- #5 Solve
+- #5 Solved
 
 # Updates v0.4.5
 - Github linked button
