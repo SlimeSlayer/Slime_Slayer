@@ -1,0 +1,18 @@
+
+- function pointer
+
+int (*function_ptr)(int)
+This is a pointer to a function that receive a int and returns a int
+
+A pointer that contains a function location can be used a normal pointer so you can use it as a function input/output
+
+To call the function when is allocated in the pointer you only need to write the pointer name and the correct input
+
+int Add(int k )
+{
+	return 1 + k; 
+}
+
+int(*function_ptr)(int) = &Add
+
+printf("%i",function_ptr(5));    <- This will print 6

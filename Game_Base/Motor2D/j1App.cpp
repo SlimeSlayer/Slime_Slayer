@@ -185,7 +185,14 @@ bool j1App::Start()
 	loading_string->SetBoxPosition(App->render->viewport.w * 0.5 - loading_string->GetBox()->w * 0.5f, App->render->viewport.h * 0.5 - loading_string->GetBox()->h * 0.5);
 	
 	//Bar
-	//loading_bar = (UI_Progressive_Bar*)App->gui->GenerateUI_Element(UI_TYPE::PROGRESSIVE_BAR);
+	loading_bar = (UI_Progressive_Bar*)App->gui->GenerateUI_Element(UI_TYPE::PROGRESSIVE_BAR);
+	SDL_Rect rect = { App->render->viewport.w * 0.5 - 800 * 0.5f, App->render->viewport.h * 0.7,800,100 };
+	loading_bar->SetBox(rect);
+	loading_bar->SetFullColor({ 255,255,255,255 });
+	loading_bar->SetToEmptyColor({0,0,0,255});
+	loading_bar->SetEmptyColor({ 0,0,0,255 });
+	loading_bar->SetInputTarget(main_menu);
+	loading_bar->SetCurrentValue(0.0f);
 
 	//App starts in the main menu context
 	app_context = MAIN_MENU_CONTEXT;
@@ -203,6 +210,12 @@ bool j1App::Update()
 	{
 		if (App->render->GetCurrentEfType() == RENDER_EF_TYPE::LAYER_EFFECT || is_loading)
 		{
+			if (!is_loading)
+			{
+				loading_bar->SetCurrentValue(0.0f);
+				loading_bar->SetMaxValue(modules_to_enable.size());
+				loading_bar->GenerateTexture();
+			}
 			is_loading = true;
 			EnableActiveModulesNow();
 		}
@@ -259,6 +272,8 @@ void j1App::EnableActiveModulesNow()
 	if (modules_to_enable[enable_index]->Enable())
 	{
 		enable_index++;
+		loading_bar->AddValue(1);
+		loading_bar->UpdateTexture();
 		enable_timer.Start();
 	}
 
@@ -651,8 +666,9 @@ pugi::xml_node j1App::GetConfigXML() const
 
 void j1App::DrawLoadProcess()
 {
-	App->render->DrawQuad(App->render->viewport, 50, 50, 255, 255, true, false);
-	App->render->Blit(loading_string->GetTextTexture(), loading_string->GetBox()->x, loading_string->GetBox()->y, NULL, false);
+	App->render->DrawQuad(App->render->viewport, 55, 255, 255, 255, true, false);
+	App->render->Blit(loading_string->GetTextTexture(), loading_string->GetBox()->x, loading_string->GetBox()->y, NULL, true);
+	App->render->Blit(loading_bar->GetTexture(), loading_bar->GetBox()->x, loading_bar->GetBox()->y, NULL, true);
 }
 
 void j1App::EndLoadProcess()

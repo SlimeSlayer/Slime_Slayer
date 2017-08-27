@@ -175,6 +175,7 @@
     <None Include="Snippets\CodeShortcuts.snippet" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="function pointer.txt" />
     <Text Include="va_list.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

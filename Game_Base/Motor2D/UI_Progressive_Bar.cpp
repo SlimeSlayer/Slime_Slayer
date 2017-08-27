@@ -142,3 +142,8 @@ void UI_Progressive_Bar::UpdateTexture()
 	//Reset render target to window
 	SDL_SetRenderTarget(App->render->renderer, NULL);
 }
+
+SDL_Texture * UI_Progressive_Bar::GetTexture() const
+{
+	return bar_texture;
+}

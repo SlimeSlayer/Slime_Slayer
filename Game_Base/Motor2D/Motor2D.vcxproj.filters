@@ -330,5 +330,8 @@
     <Text Include="va_list.txt">
       <Filter>_AA_Doc</Filter>
     </Text>
+    <Text Include="function pointer.txt">
+      <Filter>_AA_Doc</Filter>
+    </Text>
   </ItemGroup>
 </Project>

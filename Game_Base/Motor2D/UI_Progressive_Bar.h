@@ -44,7 +44,9 @@ public:
 	void	SetToEmptyColor(SDL_Color clr);
 
 	//Texture functions
-	void	GenerateTexture();
-	void	UpdateTexture();
+	void			GenerateTexture();
+	void			UpdateTexture();
+	SDL_Texture*	GetTexture()const;
+
 };
 #endif
