@@ -177,47 +177,6 @@ bool j1Render::Update(float dt)
 
 bool j1Render::PostUpdate()
 {
-	//Load Screen System ------------------------
-	/*if (App->is_loading && App->load_scene_enabled)
-	{
-		if (App->fade_in || App->fade_out)
-		{
-			App->render->DrawQuad(App->render->viewport, 150, 220, 2, 255, true, false);
-			LOG("BLIT");
-		}
-		else
-		{
-			App->is_loading = App->load_scene_enabled = false;
-			App->fade_in = true;
-		}
-	}
-	
-	// Fade System ------------------------------
-	/*if (App->fade_out || App->fade_in)
-	{
-		App->render->DrawQuad(App->render->viewport, App->fade_color.r, App->fade_color.g, App->fade_color.b, App->alpha, true, false);
-		if (App->fade_out)
-		{
-			App->alpha += (App->GetDT() * 255.0f) / FADE_OUT_TIME;
-			App->audio->FadeMusicOut(FADE_OUT_TIME);
-			if (App->alpha >= 255.0f)
-			{
-				App->fade_out = false;
-				App->alpha = 255.0f;
-			}
-		}
-		else if (App->fade_in)
-		{
-			App->alpha -= (App->GetDT() * 255.0f) / FADE_IN_TIME;
-			App->audio->FadeMusicIn(FADE_IN_TIME);
-			if (App->alpha <= 0.0f)
-			{
-				App->fade_in = false;
-				App->alpha = 0.0f;
-			}
-		}
-	}*/
-
 	//Vsync -------------------------------------
 	if (App->render->vsync && App->win->fullscreen)
 	{
@@ -231,6 +190,12 @@ bool j1Render::PostUpdate()
 		}
 	}
 
+	//Blit the load process bar
+	if (App->is_loading && App->load_scene_enabled)
+	{
+		App->DrawLoadProcess();
+	}
+
 	// Update the current render effect ---------
 	if (!effects_queue.empty())
 	{
@@ -242,7 +207,7 @@ bool j1Render::PostUpdate()
 			if(!effects_queue.empty())effects_queue.front()->Update();
 		}
 	}
-
+	
 	// Render Present ---------------------------
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.b, background.a);
 	SDL_RenderPresent(renderer);
@@ -306,7 +271,7 @@ void j1Render::ClearBlitQueue()
 	while (!blit_queue.empty()) { blit_queue.pop(); }
 }
 
-bool j1Render::CallRenderEffect(RENDER_EF_TYPE type, ...)
+Render_Effect* j1Render::CallRenderEffect(RENDER_EF_TYPE type, ...)
 {
 	bool ret = false;
 	Render_Effect* new_effect = nullptr;
@@ -325,8 +290,10 @@ bool j1Render::CallRenderEffect(RENDER_EF_TYPE type, ...)
 		float	start_alpha = va_arg(variables, double);
 		float	end_alpha = va_arg(variables, double);
 		SDL_Color color = va_arg(variables, SDL_Color);
+		app_function_ptr ptr = va_arg(variables, app_function_ptr);
+
 		//Build the effect with the collected variables
-		new_effect = new Fade_Effect(fade_audio, fade_time, start_alpha, end_alpha, color);
+		new_effect = new Fade_Effect(fade_audio, fade_time, start_alpha, end_alpha, color, ptr);
 		ret = true;
 	}
 		break;
@@ -346,13 +313,19 @@ bool j1Render::CallRenderEffect(RENDER_EF_TYPE type, ...)
 	
 	if (ret)effects_queue.push(new_effect);
 
-	return ret;
+	return new_effect;
 }
 
 RENDER_EF_TYPE j1Render::GetCurrentEfType() const
 {
 	if (effects_queue.empty())return NO_EFFECT;
 	else return effects_queue.front()->GetEffectType();
+}
+
+SPEC_EF_TYPE j1Render::GetCurrentEfSpecType() const
+{
+	if (effects_queue.empty())return NO_SPEC_EFFECT;
+	else return effects_queue.front()->GetSpecificType();
 }
 
 const Render_Effect * j1Render::GetCurrentRenderEffect() const

@@ -182,7 +182,8 @@ bool j1App::Start()
 	loading_string->SetUseCamera(false);
 	loading_string->SetString("Loading...");
 	loading_string->AdjustBox();
-
+	loading_string->SetBoxPosition(App->render->viewport.w * 0.5 - loading_string->GetBox()->w * 0.5f, App->render->viewport.h * 0.5 - loading_string->GetBox()->h * 0.5);
+	
 	//Bar
 	//loading_bar = (UI_Progressive_Bar*)App->gui->GenerateUI_Element(UI_TYPE::PROGRESSIVE_BAR);
 
@@ -200,7 +201,7 @@ bool j1App::Update()
 	//Enable loading process
 	if (want_to_enable)
 	{
-		if (App->render->GetCurrentEfType() == RENDER_EF_TYPE::LAYER_EFFECT)
+		if (App->render->GetCurrentEfType() == RENDER_EF_TYPE::LAYER_EFFECT || is_loading)
 		{
 			is_loading = true;
 			EnableActiveModulesNow();
@@ -236,6 +237,14 @@ bool j1App::Update()
 
 void j1App::EnableActiveModulesNow()
 {
+
+	if (App->load_scene_enabled && App->render->GetCurrentEfType() == RENDER_EF_TYPE::LAYER_EFFECT)
+	{
+		((Layer_Effect*)App->render->GetCurrentRenderEffect())->End();
+		SDL_Color color = { 0,0,0,255 };
+		App->render->CallRenderEffect(RENDER_EF_TYPE::FADE_EFFECT, true, FADE_IN_TIME, 255.0, 0.0, color, nullptr);
+	}
+
 	//Disable all the modules ready to be disabled at the first iteration
 	uint size = modules_to_disable.size();
 	for (uint k = 0; k < size; k++)
@@ -264,15 +273,16 @@ void j1App::EnableActiveModulesNow()
 		{
 			((Layer_Effect*)App->render->GetCurrentRenderEffect())->End();
 			SDL_Color color = { 0,0,0,255 };
-			App->render->CallRenderEffect(RENDER_EF_TYPE::FADE_EFFECT, true, FADE_IN_TIME, 255.0, 0.0, color);
+			App->render->CallRenderEffect(RENDER_EF_TYPE::FADE_EFFECT, true, FADE_IN_TIME, 255.0, 0.0, color, nullptr);
 			App->is_loading = false;
+			App->load_scene_enabled = false;
 		}
 		else
 		{
 			((Layer_Effect*)App->render->GetCurrentRenderEffect())->End();
 			SDL_Color color = { 0,0,0,255 };
-			App->render->CallRenderEffect(RENDER_EF_TYPE::FADE_EFFECT, true, FADE_IN_TIME, 255.0, 0.0, color);
-			App->is_loading = false;
+			Render_Effect* ef = App->render->CallRenderEffect(RENDER_EF_TYPE::FADE_EFFECT, true, FADE_OUT_TIME, 0.0, 255.0, color, &j1App::EndLoadProcess);
+			App->render->CallRenderEffect(RENDER_EF_TYPE::FADE_EFFECT, true, FADE_IN_TIME, 255.0, 0.0, color, nullptr);
 		}
 		modules_to_enable.clear();
 		enable_index = 0;
@@ -639,6 +649,18 @@ pugi::xml_node j1App::GetConfigXML() const
 	return config_node;
 }
 
+void j1App::DrawLoadProcess()
+{
+	App->render->DrawQuad(App->render->viewport, 50, 50, 255, 255, true, false);
+	App->render->Blit(loading_string->GetTextTexture(), loading_string->GetBox()->x, loading_string->GetBox()->y, NULL, false);
+}
+
+void j1App::EndLoadProcess()
+{
+	LOG("YES");
+	is_loading = load_scene_enabled = false;
+}
+
 uint j1App::GetCurrentFrameTime() const
 {
 	return frame_time.Read();
@@ -682,7 +704,7 @@ void j1App::ActiveMainMenu()
 
 	//Start render & audio fade
 	SDL_Color	color = { 0,0,0,255 };
-	App->render->CallRenderEffect(RENDER_EF_TYPE::FADE_EFFECT, true, FADE_OUT_TIME, 0.0, 255.0, color);
+	App->render->CallRenderEffect(RENDER_EF_TYPE::FADE_EFFECT, true, FADE_OUT_TIME, 0.0, 255.0, color, nullptr);
 	App->render->CallRenderEffect(RENDER_EF_TYPE::LAYER_EFFECT, color);
 
 	//Start render & audio fade
@@ -723,7 +745,7 @@ void j1App::ActiveTutorial()
 
 	//Start render & audio fade
 	SDL_Color	color = { 0,0,0,255 };
-	App->render->CallRenderEffect(RENDER_EF_TYPE::FADE_EFFECT, true, FADE_OUT_TIME, 0.0, 255.0, color);
+	App->render->CallRenderEffect(RENDER_EF_TYPE::FADE_EFFECT, true, FADE_OUT_TIME, 0.0, 255.0, color,nullptr);
 	App->render->CallRenderEffect(RENDER_EF_TYPE::LAYER_EFFECT, color);
 	
 	//Set the correct app context
@@ -764,7 +786,7 @@ void j1App::ActiveEndless()
 
 	//Start render & audio fade
 	SDL_Color	color = { 0,0,0,255 };
-	App->render->CallRenderEffect(RENDER_EF_TYPE::FADE_EFFECT, true, FADE_OUT_TIME, 0.0, 255.0, color);
+	App->render->CallRenderEffect(RENDER_EF_TYPE::FADE_EFFECT, true, FADE_OUT_TIME, 0.0, 255.0, color, nullptr);
 	App->render->CallRenderEffect(RENDER_EF_TYPE::LAYER_EFFECT, color);
 
 	//Start render & audio fade

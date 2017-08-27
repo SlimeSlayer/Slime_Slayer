@@ -150,7 +150,7 @@ bool j1Player::Update(float dt)
 	//Update player avatar ----------------------
 	avatar->Update();
 	if (avatar == nullptr || avatar->GetBody() == nullptr)return true;
-	if (!App->is_loading)avatar->Draw();
+	avatar->Draw();
 
 	//Update Player UI --------------------------
 	//life_bar->Update();

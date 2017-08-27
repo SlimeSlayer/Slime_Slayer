@@ -108,12 +108,13 @@ public:
 
 	//Add render effect ------
 	/*
-	- FADE_EFFECT: bool fade_music, float fade_time. float start_alpha, float end_alpha, SDL_Color color
+	- FADE_EFFECT: bool fade_music, float fade_time. float start_alpha, float end_alpha, SDL_Color color, function_callback
 	*/
-	bool	CallRenderEffect(RENDER_EF_TYPE type, ...);
+	Render_Effect*	CallRenderEffect(RENDER_EF_TYPE type, ...);
 
 	//Render effect methods --
 	RENDER_EF_TYPE	GetCurrentEfType()const;
+	SPEC_EF_TYPE	GetCurrentEfSpecType()const;
 	const Render_Effect*	GetCurrentRenderEffect()const;
 
 	//View port Methods ------

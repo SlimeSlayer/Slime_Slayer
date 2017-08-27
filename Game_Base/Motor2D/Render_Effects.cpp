@@ -1,5 +1,6 @@
 #include "Render_Effects.h"
 
+#include "p2Log.h"
 #include <math.h>
 #include "j1App.h"
 #include "j1Render.h"
@@ -12,7 +13,7 @@ Render_Effect::Render_Effect()
 
 }
 
-Render_Effect::Render_Effect(RENDER_EF_TYPE effect_type) :effect_type(effect_type)
+Render_Effect::Render_Effect(RENDER_EF_TYPE effect_type, app_function_ptr function_pointer) :effect_type(effect_type), function_pointer(function_pointer)
 {
 
 }
@@ -35,23 +36,34 @@ void Render_Effect::SetEffectType(RENDER_EF_TYPE type)
 	effect_type = type;
 }
 
+/*void Render_Effect::SetFunctionPtr(void(*f_ptr))
+{
+	function_ptr = f_ptr;
+}*/
+
 // Get Methods ==================================
 RENDER_EF_TYPE Render_Effect::GetEffectType() const
 {
 	return effect_type;
 }
+SPEC_EF_TYPE Render_Effect::GetSpecificType() const
+{
+	return specific_type;
+}
 /// ---------------------------------------------
 
 ///Fade_Effect ----------------------------------
 // Constructors =================================
-Fade_Effect::Fade_Effect() : Render_Effect(FADE_EFFECT)
+Fade_Effect::Fade_Effect() : Render_Effect(FADE_EFFECT, nullptr)
 {
 
 }
 
-Fade_Effect::Fade_Effect(bool fade_music, float fade_time, float start_alpha, float end_alpha, SDL_Color color) : Render_Effect(FADE_EFFECT), fade_music(fade_music), fade_time(fade_time), start_alpha(start_alpha), end_alpha(end_alpha), current_alpha(start_alpha), color(color)
+Fade_Effect::Fade_Effect(bool fade_music, float fade_time, float start_alpha, float end_alpha, SDL_Color color,app_function_ptr function_ptr) : Render_Effect(FADE_EFFECT, function_ptr), fade_music(fade_music), fade_time(fade_time), start_alpha(start_alpha), end_alpha(end_alpha), current_alpha(start_alpha), color(color)
 {
 	if(fade_music)App->audio->StartMusicFade();
+	if (start_alpha < end_alpha)specific_type = FADE_OUT_EFFECT;
+	else specific_type = FADE_IN_EFFECT;
 }
 
 // Destructors ==================================
@@ -80,18 +92,26 @@ bool Fade_Effect::Update()
 	}
 	
 	//Check if the alpha has reached the end value
-	return bool(floor(current_alpha) == end_alpha);
+	bool ret = (MIN(abs(current_alpha - end_alpha), FADE_MARGIN) < FADE_MARGIN);
+	if (ret && function_pointer != nullptr)
+	{
+		LOG("PTR!");
+		//(App->*function_pointer)();
+		App->load_scene_enabled = App->is_loading = false;
+	}
+
+	return ret;
 }
 /// ---------------------------------------------
 
 ///Layer_Effect ---------------------------------
 // Constructors =================================
-Layer_Effect::Layer_Effect():Render_Effect(LAYER_EFFECT)
+Layer_Effect::Layer_Effect() :Render_Effect(LAYER_EFFECT, nullptr)
 {
 
 }
 
-Layer_Effect::Layer_Effect(SDL_Color color) : Render_Effect(LAYER_EFFECT), color(color)
+Layer_Effect::Layer_Effect(SDL_Color color) : Render_Effect(LAYER_EFFECT, nullptr), color(color)
 {
 
 }

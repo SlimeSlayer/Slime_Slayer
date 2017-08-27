@@ -141,11 +141,6 @@ public:
 
 	APP_CONTEXT		app_context = UNKNOWN_CONTEXT;
 
-	//Loading screen data
-	j1Timer				enable_timer;
-	UI_String*			loading_string = nullptr;
-	UI_Progressive_Bar*	loading_bar = nullptr;
-
 	// Used in data loading
 	APP_CONTEXT	StrToAppContext(const char* str)const;
 
@@ -215,6 +210,14 @@ public:
 	//Scene change data
 	bool				load_scene_enabled = false;
 	bool				is_loading = false;
+
+	//Loading screen data
+	j1Timer				enable_timer;
+	UI_String*			loading_string = nullptr;
+	UI_Progressive_Bar*	loading_bar = nullptr;
+
+	void DrawLoadProcess();
+	void EndLoadProcess();
 
 public:
 
