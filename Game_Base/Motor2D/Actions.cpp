@@ -9,6 +9,7 @@
 #include "j1InputManager.h"
 #include "j1Physics.h"
 #include "j1Render.h"
+#include "Endless.h"
 
 #include "UI_Element.h"
 #include "UI_String.h"
@@ -433,8 +434,15 @@ bool Die_Action::Execute()
 	//Drop the creature money
 	if (((Creature*)actor)->GetMoney() > 0)((Creature*)actor)->DropMoney();
 	//Drop the creature experience (if is not the player)
-	if (actor != App->player->avatar)((Creature*)actor)->DropExperience();
-	
+	if (actor != App->player->avatar)
+	{
+		((Creature*)actor)->DropExperience();
+		if (App->GetCurrentScene() == (Scene*)App->endless)
+		{
+			App->endless->CreaturesCount(1);
+		}
+	}
+
 	//Delete the entity
 	App->entities_manager->ClearEntity(actor);
 

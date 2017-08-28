@@ -8,11 +8,11 @@
   <!--Player initial location-->
   <player_avatar pos_x="1500" pos_y="875"/>
   <!--Timing and wave data-->
-  <spawn initial_time ="3500" spawn_rate="350" wave_evolve="1.5">
-  <spawn_cords>
-    <crd x="0" y="900"/>
-    <crd x="1500" y="900"/>
-  </spawn_cords>
+  <spawn initial_time ="10000" spawn_rate="1500" start_creatures ="1" wave_evolve="1.5" wave_anim_duration="3500">
+    <spawn_cords>
+      <crd x="200" y="880"/>
+      <crd x="1500" y="880"/>
+    </spawn_cords>
   </spawn>
   <entities>
     <!--All entities Endless data here to can divide the process in different frames -->

@@ -7,6 +7,7 @@
 #include "j1EntitiesManager.h"
 #include "j1Input.h"
 #include "j1Player.h"
+#include "j1FileSystem.h"
 
 #include "Parallax.h"
 #include "UI_Element.h"
@@ -139,6 +140,10 @@ bool Endless::Enable()
 	//Play scene music
 	App->audio->PlayMusic(MUSIC_ID::MUSIC_IN_GAME);
 
+	//Reset timers
+	next_spawn_time = initial_spawn_time;
+	spawn_timer.Start();
+
 	enabled = true;
 	active = false;
 
@@ -163,7 +168,7 @@ void Endless::Disable()
 
 	//Release tutorial physic system
 	if (floor_collider != nullptr)RELEASE(floor_collider);
-	
+
 	//Delete all the current entities in the scene
 	App->entities_manager->DeleteCurrentEntities();
 
@@ -175,9 +180,83 @@ void Endless::RestartScene()
 	App->ActiveEndless();
 }
 
+bool Endless::Awake(pugi::xml_node & data_node)
+{
+	LOG("Loading %s Definition Doc", name.c_str());
+
+	//Load the data document used to generate the scene when is enabled
+	App->fs->LoadXML(data_node.child("data_folder").child_value(), &data_doc);
+	if (data_doc.root() == NULL)
+	{
+		LOG("Error Loading %s Doc", name.c_str());
+	}
+
+	//Load timing data ----------------
+	pugi::xml_node timing_node = data_doc.root().first_child().child("spawn");
+	initial_spawn_time = timing_node.attribute("initial_time").as_uint();
+	spawn_rate = timing_node.attribute("spawn_rate").as_uint();
+	wave_evolve = timing_node.attribute("wave_evolve").as_float();
+	start_creatures = timing_node.attribute("start_creatures").as_uint();
+
+	//Load Spawn coordinates ----------
+	pugi::xml_node cord = timing_node.child("spawn_cords").first_child();
+	while (cord.root() != NULL)
+	{
+		spawn_coordinates.push_back({ cord.attribute("x").as_int(),cord.attribute("y").as_int() });
+
+		cord = cord.next_sibling();
+	}
+
+	//Load wave animation data
+	anim_duration = timing_node.attribute("wave_anim_duration").as_uint();
+
+	//Build endless UI ----------------
+	wave_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	Font_Def* font = App->font->GetFontByID(FONT_ID::MENU_UI_FONT);
+	wave_string->SetColor(font->font_color);
+	wave_string->SetFont(font->font);
+	wave_string->SetInputTarget(this);
+	wave_string->SetVisualLayer(25);
+	wave_string->SetLogicalLayer(0);
+	wave_string->SetUseCamera(true);
+
+	return true;
+}
+
 bool Endless::Update(float dt)
 {
+	// UI UPDATE --------------------------------
 	App->gui->CalculateUpperElement(menu_branch);
+	if (wave_animation)
+	{
+		//Update animation alpha
+		if (anim_timer.Read() <= anim_duration * 0.5)anim_alpha = MIN((anim_timer.Read() / (anim_duration * 0.5)) * 255, 255);
+		else anim_alpha = MIN(0.00, 255 - (anim_timer.Read() / anim_duration) * 255);
+
+		//String temp blit
+		//App->render->CallBlit(wave_string->GetTextTexture(), wave_string->GetBox()->x, wave_string->GetBox()->y, NULL, true, false, 1.0f, wave_string->GetVisualLayer(), anim_alpha);
+
+
+		//When alpha is 
+		if (anim_alpha == 0.00)
+		{
+			wave_animation = false;
+			anim_alpha = 0.01;
+		}
+	}
+
+	// ------------------------------------------
+
+	// CREATURES FACTORY ------------------------
+	if (spawn_timer.Read() > next_spawn_time)
+	{
+		Creature* enemy = App->entities_manager->GenerateCreature(CREATURE_TYPE::BASIC_ENEMY_CREATURE);
+		enemy->SetPosition(spawn_coordinates[0].x, spawn_coordinates[0].y);
+		next_spawn_time = spawn_rate;
+		spawn_timer.Start();
+	}
+
+	// ------------------------------------------
 
 	//Blit scene Parallax -----------------------
 	back_parallax->Draw(-30);
@@ -252,3 +331,21 @@ bool Endless::Update(float dt)
 	return true;
 }
 
+void Endless::CreaturesCount(uint defs)
+{
+	//Rest the defeated creatures to the current ones
+	current_creatures -= defs;
+
+	//If the wave has been passed new creatures are generated
+	if (current_creatures == 0)
+	{
+		current_creatures = start_creatures * (wave_evolve * wave);
+		//Active/Rest all the related UI
+		anim_alpha = 0.0f;
+		anim_timer.Start();
+		//Add a delay on the spawn to define the wave
+		next_spawn_time = initial_spawn_time;
+		spawn_timer.Start();
+	}
+
+}
