@@ -52,13 +52,8 @@ bool Endless::Enable()
 		//Floor -----------------
 		current_enable_node = data_doc.root().first_child().child("floor_collider");
 
-		floor_collider = App->physics->CreateRectangle(
-			current_enable_node.attribute("x").as_int(),
-			current_enable_node.attribute("y").as_int(),
-			current_enable_node.attribute("w").as_int(),
-			current_enable_node.attribute("h").as_int(),
-			COLLISION_TYPE::MAP_COLLISION, BODY_TYPE::MAP_BODY
-		);
+		SDL_Rect rect = App->entities_manager->TokenStrToRect(current_enable_node.attribute("rect").as_string());
+		floor_collider = App->physics->CreateRectangle(rect.x, rect.y, rect.w, rect.h, COLLISION_TYPE::MAP_COLLISION, BODY_TYPE::MAP_BODY);
 		floor_collider->body->SetType(b2BodyType::b2_staticBody);
 		floor_collider->body->GetFixtureList()->SetFriction(current_enable_node.attribute("friction").as_float());
 
@@ -67,12 +62,7 @@ bool Endless::Enable()
 
 		front_parallax = new Parallax(current_enable_node.attribute("cells").as_uint());
 		front_parallax->SetTexture(App->tex->Load(current_enable_node.attribute("tex_folder").as_string()));
-		front_parallax->SetTextureRect({
-			current_enable_node.attribute("tex_x").as_int(),
-			current_enable_node.attribute("tex_y").as_int(),
-			current_enable_node.attribute("tex_w").as_int(),
-			current_enable_node.attribute("tex_h").as_int()
-		});
+		front_parallax->SetTextureRect(App->entities_manager->TokenStrToRect(current_enable_node.attribute("rect").as_string()));
 		front_parallax->SetPosition(0, current_enable_node.attribute("pos_y").as_int());
 
 		//Mid Parallax ----------
@@ -80,12 +70,7 @@ bool Endless::Enable()
 
 		mid_parallax = new Parallax(current_enable_node.attribute("cells").as_uint());
 		mid_parallax->SetTexture(App->tex->Load(current_enable_node.attribute("tex_folder").as_string()));
-		mid_parallax->SetTextureRect({
-			current_enable_node.attribute("tex_x").as_int(),
-			current_enable_node.attribute("tex_y").as_int(),
-			current_enable_node.attribute("tex_w").as_int(),
-			current_enable_node.attribute("tex_h").as_int()
-		});
+		mid_parallax->SetTextureRect(App->entities_manager->TokenStrToRect(current_enable_node.attribute("rect").as_string()));
 		mid_parallax->SetPosition(0, current_enable_node.attribute("pos_y").as_int());
 
 		//Back Parallax ---------
@@ -93,12 +78,7 @@ bool Endless::Enable()
 
 		back_parallax = new Parallax(current_enable_node.attribute("cells").as_uint());
 		back_parallax->SetTexture(App->tex->Load(current_enable_node.attribute("tex_folder").as_string()));
-		back_parallax->SetTextureRect({
-			current_enable_node.attribute("tex_x").as_int(),
-			current_enable_node.attribute("tex_y").as_int(),
-			current_enable_node.attribute("tex_w").as_int(),
-			current_enable_node.attribute("tex_h").as_int()
-		});
+		back_parallax->SetTextureRect(App->entities_manager->TokenStrToRect(current_enable_node.attribute("rect").as_string()));
 		back_parallax->SetPosition(0, current_enable_node.attribute("pos_y").as_int());
 
 		//Prepare tutorial entities ---------------------------

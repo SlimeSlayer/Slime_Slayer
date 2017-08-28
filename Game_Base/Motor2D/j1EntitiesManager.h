@@ -87,6 +87,7 @@ public:
 	ACTION_TYPE				StrToActionType(const char* str)const;
 	std::vector<ITEM_TYPE>	TokenStrToItemTypes(const char* str)const;
 	SDL_Color				TokenStrToColor(const char* str)const;
+	SDL_Rect				TokenStrToRect(const char* str)const;
 
 	// Functionality --------
 	Creature*	GenerateCreature(CREATURE_TYPE creature_type, bool generate_body = true);

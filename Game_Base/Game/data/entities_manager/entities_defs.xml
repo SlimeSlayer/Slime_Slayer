@@ -190,7 +190,7 @@
       vision_range ="300"
       vision_sensor_type ="enemy_sensor_collision"
       vision_sensor_body ="enemy_sensor_body"
-      money="2"
+      money="10"
       reward_experience="1"
       />
     

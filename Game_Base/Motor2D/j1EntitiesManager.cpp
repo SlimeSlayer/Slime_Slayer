@@ -709,6 +709,26 @@ SDL_Color j1EntitiesManager::TokenStrToColor(const char * str) const
 	return res;
 }
 
+SDL_Rect j1EntitiesManager::TokenStrToRect(const char * str) const
+{
+	SDL_Rect res = { 255,255,255,255 };
+
+	std::vector<int> values_vec;
+
+	std::string copy = str;
+	char* token = strtok((char*)copy.c_str(), "/");
+
+	while (token != NULL)
+	{
+		values_vec.push_back(atoi(token));
+		token = strtok(NULL, "/");
+	}
+
+	if (values_vec.size() == 4)res = { values_vec[0],values_vec[1],values_vec[2],values_vec[3] };
+
+	return res;
+}
+
 //Functionality =================================
 Creature * j1EntitiesManager::GenerateCreature(CREATURE_TYPE creature_type, bool generate_body)
 {
@@ -833,6 +853,7 @@ void j1EntitiesManager::DeleteEntity(Entity* target)
 {
 	entitites_to_delete.remove(target);
 	entitites_to_delete.push_back(target);
+	current_entities.remove(target);
 }
 
 void j1EntitiesManager::DeleteCurrentEntities()

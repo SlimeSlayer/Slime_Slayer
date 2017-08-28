@@ -1,14 +1,21 @@
 <data>
-  <!--Tutorial base colliders-->
-  <floor_collider x="2500" y="925" w="5000" h="50" friction="0.25"/>
-  <end_trigger x="2700" y="880" w="10" h="100"/>
-  <!--Tutorial parallax-->
-  <front_pllx cells="3" tex_folder="scenes/ground_texture.jpg" tex_x="0" tex_y="0" tex_w="800" tex_h="100" pos_y="900"/>
-  <mid_pllx cells="5" tex_folder="scenes/mid_texture.png" tex_x="0" tex_y="0" tex_w="400" tex_h="450" pos_y="450"/>
-  <back_pllx cells="2" tex_folder="scenes/skyline_texture.jpg" tex_x="0" tex_y="0" tex_w="1600" tex_h="900" pos_y="0"/>
+  <!--Endless base colliders-->
+  <floor_collider rect="2500/925/5000/50" friction="0.25"/>
+  <!--Endless parallax-->
+  <front_pllx cells="3" tex_folder="scenes/ground_texture.jpg" rect="0/0/800/100" pos_y="900"/>
+  <mid_pllx cells="5" tex_folder="scenes/mid_texture.png" rect="0/0/400/450" pos_y="450"/>
+  <back_pllx cells="2" tex_folder="scenes/skyline_texture.jpg" rect="0/0/1600/900" pos_y="0"/>
+  <!--Player initial location-->
   <player_avatar pos_x="1500" pos_y="875"/>
+  <!--Timing and wave data-->
+  <spawn initial_time ="3500" spawn_rate="350" wave_evolve="1.5">
+  <spawn_cords>
+    <crd x="0" y="900"/>
+    <crd x="1500" y="900"/>
+  </spawn_cords>
+  </spawn>
   <entities>
-    <!--All entities tutorial data here to can divide the process in different frames -->
+    <!--All entities Endless data here to can divide the process in different frames -->
     <!--<entity entity_type="creature" creature_type="npc_creature" pos_x="2000" pos_y="895"/>-->
   </entities>
 </data>
