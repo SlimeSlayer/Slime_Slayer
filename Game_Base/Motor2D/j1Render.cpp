@@ -259,10 +259,10 @@ void j1Render::ChangeVSYNCstate(bool state)
 
 bool j1Render::CallBlit(SDL_Texture * texture, int x, int y, const SDL_Rect * section,bool use_camera, bool horizontal_flip, float scale, int priority, uint opacity, int pivot_x, int pivot_y, SDL_Color color, double angle)
 {
-	bool ret = false;
+	bool ret = true;
 
-	if (texture != nullptr)ret = true;
-	blit_queue.emplace(iPoint(x, y), iPoint(pivot_x, pivot_y), texture, (SDL_Rect*)section, use_camera, horizontal_flip, scale, priority, opacity, color, angle);
+	if (texture == nullptr)ret = false;
+	else blit_queue.emplace(iPoint(x, y), iPoint(pivot_x, pivot_y), texture, (SDL_Rect*)section, use_camera, horizontal_flip, scale, priority, opacity, color, angle);
 	return true;
 }
 

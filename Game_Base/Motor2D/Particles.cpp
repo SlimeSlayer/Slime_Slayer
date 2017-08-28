@@ -136,8 +136,7 @@ Static_Particle::~Static_Particle()
 // Game Loop ========================== 
 void Static_Particle::Draw()
 {
-	SDL_SetTextureAlphaMod(this->texture, (1 - ((float)life_timer.Read() / (float)life_time)) * 255);
-	App->render->CallBlit(this->texture, this->position.x, this->position.y);
+	App->render->CallBlit(this->texture, this->position.x, this->position.y, NULL, false, false, 1.0f, 0, MAX(0, (1 - ((float)life_timer.Read() / (float)life_time)) * 255));
 }
 
 //Set Methods =========================
