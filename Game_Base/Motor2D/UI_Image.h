@@ -35,6 +35,8 @@ public:
 	SDL_Rect			GetTextureBox()const;
 	float				GetTextureScale()const;
 	void				SetTextureScale(float val);
+	SDL_Texture*		GetTexture()const;
+
 };
 
 #endif // __UI_IMG__

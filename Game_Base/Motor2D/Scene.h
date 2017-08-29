@@ -34,6 +34,7 @@ public:
 	bool Awake(pugi::xml_node& data_node);
 
 	// Called before the first frame
+	void SceneStart();
 	bool Start();
 
 	// Called each loop iteration

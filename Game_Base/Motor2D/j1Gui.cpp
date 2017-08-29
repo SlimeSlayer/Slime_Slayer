@@ -182,10 +182,11 @@ bool j1Gui::CleanUp()
 
 TEXTURE_ID j1Gui::StrToTextureID(const char * str)
 {
-	if (strcmp(str, "atlas") == 0)			return ATLAS;
-	if (strcmp(str, "atlas_test") == 0)		return ATLAS_TEST;
-	if (strcmp(str, "github_icon") == 0)	return GITHUB_ICON;
-	if (strcmp(str, "avatar_icon") == 0)	return AVATAR_ICON;
+	if (strcmp(str, "atlas") == 0)				return ATLAS;
+	if (strcmp(str, "atlas_test") == 0)			return ATLAS_TEST;
+	if (strcmp(str, "github_icon") == 0)		return GITHUB_ICON;
+	if (strcmp(str, "avatar_icon") == 0)		return AVATAR_ICON;
+	if (strcmp(str, "wave_shield_icon") == 0)	return WAVE_SHIELD_ICON;
 	return TEXTURE_NONE;
 }
 

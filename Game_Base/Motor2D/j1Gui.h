@@ -50,7 +50,8 @@ enum TEXTURE_ID
 	ATLAS,
 	ATLAS_TEST,
 	GITHUB_ICON,
-	AVATAR_ICON
+	AVATAR_ICON,
+	WAVE_SHIELD_ICON
 };
 // ---------------------------------------------------
 

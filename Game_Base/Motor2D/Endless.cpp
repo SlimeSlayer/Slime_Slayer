@@ -198,6 +198,13 @@ bool Endless::Awake(pugi::xml_node & data_node)
 		LOG("Error Loading %s Doc", name.c_str());
 	}
 
+	return true;
+}
+
+bool Endless::Start()
+{
+	SceneStart();
+
 	//Load timing data ----------------
 	pugi::xml_node timing_node = data_doc.root().first_child().child("spawn");
 	initial_spawn_time = timing_node.attribute("initial_time").as_uint();
@@ -227,6 +234,13 @@ bool Endless::Awake(pugi::xml_node & data_node)
 	wave_string->SetLogicalLayer(0);
 	wave_string->SetUseCamera(true);
 
+	wave_shield_icon = (UI_Image*)App->gui->GenerateUI_Element(UI_TYPE::IMG);
+	wave_shield_icon->SetInputTarget(this);
+	wave_shield_icon->ChangeTextureId(TEXTURE_ID::WAVE_SHIELD_ICON);
+	wave_shield_icon->SetTextureScale(0.5f);
+	wave_shield_icon->AdjustBox();
+	wave_shield_icon->SetBoxPosition(App->render->camera.w * 0.5 - wave_shield_icon->GetBox()->w, App->render->camera.h * 0.5 - wave_shield_icon->GetBox()->h * 0.5);
+	wave_shield_icon->SetVisualLayer(20);
 	return true;
 }
 
@@ -250,6 +264,7 @@ bool Endless::Update(float dt)
 		
 		
 		//String temp blit
+		App->render->CallBlit(wave_shield_icon->GetTexture(), wave_shield_icon->GetBox()->x, wave_shield_icon->GetBox()->y, NULL, true, false, wave_shield_icon->GetTextureScale(), wave_string->GetVisualLayer(), anim_alpha);
 		App->render->CallBlit(wave_string->GetTextTexture(), wave_string->GetBox()->x, wave_string->GetBox()->y, NULL, true, false, 1.0f, wave_string->GetVisualLayer(), anim_alpha);
 		
 		//When alpha is 

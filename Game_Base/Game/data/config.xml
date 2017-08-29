@@ -25,10 +25,11 @@
   </fonts>
 
   <gui>
-    <atlas file="gui/atlas.png"       id="atlas"/>
-    <atlas file="gui/atlas_test.png"  id="atlas_test"/>
-    <atlas file="gui/github.png"      id="github_icon"/>
-    <atlas file="gui/avatar_icon.png" id="avatar_icon"/>
+    <atlas file="gui/atlas.png"             id="atlas"/>
+    <atlas file="gui/atlas_test.png"        id="atlas_test"/>
+    <atlas file="gui/github.png"            id="github_icon"/>
+    <atlas file="gui/avatar_icon.png"       id="avatar_icon"/>
+    <atlas file="gui/wave_shield_icon.png"  id="wave_shield_icon"/>
   </gui>
 
   <audio>

@@ -103,7 +103,7 @@ bool Scene::Awake(pugi::xml_node& data_node)
 	return true;
 }
 
-bool Scene::Start()
+void Scene::SceneStart()
 {
 	//Build scene UI --------
 	Font_Def* menu_ui_font = App->font->GetFontByID(FONT_ID::MENU_UI_FONT);
@@ -517,6 +517,11 @@ bool Scene::Start()
 	//Add the built branch at the GUI 
 	App->gui->PushScreen(menu_branch);
 
+}
+
+bool Scene::Start()
+{
+	SceneStart();
 	return true;
 }
 

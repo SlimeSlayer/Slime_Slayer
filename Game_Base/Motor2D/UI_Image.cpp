@@ -106,3 +106,8 @@ void UI_Image::SetTextureScale(float val)
 {
 	texture_scale = val;
 }
+
+SDL_Texture * UI_Image::GetTexture() const
+{
+	return texture;
+}
