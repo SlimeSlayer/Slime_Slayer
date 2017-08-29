@@ -240,7 +240,7 @@ bool Endless::Start()
 	wave_shield_icon->SetTextureScale(0.5f);
 	wave_shield_icon->AdjustBox();
 	wave_shield_icon->SetBoxPosition(App->render->camera.w * 0.5 - wave_shield_icon->GetBox()->w, App->render->camera.h * 0.5 - wave_shield_icon->GetBox()->h * 0.5);
-	wave_shield_icon->SetVisualLayer(20);
+	wave_shield_icon->SetVisualLayer(24);
 	return true;
 }
 
@@ -264,7 +264,7 @@ bool Endless::Update(float dt)
 		
 		
 		//String temp blit
-		App->render->CallBlit(wave_shield_icon->GetTexture(), wave_shield_icon->GetBox()->x, wave_shield_icon->GetBox()->y, NULL, true, false, wave_shield_icon->GetTextureScale(), wave_string->GetVisualLayer(), anim_alpha);
+		App->render->CallBlit(wave_shield_icon->GetTexture(), wave_shield_icon->GetBox()->x, wave_shield_icon->GetBox()->y, NULL, true, false, wave_shield_icon->GetTextureScale(), wave_shield_icon->GetVisualLayer(), anim_alpha);
 		App->render->CallBlit(wave_string->GetTextTexture(), wave_string->GetBox()->x, wave_string->GetBox()->y, NULL, true, false, 1.0f, wave_string->GetVisualLayer(), anim_alpha);
 		
 		//When alpha is 
@@ -383,7 +383,7 @@ void Endless::CreaturesCount(uint defs)
 		w_str += buffer;
 		wave_string->SetString(w_str.c_str());
 		wave_string->AdjustBox();
-		wave_string->SetBoxPosition(App->render->viewport.w * 0.5 - wave_string->GetBox()->w * 0.5, App->render->viewport.h * 0.5 - wave_string->GetBox()->h * 0.5);
+		wave_string->SetBoxPosition(App->render->viewport.w * 0.5 - wave_string->GetBox()->w * 0.5, App->render->viewport.h * 0.5 - wave_string->GetBox()->h * 0.5 - 50);
 		//Add a delay on the spawn to define the wave
 		next_spawn_time = initial_spawn_time;
 		spawn_timer.Start();

@@ -111,6 +111,7 @@ void Scene::SceneStart()
 	//Scene Branch ------------------------------
 	menu_branch = App->gui->GenerateUI_Element(UI_TYPE::UNDEFINED);
 	menu_branch->SetInputTarget(this);
+	menu_branch->SetVisualLayer(30);
 	menu_branch->Desactivate();
 
 	//Settings Button
@@ -257,6 +258,7 @@ void Scene::SceneStart()
 	audio_menu->DesactivateChids();
 	menu_branch->AddChild(audio_menu);
 	audio_menu->SetLogicalLayer(0);
+	audio_menu->SetVisualLayer(30);
 
 	//Quit button
 	audio_quit_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
@@ -372,6 +374,7 @@ void Scene::SceneStart()
 	video_menu->DesactivateChids();
 	menu_branch->AddChild(video_menu);
 	video_menu->SetLogicalLayer(0);
+	video_menu->SetVisualLayer(30);
 
 	//Quit button
 	video_quit_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
@@ -460,6 +463,7 @@ void Scene::SceneStart()
 	death_menu->DesactivateChids();
 	menu_branch->AddChild(death_menu);
 	death_menu->SetLogicalLayer(0);
+	death_menu->SetVisualLayer(30);
 
 	//Death Quit
 	death_end_button = (UI_Button*)App->gui->GenerateUI_Element(UI_TYPE::BUTTON);
