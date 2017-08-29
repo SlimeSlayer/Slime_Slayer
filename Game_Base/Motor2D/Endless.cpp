@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "Endless.h"
 
 #include "j1App.h"
@@ -144,6 +146,11 @@ bool Endless::Enable()
 	next_spawn_time = initial_spawn_time;
 	spawn_timer.Start();
 
+	//Reset creatures spawn data
+	current_defeat_creatures = current_alive_creatures = 0;
+	wave = 1;
+	next_wave_creatures = ceil(start_creatures * (wave_evolve * wave));
+
 	enabled = true;
 	active = false;
 
@@ -230,12 +237,13 @@ bool Endless::Update(float dt)
 	if (wave_animation)
 	{
 		//Update animation alpha
-		if (anim_timer.Read() <= anim_duration * 0.5)anim_alpha = MIN((anim_timer.Read() / (anim_duration * 0.5)) * 255, 255);
+		if (anim_timer.Read() <= anim_duration)anim_alpha = MIN((anim_timer.Read() / (anim_duration)) * 255, 255);
 		else anim_alpha = MIN(0.00, 255 - (anim_timer.Read() / anim_duration) * 255);
 
 		//String temp blit
+		wave_string->SetBoxPosition(App->render->viewport.w * 0.5 - wave_string->GetBox()->w * 0.5, App->render->viewport.h * 0.5 - wave_string->GetBox()->h * 0.5);
 		//App->render->CallBlit(wave_string->GetTextTexture(), wave_string->GetBox()->x, wave_string->GetBox()->y, NULL, true, false, 1.0f, wave_string->GetVisualLayer(), anim_alpha);
-
+		LOG("ANIM");
 
 		//When alpha is 
 		if (anim_alpha == 0.00)
@@ -248,10 +256,11 @@ bool Endless::Update(float dt)
 	// ------------------------------------------
 
 	// CREATURES FACTORY ------------------------
-	if (spawn_timer.Read() > next_spawn_time)
+	if (spawn_timer.Read() > next_spawn_time && (current_defeat_creatures + current_alive_creatures < next_wave_creatures))
 	{
 		Creature* enemy = App->entities_manager->GenerateCreature(CREATURE_TYPE::BASIC_ENEMY_CREATURE);
 		enemy->SetPosition(spawn_coordinates[0].x, spawn_coordinates[0].y);
+		current_alive_creatures++;
 		next_spawn_time = spawn_rate;
 		spawn_timer.Start();
 	}
@@ -334,15 +343,25 @@ bool Endless::Update(float dt)
 void Endless::CreaturesCount(uint defs)
 {
 	//Rest the defeated creatures to the current ones
-	current_creatures -= defs;
+	current_alive_creatures -= defs;
+	current_defeat_creatures += defs;
 
 	//If the wave has been passed new creatures are generated
-	if (current_creatures == 0)
+	if (current_alive_creatures == 0 && current_defeat_creatures == next_wave_creatures)
 	{
-		current_creatures = start_creatures * (wave_evolve * wave);
+		wave++;
+		next_wave_creatures = ceil(start_creatures * (wave_evolve * wave));
+		current_defeat_creatures = 0;
 		//Active/Rest all the related UI
-		anim_alpha = 0.0f;
+		anim_alpha = 0.01f;
 		anim_timer.Start();
+		wave_animation = true;
+		char buffer [6];
+		_itoa(wave, buffer, 10);
+		std::string w_str = "Wave ";
+		w_str += buffer;
+		wave_string->SetString(w_str.c_str());
+		wave_string->AdjustBox();
 		//Add a delay on the spawn to define the wave
 		next_spawn_time = initial_spawn_time;
 		spawn_timer.Start();

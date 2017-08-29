@@ -1,7 +1,7 @@
 <data>
   <!--Tutorial base colliders-->
   <floor_collider rect="2500/925/5000/50" friction="0.25"/>
-  <end_trigger rect="2700/880/10/100"/>
+  <end_trigger rect="3500/880/10/100"/>
   <!--Tutorial parallax-->
   <front_pllx cells="3" tex_folder="scenes/ground_texture.jpg" rect="0/0/800/100" pos_y="900"/>
   <mid_pllx cells="5" tex_folder="scenes/mid_texture.png" rect="0/0/400/450" pos_y="450"/>

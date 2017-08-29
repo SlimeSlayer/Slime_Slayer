@@ -136,7 +136,8 @@ Static_Particle::~Static_Particle()
 // Game Loop ========================== 
 void Static_Particle::Draw()
 {
-	App->render->CallBlit(this->texture, this->position.x, this->position.y, NULL, false, false, 1.0f, 0, MAX(0, (1 - ((float)life_timer.Read() / (float)life_time)) * 255));
+	int alpha = MAX(0, (1 - ((float)life_timer.Read() / (float)life_time)) * 255);
+	if (alpha > 0)App->render->CallBlit(this->texture, this->position.x, this->position.y, NULL, false, false, 1.0f, 0, alpha);
 }
 
 //Set Methods =========================

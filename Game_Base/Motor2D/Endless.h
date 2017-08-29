@@ -42,7 +42,8 @@ private:
 
 	//Creatures count variables
 	uint	start_creatures = 0;
-	int		current_creatures = 0;
+	int		current_alive_creatures = 0;
+	int		current_defeat_creatures = 0;
 	uint	next_wave_creatures = 0;
 	float	wave_evolve = 0.0f;
 

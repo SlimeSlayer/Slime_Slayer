@@ -366,7 +366,6 @@ bool Basic_Attack_Action::Execute()
 
 		//Generate score particle
 		App->particle_manager->GenerateTextParticle(target,PARTICLE_TYPE::ALLY_HITPOINTS_PARTICLE, ((Creature*)actor)->GetAttackHitPoints());
-		LOG("TL: %i", target->GetCurrentLife());
 	}
 
 	//When target is dead actor stops
