@@ -237,14 +237,21 @@ bool Endless::Update(float dt)
 	if (wave_animation)
 	{
 		//Update animation alpha
-		if (anim_timer.Read() <= anim_duration)anim_alpha = MIN((anim_timer.Read() / (anim_duration)) * 255, 255);
-		else anim_alpha = MIN(0.00, 255 - (anim_timer.Read() / anim_duration) * 255);
-
+		if (anim_timer.Read() <= anim_duration)
+		{
+			anim_alpha = MIN(MAX(0.01,(anim_timer.Read() / (anim_duration*0.5)) * 255), 255);
+			
+		}
+		else
+		{
+			float per_cent = 1-(((float)anim_timer.Read() - (float)anim_duration) / (float)anim_duration);
+			anim_alpha = MAX(0.00, per_cent * 255);
+		}
+		
+		
 		//String temp blit
-		wave_string->SetBoxPosition(App->render->viewport.w * 0.5 - wave_string->GetBox()->w * 0.5, App->render->viewport.h * 0.5 - wave_string->GetBox()->h * 0.5);
-		//App->render->CallBlit(wave_string->GetTextTexture(), wave_string->GetBox()->x, wave_string->GetBox()->y, NULL, true, false, 1.0f, wave_string->GetVisualLayer(), anim_alpha);
-		LOG("ANIM");
-
+		App->render->CallBlit(wave_string->GetTextTexture(), wave_string->GetBox()->x, wave_string->GetBox()->y, NULL, true, false, 1.0f, wave_string->GetVisualLayer(), anim_alpha);
+		
 		//When alpha is 
 		if (anim_alpha == 0.00)
 		{
@@ -354,7 +361,6 @@ void Endless::CreaturesCount(uint defs)
 		current_defeat_creatures = 0;
 		//Active/Rest all the related UI
 		anim_alpha = 0.01f;
-		anim_timer.Start();
 		wave_animation = true;
 		char buffer [6];
 		_itoa(wave, buffer, 10);
@@ -362,9 +368,11 @@ void Endless::CreaturesCount(uint defs)
 		w_str += buffer;
 		wave_string->SetString(w_str.c_str());
 		wave_string->AdjustBox();
+		wave_string->SetBoxPosition(App->render->viewport.w * 0.5 - wave_string->GetBox()->w * 0.5, App->render->viewport.h * 0.5 - wave_string->GetBox()->h * 0.5);
 		//Add a delay on the spawn to define the wave
 		next_spawn_time = initial_spawn_time;
 		spawn_timer.Start();
+		anim_timer.Start();
 	}
 
 }
