@@ -236,6 +236,16 @@ bool Endless::Start()
 	wave_string->SetVisualLayer(25);
 	wave_string->SetLogicalLayer(0);
 	wave_string->SetUseCamera(true);
+	
+	wave_percent_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	font = App->font->GetFontByID(FONT_ID::MENU_DIALOG_FONT);
+	wave_percent_string->SetColor(font->font_color);
+	wave_percent_string->SetFont(font->font);
+	wave_percent_string->SetInputTarget(this);
+	wave_percent_string->SetVisualLayer(26);
+	wave_percent_string->SetLogicalLayer(0);
+	wave_percent_string->SetUseCamera(true);
+	wave_percent_string->SetString("0 %");
 
 	wave_shield_icon = (UI_Image*)App->gui->GenerateUI_Element(UI_TYPE::IMG);
 	wave_shield_icon->SetInputTarget(this);
@@ -281,15 +291,27 @@ bool Endless::Update(float dt)
 		//Update animation progressive bar
 		if (anim_alpha == 255 && bar_anim_added < 1.00)
 		{
+			//Update bar
 			float _add = bar_anim_add * App->GetDT();
 			_add = MIN(1.00 - bar_anim_added, _add);
 			bar_anim_added += _add;
 			wave_progress_bar->AddValue(_add);
 			wave_progress_bar->UpdateTexture();
+			//Update percent string
+			float cent_val = MAX(0, (wave_progress_bar->GetCurrentValue() / wave_progress_bar->GetMaxValue()) * 100);
+			cent_val = (cent_val >(floor(cent_val) + 0.5f)) ? ceil(cent_val) : floor(cent_val);
+			char buffer[6];
+			_itoa(cent_val, buffer, 10);
+			std::string w_str = buffer;
+			w_str += " %";
+			wave_percent_string->SetString(w_str.c_str());
+			wave_percent_string->AdjustBox();
+			wave_percent_string->SetBoxPosition(wave_progress_bar->GetBox()->x + wave_progress_bar->GetBox()->w * 0.5 - wave_percent_string->GetBox()->w * 0.5, wave_progress_bar->GetBox()->y + wave_progress_bar->GetBox()->h * 0.5 - wave_percent_string->GetBox()->h * 0.5);
 		}
 
 		//Animation UI blit
 		App->render->CallBlit(wave_progress_bar->GetTexture(), wave_progress_bar->GetBox()->x, wave_progress_bar->GetBox()->y, NULL, true, false, 1.0f, wave_progress_bar->GetVisualLayer(), anim_alpha);
+		App->render->CallBlit(wave_percent_string->GetTextTexture(), wave_percent_string->GetBox()->x, wave_percent_string->GetBox()->y, NULL, true, false, 1.0f, wave_percent_string->GetVisualLayer(), anim_alpha);
 		App->render->CallBlit(wave_shield_icon->GetTexture(), wave_shield_icon->GetBox()->x, wave_shield_icon->GetBox()->y, NULL, true, false, wave_shield_icon->GetTextureScale(), wave_shield_icon->GetVisualLayer(), anim_alpha);
 		App->render->CallBlit(wave_string->GetTextTexture(), wave_string->GetBox()->x, wave_string->GetBox()->y, NULL, true, false, 1.0f, wave_string->GetVisualLayer(), anim_alpha);
 		
@@ -404,11 +426,12 @@ void Endless::CreaturesCount(uint defs)
 	if (current_alive_creatures == 0 && current_defeat_creatures == next_wave_creatures)
 	{
 		wave++;
-		next_wave_creatures = 1;// ceil(start_creatures * (wave_evolve * (wave + 1)));
+		next_wave_creatures = ceil(start_creatures * (wave_evolve * (wave + 1)));
 		current_defeat_creatures = 0;
 		//Active/Rest all the related UI
 		anim_alpha = 0.01f;
 		wave_animation = true;
+		//Wave str
 		char buffer [6];
 		_itoa(wave, buffer, 10);
 		std::string w_str = "Wave ";
@@ -416,7 +439,17 @@ void Endless::CreaturesCount(uint defs)
 		wave_string->SetString(w_str.c_str());
 		wave_string->AdjustBox();
 		wave_string->SetBoxPosition(App->render->viewport.w * 0.5 - wave_string->GetBox()->w * 0.5, App->render->viewport.h * 0.5 - wave_string->GetBox()->h * 0.5 - 50);
+		//Percent str
+		float cent_val = MAX(0, (wave_progress_bar->GetCurrentValue() / wave_progress_bar->GetMaxValue()) * 100);
+		cent_val = (cent_val > (floor(cent_val) + 0.5f)) ? ceil(cent_val) : floor(cent_val);
+		char n_buffer[6];
+		_itoa(cent_val, n_buffer, 10);
+		w_str = n_buffer;
+		w_str += " %";
+		wave_percent_string->SetString(w_str.c_str());
+		//Bar
 		wave_progress_bar->UpdateTexture();
+		
 		//Add a delay on the spawn to define the wave
 		next_spawn_time = initial_spawn_time;
 		spawn_timer.Start();

@@ -188,11 +188,21 @@ bool j1App::Start()
 	loading_bar = (UI_Progressive_Bar*)App->gui->GenerateUI_Element(UI_TYPE::PROGRESSIVE_BAR);
 	SDL_Rect rect = { App->render->viewport.w * 0.5 - 800 * 0.5f, App->render->viewport.h * 0.7,800,100 };
 	loading_bar->SetBox(rect);
-	loading_bar->SetFullColor({ 255,255,255,255 });
+	loading_bar->SetFullColor({ 255,155,255,255 });
 	loading_bar->SetToEmptyColor({0,0,0,255});
 	loading_bar->SetEmptyColor({ 0,0,0,255 });
 	loading_bar->SetInputTarget(main_menu);
 	loading_bar->SetCurrentValue(0.0f);
+
+	//Percent string
+	loading_percent_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	loading_percent_string->SetFont(App->font->GetFontByID(FONT_ID::MENU_DIALOG_FONT)->font);
+	loading_percent_string->SetInputTarget(App->gui);
+	loading_percent_string->SetUseCamera(false);
+	loading_percent_string->SetString("0 %");
+	loading_percent_string->AdjustBox();
+	loading_percent_string->SetBoxPosition(loading_bar->GetBox()->x + loading_bar->GetBox()->w * 0.5f - loading_percent_string->GetBox()->w * 0.5, loading_bar->GetBox()->y - loading_bar->GetBox()->h * 0.5 - -loading_percent_string->GetBox()->h * 0.5);
+
 
 	//App starts in the main menu context
 	app_context = MAIN_MENU_CONTEXT;
@@ -271,9 +281,22 @@ void j1App::EnableActiveModulesNow()
 	//Enable one module for iteration
 	if (modules_to_enable[enable_index]->Enable())
 	{
+		//Update loading IU
 		enable_index++;
+		//Bar
 		loading_bar->AddValue(1);
 		loading_bar->UpdateTexture();
+		//Percent string
+		float cent_val = MAX(0, (loading_bar->GetCurrentValue() / loading_bar->GetMaxValue()) * 100);
+		cent_val = (cent_val >(floor(cent_val) + 0.5f)) ? ceil(cent_val) : floor(cent_val);
+		char buffer[6];
+		_itoa(cent_val, buffer, 10);
+		std::string w_str = buffer;
+		w_str += " %";
+		loading_percent_string->SetString(w_str.c_str());
+		loading_percent_string->AdjustBox();
+		loading_percent_string->SetBoxPosition(loading_bar->GetBox()->x + loading_bar->GetBox()->w * 0.5 - loading_percent_string->GetBox()->w * 0.5, loading_bar->GetBox()->y + loading_bar->GetBox()->h * 0.5 - loading_percent_string->GetBox()->h * 0.5);
+		//Reset enable timer
 		enable_timer.Start();
 	}
 
@@ -666,9 +689,10 @@ pugi::xml_node j1App::GetConfigXML() const
 
 void j1App::DrawLoadProcess()
 {
-	App->render->DrawQuad(App->render->viewport, 55, 255, 255, 255, true, false);
+	App->render->DrawQuad(App->render->viewport, 200, 0, 200, 255, true, false);
 	App->render->Blit(loading_string->GetTextTexture(), loading_string->GetBox()->x, loading_string->GetBox()->y, NULL, true);
 	App->render->Blit(loading_bar->GetTexture(), loading_bar->GetBox()->x, loading_bar->GetBox()->y, NULL, true);
+	App->render->Blit(loading_percent_string->GetTextTexture(), loading_percent_string->GetBox()->x, loading_percent_string->GetBox()->y, NULL, true);
 }
 
 void j1App::EndLoadProcess()

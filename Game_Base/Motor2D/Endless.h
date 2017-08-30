@@ -61,6 +61,7 @@ private:
 	j1Timer				anim_timer;
 	uint				anim_duration = 0;
 	UI_String*			wave_string = nullptr;
+	UI_String*			wave_percent_string = nullptr;
 	UI_Progressive_Bar*	wave_progress_bar = nullptr;
 	UI_Image*			wave_shield_icon = nullptr;
 

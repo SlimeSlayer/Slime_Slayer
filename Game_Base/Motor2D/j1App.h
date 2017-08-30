@@ -214,6 +214,7 @@ public:
 	//Loading screen data
 	j1Timer				enable_timer;
 	UI_String*			loading_string = nullptr;
+	UI_String*			loading_percent_string = nullptr;
 	UI_Progressive_Bar*	loading_bar = nullptr;
 
 	void DrawLoadProcess();
