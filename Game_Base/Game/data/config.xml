@@ -137,7 +137,7 @@
       initial_vel_max="50"
       gravity="250"
       gravity_rand="0.2"
-      spawn_y_margin="55"
+      spawn_y_margin="90"
       />
   </main_menu>
   
