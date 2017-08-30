@@ -246,9 +246,9 @@ bool Endless::Start()
 	wave_shield_icon->SetVisualLayer(24);
 
 	wave_progress_bar = (UI_Progressive_Bar*)App->gui->GenerateUI_Element(UI_TYPE::PROGRESSIVE_BAR);
-	SDL_Rect bar_rect = { App->render->camera.w * 0.5 - 200, App->render->camera.h * 0.5,400,50 };
+	SDL_Rect bar_rect = { App->render->camera.w * 0.5 - 75, App->render->camera.h * 0.5,400,40 };
 	wave_progress_bar->SetBox(bar_rect);
-	wave_progress_bar->SetFullColor({ 100,100,255,255 });
+	wave_progress_bar->SetFullColor({ 255,50,255,255 });
 	wave_progress_bar->SetEmptyColor({ 70,70,70,255 });
 	wave_progress_bar->SetToEmptyColor({ 255,255,255,255 });
 	wave_progress_bar->SetVisualLayer(25);

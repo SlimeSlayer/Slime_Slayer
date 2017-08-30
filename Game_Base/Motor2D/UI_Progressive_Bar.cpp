@@ -97,6 +97,7 @@ void UI_Progressive_Bar::GenerateTexture()
 	if (bar_texture != nullptr)return;
 
 	bar_texture = SDL_CreateTexture(App->render->renderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_TARGET, box.w, box.h);
+	SDL_SetTextureBlendMode(bar_texture, SDL_BlendMode::SDL_BLENDMODE_BLEND);
 	App->tex->textures.push_back(bar_texture);
 }
 
