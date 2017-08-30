@@ -40,7 +40,6 @@ private:
 	uint				next_spawn_time = 0;
 	uint				initial_spawn_time = 0;
 	uint				spawn_rate = 0;
-	uint				wave = 0;
 	std::vector<iPoint> spawn_coordinates;
 
 	//Creatures count variables
@@ -48,11 +47,17 @@ private:
 	int		current_alive_creatures = 0;
 	int		current_defeat_creatures = 0;
 	uint	next_wave_creatures = 0;
+	
+	//Wave related data
 	float	wave_evolve = 0.0f;
+	uint	wave = 0;
+	uint	effect_waves = 0;
 
 	//Wave passed UI
 	bool				wave_animation = false;
 	float				anim_alpha = 0.01f;
+	float				bar_anim_add = 0.0f;
+	float				bar_anim_added = 0.0f;
 	j1Timer				anim_timer;
 	uint				anim_duration = 0;
 	UI_String*			wave_string = nullptr;

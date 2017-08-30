@@ -148,8 +148,8 @@ bool Endless::Enable()
 
 	//Reset creatures spawn data
 	current_defeat_creatures = current_alive_creatures = 0;
-	wave = 1;
-	next_wave_creatures = ceil(start_creatures * (wave_evolve * wave));
+	wave = 0;
+	next_wave_creatures = ceil(start_creatures * (wave_evolve * (wave+1)));
 
 	enabled = true;
 	active = false;
@@ -210,6 +210,7 @@ bool Endless::Start()
 	initial_spawn_time = timing_node.attribute("initial_time").as_uint();
 	spawn_rate = timing_node.attribute("spawn_rate").as_uint();
 	wave_evolve = timing_node.attribute("wave_evolve").as_float();
+	effect_waves = timing_node.attribute("boss_waves").as_uint();
 	start_creatures = timing_node.attribute("start_creatures").as_uint();
 
 	//Load Spawn coordinates ----------
@@ -221,8 +222,10 @@ bool Endless::Start()
 		cord = cord.next_sibling();
 	}
 
-	//Load wave animation data
-	anim_duration = timing_node.attribute("wave_anim_duration").as_uint();
+	//Load wave animation data --------
+	pugi::xml_node ui_node = data_doc.root().first_child().child("ui");
+	anim_duration = ui_node.attribute("wave_anim_duration").as_uint();
+	bar_anim_add = ui_node.attribute("bar_anim_add").as_float();
 
 	//Build endless UI ----------------
 	wave_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
@@ -241,6 +244,19 @@ bool Endless::Start()
 	wave_shield_icon->AdjustBox();
 	wave_shield_icon->SetBoxPosition(App->render->camera.w * 0.5 - wave_shield_icon->GetBox()->w, App->render->camera.h * 0.5 - wave_shield_icon->GetBox()->h * 0.5);
 	wave_shield_icon->SetVisualLayer(24);
+
+	wave_progress_bar = (UI_Progressive_Bar*)App->gui->GenerateUI_Element(UI_TYPE::PROGRESSIVE_BAR);
+	SDL_Rect bar_rect = { App->render->camera.w * 0.5 - 200, App->render->camera.h * 0.5,400,50 };
+	wave_progress_bar->SetBox(bar_rect);
+	wave_progress_bar->SetFullColor({ 100,100,255,255 });
+	wave_progress_bar->SetEmptyColor({ 70,70,70,255 });
+	wave_progress_bar->SetToEmptyColor({ 255,255,255,255 });
+	wave_progress_bar->SetVisualLayer(25);
+	wave_progress_bar->SetToEmptyRestValue(1.0);
+	wave_progress_bar->SetInputTarget(this);
+	wave_progress_bar->SetMaxValue(effect_waves);
+	wave_progress_bar->GenerateTexture();
+
 	return true;
 }
 
@@ -262,16 +278,32 @@ bool Endless::Update(float dt)
 			anim_alpha = MAX(0.00, per_cent * 255);
 		}
 		
-		
-		//String temp blit
+		//Update animation progressive bar
+		if (anim_alpha == 255 && bar_anim_added < 1.00)
+		{
+			float _add = bar_anim_add * App->GetDT();
+			_add = MIN(1.00 - bar_anim_added, _add);
+			bar_anim_added += _add;
+			wave_progress_bar->AddValue(_add);
+			wave_progress_bar->UpdateTexture();
+		}
+
+		//Animation UI blit
+		App->render->CallBlit(wave_progress_bar->GetTexture(), wave_progress_bar->GetBox()->x, wave_progress_bar->GetBox()->y, NULL, true, false, 1.0f, wave_progress_bar->GetVisualLayer(), anim_alpha);
 		App->render->CallBlit(wave_shield_icon->GetTexture(), wave_shield_icon->GetBox()->x, wave_shield_icon->GetBox()->y, NULL, true, false, wave_shield_icon->GetTextureScale(), wave_shield_icon->GetVisualLayer(), anim_alpha);
 		App->render->CallBlit(wave_string->GetTextTexture(), wave_string->GetBox()->x, wave_string->GetBox()->y, NULL, true, false, 1.0f, wave_string->GetVisualLayer(), anim_alpha);
 		
-		//When alpha is 
+		//End case
 		if (anim_alpha == 0.00)
 		{
 			wave_animation = false;
 			anim_alpha = 0.01;
+			bar_anim_added = 0.0;
+			//Check if 5 waves have been completed
+			if (wave % 5 == 0)
+			{
+				wave_progress_bar->SetCurrentValue(0.0f);
+			}
 		}
 	}
 
@@ -372,7 +404,7 @@ void Endless::CreaturesCount(uint defs)
 	if (current_alive_creatures == 0 && current_defeat_creatures == next_wave_creatures)
 	{
 		wave++;
-		next_wave_creatures = ceil(start_creatures * (wave_evolve * wave));
+		next_wave_creatures = 1;// ceil(start_creatures * (wave_evolve * (wave + 1)));
 		current_defeat_creatures = 0;
 		//Active/Rest all the related UI
 		anim_alpha = 0.01f;
@@ -384,6 +416,7 @@ void Endless::CreaturesCount(uint defs)
 		wave_string->SetString(w_str.c_str());
 		wave_string->AdjustBox();
 		wave_string->SetBoxPosition(App->render->viewport.w * 0.5 - wave_string->GetBox()->w * 0.5, App->render->viewport.h * 0.5 - wave_string->GetBox()->h * 0.5 - 50);
+		wave_progress_bar->UpdateTexture();
 		//Add a delay on the spawn to define the wave
 		next_spawn_time = initial_spawn_time;
 		spawn_timer.Start();
