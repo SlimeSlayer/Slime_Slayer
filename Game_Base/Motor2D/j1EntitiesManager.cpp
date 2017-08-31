@@ -390,8 +390,7 @@ void j1EntitiesManager::AddItemDefinition(const pugi::xml_node * data_node)
 	{
 	case COIN_ITEM:				new_item = new Coin();			break;
 	case BASIC_BOX_ITEM:		new_item = new Items_Tank();	break;
-	case LEFT_MAP_LIMIT_ITEM:
-	case RIGHT_MAP_LIMIT_ITEM:	new_item = new Item();			break;
+	default:					new_item = new Item();			break;
 	}
 	
 	//Load the new item body data

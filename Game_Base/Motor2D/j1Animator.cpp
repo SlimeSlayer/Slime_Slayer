@@ -601,11 +601,11 @@ bool j1Animator::LoadMultipleAnimationBlock(const char * xml_folder, ENTITY_TYPE
 	if (!App->fs->LoadXML(load_folder.c_str(), &entity_anim_data))return false;
 
 	//Texture load
-	load_folder = name + "/" + entity_anim_data.child("atlas").attribute("texture").as_string();
-	SDL_Texture* texture = App->tex->Load(load_folder.c_str());
+	std::string tex_load_folder = name + "/" + entity_anim_data.child("atlas").attribute("texture").as_string();
+	SDL_Texture* texture = App->tex->Load(tex_load_folder.c_str());
 	if (texture == nullptr)
 	{
-		LOG("Error loading %s texture", load_folder.c_str());
+		LOG("Error loading %s texture", tex_load_folder.c_str());
 		return false;
 	}
 
@@ -631,7 +631,14 @@ bool j1Animator::LoadMultipleAnimationBlock(const char * xml_folder, ENTITY_TYPE
 		entity_animation_block->SetId(specific_type);
 
 		//Load texture color
-		SDL_Color	tex_color = App->entities_manager->TokenStrToColor(entity_node.attribute("color").as_string());
+		SDL_Color		tex_color = App->entities_manager->TokenStrToColor(entity_node.attribute("color").as_string());
+		SDL_Texture*	specific_texture = nullptr;
+		
+		if (entity_node.attribute("spec_tex").as_string("error") != "error")
+		{
+			std::string spec_folder = name + "/" + entity_node.attribute("spec_tex").as_string();
+			specific_texture = App->tex->Load(spec_folder.c_str());
+		}
 
 		//Focus the first action node
 		pugi::xml_node action_node = entity_node.first_child();
@@ -669,7 +676,8 @@ bool j1Animator::LoadMultipleAnimationBlock(const char * xml_folder, ENTITY_TYPE
 
 				//Set all animation attributes
 				//Animation texture
-				new_animation->SetTexture(texture);
+				if(specific_texture== nullptr)new_animation->SetTexture(texture);
+				else new_animation->SetTexture(specific_texture);
 				//Animation color
 				new_animation->SetTexColor(tex_color);
 				//Animation speed

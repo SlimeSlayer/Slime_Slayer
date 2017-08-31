@@ -27,4 +27,32 @@
     </action>
 
   </entity>
+
+  <!-- Left Map Limit animation-->
+  <entity id ="left_map_limit_item" color="255/255/255/255" spec_tex="map_limit.png">
+
+    <!--Idle Action-->
+    <action enum ="idle_action" speed="0" loop="false" scale="1.0">
+
+      <direction enum="no_direction" flip="false">
+        <sprite x="0"  y="0" w="294" h="337" pX="-0.6" pY="-0.5"/>
+      </direction>
+
+    </action>
+
+  </entity>
+
+  <!-- Right Map Limit animation-->
+  <entity id ="right_map_limit_item" color="255/255/255/255" spec_tex="map_limit.png">
+
+    <!--Idle Action-->
+    <action enum ="idle_action" speed="0" loop="false" scale="1.0">
+
+      <direction enum="no_direction" flip="true">
+        <sprite x="0"  y="0" w="294" h="337" pX="-0.6" pY="-0.5"/>
+      </direction>
+
+    </action>
+
+  </entity>
 </atlas>
