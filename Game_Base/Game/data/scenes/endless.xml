@@ -16,7 +16,11 @@
   </spawn>
   <ui wave_anim_duration="3000" bar_anim_add ="1.25"/>
   <entities>
-    <!--All entities Endless data here to can divide the process in different frames -->
-    <!--<entity entity_type="creature" creature_type="npc_creature" pos_x="2000" pos_y="895"/>-->
+    <!--All entities endless data here to can divide the process in different frames -->
+    
+    <!--Items-->
+    <entity entity_type="item" item_type="left_map_limit_item" pos_x="0" pos_y="850"/>
+    <entity entity_type="item" item_type="right_map_limit_item" pos_x="5000" pos_y="850"/>
+
   </entities>
 </data>

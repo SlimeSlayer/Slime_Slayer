@@ -13,7 +13,9 @@
 
     <!--Items-->
     <entity entity_type="item" item_type="basic_box_item" items_in="coin_item/coin_item/coin_item/coin_item" pos_x="3250" pos_y="875"/>
-
+    <entity entity_type="item" item_type="left_map_limit_item" pos_x="0" pos_y="850"/>
+    <entity entity_type="item" item_type="right_map_limit_item" pos_x="5000" pos_y="850"/>
+    
     <!--NPCs-->
     <entity entity_type="creature" creature_type="standard_npc_creature" pos_x="1200" pos_y="875"/>
     <entity entity_type="creature" creature_type="lore_npc_creature" pos_x="2000" pos_y="875"/>

@@ -189,12 +189,14 @@ bool j1Render::PostUpdate()
 			SDL_Delay(delay);
 		}
 	}
+	// ------------------------------------------
 
 	//Blit the load process bar
 	if (App->is_loading && App->load_scene_enabled)
 	{
 		App->DrawLoadProcess();
 	}
+	// ------------------------------------------
 
 	// Update the current render effect ---------
 	if (!effects_queue.empty())
@@ -207,10 +209,27 @@ bool j1Render::PostUpdate()
 			if(!effects_queue.empty())effects_queue.front()->Update();
 		}
 	}
+	// ------------------------------------------
+
+	//Render Filters ----------------------------
+	/*SDL_Surface *shot = SDL_CreateRGBSurface(0, viewport.w, viewport.h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+	SDL_RenderReadPixels(renderer, &viewport, SDL_PIXELFORMAT_ARGB8888, shot->pixels, shot->pitch);
+	for (uint y = 0; y < viewport.h; y++)
+	{
+		for (uint x = 0; x < viewport.w; x++)
+		{
+			Uint32* dest_pixel = pixels + (y * viewport.w) + x;
+			unsigned char* dest_r = (unsigned char*)dest_pixel;
+			*dest_r = 0;
+		}
+	}*/
 	
+	// ------------------------------------------
+
 	// Render Present ---------------------------
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.b, background.a);
 	SDL_RenderPresent(renderer);
+	// ------------------------------------------
 
 	if (App->render->vsync && !App->win->fullscreen)SDL_GL_SwapWindow(App->win->window);
 

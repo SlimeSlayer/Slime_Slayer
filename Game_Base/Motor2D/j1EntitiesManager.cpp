@@ -388,8 +388,10 @@ void j1EntitiesManager::AddItemDefinition(const pugi::xml_node * data_node)
 	//Allocate the correct class checking the item type
 	switch (item_type)
 	{
-	case COIN_ITEM:			new_item = new Coin();			break;
-	case BASIC_BOX_ITEM:	new_item = new Items_Tank();	break;
+	case COIN_ITEM:				new_item = new Coin();			break;
+	case BASIC_BOX_ITEM:		new_item = new Items_Tank();	break;
+	case LEFT_MAP_LIMIT_ITEM:
+	case RIGHT_MAP_LIMIT_ITEM:	new_item = new Item();			break;
 	}
 	
 	//Load the new item body data
@@ -651,8 +653,10 @@ CREATURE_TYPE j1EntitiesManager::StrToCreatureType(const char * str) const
 
 ITEM_TYPE j1EntitiesManager::StrToItemType(const char * str) const
 {
-	if (strcmp(str, "basic_box_item") == 0)	return BASIC_BOX_ITEM;
-	if (strcmp(str, "coin_item") == 0)		return COIN_ITEM;
+	if (strcmp(str, "basic_box_item") == 0)			return BASIC_BOX_ITEM;
+	if (strcmp(str, "coin_item") == 0)				return COIN_ITEM;
+	if (strcmp(str, "left_map_limit_item") == 0)	return LEFT_MAP_LIMIT_ITEM;
+	if (strcmp(str, "right_map_limit_item") == 0)	return RIGHT_MAP_LIMIT_ITEM;
 	return NO_ITEM;
 }
 

@@ -47,6 +47,46 @@
       drop_impulse="5"
       drop_total_rad="0.5"   
       />
+    <!--Left Map Limit-->
+    <entity
+      body_type="item_body"
+      collision_type="map_collision"
+      listener="entities_manager"
+      body_shape="square"
+      width ="150"
+      height="150"
+      restitution="0.1"
+      friction="1.0"
+      density="150.0"
+      fixed_rotation="true"
+      interaction_type="static"
+      
+      diplomacy="neutral"
+      item_type="left_map_limit_item"
+      volatile="false"
+      name="Map Limit"
+      description="Limit the map"
+      />
+    <!--Right Map Limit-->
+    <entity
+      body_type="item_body"
+      collision_type="map_collision"
+      listener="entities_manager"
+      body_shape="square"
+      width ="150"
+      height="150"
+      restitution="0.1"
+      friction="1.0"
+      density="150.0"
+      fixed_rotation="true"
+      interaction_type="static"
+      
+      diplomacy="neutral"
+      item_type="right_map_limit_item"
+      volatile="false"
+      name="Map Limit"
+      description="Limit the map"
+      />
   </item>
   
   <!--Definitions of all the creatures-->
