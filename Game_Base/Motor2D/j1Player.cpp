@@ -171,7 +171,7 @@ bool j1Player::Update(float dt)
 
 
 	// Center camera at player position ---------
-	App->render->camera.x = -x_pos + PLAYER_CAMERA_X;
+	if (x_pos < 4050 && x_pos > 400)App->render->camera.x = -x_pos + PLAYER_CAMERA_X;
 	App->render->camera.y = -y_pos + PLAYER_CAMERA_Y;
 
 	// Check if player input is blocked ---------
