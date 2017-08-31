@@ -1,8 +1,8 @@
 #ifndef _RENDER_EFFECTS_H_
 #define _RENDER_EFFECTS_H_
 
-#define FADE_OUT_TIME 2.0f
-#define FADE_IN_TIME 1.2f
+#define FADE_OUT_TIME 0.8f
+#define FADE_IN_TIME 0.8f
 #define FADE_MARGIN 1.5f
 
 #include "SDL/include/SDL.h"

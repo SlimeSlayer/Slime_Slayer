@@ -72,7 +72,6 @@ bool Dialog_Action::Execute()
 	if (current_dialog == nullptr)
 	{
 		current_dialog = ((NPC*)actor)->GetDialogByIndex(0);
-		current_dialog->SetBoxPosition(x - current_dialog->GetBox()->w * 0.5 + App->render->camera.x, y - current_dialog->GetBox()->h + App->render->camera.y - DEFAULT_DIALOG_Y_MARGIN);
 	}
 
 	//Focus the next dialog string
@@ -88,10 +87,10 @@ bool Dialog_Action::Execute()
 			target->UnlockInput();
 			return true;
 		}
-
-		//Set the correct dialog box position
-		else current_dialog->SetBoxPosition(x - current_dialog->GetBox()->w * 0.5 + App->render->camera.x, y - current_dialog->GetBox()->h + App->render->camera.y - DEFAULT_DIALOG_Y_MARGIN);
 	}
+
+	//Update dialog location checking camera position
+	if(current_dialog != nullptr)current_dialog->SetBoxPosition(x - current_dialog->GetBox()->w * 0.5 + App->render->camera.x, y - current_dialog->GetBox()->h + App->render->camera.y - DEFAULT_DIALOG_Y_MARGIN);
 
 	//Draw the current string
 	current_dialog->Draw(false);
