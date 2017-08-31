@@ -50,7 +50,7 @@
     <!--Left Map Limit-->
     <entity
       body_type="item_body"
-      collision_type="map_collision"
+      collision_type="map_left_limit_collision"
       listener="entities_manager"
       body_shape="square"
       width ="150"
@@ -70,7 +70,7 @@
     <!--Right Map Limit-->
     <entity
       body_type="item_body"
-      collision_type="map_collision"
+      collision_type="map_right_limit_collision"
       listener="entities_manager"
       body_shape="square"
       width ="150"

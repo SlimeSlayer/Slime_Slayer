@@ -98,6 +98,7 @@ void Items_Tank::DropItems()
 		PhysBody* old_physbody = list_item._Ptr->_Myval->GetBody();
 		//Generate a new built body with the old definition
 		list_item._Ptr->_Myval->SetBody(App->physics->TransformDefToBuilt(list_item._Ptr->_Myval->GetBody()));
+		list_item._Ptr->_Myval->GetBody()->body->SetUserData(list_item._Ptr->_Myval->GetBody());
 		list_item._Ptr->_Myval->GetBody()->entity_related = list_item._Ptr->_Myval;
 
 		//Delete the old physbody

@@ -205,13 +205,13 @@ bool j1Player::Update(float dt)
 	}
 
 	// ARROWS INPUT -----------------------------
-	if (go_left_input_state == INPUT_REPEAT)
+	if (go_left_input_state == INPUT_REPEAT && !avatar->GetBody()->IsInSpecificContact(1, MAP_LEFT_LIMIT_COLLISION))
 	{
 		avatar->GetBody()->body->SetLinearVelocity(b2Vec2(-avatar->GetMovSpeed(), linear_vel.y));
 		App->GetCurrentScene()->UpdateParallax(-avatar->GetMovSpeed());
 		avatar->SetDirection(LEFT);
 	}
-	else if (go_right_input_state == INPUT_REPEAT)
+	else if (go_right_input_state == INPUT_REPEAT && !avatar->GetBody()->IsInSpecificContact(1, MAP_RIGHT_LIMIT_COLLISION))
 	{
 		avatar->GetBody()->body->SetLinearVelocity(b2Vec2(avatar->GetMovSpeed(), linear_vel.y));
 		App->GetCurrentScene()->UpdateParallax(avatar->GetMovSpeed());
@@ -223,7 +223,7 @@ bool j1Player::Update(float dt)
 	}
 
 	// JUMP INPUT -------------------------------
-	if (jump_input_state == INPUT_DOWN)
+	if (jump_input_state == INPUT_DOWN && avatar->GetBody()->IsInSpecificContact(1,MAP_COLLISION))
 	{
 		avatar->GetBody()->body->ApplyForceToCenter(b2Vec2(0.0f, -avatar->GetJumpForce()), true);
 	}

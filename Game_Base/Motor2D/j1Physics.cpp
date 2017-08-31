@@ -182,6 +182,52 @@ bool PhysBody::IsInContact()const
 	return  (body->GetContactList() != nullptr);
 }
 
+bool PhysBody::IsInSpecificContact(uint vals, ...) const
+{
+	//Check no contact case
+	b2ContactEdge* contact = body->GetContactList();
+	if (contact == nullptr)return false;
+	
+	//Open list of variables
+	va_list contact_enum_list;
+	va_start(contact_enum_list, vals);
+	
+	//Fill a vector with the values of the list
+	std::vector<COLLISION_TYPE> type_vec;
+	for (uint k = 0; k < vals; k++)
+	{
+		type_vec.push_back(va_arg(contact_enum_list, COLLISION_TYPE));
+	}
+
+	//Iterate all the contacts
+	while (contact != nullptr)
+	{
+		/*External bodies are in B fixture*/
+		PhysBody* user_data = (PhysBody*)contact->contact->GetFixtureB()->GetBody()->GetUserData();
+		//No user data case
+		if (user_data == NULL)
+		{
+			contact = contact->next;
+			continue;
+		}
+		COLLISION_TYPE ty = user_data->collision_type;
+		
+		//Iterate the entered types
+		for (uint k = 0; k < vals; k++)
+		{
+			if (type_vec[k] == ty)return true;
+		}
+
+		//Focus the next contact
+		contact = contact->next;
+	}
+
+	//Close list of variables
+	va_end(contact_enum_list);
+
+	return false;
+}
+
 inline void PhysBody::HandleContact(PhysBody* contact_body)
 {
 	/*//Check if collided body is in the bottom
@@ -899,13 +945,13 @@ void j1Physics::SetFixture(b2FixtureDef& fixture, COLLISION_TYPE type)
 	switch (type)
 	{
 	case PLAYER_COLLISION:
-		fixture.filter.maskBits = MAP_COLLISION | ITEM_COLLISION | STATIC_ITEM_COLLISION | ENEMY_SENSOR_COLLISION | NEUTRAL_SENSOR_COLLISION;
+		fixture.filter.maskBits = MAP_COLLISION | MAP_LEFT_LIMIT_COLLISION | MAP_RIGHT_LIMIT_COLLISION | ITEM_COLLISION | STATIC_ITEM_COLLISION | ENEMY_SENSOR_COLLISION | NEUTRAL_SENSOR_COLLISION;
 		break;
 	case MAP_COLLISION:
 		fixture.filter.maskBits = PLAYER_COLLISION | ITEM_COLLISION | GHOST_COLLISION | ENEMY_COLLISION;
 		break;
 	case ITEM_COLLISION:
-		fixture.filter.maskBits = PLAYER_COLLISION | MAP_COLLISION | ITEM_COLLISION;
+		fixture.filter.maskBits = PLAYER_COLLISION | MAP_LEFT_LIMIT_COLLISION | MAP_RIGHT_LIMIT_COLLISION | MAP_COLLISION | ITEM_COLLISION;
 		break;
 	case STATIC_ITEM_COLLISION:
 		fixture.filter.maskBits = PLAYER_COLLISION;
@@ -914,7 +960,7 @@ void j1Physics::SetFixture(b2FixtureDef& fixture, COLLISION_TYPE type)
 		fixture.filter.maskBits = ALLY_SENSOR_COLLISION;
 		break;
 	case ENEMY_COLLISION:
-		fixture.filter.maskBits = MAP_COLLISION | ALLY_SENSOR_COLLISION;
+		fixture.filter.maskBits = MAP_COLLISION | MAP_LEFT_LIMIT_COLLISION | MAP_RIGHT_LIMIT_COLLISION | ALLY_SENSOR_COLLISION;
 		break;
 	case GHOST_COLLISION:
 		fixture.filter.maskBits = MAP_COLLISION;
@@ -1048,6 +1094,8 @@ COLLISION_TYPE j1Physics::StrToCollisionType(const char * str) const
 	if (strcmp(str, "npc_collision") == 0)				return COLLISION_TYPE::NPC_COLLISION;
 	if (strcmp(str, "enemy_collision") == 0)			return COLLISION_TYPE::ENEMY_COLLISION;
 	if (strcmp(str, "map_collision") == 0)				return COLLISION_TYPE::MAP_COLLISION;
+	if (strcmp(str, "map_left_limit_collision") == 0)	return COLLISION_TYPE::MAP_LEFT_LIMIT_COLLISION;
+	if (strcmp(str, "map_right_limit_collision") == 0)	return COLLISION_TYPE::MAP_RIGHT_LIMIT_COLLISION;
 	if (strcmp(str, "item_collision") == 0)				return COLLISION_TYPE::ITEM_COLLISION;
 	if (strcmp(str, "static_item_collision") == 0)		return COLLISION_TYPE::STATIC_ITEM_COLLISION;
 	if (strcmp(str, "neutral_sensor_collision") == 0)	return COLLISION_TYPE::NEUTRAL_SENSOR_COLLISION;

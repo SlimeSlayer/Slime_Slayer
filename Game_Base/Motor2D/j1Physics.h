@@ -28,13 +28,15 @@ enum COLLISION_TYPE
 	NPC_COLLISION = 0x0002,
 	ENEMY_COLLISION = 0x0004,
 	MAP_COLLISION = 0x0008,
-	ITEM_COLLISION = 0x0010,
-	STATIC_ITEM_COLLISION = 0x0020,
-	GHOST_COLLISION = 0x0040,
+	MAP_LEFT_LIMIT_COLLISION = 0x0010,
+	MAP_RIGHT_LIMIT_COLLISION = 0x0020,
+	ITEM_COLLISION = 0x0040,
+	STATIC_ITEM_COLLISION = 0x0080,
+	GHOST_COLLISION = 0x0100,
 	
-	ALLY_SENSOR_COLLISION = 0x0080,
-	ENEMY_SENSOR_COLLISION = 0x0100,
-	NEUTRAL_SENSOR_COLLISION = 0x0200
+	ALLY_SENSOR_COLLISION = 0x0200,
+	ENEMY_SENSOR_COLLISION = 0x0400,
+	NEUTRAL_SENSOR_COLLISION = 0x0800
 	
 	/*4,8,16,32,...*/
 };
@@ -104,6 +106,7 @@ public:
 	bool		Contains(int x, int y) const;
 	int			RayCast(int x1, int y1, int x2, int y2, float& normal_x, float& normal_y) const;
 	bool		IsInContact()const;
+	bool		IsInSpecificContact(uint vals,...)const;
 	inline void	HandleContact(PhysBody* contact_body);
 
 public:
