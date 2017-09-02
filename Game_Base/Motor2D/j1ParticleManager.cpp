@@ -335,7 +335,11 @@ PARTICLE_TYPE j1ParticleManager::StrToParticleType(const char * str) const
 
 PARTICLE_ANIMATION_ID j1ParticleManager::StrToParticleAnimationID(const char * str) const
 {
-	if (strcmp(str, "idle_slime") == 0)	return IDLE_SLIME;
+	if (strcmp(str, "idle_slime") == 0)			return IDLE_SLIME;
+	if (strcmp(str, "slash_left_down") == 0)	return SLASH_LEFT_DOWN;
+	if (strcmp(str, "slash_left_up") == 0)		return SLASH_LEFT_UP;
+	if (strcmp(str, "slash_right_down") == 0)	return SLASH_RIGHT_DOWN;
+	if (strcmp(str, "slash_right_up") == 0)		return SLASH_RIGHT_UP;
 	return NO_ANIM_ID;
 }
 

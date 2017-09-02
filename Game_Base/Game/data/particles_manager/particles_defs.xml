@@ -1,22 +1,35 @@
 <data>
   <!--Definitions of all the particles-->
+  <!--Main Menu Particles-->
   <particle
-  particle_type ="main_menu_slime_particle"
-  initial_vel_x="0.0"
-  initial_vel_y="-20.0"
-  acceleration_x="0.0"
-  acceleration_y="-150.0"
-  volatile="true"
-  life_time="5000"
-  animation_id="idle_slime"
+    particle_type ="main_menu_slime_particle"
+    initial_vel_x="0.0"
+    initial_vel_y="-20.0"
+    acceleration_x="0.0"
+    acceleration_y="-150.0"
+    volatile="true"
+    life_time="5000"
+    animation_id="idle_slime"
     />
+  <!--Slash Particles-->
+  <particle
+    particle_type ="main_menu_slime_particle"
+    initial_vel_x="0.0"
+    initial_vel_y="-20.0"
+    acceleration_x="0.0"
+    acceleration_y="-150.0"
+    volatile="true"
+    life_time="5000"
+    animation_id="idle_slime"
+    />
+  <!--Text Particles-->
   <particle
     particle_type ="ally_hitpoints_particle"
     font_id="ally_hitpoints_font"
     initial_vel_x="0.0"
     initial_vel_y="-20.0"
     acceleration_x="0.0"
-    acceleration_y="-150.0"
+    acceleration_y="-250.0"
     volatile="true"
     life_time="1500"
     />
@@ -26,7 +39,7 @@
     initial_vel_x="0.0"
     initial_vel_y="-20.0"
     acceleration_x="0.0"
-    acceleration_y="-150.0"
+    acceleration_y="-250.0"
     volatile="true"
     life_time="1500"
     />
@@ -46,9 +59,9 @@
     initial_vel_x="0.0"
     initial_vel_y="-20.0"
     acceleration_x="0.0"
-    acceleration_y="-150.0"
+    acceleration_y="-100.0"
     volatile="true"
-    life_time="1500"
+    life_time="2500"
     />
 
 </data>
