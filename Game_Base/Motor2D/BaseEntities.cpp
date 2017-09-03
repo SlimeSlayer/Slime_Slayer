@@ -60,7 +60,12 @@ void Entity::Draw()
 		int x = 0, y = 0;
 		this->body->GetPosition(x, y);
 		const Sprite* sprite = current_animation->GetCurrentSprite();
-		App->render->CallBlit(current_animation->GetTexture(), x, y, sprite->GetFrame(), false, current_animation->GetSpritesHorizontalFlip(), current_animation->GetSpritesVerticalFlip(), current_animation->GetSpritesScale(), 0, 255, -sprite->GetXpivot(), -sprite->GetYpivot(), current_animation->GetTexColor());
+		SDL_Color color = current_animation->GetTexColor();
+		if (worker.GetCurrentActionType() == LG_STUN_ACTION)
+		{
+			color = ((Stun_Action*)worker.GetCurrentAction())->blit_color;
+		}
+		App->render->CallBlit(current_animation->GetTexture(), x, y, sprite->GetFrame(), false, current_animation->GetSpritesHorizontalFlip(), current_animation->GetSpritesVerticalFlip(), current_animation->GetSpritesScale(), 0, 255, -sprite->GetXpivot(), -sprite->GetYpivot(), color);
 	}
 }
 
@@ -248,7 +253,12 @@ void Creature::Draw()
 		int x = 0, y = 0;
 		this->body->GetPosition(x, y);
 		const Sprite* sprite = current_animation->GetCurrentSprite();
-		App->render->CallBlit(current_animation->GetTexture(), x, y, sprite->GetFrame(), false, current_animation->GetSpritesHorizontalFlip(), current_animation->GetSpritesVerticalFlip(), current_animation->GetSpritesScale(), 0, 255, -sprite->GetXpivot(), -sprite->GetYpivot(), current_animation->GetTexColor());
+		SDL_Color color = current_animation->GetTexColor();
+		if (worker.GetCurrentActionType() == LG_STUN_ACTION)
+		{
+			color = ((Stun_Action*)worker.GetCurrentAction())->blit_color;
+		}
+		App->render->CallBlit(current_animation->GetTexture(), x, y, sprite->GetFrame(), false, current_animation->GetSpritesHorizontalFlip(), current_animation->GetSpritesVerticalFlip(), current_animation->GetSpritesScale(), 0, 255, -sprite->GetXpivot(), -sprite->GetYpivot(), color);
 	}
 }
 

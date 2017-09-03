@@ -331,7 +331,7 @@ bool Basic_Attack_Action::Init()
 
 	//Start the attack rate timer
 	attack_timer.Start();
-
+	
 	return true;
 }
 
@@ -360,6 +360,10 @@ bool Basic_Attack_Action::Execute()
 		//Apply damage
 		target->SetCurrentLife(MAX(target->GetCurrentLife() - ((Creature*)actor)->GetAttackHitPoints(), 0));
 		
+		//Add stun effect at hit target
+		SDL_Color hit_color = { 255,255,255,255 };
+		target->worker.AddPriorizedAction(target->worker.GenerateAction(LG_ACTION_TYPE::LG_STUN_ACTION, target, 50, hit_color));
+
 		//Reset attack timer
 		attack_timer.Start();
 
@@ -409,6 +413,12 @@ bool Simple_Attack_Action::Execute()
 	{
 		target->worker.AddPriorizedAction(target->worker.GenerateAction(LG_ACTION_TYPE::LG_DIE_ACTION, target));
 	}
+	else
+	{
+		//Add stun effect at hit target
+		SDL_Color hit_color = { 255,255,255,255 };
+		target->worker.AddPriorizedAction(target->worker.GenerateAction(LG_ACTION_TYPE::LG_STUN_ACTION, target, 100, hit_color));
+	}
 	return true;
 }
 /// ---------------------------------------------
@@ -451,4 +461,30 @@ bool Die_Action::Execute()
 	}
 
 	return true;
+}
+/// ---------------------------------------------
+
+/// Stun_Action ---------------------------------
+// Constructors =================================
+Stun_Action::Stun_Action() :Action(LG_STUN_ACTION)
+{
+
+}
+
+// Destructors ==================================
+Stun_Action::~Stun_Action()
+{
+
+}
+
+// Game Loop ====================================
+bool Stun_Action::Init()
+{
+	stun_timer.Start();
+	return true;
+}
+
+bool Stun_Action::Execute()
+{
+	return stun_timer.Read() > time;
 }

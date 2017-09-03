@@ -8,6 +8,7 @@
 #include "p2Point.h"
 #include "j1Timer.h"
 #include "j1Physics.h"
+#include "SDL/include/SDL.h"
 
 class Entity;
 class Creature;
@@ -200,6 +201,29 @@ public:
 
 	//Game Loop -------------
 	bool Execute();
+
+};
+/// ---------------------------------------------
+
+/// Stun_Action ----------------------------------
+class Stun_Action : public Action
+{
+public:
+
+	Stun_Action();
+	~Stun_Action();
+
+public:
+
+	//Game Loop -------------
+	bool Init();
+	bool Execute();
+
+public:
+
+	j1Timer		stun_timer;
+	uint		time = 0;
+	SDL_Color	blit_color = { 255,255,255,255 };
 
 };
 /// ---------------------------------------------

@@ -25,7 +25,8 @@ private:
 public:
 
 	//Get Methods -----------
-	Action*	GetCurrentAction()const;
+	Action*			GetCurrentAction()const;
+	LG_ACTION_TYPE	GetCurrentActionType()const;
 
 	//Actions Factory -------
 	/*
@@ -36,9 +37,9 @@ public:
 	- LG_BASIC_ATTACK_ACTION: Entity* actor, Creature* target
 	- LG_SIMPLE_ATTACK_ACTION: Entity* actor, Creature* target
 	- LG_DIE_ACTION: Entity* actor
-	- LG_STUN_ACTION: Entity* actor, uint time
+	- LG_STUN_ACTION: Entity* actor, uint time, SDL_Color blit_color
 	*/
-	Action*					GenerateAction(LG_ACTION_TYPE type, ...);
+	Action*	GenerateAction(LG_ACTION_TYPE type, ...);
 	
 	//Actions Management ----
 	void	AddAction(const Action* new_act);

@@ -51,6 +51,12 @@ Action * Worker::GetCurrentAction() const
 	return current_action;
 }
 
+LG_ACTION_TYPE Worker::GetCurrentActionType() const
+{
+	if (current_action == nullptr)return LG_NO_ACTION;
+	return current_action->action_type;
+}
+
 // Action Factory =====================
 Action * Worker::GenerateAction(LG_ACTION_TYPE type, ...)
 {
@@ -120,6 +126,12 @@ Action * Worker::GenerateAction(LG_ACTION_TYPE type, ...)
 		break;
 
 	case LG_STUN_ACTION:
+		//Generate die action
+		new_act = new Stun_Action();
+		//Set action stats
+		new_act->actor = va_arg(variables, Entity*);
+		((Stun_Action*)new_act)->time = va_arg(variables, int);
+		((Stun_Action*)new_act)->blit_color = va_arg(variables, SDL_Color);
 		break;
 	}
 

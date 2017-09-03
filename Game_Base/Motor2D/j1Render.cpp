@@ -450,10 +450,8 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	
 	//Texture flip
 	SDL_RendererFlip flip = SDL_RendererFlip::SDL_FLIP_NONE;
-	if (vertical_flip && horizontal_flip)flip = (SDL_RendererFlip)(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL);
-	else if (vertical_flip)flip = SDL_FLIP_VERTICAL;
-	else if(horizontal_flip)flip = SDL_FLIP_HORIZONTAL;
-
+	vertical_flip ? horizontal_flip ? flip = (SDL_RendererFlip)(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL) : flip = SDL_FLIP_VERTICAL : horizontal_flip ? flip = SDL_FLIP_HORIZONTAL : flip = SDL_FLIP_NONE;
+	
 	if(SDL_RenderCopyEx(renderer, texture, section, &rect, angle, p, flip))
 	{
 		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
