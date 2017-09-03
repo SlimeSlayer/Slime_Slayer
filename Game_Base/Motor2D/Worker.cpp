@@ -1,4 +1,6 @@
 #include "Worker.h"
+#include <stdarg.h>
+#include "p2Log.h"
 
 /// Worker --------------------------------------
 // Constructors =======================
@@ -50,79 +52,82 @@ Action * Worker::GetCurrentAction() const
 }
 
 // Action Factory =====================
-Dialog_Action* Worker::GenerateDialogAction(Entity * actor, Player * target, uint priority)
+Action * Worker::GenerateAction(LG_ACTION_TYPE type, ...)
 {
-	//Generate dialog action
-	Dialog_Action* new_act = new Dialog_Action();
-	//Set action stats
-	new_act->actor = actor;
-	new_act->target = target;
-	new_act->priority = priority;
-	//Return the generated action
-	return new_act;
-}
+	//Build list of variables
+	va_list variables;
+	va_start(variables, type);
 
-Spawn_Delay_Action * Worker::GenerateSpawnDelayAction(Entity * actor, uint delay)
-{
-	//Generate spawn delay action
-	Spawn_Delay_Action* new_act = new Spawn_Delay_Action();
-	//Set action stats
-	new_act->actor = actor;
-	new_act->delay = delay;
-	//Return the generated action
-	return new_act;
-}
+	//Empty action pointer
+	Action* new_act = nullptr;
 
-Basic_Attack_Action * Worker::GenerateBasicAttackAction(Entity * actor, Creature* target)
-{
-	//Generate basic attack action
-	Basic_Attack_Action* new_act = new Basic_Attack_Action();
-	//Set action stats
-	new_act->actor = actor;
-	new_act->target = target;
-	//Return the generated action
-	return new_act;
-}
+	//Allocate specific class depending of the action type
+	switch (type)
+	{
+	case LG_DIALOG_ACTION:
+		//Generate dialog action
+		new_act = new Dialog_Action();
+		//Set action stats
+		new_act->actor = va_arg(variables, Entity*);
+		((Dialog_Action*)new_act)->target = va_arg(variables, Player*);
+		break;
 
-Simple_Attack_Action * Worker::GenerateSimpleAttackAction(Entity * actor, Creature * target)
-{
-	//Generate simple attack action
-	Simple_Attack_Action* new_act = new Simple_Attack_Action();
-	//Set action stats
-	new_act->actor = actor;
-	new_act->target = target;
-	//Return the generated action
-	return new_act;
-}
+	case LG_SPAWN_DELAY_ACTION:
+		//Generate spawn delay action
+		new_act = new Spawn_Delay_Action();
+		//Set action stats
+		new_act->actor = va_arg(variables, Entity*);
+		((Spawn_Delay_Action*)new_act)->delay = va_arg(variables, int);
+		break;
 
-Move_Action * Worker::GenerateMoveAction(Entity * actor, const iPoint& destination)
-{
-	//Generate move action
-	Move_Action* new_act = new Move_Action(destination);
-	//Set action stats
-	new_act->actor = actor;
-	//Return the generated action
-	return new_act;
-}
-Move_To_Target_Action * Worker::GenerateMoveToTargetAction(Entity * actor, Entity * target)
-{
-	//Generate move to target action
-	Move_To_Target_Action* new_act = new Move_To_Target_Action();
-	//Set action stats
-	new_act->actor = actor;
-	new_act->target = (Creature*)target;
-	//Return the generated action
-	return new_act;
-}
+	case LG_MOVE_ACTION:
+		//Generate move action
+		new_act = new Move_Action();
+		//Set action stats
+		new_act->actor = va_arg(variables, Entity*);
+		((Move_Action*)new_act)->destination = va_arg(variables, iPoint);
+		break;
 
-Die_Action * Worker::GenerateDieAction(Entity * actor)
-{
-	//Generate die action
-	Die_Action* new_act = new Die_Action();
-	//Set action stats
-	new_act->actor = actor;
+	case LG_MOVE_TO_TARGET_ACTION:
+		//Generate move to target action
+		new_act = new Move_To_Target_Action();
+		//Set action stats
+		new_act->actor = va_arg(variables, Entity*);
+		((Move_To_Target_Action*)new_act)->target = va_arg(variables, Creature*);
+		break;
+
+	case LG_BASIC_ATTACK_ACTION:
+		//Generate basic attack action
+		new_act = new Basic_Attack_Action();
+		//Set action stats
+		new_act->actor = va_arg(variables, Entity*);
+		((Basic_Attack_Action*)new_act)->target = va_arg(variables, Creature*);
+		break;
+
+	case LG_SIMPLE_ATTACK_ACTION:
+		//Generate simple attack action
+		new_act = new Simple_Attack_Action();
+		//Set action stats
+		new_act->actor = va_arg(variables, Entity*);
+		((Simple_Attack_Action*)new_act)->target = va_arg(variables, Creature*);
+		break;
+
+	case LG_DIE_ACTION:
+		//Generate die action
+		new_act = new Die_Action();
+		//Set action stats
+		new_act->actor = va_arg(variables, Entity*);
+		break;
+
+	case LG_STUN_ACTION:
+		break;
+	}
+
 	//Return the generated action
-	return new_act;
+	if (new_act != nullptr)return new_act;
+	else LOG("Error generating logical action!");
+
+	return nullptr;
 }
 
 // Actions Management =================

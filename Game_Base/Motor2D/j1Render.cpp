@@ -312,7 +312,9 @@ Render_Effect* j1Render::CallRenderEffect(RENDER_EF_TYPE type, ...)
 		bool	fade_audio = va_arg(variables, bool);
 		float	fade_time = va_arg(variables, double);
 		float	start_alpha = va_arg(variables, double);
+		start_alpha > 255 ? start_alpha = 255 : start_alpha < 0 ? start_alpha = 0 : LOG("Correct start alpha");
 		float	end_alpha = va_arg(variables, double);
+		end_alpha > 255 ? end_alpha = 255 : end_alpha < 0 ? end_alpha = 0 : LOG("Correct end alpha");
 		SDL_Color color = va_arg(variables, SDL_Color);
 		app_function_ptr ptr = va_arg(variables, app_function_ptr);
 

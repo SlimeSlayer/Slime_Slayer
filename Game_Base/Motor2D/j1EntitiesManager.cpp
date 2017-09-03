@@ -370,7 +370,7 @@ void j1EntitiesManager::BeginSensorCollision(PhysBody * A, PhysBody * B)
 		//ENEMY ATK action ----------------------
 		if (B->body_type == PLAYER_BODY)
 		{
-			Action* act = A->entity_related->worker.GenerateBasicAttackAction(A->entity_related, (Creature*)B->entity_related);
+			Action* act = A->entity_related->worker.GenerateAction(LG_ACTION_TYPE::LG_BASIC_ATTACK_ACTION, A->entity_related, (Creature*)B->entity_related);
 			A->entity_related->worker.AddAction(act);
 		}
 	}

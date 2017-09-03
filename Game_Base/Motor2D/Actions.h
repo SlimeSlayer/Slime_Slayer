@@ -21,9 +21,11 @@ enum LG_ACTION_TYPE
 	LG_DIALOG_ACTION,
 	LG_SPAWN_DELAY_ACTION,
 	LG_MOVE_ACTION,
+	LG_MOVE_TO_TARGET_ACTION,
 	LG_BASIC_ATTACK_ACTION,
 	LG_SIMPLE_ATTACK_ACTION,
-	LG_DIE_ACTION
+	LG_DIE_ACTION,
+	LG_STUN_ACTION
 };
 
 /// Action --------------------------------------
@@ -105,7 +107,7 @@ class Move_Action : public Action
 {
 public:
 
-	Move_Action(const iPoint& destination);
+	Move_Action();
 	~Move_Action();
 
 public:

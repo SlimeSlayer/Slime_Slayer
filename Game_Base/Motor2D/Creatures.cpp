@@ -133,7 +133,7 @@ NPC::~NPC()
 // Actions ============================
 void NPC::StartDialog(Player* target)
 {
-	Action* act = worker.GenerateDialogAction(this, target);
+	Action* act = worker.GenerateAction(LG_ACTION_TYPE::LG_DIALOG_ACTION, this, target);
 	worker.AddAction(act);
 }
 

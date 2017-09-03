@@ -253,7 +253,7 @@ void j1Player::OnSensorCollision(PhysBody * A, PhysBody * B)
 		//Check if B is an enemy
 		if (B->entity_related->GetDiplomacy() == ENEMY)
 		{
-			A->entity_related->worker.AddAction(A->entity_related->worker.GenerateSimpleAttackAction(A->entity_related, (Creature*)B->entity_related));
+			A->entity_related->worker.AddAction(A->entity_related->worker.GenerateAction(LG_ACTION_TYPE::LG_SIMPLE_ATTACK_ACTION, A->entity_related, (Creature*)B->entity_related));
 		}
 	}
 }

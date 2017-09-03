@@ -166,7 +166,7 @@ bool Spawn_Delay_Action::Execute()
 
 /// Move_Action ---------------------------------
 // Constructors =======================
-Move_Action::Move_Action(const iPoint & destination) : Action(LG_MOVE_ACTION), destination(destination)
+Move_Action::Move_Action() : Action(LG_MOVE_ACTION), destination(destination)
 {
 
 }
@@ -225,7 +225,7 @@ bool Move_Action::Execute()
 
 /// Move_To_Target_Action -----------------------
 // Constructors =======================
-Move_To_Target_Action::Move_To_Target_Action()
+Move_To_Target_Action::Move_To_Target_Action() :Action(LG_MOVE_TO_TARGET_ACTION)
 {
 
 }
@@ -349,7 +349,7 @@ bool Basic_Attack_Action::Execute()
 	//If is not in range actor needs to move
 	if (((Intelligent_Creature*)actor)->GetVisionArea()->width < abs(tar_x - act_x))
 	{
-		Action* act = actor->worker.GenerateMoveToTargetAction(actor, target);
+		Action* act = actor->worker.GenerateAction(LG_ACTION_TYPE::LG_MOVE_TO_TARGET_ACTION, actor, target);
 		actor->worker.AddPriorizedAction(act);
 		return false;
 	}
@@ -370,7 +370,7 @@ bool Basic_Attack_Action::Execute()
 	//When target is dead actor stops
 	if (((Creature*)target)->GetCurrentLife() == 0)
 	{
-		target->worker.AddPriorizedAction(target->worker.GenerateDieAction(target));
+		target->worker.AddPriorizedAction(target->worker.GenerateAction(LG_ACTION_TYPE::LG_DIE_ACTION, target));
 		return true;
 	}
 
@@ -407,7 +407,7 @@ bool Simple_Attack_Action::Execute()
 	//If the target is dead call die action
 	if (target->GetCurrentLife() == 0)
 	{
-		target->worker.AddPriorizedAction(target->worker.GenerateDieAction(target));
+		target->worker.AddPriorizedAction(target->worker.GenerateAction(LG_ACTION_TYPE::LG_DIE_ACTION, target));
 	}
 	return true;
 }
@@ -415,7 +415,7 @@ bool Simple_Attack_Action::Execute()
 
 /// Die_Action ----------------------------------
 // Constructors =======================
-Die_Action::Die_Action()
+Die_Action::Die_Action() :Action(LG_DIE_ACTION)
 {
 
 }

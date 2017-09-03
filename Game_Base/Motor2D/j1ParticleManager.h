@@ -73,6 +73,11 @@ public:
 
 	// Factory --------------
 	Particle*	GenerateTextParticle(const Entity* target, PARTICLE_TYPE particle_type, uint value);
+	
+	/*
+	- MAIN_MENU_SLIME_PARTICLE: none
+	- SLASH_PARTICLE: PARTICLE_ANIMATION_ID animation_id
+	*/
 	Particle*	GenerateAnimationParticle(PARTICLE_TYPE particle_type, ...);
 
 	Animation*	GetParticleAnimationByID(PARTICLE_ANIMATION_ID id);

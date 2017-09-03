@@ -111,6 +111,7 @@ public:
 	//Add render effect ------
 	/*
 	- FADE_EFFECT: bool fade_music, float fade_time. float start_alpha, float end_alpha, SDL_Color color, function_callback
+	- LAYER_EFFECT: SDL_Color color
 	*/
 	Render_Effect*	CallRenderEffect(RENDER_EF_TYPE type, ...);
 

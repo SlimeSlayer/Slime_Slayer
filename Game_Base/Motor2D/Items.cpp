@@ -117,7 +117,7 @@ void Items_Tank::DropItems()
 		App->animator->EntityPlay(list_item._Ptr->_Myval);
 
 		//Items dropped have a ghost delay
-		Action* act = list_item._Ptr->_Myval->worker.GenerateSpawnDelayAction(list_item._Ptr->_Myval);
+		Action* act = list_item._Ptr->_Myval->worker.GenerateAction(LG_ACTION_TYPE::LG_SPAWN_DELAY_ACTION, list_item._Ptr->_Myval, 500);
 		list_item._Ptr->_Myval->worker.AddAction(act);
 
 		//Check dropped item volatility & reset delete timer
