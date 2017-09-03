@@ -5,7 +5,7 @@
     <sprite x="21" y="4" w="18" h="16" pX="-0.5" pY="-0.5"/>
   </animation>
   <!--Left Slash Particle Animation-->
-  <animation id="left_slash" texture="slash_effect.png" tex_color="255/255/255/255" loop="true" speed="100" scale="1.0" flip_sprites="false">
+  <animation id="slash_left_down" texture="slash_effect.png" tex_color="255/255/255/255" loop="false" speed="50" scale="1.0" flip_sprites="false">
     <sprite x="0"   y="0" w="207" h="181" pX="-0.5" pY="-0.5"/>
     <sprite x="207" y="0" w="207" h="181" pX="-0.5" pY="-0.5"/>
     <sprite x="414" y="0" w="207" h="181" pX="-0.5" pY="-0.5"/>

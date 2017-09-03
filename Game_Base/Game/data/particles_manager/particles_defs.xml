@@ -13,14 +13,13 @@
     />
   <!--Slash Particles-->
   <particle
-    particle_type ="main_menu_slime_particle"
+    particle_type ="slash_particle"
     initial_vel_x="0.0"
-    initial_vel_y="-20.0"
+    initial_vel_y="0.0"
     acceleration_x="0.0"
-    acceleration_y="-150.0"
+    acceleration_y="0.0"
     volatile="true"
-    life_time="5000"
-    animation_id="idle_slime"
+    life_time="225"
     />
   <!--Text Particles-->
   <particle

@@ -224,6 +224,7 @@ bool j1ParticleManager::AddParticleDefinition(const pugi::xml_node * data_node)
 		need_font = true;
 		break;
 	case MAIN_MENU_SLIME_PARTICLE:
+	case SLASH_PARTICLE:
 		new_particle = new Animated_Particle();
 		need_animation = true;
 		break;
@@ -330,6 +331,7 @@ PARTICLE_TYPE j1ParticleManager::StrToParticleType(const char * str) const
 	if (strcmp(str, "experience_points_particle") == 0)		return EXPERIENCE_POINTS_PARTICLE;
 	if (strcmp(str, "level_up_particle") == 0)				return LEVEL_UP_PARTICLE;
 	if (strcmp(str, "main_menu_slime_particle") == 0)		return MAIN_MENU_SLIME_PARTICLE;
+	if (strcmp(str, "slash_particle") == 0)					return SLASH_PARTICLE;
 	return NO_PARTICLE;
 }
 
@@ -353,7 +355,8 @@ bool j1ParticleManager::IsTextType(PARTICLE_TYPE type) const
 
 bool j1ParticleManager::IsAnimationType(PARTICLE_TYPE type) const
 {
-	return (type == MAIN_MENU_SLIME_PARTICLE);
+	return (type == MAIN_MENU_SLIME_PARTICLE ||
+			type == SLASH_PARTICLE);
 }
 
 // Functionality ================================
@@ -432,10 +435,13 @@ Particle * j1ParticleManager::GenerateTextParticle(const Entity * target, PARTIC
 	((Static_Text_Particle*)new_particle)->SetTexture(tex);
 
 	//Set position checking all the current stats
-	int x = 0, y = 0, w = 0;
-	target->GetBody()->GetPosition(x, y);
-	SDL_QueryTexture(tex, NULL, NULL, &w, NULL);
-	new_particle->SetPosition((float)x - (w * 0.5f), (float)y - target->GetBody()->height);
+	if (target != nullptr)
+	{
+		int x = 0, y = 0, w = 0;
+		target->GetBody()->GetPosition(x, y);
+		SDL_QueryTexture(tex, NULL, NULL, &w, NULL);
+		new_particle->SetPosition((float)x - (w * 0.5f), (float)y - target->GetBody()->height);
+	}
 
 	if (new_particle->GetVolatile())
 	{
@@ -449,7 +455,7 @@ Particle * j1ParticleManager::GenerateTextParticle(const Entity * target, PARTIC
 	return new_particle;
 }
 
-Particle * j1ParticleManager::GenerateAnimationParticle(PARTICLE_TYPE particle_type)
+Particle * j1ParticleManager::GenerateAnimationParticle(PARTICLE_TYPE particle_type, ...)
 {
 	//Check particle type
 	if (!IsAnimationType(particle_type))
@@ -478,13 +484,25 @@ Particle * j1ParticleManager::GenerateAnimationParticle(PARTICLE_TYPE particle_t
 		return nullptr;
 	}
 
+	//Get specific variables
+	va_list variables;
+	va_start(variables, particle_type);
+
 	//Allocate the correct particle class
 	switch (particle_type)
 	{
 	case MAIN_MENU_SLIME_PARTICLE:
 		new_particle = new Animated_Particle(*(Animated_Particle*)particle_template);
 		break;
+	case SLASH_PARTICLE:
+		new_particle = new Animated_Particle(*(Animated_Particle*)particle_template);
+		new_particle->SetAnimation(GetParticleAnimationByID(va_arg(variables, PARTICLE_ANIMATION_ID)));
+		break;
 	}
+
+
+
+
 
 	//Add the generated particle at the current particle for update
 	current_particles.push_back(new_particle);

@@ -73,7 +73,7 @@ public:
 
 	// Factory --------------
 	Particle*	GenerateTextParticle(const Entity* target, PARTICLE_TYPE particle_type, uint value);
-	Particle*	GenerateAnimationParticle(PARTICLE_TYPE particle_type);
+	Particle*	GenerateAnimationParticle(PARTICLE_TYPE particle_type, ...);
 
 	Animation*	GetParticleAnimationByID(PARTICLE_ANIMATION_ID id);
 };

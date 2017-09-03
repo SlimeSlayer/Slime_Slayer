@@ -193,7 +193,7 @@ Animated_Particle::Animated_Particle()
 
 Animated_Particle::Animated_Particle(const Animated_Particle & copy) :Particle(copy)
 {
-	animation = new Animation(*copy.animation);
+	if(copy.animation != nullptr)animation = new Animation(*copy.animation);
 }
 
 // Destructors ==================================

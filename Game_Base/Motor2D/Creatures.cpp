@@ -253,6 +253,9 @@ void Player::AttackLeft()
 	w = this->body->GetWidth();
 	h = this->body->GetHeight();
 	current_attack_area->SetPosition(x - w * 1.5, y + h * -0.25);
+	//Generate slash particle
+	Particle* slash_particle = App->particle_manager->GenerateAnimationParticle(PARTICLE_TYPE::SLASH_PARTICLE, PARTICLE_ANIMATION_ID::SLASH_LEFT_DOWN);
+	slash_particle->SetPosition(x - w * 1.5, y + h * -0.25);
 	//Reset attack timer
 	attack_timer.Start();
 }
