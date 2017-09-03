@@ -5,7 +5,7 @@
     <sprite x="21" y="4" w="18" h="16" pX="-0.5" pY="-0.5"/>
   </animation>
   <!--Left Down Slash Particle Animation-->
-  <animation id="slash_left_down" texture="slash_effect.png" tex_color="255/255/255/255" loop="false" speed="50" scale="1.0"  h_flip_sprites="false" v_flip_sprites="false">
+  <animation id="slash_left_down" texture="slash_effect.png" tex_color="255/255/255/255" loop="false" speed="40" scale="1.0"  h_flip_sprites="false" v_flip_sprites="false">
     <sprite x="0"   y="0" w="207" h="181" pX="-0.5" pY="-0.5" opacity="150"/>
     <sprite x="207" y="0" w="207" h="181" pX="-0.5" pY="-0.5" opacity="200"/>
     <sprite x="414" y="0" w="207" h="181" pX="-0.5" pY="-0.5" opacity="250"/>
@@ -13,9 +13,22 @@
     <sprite x="207" y="181" w="207" h="181" pX="-0.5" pY="-0.5" opacity="150"/>
   </animation>
   <!--Left Up Slash Particle Animation-->
-
+  <animation id="slash_left_up" texture="slash_effect.png" tex_color="255/255/255/255" loop="false" speed="40" scale="1.0"  h_flip_sprites="false" v_flip_sprites="true">
+    <sprite x="0"   y="0" w="207" h="181" pX="-0.5" pY="-0.5" opacity="150"/>
+    <sprite x="207" y="0" w="207" h="181" pX="-0.5" pY="-0.5" opacity="200"/>
+    <sprite x="414" y="0" w="207" h="181" pX="-0.5" pY="-0.5" opacity="250"/>
+    <sprite x="0"   y="181" w="207" h="181" pX="-0.5" pY="-0.5" opacity="200"/>
+    <sprite x="207" y="181" w="207" h="181" pX="-0.5" pY="-0.5" opacity="150"/>
+  </animation>
   <!--Right Down Slash Particle Animation-->
-  <animation id="slash_right_down" texture="slash_effect.png" tex_color="255/255/255/255" loop="false" speed="50" scale="1.0"  h_flip_sprites="true" v_flip_sprites="false">
+  <animation id="slash_right_down" texture="slash_effect.png" tex_color="255/255/255/255" loop="false" speed="40" scale="1.0"  h_flip_sprites="true" v_flip_sprites="false">
+    <sprite x="0"   y="0" w="207" h="181" pX="-0.5" pY="-0.5" opacity="150"/>
+    <sprite x="207" y="0" w="207" h="181" pX="-0.5" pY="-0.5" opacity="200"/>
+    <sprite x="414" y="0" w="207" h="181" pX="-0.5" pY="-0.5" opacity="250"/>
+    <sprite x="0"   y="181" w="207" h="181" pX="-0.5" pY="-0.5" opacity="200"/>
+    <sprite x="207" y="181" w="207" h="181" pX="-0.5" pY="-0.5" opacity="150"/>
+  </animation>
+  <animation id="slash_right_up" texture="slash_effect.png" tex_color="255/255/255/255" loop="false" speed="40" scale="1.0"  h_flip_sprites="true" v_flip_sprites="true">
     <sprite x="0"   y="0" w="207" h="181" pX="-0.5" pY="-0.5" opacity="150"/>
     <sprite x="207" y="0" w="207" h="181" pX="-0.5" pY="-0.5" opacity="200"/>
     <sprite x="414" y="0" w="207" h="181" pX="-0.5" pY="-0.5" opacity="250"/>

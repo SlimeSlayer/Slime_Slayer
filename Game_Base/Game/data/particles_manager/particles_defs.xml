@@ -8,7 +8,7 @@
     acceleration_x="0.0"
     acceleration_y="-150.0"
     volatile="true"
-    life_time="5000"
+    life_time="8000"
     animation_id="idle_slime"
     />
   <!--Slash Particles-->
@@ -19,7 +19,7 @@
     acceleration_x="0.0"
     acceleration_y="0.0"
     volatile="true"
-    life_time="225"
+    life_time="200"
     />
   <!--Text Particles-->
   <particle

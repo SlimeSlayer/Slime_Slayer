@@ -434,6 +434,7 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 		p = &pivot;
 	}
 
+	//Texture opacity
 	int op_check = 2;
 	if (opacity != 255)
 	{
@@ -442,9 +443,16 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 
 	bool color_change = (color.r != 255 || color.g != 255 || color.b != 255);
 
+	//Texture color
 	if (color_change)SDL_SetTextureColorMod(texture, color.r, color.g, color.b);
+	
+	//Texture flip
+	SDL_RendererFlip flip = SDL_RendererFlip::SDL_FLIP_NONE;
+	if (vertical_flip && horizontal_flip)flip = (SDL_RendererFlip)(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL);
+	else if (vertical_flip)flip = SDL_FLIP_VERTICAL;
+	else if(horizontal_flip)flip = SDL_FLIP_HORIZONTAL;
 
-	if(SDL_RenderCopyEx(renderer, texture, section, &rect, angle, p, (SDL_RendererFlip)horizontal_flip))
+	if(SDL_RenderCopyEx(renderer, texture, section, &rect, angle, p, flip))
 	{
 		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
 		ret = false;
