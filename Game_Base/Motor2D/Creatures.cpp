@@ -252,7 +252,7 @@ void Player::AttackLeft()
 	this->body->GetPosition(x, y);
 	w = this->body->GetWidth();
 	h = this->body->GetHeight();
-	current_attack_area->SetPosition(x - w * 1.5, y + h * -0.25);
+	current_attack_area->SetPosition(x - w * 2.5, y + h * -0.35);
 	//Generate slash particle
 	Particle* slash_particle = App->particle_manager->GenerateAnimationParticle(PARTICLE_TYPE::SLASH_PARTICLE, PARTICLE_ANIMATION_ID::SLASH_LEFT_DOWN);
 	slash_particle->SetPosition(x - w * 1.5, y + h * -0.25);
@@ -267,7 +267,10 @@ void Player::AttackRight()
 	this->body->GetPosition(x, y);
 	w = this->body->GetWidth();
 	h = this->body->GetHeight();
-	current_attack_area->SetPosition(x + w * 1.5, y + h * -0.25);
+	current_attack_area->SetPosition(x + w * 2.5, y + h * -0.35);
+	//Generate slash particle
+	Particle* slash_particle = App->particle_manager->GenerateAnimationParticle(PARTICLE_TYPE::SLASH_PARTICLE, PARTICLE_ANIMATION_ID::SLASH_RIGHT_DOWN);
+	slash_particle->SetPosition(x + w * 1.5, y + h * -0.25);
 	//Reset attack timer
 	attack_timer.Start();
 }

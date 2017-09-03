@@ -137,7 +137,10 @@ Static_Particle::~Static_Particle()
 void Static_Particle::Draw()
 {
 	int alpha = MAX(0, (1 - ((float)life_timer.Read() / (float)life_time)) * 255);
-	if (alpha > 0)App->render->CallBlit(this->texture, this->position.x, this->position.y, NULL, false, false, 1.0f, 0, alpha);
+	if (alpha > 0)
+	{
+		App->render->CallBlit(this->texture, this->position.x, this->position.y, NULL, false, false, false, 1.0f, 0, alpha);
+	}
 }
 
 //Set Methods =========================
@@ -208,7 +211,7 @@ void Animated_Particle::Draw()
 	if (animation != nullptr)
 	{
 		const Sprite* sprite = animation->GetCurrentSprite();
-		App->render->CallBlit(animation->GetTexture(), position.x, position.y, sprite->GetFrame(), false, animation->GetSpritesFlip(), animation->GetSpritesScale(), 0, 255, -sprite->GetXpivot(), -sprite->GetYpivot(), animation->GetTexColor());
+		App->render->CallBlit(animation->GetTexture(), position.x, position.y, sprite->GetFrame(), false, animation->GetSpritesHorizontalFlip(), animation->GetSpritesVerticalFlip(), animation->GetSpritesScale(), 0, sprite->GetOpacity(), -sprite->GetXpivot(), -sprite->GetYpivot(), animation->GetTexColor());
 	}
 }
 

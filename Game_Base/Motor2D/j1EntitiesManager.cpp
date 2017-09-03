@@ -583,14 +583,14 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 
 	if (creature_type == PLAYER_CREATURE)
 	{
-		/*Attack range*/	((Player*)new_creature)->SetAttackRange(data_node->attribute("attack_range").as_uint());
+		/*Attack range*/	((Player*)new_creature)->SetAttackRange(data_node->attribute("attack_x_range").as_uint());
 		
 		//Load the player attack area
 		/*Attack Area*/		PhysBody* atk_area = new PhysBody();
 							atk_area->body_def = new PhysBodyDef();
 
-		/*Width*/			atk_area->body_def->width = data_node->attribute("attack_range").as_uint();
-		/*Height*/			atk_area->body_def->height = atk_area->body_def->width * 2;
+		/*Width*/			atk_area->body_def->width = data_node->attribute("attack_x_range").as_uint();
+		/*Height*/			atk_area->body_def->height = data_node->attribute("attack_y_range").as_uint();
 		/*Shape*/			atk_area->body_def->shape_type = b2Shape::Type::e_polygon;
 		/*Sensor*/			atk_area->body_def->is_sensor = true;
 		/*Listener*/		atk_area->body_def->listener = App->GetModule(data_node->attribute("listener").as_string());

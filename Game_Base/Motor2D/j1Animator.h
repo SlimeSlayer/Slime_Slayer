@@ -66,7 +66,8 @@ protected:
 	uint					speed = 2500;
 	j1Timer					timer;
 	//Animation flip 
-	bool					flip_sprites = false;
+	bool					horizontal_flip_sprites = false;
+	bool					vertical_flip_sprites = false;
 	float					sprites_scale = 1.0f;
 
 public:
@@ -82,7 +83,8 @@ public:
 	void	SetCurrentFrame(uint curr);
 	void	SetSpeed(uint new_speed);
 	void	SetId(uint id);
-	void	SetSpritesFlip(bool sprites_flip);
+	void	SetSpritesHorizontalFlip(bool sprites_flip);
+	void	SetSpritesVerticalFlip(bool sprites_flip);
 	void	SetSpritesScale(float sprites_sc);
 
 	//Get Methods -----------
@@ -94,7 +96,8 @@ public:
 	const Sprite*					GetCurrentSprite();
 	const std::vector<Sprite>*		GetAllSprites()const;
 	uint							GetId()const;
-	bool							GetSpritesFlip()const;
+	bool							GetSpritesHorizontalFlip()const;
+	bool							GetSpritesVerticalFlip()const;
 	float							GetSpritesScale()const;
 
 	//Check if the animation is end

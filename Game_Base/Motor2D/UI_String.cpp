@@ -41,7 +41,7 @@ void UI_String::Draw(bool debug) const
 	}
 	if (text_texture != nullptr)
 	{
-		App->render->CallBlit(text_texture, box.x, box.y, NULL, use_camera, false, 1.0f, visual_layer);
+		App->render->CallBlit(text_texture, box.x, box.y, NULL, use_camera, false, false, 1.0f, visual_layer);
 	}
 
 	//Childs Draw

@@ -310,10 +310,10 @@ bool Endless::Update(float dt)
 		}
 
 		//Animation UI blit
-		App->render->CallBlit(wave_progress_bar->GetTexture(), wave_progress_bar->GetBox()->x, wave_progress_bar->GetBox()->y, NULL, true, false, 1.0f, wave_progress_bar->GetVisualLayer(), anim_alpha);
-		App->render->CallBlit(wave_percent_string->GetTextTexture(), wave_percent_string->GetBox()->x, wave_percent_string->GetBox()->y, NULL, true, false, 1.0f, wave_percent_string->GetVisualLayer(), anim_alpha);
-		App->render->CallBlit(wave_shield_icon->GetTexture(), wave_shield_icon->GetBox()->x, wave_shield_icon->GetBox()->y, NULL, true, false, wave_shield_icon->GetTextureScale(), wave_shield_icon->GetVisualLayer(), anim_alpha);
-		App->render->CallBlit(wave_string->GetTextTexture(), wave_string->GetBox()->x, wave_string->GetBox()->y, NULL, true, false, 1.0f, wave_string->GetVisualLayer(), anim_alpha);
+		App->render->CallBlit(wave_progress_bar->GetTexture(), wave_progress_bar->GetBox()->x, wave_progress_bar->GetBox()->y, NULL, true, false, false, 1.0f, wave_progress_bar->GetVisualLayer(), anim_alpha);
+		App->render->CallBlit(wave_percent_string->GetTextTexture(), wave_percent_string->GetBox()->x, wave_percent_string->GetBox()->y, NULL, true, false, false, 1.0f, wave_percent_string->GetVisualLayer(), anim_alpha);
+		App->render->CallBlit(wave_shield_icon->GetTexture(), wave_shield_icon->GetBox()->x, wave_shield_icon->GetBox()->y, NULL, true, false, false, wave_shield_icon->GetTextureScale(), wave_shield_icon->GetVisualLayer(), anim_alpha);
+		App->render->CallBlit(wave_string->GetTextTexture(), wave_string->GetBox()->x, wave_string->GetBox()->y, NULL, true, false, false, 1.0f, wave_string->GetVisualLayer(), anim_alpha);
 		
 		//End case
 		if (anim_alpha == 0.00)

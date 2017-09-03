@@ -33,12 +33,12 @@ bool UI_Progressive_Bar::Update()
 // Game Loop ==============================================
 void UI_Progressive_Bar::Draw(bool debug) const
 {
-	App->render->CallBlit(bar_texture, box.x, box.y, NULL, use_camera, false, 1.0f, visual_layer);
+	App->render->CallBlit(bar_texture, box.x, box.y, NULL, use_camera, false, false, 1.0f, visual_layer);
 }
 
 void UI_Progressive_Bar::DrawAt(int x, int y) const
 {
-	App->render->CallBlit(bar_texture, x, y, NULL, use_camera, false, 1.0f, visual_layer);
+	App->render->CallBlit(bar_texture, x, y, NULL, use_camera, false, false, 1.0f, visual_layer);
 }
 
 // Functionality ==========================================

@@ -36,9 +36,9 @@ void UI_Image::Draw(bool debug) const
 	else {
 		
 		//Undefined draw size
-		if (texture_rect.w == 0 || texture_rect.h == 0)App->render->CallBlit(texture, box.x - pivot.x, box.y - pivot.y, NULL, use_camera, false, texture_scale, visual_layer);
+		if (texture_rect.w == 0 || texture_rect.h == 0)App->render->CallBlit(texture, box.x - pivot.x, box.y - pivot.y, NULL, use_camera, false, false, texture_scale, visual_layer);
 		//Defined draw size
-		else App->render->CallBlit(texture, box.x - pivot.x, box.y - pivot.y, &texture_rect, use_camera, false, texture_scale, visual_layer);
+		else App->render->CallBlit(texture, box.x - pivot.x, box.y - pivot.y, &texture_rect, use_camera, false, false, texture_scale, visual_layer);
 	}
 
 	//Childs Draw
@@ -70,9 +70,9 @@ void UI_Image::DrawAt(int x, int y) const
 	y += this->box.y;
 
 	//Undefined draw size
-	if (texture_rect.w == 0 || texture_rect.h == 0)App->render->CallBlit(texture, x - pivot.x, y - pivot.y, NULL, use_camera, false, texture_scale, visual_layer);
+	if (texture_rect.w == 0 || texture_rect.h == 0)App->render->CallBlit(texture, x - pivot.x, y - pivot.y, NULL, use_camera, false, false, texture_scale, visual_layer);
 	//Defined draw size
-	else App->render->CallBlit(texture, x - pivot.x, y - pivot.y, &texture_rect, use_camera, false, texture_scale, visual_layer);
+	else App->render->CallBlit(texture, x - pivot.x, y - pivot.y, &texture_rect, use_camera, false, false, texture_scale, visual_layer);
 		
 }
 

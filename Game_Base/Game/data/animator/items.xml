@@ -6,7 +6,7 @@
     <!--Idle Action-->
     <action enum ="idle_action" speed="10" loop="false" scale="10">
 
-      <direction enum="no_direction" flip="false">
+      <direction enum="no_direction" h_flip_sprites="false" v_flip_sprites="false">
         <sprite x="141"  y="132" w="1" h="1" pX="-5" pY="-5"/>
       </direction>
 
@@ -20,7 +20,7 @@
     <!--Idle Action-->
     <action enum ="idle_action" speed="0" loop="false" scale="1.0">
 
-      <direction enum="no_direction" flip="false">
+      <direction enum="no_direction">
         <sprite x="156"  y="0" w="50" h="50" pX="-0.5" pY="-0.5"/>
       </direction>
 
@@ -34,7 +34,7 @@
     <!--Idle Action-->
     <action enum ="idle_action" speed="0" loop="false" scale="1.0">
 
-      <direction enum="no_direction" flip="false">
+      <direction enum="no_direction">
         <sprite x="0"  y="0" w="294" h="337" pX="-0.6" pY="-0.5"/>
       </direction>
 
@@ -48,7 +48,7 @@
     <!--Idle Action-->
     <action enum ="idle_action" speed="0" loop="false" scale="1.0">
 
-      <direction enum="no_direction" flip="true">
+      <direction enum="no_direction" h_flip_sprites="true">
         <sprite x="0"  y="0" w="294" h="337" pX="-0.6" pY="-0.5"/>
       </direction>
 

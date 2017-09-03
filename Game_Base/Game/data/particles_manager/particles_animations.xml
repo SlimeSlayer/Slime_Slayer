@@ -1,17 +1,26 @@
 <data>
   <!--Idle Slime Particle Animation-->
-  <animation id="idle_slime" texture="idle_slime.png" tex_color="255/255/255/255" loop="true" speed="400" scale="6.0" flip_sprites="false">
+  <animation id="idle_slime" texture="idle_slime.png" tex_color="255/255/255/255" loop="true" speed="400" scale="6.0" h_flip_sprites="false" v_flip_sprites="false">
     <sprite x="0"  y="4" w="19" h="16" pX="-0.5" pY="-0.5"/>
     <sprite x="21" y="4" w="18" h="16" pX="-0.5" pY="-0.5"/>
   </animation>
-  <!--Left Slash Particle Animation-->
-  <animation id="slash_left_down" texture="slash_effect.png" tex_color="255/255/255/255" loop="false" speed="50" scale="1.0" flip_sprites="false">
-    <sprite x="0"   y="0" w="207" h="181" pX="-0.5" pY="-0.5"/>
-    <sprite x="207" y="0" w="207" h="181" pX="-0.5" pY="-0.5"/>
-    <sprite x="414" y="0" w="207" h="181" pX="-0.5" pY="-0.5"/>
-    <sprite x="0"   y="181" w="207" h="181" pX="-0.5" pY="-0.5"/>
-    <sprite x="207" y="181" w="207" h="181" pX="-0.5" pY="-0.5"/>
+  <!--Left Down Slash Particle Animation-->
+  <animation id="slash_left_down" texture="slash_effect.png" tex_color="255/255/255/255" loop="false" speed="50" scale="1.0"  h_flip_sprites="false" v_flip_sprites="false">
+    <sprite x="0"   y="0" w="207" h="181" pX="-0.5" pY="-0.5" opacity="150"/>
+    <sprite x="207" y="0" w="207" h="181" pX="-0.5" pY="-0.5" opacity="200"/>
+    <sprite x="414" y="0" w="207" h="181" pX="-0.5" pY="-0.5" opacity="250"/>
+    <sprite x="0"   y="181" w="207" h="181" pX="-0.5" pY="-0.5" opacity="200"/>
+    <sprite x="207" y="181" w="207" h="181" pX="-0.5" pY="-0.5" opacity="150"/>
   </animation>
-  <!--Right Slash Particle Animation-->
+  <!--Left Up Slash Particle Animation-->
+
+  <!--Right Down Slash Particle Animation-->
+  <animation id="slash_right_down" texture="slash_effect.png" tex_color="255/255/255/255" loop="false" speed="50" scale="1.0"  h_flip_sprites="true" v_flip_sprites="false">
+    <sprite x="0"   y="0" w="207" h="181" pX="-0.5" pY="-0.5" opacity="150"/>
+    <sprite x="207" y="0" w="207" h="181" pX="-0.5" pY="-0.5" opacity="200"/>
+    <sprite x="414" y="0" w="207" h="181" pX="-0.5" pY="-0.5" opacity="250"/>
+    <sprite x="0"   y="181" w="207" h="181" pX="-0.5" pY="-0.5" opacity="200"/>
+    <sprite x="207" y="181" w="207" h="181" pX="-0.5" pY="-0.5" opacity="150"/>
+  </animation>
   <!--Next particle animation-->
 </data>

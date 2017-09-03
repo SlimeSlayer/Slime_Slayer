@@ -287,8 +287,9 @@ bool j1ParticleManager::AddAnimationDefinition(const pugi::xml_node * data_node)
 	new_animation->SetSpeed(data_node->attribute("speed").as_uint());
 	//Scale
 	new_animation->SetSpritesScale(data_node->attribute("scale").as_float());
-	//Flip Sprites
-	new_animation->SetSpritesFlip(data_node->attribute("flip_sprites").as_bool());
+	//Animation flip
+	new_animation->SetSpritesHorizontalFlip(data_node->attribute("h_flip_sprites").as_bool(false));
+	new_animation->SetSpritesVerticalFlip(data_node->attribute("v_flip_sprites").as_bool(false));
 	//Color Texture 
 	new_animation->SetTexColor(App->entities_manager->TokenStrToColor(data_node->attribute("tex_color").as_string()));
 

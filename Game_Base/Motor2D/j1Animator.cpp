@@ -55,7 +55,7 @@ Animation::Animation()
 
 }
 
-Animation::Animation(const Animation & copy) :texture(copy.texture), tex_color(copy.tex_color), enum_id(copy.enum_id), current_frame(copy.current_frame), loop(copy.loop), speed(copy.speed), flip_sprites(copy.flip_sprites), sprites_scale(copy.sprites_scale)
+Animation::Animation(const Animation & copy) :texture(copy.texture), tex_color(copy.tex_color), enum_id(copy.enum_id), current_frame(copy.current_frame), loop(copy.loop), speed(copy.speed), horizontal_flip_sprites(copy.horizontal_flip_sprites), vertical_flip_sprites(copy.vertical_flip_sprites), sprites_scale(copy.sprites_scale)
 {
 	const std::vector<Sprite>* sprites = copy.GetAllSprites();
 	uint size = sprites->size();
@@ -111,9 +111,14 @@ void Animation::SetId(uint id)
 	enum_id = id;
 }
 
-void Animation::SetSpritesFlip(bool sprites_flip)
+void Animation::SetSpritesHorizontalFlip(bool sprites_flip)
 {
-	flip_sprites = sprites_flip;
+	horizontal_flip_sprites = sprites_flip;
+}
+
+void Animation::SetSpritesVerticalFlip(bool sprites_flip)
+{
+	vertical_flip_sprites = sprites_flip;
 }
 
 void Animation::SetSpritesScale(float sprites_sc)
@@ -182,9 +187,14 @@ uint Animation::GetId() const
 	return enum_id;
 }
 
-bool Animation::GetSpritesFlip() const
+bool Animation::GetSpritesHorizontalFlip() const
 {
-	return flip_sprites;
+	return horizontal_flip_sprites;
+}
+
+bool Animation::GetSpritesVerticalFlip() const
+{
+	return vertical_flip_sprites;
 }
 
 float Animation::GetSpritesScale() const
@@ -529,7 +539,8 @@ bool j1Animator::LoadSimpleAnimationBlock(const char * xml_folder, ENTITY_TYPE e
 			//Animation loop
 			new_animation->SetLoop(loop);
 			//Animation flip
-			new_animation->SetSpritesFlip(direction_node.attribute("flip").as_bool());
+			new_animation->SetSpritesHorizontalFlip(direction_node.attribute("h_flip_sprites").as_bool(false));
+			new_animation->SetSpritesVerticalFlip(direction_node.attribute("v_flip_sprites").as_bool(false));
 			//Animation scale
 			new_animation->SetSpritesScale(scale);
 			//Animation enum id
@@ -685,7 +696,8 @@ bool j1Animator::LoadMultipleAnimationBlock(const char * xml_folder, ENTITY_TYPE
 				//Animation loop
 				new_animation->SetLoop(loop);
 				//Animation flip
-				new_animation->SetSpritesFlip(direction_node.attribute("flip").as_bool());
+				new_animation->SetSpritesHorizontalFlip(direction_node.attribute("h_flip_sprites").as_bool(false));
+				new_animation->SetSpritesVerticalFlip(direction_node.attribute("v_flip_sprites").as_bool(false));
 				//Animation scale
 				new_animation->SetSpritesScale(scale);
 				//Animation enum id
