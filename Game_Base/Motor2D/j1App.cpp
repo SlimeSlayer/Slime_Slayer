@@ -499,12 +499,24 @@ const char* j1App::GetOrganization() const
 // Load / Save
 void j1App::LoadGeneralData(const char* file)
 {
+	if (!fs->Exists(file))
+	{
+		LOG("ERROR: General data file don't exist!");
+		return;
+	}
+
 	want_to_g_load = true;
 	load_game = std::string(fs->save_directory.c_str()) + std::string(file);
 }
 
 void j1App::LoadPartyData(const char * file)
 {
+	if (!fs->Exists(file))
+	{
+		LOG("ERROR: Party data file don't exist!");
+		return;
+	}
+	
 	want_to_p_load = true;
 	load_game = std::string(fs->save_directory.c_str()) + std::string(file);
 }

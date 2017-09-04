@@ -163,6 +163,9 @@ bool Endless::Enable()
 	enabled = true;
 	active = false;
 
+	//When endless is ready it automatically load data if it was saved before
+	App->LoadPartyData(App->fs->party_save_file.c_str());
+
 	return true;
 }
 
@@ -445,7 +448,11 @@ void Endless::CreaturesCount(uint defs)
 	//If the wave has been passed new creatures are generated
 	if (current_alive_creatures == 0 && current_defeat_creatures == next_wave_creatures)
 	{
+		//Update wave
 		wave++;
+		//In boss wave party is autosaved
+		if (wave % effect_waves == 0 && wave > 0)App->SavePartyData(App->fs->party_save_file.c_str());
+		//Update creatures count
 		next_wave_creatures = ceil(start_creatures * (wave_evolve * (wave + 1)));
 		current_defeat_creatures = 0;
 		//Active/Rest all the related UI
