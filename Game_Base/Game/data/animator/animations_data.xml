@@ -3,6 +3,7 @@
     <!--Creatures animations-->
       <anim file="player.xml"       entity_type="creature" multiple="0"/>
       <anim file="basic_enemy.xml"  entity_type="creature" multiple="0"/>
+      <anim file="boss_enemy.xml"   entity_type="creature" multiple="0"/>
       <anim file="lore_npc.xml"     entity_type="creature" multiple="0"/>
       <anim file="standard_npc.xml" entity_type="creature" multiple="0"/>
     <!--Items animations-->

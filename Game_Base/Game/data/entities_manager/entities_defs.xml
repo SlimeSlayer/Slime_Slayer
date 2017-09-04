@@ -233,6 +233,37 @@
       money="2"
       reward_experience="1"
       />
+
+    <!--Boss Enemy-->
+    <entity
+      body_type="enemy_body"
+      collision_type="enemy_collision"
+      listener="entities_manager"
+      body_shape="square"
+      width ="180"
+      height="170"
+      restitution="0.0"
+      friction="0.0"
+      mass="100.0"
+      fixed_rotation="true"
+      interaction_type="dynamic"
+      
+      diplomacy="enemy"
+      creature_type="boss_enemy_creature"
+      name="Boss"
+      description="Insert epic description here"
+      life="145"
+      attack_hitpoints="15"
+      attack_rate="550"
+      mov_speed="0.5"
+      jump_force="100"
+      
+      vision_range ="200"
+      vision_sensor_type ="enemy_sensor_collision"
+      vision_sensor_body ="enemy_sensor_body"
+      money="20"
+      reward_experience="15"
+      />
     
     <!--Player-->
     <entity             

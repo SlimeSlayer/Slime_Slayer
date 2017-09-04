@@ -333,7 +333,7 @@ bool Endless::Update(float dt)
 			anim_alpha = 0.01;
 			bar_anim_added = 0.0;
 			//Check if 5 waves have been completed
-			if (wave % 5 == 0)
+			if (wave % effect_waves == 0)
 			{
 				wave_progress_bar->SetCurrentValue(0.0f);
 			}
@@ -345,8 +345,11 @@ bool Endless::Update(float dt)
 	// CREATURES FACTORY ------------------------
 	if (spawn_timer.Read() > next_spawn_time && (current_defeat_creatures + current_alive_creatures < next_wave_creatures))
 	{
-		Creature* enemy = App->entities_manager->GenerateCreature(CREATURE_TYPE::BASIC_ENEMY_CREATURE);
-		enemy->worker.AddAction(enemy->worker.GenerateAction(LG_ACTION_TYPE::LG_MAGIC_SPAWN_ACTION, enemy, 3000, 2, 0.1));
+		Creature* enemy = nullptr;
+		if (wave % effect_waves == 0 && wave > 0)enemy = App->entities_manager->GenerateCreature(CREATURE_TYPE::BOSS_ENEMY_CREATURE);
+		else enemy = App->entities_manager->GenerateCreature(CREATURE_TYPE::BASIC_ENEMY_CREATURE);
+		enemy->worker.AddPriorizedAction(enemy->worker.GenerateAction(LG_ACTION_TYPE::LG_MAGIC_SPAWN_ACTION, enemy, 2000, 2, 0.1));
+		int rand_index = rand() % spawn_coordinates.size();
 		enemy->SetPosition(spawn_coordinates[0].x, spawn_coordinates[0].y);
 		current_alive_creatures++;
 		next_spawn_time = spawn_rate;
@@ -422,6 +425,11 @@ bool Endless::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 	{
 		Creature* enemy = App->entities_manager->GenerateCreature(CREATURE_TYPE::BASIC_ENEMY_CREATURE);
+		enemy->GetBody()->SetPosition(App->input->GetMouseX() - App->render->camera.x, App->input->GetMouseY() - App->render->camera.y);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
+	{
+		Creature* enemy = App->entities_manager->GenerateCreature(CREATURE_TYPE::BOSS_ENEMY_CREATURE);
 		enemy->GetBody()->SetPosition(App->input->GetMouseX() - App->render->camera.x, App->input->GetMouseY() - App->render->camera.y);
 	}
 	// ------------------------------------------

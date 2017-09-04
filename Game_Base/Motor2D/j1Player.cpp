@@ -67,6 +67,8 @@ bool j1Player::Enable()
 
 void j1Player::Disable()
 {
+	LOG("Disabling Player");
+
 	RELEASE(avatar);
 
 	//Deactivate player UI
@@ -74,6 +76,8 @@ void j1Player::Disable()
 	avatar_ui_branch->DesactivateChids();
 
 	active = enabled = false;
+
+	LOG("Player Disabled");
 }
 
 bool j1Player::Awake(pugi::xml_node & node)

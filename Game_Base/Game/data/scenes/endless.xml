@@ -8,7 +8,7 @@
   <!--Player initial location-->
   <player_avatar pos_x="1500" pos_y="875"/>
   <!--Timing and wave data-->
-  <spawn initial_time ="10000" spawn_rate="2500" start_creatures ="1" wave_evolve="1.5" boss_waves="5">
+  <spawn initial_time ="8000" spawn_rate="2500" start_creatures ="2" wave_evolve="1.5" boss_waves="5">
     <spawn_cords>
       <crd x="200" y="745"/>
       <crd x="1500" y="745"/>

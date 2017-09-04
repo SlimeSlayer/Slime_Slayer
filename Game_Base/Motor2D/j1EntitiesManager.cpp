@@ -466,6 +466,7 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	case LORE_NPC_B_CREATURE:
 							new_creature = new NPC();					break;
 	case BASIC_ENEMY_CREATURE:
+	case BOSS_ENEMY_CREATURE:
 							new_creature = new Intelligent_Creature();	break;
 	case STANDARD_NPC_CREATURE:
 	case NO_CREATURE:		
@@ -530,25 +531,22 @@ void j1EntitiesManager::AddCreatureDefinition(const pugi::xml_node* data_node)
 	case LORE_NPC_CREATURE:
 	case LORE_NPC_B_CREATURE:
 	case BASIC_ENEMY_CREATURE:
-	{
-		//Load the new creature vision area
-		PhysBody* new_vision_area = new PhysBody();
-		new_vision_area->body_def = new PhysBodyDef();
+	case BOSS_ENEMY_CREATURE:
+		{
+			//Load the new creature vision area
+			PhysBody* new_vision_area = new PhysBody();
+			new_vision_area->body_def = new PhysBodyDef();
 
-		/*Radius*/		new_vision_area->body_def->width = new_vision_area->body_def->height = data_node->attribute("vision_range").as_uint();
-		/*Shape*/		new_vision_area->body_def->shape_type = b2Shape::Type::e_circle;
-		/*Sensor*/		new_vision_area->body_def->is_sensor = true;
-		/*Listener*/	new_vision_area->body_def->listener = App->GetModule(data_node->attribute("listener").as_string());
-		/*Collision*/	new_vision_area->body_def->collision_type = App->physics->StrToCollisionType(data_node->attribute("vision_sensor_type").as_string());
-		/*Body.Type*/	new_vision_area->body_def->body_type = App->physics->StrToBodyType(data_node->attribute("vision_sensor_body").as_string());
+			/*Radius*/		new_vision_area->body_def->width = new_vision_area->body_def->height = data_node->attribute("vision_range").as_uint();
+			/*Shape*/		new_vision_area->body_def->shape_type = b2Shape::Type::e_circle;
+			/*Sensor*/		new_vision_area->body_def->is_sensor = true;
+			/*Listener*/	new_vision_area->body_def->listener = App->GetModule(data_node->attribute("listener").as_string());
+			/*Collision*/	new_vision_area->body_def->collision_type = App->physics->StrToCollisionType(data_node->attribute("vision_sensor_type").as_string());
+			/*Body.Type*/	new_vision_area->body_def->body_type = App->physics->StrToBodyType(data_node->attribute("vision_sensor_body").as_string());
 
-		//Set the generated vision are at the new creature
-		((Intelligent_Creature*)new_creature)->SetVisionArea(new_vision_area);
-
-	}
-		break;
-
-	case STANDARD_NPC_CREATURE:
+			//Set the generated vision are at the new creature
+			((Intelligent_Creature*)new_creature)->SetVisionArea(new_vision_area);
+		}
 		break;
 	}
 
@@ -647,6 +645,7 @@ CREATURE_TYPE j1EntitiesManager::StrToCreatureType(const char * str) const
 	if (strcmp(str, "lore_npc_creature") == 0)		return LORE_NPC_CREATURE;
 	if (strcmp(str, "lore_npc_b_creature") == 0)	return LORE_NPC_B_CREATURE;
 	if (strcmp(str, "basic_enemy_creature") == 0)	return BASIC_ENEMY_CREATURE;
+	if (strcmp(str, "boss_enemy_creature") == 0)	return BOSS_ENEMY_CREATURE;
 	return NO_CREATURE;
 }
 
@@ -753,6 +752,7 @@ Creature * j1EntitiesManager::GenerateCreature(CREATURE_TYPE creature_type, bool
 				new_creature = new Player(*(Player*)creatures_defs[k], generate_body);
 				break;
 			case BASIC_ENEMY_CREATURE:
+			case BOSS_ENEMY_CREATURE:
 				new_creature = new Intelligent_Creature(*(Intelligent_Creature*)creatures_defs[k], generate_body);
 				break;
 			default:
