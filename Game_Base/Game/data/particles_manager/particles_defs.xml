@@ -21,6 +21,16 @@
     volatile="true"
     life_time="200"
     />
+  <!--Portal Particle-->
+  <particle
+    particle_type ="portal_particle"
+    initial_vel_x="0.0"
+    initial_vel_y="0.0"
+    acceleration_x="0.0"
+    acceleration_y="0.0"
+    volatile="false"
+    animation_id="spawn_portal"
+    />
   <!--Text Particles-->
   <particle
     particle_type ="ally_hitpoints_particle"

@@ -339,7 +339,8 @@ bool Basic_Attack_Action::Init()
 bool Basic_Attack_Action::Execute()
 {
 	if (((Creature*)target)->GetCurrentLife() == 0)return true;
-
+	if (!actor->GetBody()->IsInSpecificContact(1, MAP_COLLISION))return false;
+	
 	//Check if the target is in range
 	int tar_x = 0, tar_y = 0;
 	target->GetBody()->GetPosition(tar_x, tar_y);

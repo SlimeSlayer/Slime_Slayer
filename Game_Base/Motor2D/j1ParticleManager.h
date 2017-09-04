@@ -77,6 +77,7 @@ public:
 	/*
 	- MAIN_MENU_SLIME_PARTICLE: none
 	- SLASH_PARTICLE: PARTICLE_ANIMATION_ID animation_id
+	- PORTAL_PARTICLE: none
 	*/
 	Particle*	GenerateAnimationParticle(PARTICLE_TYPE particle_type, ...);
 

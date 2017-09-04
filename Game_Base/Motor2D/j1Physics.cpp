@@ -203,19 +203,23 @@ bool PhysBody::IsInSpecificContact(uint vals, ...) const
 	while (contact != nullptr)
 	{
 		/*External bodies are in B fixture*/
-		PhysBody* user_data = (PhysBody*)contact->contact->GetFixtureB()->GetBody()->GetUserData();
+		PhysBody* A_user_data = (PhysBody*)contact->contact->GetFixtureA()->GetBody()->GetUserData();
+		PhysBody* B_user_data = (PhysBody*)contact->contact->GetFixtureB()->GetBody()->GetUserData();
+
 		//No user data case
-		if (user_data == NULL)
+		if (A_user_data == NULL || B_user_data == NULL)
 		{
 			contact = contact->next;
 			continue;
 		}
-		COLLISION_TYPE ty = user_data->collision_type;
-		
+
+		COLLISION_TYPE A_ty = A_user_data->collision_type;
+		COLLISION_TYPE B_ty = B_user_data->collision_type;
+
 		//Iterate the entered types
 		for (uint k = 0; k < vals; k++)
 		{
-			if (type_vec[k] == ty)return true;
+			if (type_vec[k] == A_ty || type_vec[k] == B_ty)return true;
 		}
 
 		//Focus the next contact

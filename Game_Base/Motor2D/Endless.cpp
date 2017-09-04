@@ -10,6 +10,7 @@
 #include "j1Input.h"
 #include "j1Player.h"
 #include "j1FileSystem.h"
+#include "j1ParticleManager.h"
 
 #include "Parallax.h"
 #include "UI_Element.h"
@@ -139,18 +140,22 @@ bool Endless::Enable()
 		}
 	}
 
+	//Generate portals at spawn coordinates
+	Particle* portal = App->particle_manager->GenerateAnimationParticle(PARTICLE_TYPE::PORTAL_PARTICLE);
+	portal->SetPosition(spawn_coordinates[0].x, spawn_coordinates[0].y);
+
 	//Play scene music
 	App->audio->PlayMusic(MUSIC_ID::MUSIC_IN_GAME);
-
-	//Reset timers
-	next_spawn_time = initial_spawn_time;
-	spawn_timer.Start();
 
 	//Reset creatures spawn data
 	current_defeat_creatures = current_alive_creatures = 0;
 	wave = 0;
-	next_wave_creatures = ceil(start_creatures * (wave_evolve * (wave+1)));
+	next_wave_creatures = ceil(start_creatures * (wave_evolve * (wave + 1)));
 
+	//Reset timers
+	next_spawn_time = initial_spawn_time;
+	spawn_timer.Start();
+	
 	enabled = true;
 	active = false;
 

@@ -10,8 +10,8 @@
   <!--Timing and wave data-->
   <spawn initial_time ="10000" spawn_rate="2500" start_creatures ="1" wave_evolve="1.5" boss_waves="5">
     <spawn_cords>
-      <crd x="200" y="880"/>
-      <crd x="1500" y="880"/>
+      <crd x="200" y="745"/>
+      <crd x="1500" y="745"/>
     </spawn_cords>
   </spawn>
   <ui wave_anim_duration="3000" bar_anim_add ="1.25"/>

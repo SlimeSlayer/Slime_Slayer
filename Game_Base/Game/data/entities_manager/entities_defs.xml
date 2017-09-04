@@ -221,7 +221,7 @@
       creature_type="basic_enemy_creature"
       name="Enemy"
       description="Insert epic description here"
-      life="15"
+      life="45"
       attack_hitpoints="5"
       attack_rate="350"
       mov_speed="1.5"

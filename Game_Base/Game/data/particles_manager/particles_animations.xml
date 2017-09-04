@@ -35,5 +35,13 @@
     <sprite x="0"   y="181" w="207" h="181" pX="-0.5" pY="-0.5" opacity="200"/>
     <sprite x="207" y="181" w="207" h="181" pX="-0.5" pY="-0.5" opacity="150"/>
   </animation>
+  <!--Portal Animation-->
+  <animation id="spawn_portal" texture="portal_effect.png" tex_color="255/255/255/255" loop="true" speed="150" scale="0.8"  h_flip_sprites="false" v_flip_sprites="false">
+    <sprite x="0"   y="0" w="211" h="396" pX="-0.4" pY="-0.4" opacity="200" z="-2"/>
+    <sprite x="211" y="0" w="211" h="396" pX="-0.4" pY="-0.4" opacity="200" z="-2"/>
+    <sprite x="422" y="0" w="211" h="396" pX="-0.4" pY="-0.4" opacity="200" z="-2"/>
+    <sprite x="633" y="0" w="211" h="396" pX="-0.4" pY="-0.4" opacity="200" z="-2"/>
+    <sprite x="844" y="0" w="211" h="396" pX="-0.4" pY="-0.4" opacity="200" z="-2"/>
+  </animation>
   <!--Next particle animation-->
 </data>

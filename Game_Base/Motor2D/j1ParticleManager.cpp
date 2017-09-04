@@ -225,6 +225,7 @@ bool j1ParticleManager::AddParticleDefinition(const pugi::xml_node * data_node)
 		break;
 	case MAIN_MENU_SLIME_PARTICLE:
 	case SLASH_PARTICLE:
+	case PORTAL_PARTICLE:
 		new_particle = new Animated_Particle();
 		need_animation = true;
 		break;
@@ -260,7 +261,7 @@ bool j1ParticleManager::AddAnimationDefinition(const pugi::xml_node * data_node)
 {
 	//Allocate the new animation
 	Animation* new_animation = new Animation();
-
+	
 	//Load all animation data form the node
 	//Animation ID
 	PARTICLE_ANIMATION_ID animation_id = StrToParticleAnimationID(data_node->attribute("id").as_string());
@@ -311,7 +312,7 @@ bool j1ParticleManager::AddAnimationDefinition(const pugi::xml_node * data_node)
 		uint opacity = sprite_node.attribute("opacity").as_uint(255);
 
 		//Add sprite at animation
-		new_animation->AddSprite(rect, iPoint(pX, pY), sprite_node.attribute("z").as_int(), opacity);
+		new_animation->AddSprite(rect, iPoint(pX, pY), sprite_node.attribute("z").as_int(0), opacity);
 
 
 		//Focus next sprite node
@@ -333,6 +334,7 @@ PARTICLE_TYPE j1ParticleManager::StrToParticleType(const char * str) const
 	if (strcmp(str, "level_up_particle") == 0)				return LEVEL_UP_PARTICLE;
 	if (strcmp(str, "main_menu_slime_particle") == 0)		return MAIN_MENU_SLIME_PARTICLE;
 	if (strcmp(str, "slash_particle") == 0)					return SLASH_PARTICLE;
+	if (strcmp(str, "portal_particle") == 0)				return PORTAL_PARTICLE;
 	return NO_PARTICLE;
 }
 
@@ -343,6 +345,7 @@ PARTICLE_ANIMATION_ID j1ParticleManager::StrToParticleAnimationID(const char * s
 	if (strcmp(str, "slash_left_up") == 0)		return SLASH_LEFT_UP;
 	if (strcmp(str, "slash_right_down") == 0)	return SLASH_RIGHT_DOWN;
 	if (strcmp(str, "slash_right_up") == 0)		return SLASH_RIGHT_UP;
+	if (strcmp(str, "spawn_portal") == 0)		return SPAWN_PORTAL;
 	return NO_ANIM_ID;
 }
 
@@ -357,7 +360,8 @@ bool j1ParticleManager::IsTextType(PARTICLE_TYPE type) const
 bool j1ParticleManager::IsAnimationType(PARTICLE_TYPE type) const
 {
 	return (type == MAIN_MENU_SLIME_PARTICLE ||
-			type == SLASH_PARTICLE);
+			type == SLASH_PARTICLE ||
+			type == PORTAL_PARTICLE);
 }
 
 // Functionality ================================
@@ -493,6 +497,7 @@ Particle * j1ParticleManager::GenerateAnimationParticle(PARTICLE_TYPE particle_t
 	switch (particle_type)
 	{
 	case MAIN_MENU_SLIME_PARTICLE:
+	case PORTAL_PARTICLE:
 		new_particle = new Animated_Particle(*(Animated_Particle*)particle_template);
 		break;
 	case SLASH_PARTICLE:
@@ -500,10 +505,6 @@ Particle * j1ParticleManager::GenerateAnimationParticle(PARTICLE_TYPE particle_t
 		new_particle->SetAnimation(GetParticleAnimationByID(va_arg(variables, PARTICLE_ANIMATION_ID)));
 		break;
 	}
-
-
-
-
 
 	//Add the generated particle at the current particle for update
 	current_particles.push_back(new_particle);
