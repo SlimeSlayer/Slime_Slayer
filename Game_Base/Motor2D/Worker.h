@@ -38,6 +38,7 @@ public:
 	- LG_SIMPLE_ATTACK_ACTION: Entity* actor, Creature* target
 	- LG_DIE_ACTION: Entity* actor
 	- LG_STUN_ACTION: Entity* actor, uint time, SDL_Color blit_color
+	- LG_MAGIC_SPAWN_ACTION: Entity* actor, uint total_time, uint flips, float initial_scale
 	*/
 	Action*	GenerateAction(LG_ACTION_TYPE type, ...);
 	

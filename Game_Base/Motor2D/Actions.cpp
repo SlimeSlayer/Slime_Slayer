@@ -10,6 +10,7 @@
 #include "j1Physics.h"
 #include "j1Render.h"
 #include "Endless.h"
+#include "j1Animator.h"
 
 #include "UI_Element.h"
 #include "UI_String.h"
@@ -489,3 +490,104 @@ bool Stun_Action::Execute()
 {
 	return stun_timer.Read() > time;
 }
+/// ---------------------------------------------
+
+/// Magic_Spawn_Action --------------------------
+// Constructors =================================
+Magic_Spawn_Action::Magic_Spawn_Action():Action(LG_MAGIC_SPAWN_ACTION)
+{
+
+}
+
+// Destructors ==================================
+Magic_Spawn_Action::~Magic_Spawn_Action()
+{
+
+}
+
+// Game Loop ====================================
+bool Magic_Spawn_Action::Init()
+{
+	//Get the previous fixture 
+	prev_collision_type = actor->GetBody()->collision_type;
+
+	//Change the current entity fixture to a ghost one
+	b2Fixture* prev_fixture = actor->GetBody()->body->GetFixtureList();
+
+	//Modify the fixture to ghost mode
+	b2FixtureDef temp_fixture;
+	temp_fixture.shape = prev_fixture->GetShape();
+	temp_fixture.density = prev_fixture->GetDensity();
+	temp_fixture.restitution = prev_fixture->GetRestitution();
+	temp_fixture.friction = prev_fixture->GetFriction();
+	temp_fixture.isSensor = false;
+	temp_fixture.userData = prev_fixture->GetUserData();
+	App->physics->SetFixture(temp_fixture, GHOST_COLLISION);
+	actor->GetBody()->body->CreateFixture(&temp_fixture);
+	actor->GetBody()->body->DestroyFixture(prev_fixture);
+
+	//Get final scale checking current animation scale
+	final_scale = actor->GetAnimation()->GetSpritesScale();
+	
+	//Set sprite angle
+	actor->GetAnimation()->SetSpritesAngle(0.0);
+
+	//Set sprite scale
+	actor->GetAnimation()->SetSpritesScale(initial_scale);
+
+	//Start timer
+	spawn_timer.Start();
+
+	return true;
+}
+
+bool Magic_Spawn_Action::Execute()
+{
+	per_cent = (float)spawn_timer.Read()/(float)total_time;
+	LOG("%f", per_cent);
+
+	//Update sprite angle
+	current_angle = 360 * (float)flips * per_cent;
+	actor->GetAnimation()->SetSpritesAngle(current_angle);
+
+	//Update sprite scale
+	current_scale = final_scale * per_cent;
+	actor->GetAnimation()->SetSpritesScale(current_scale);
+
+	bool ret = per_cent >= 1.00;
+
+	actor->GetBody()->body->SetLinearVelocity(b2Vec2(0, 0));
+
+	if (ret)
+	{
+		//Reset sprites angle 
+		actor->GetAnimation()->SetSpritesAngle(0.0);
+		//Reset sprites scale
+		actor->GetAnimation()->SetSpritesScale(final_scale);
+
+		//Change the current ghost fixture the original
+		b2Fixture* prev_fixture = actor->GetBody()->body->GetFixtureList();
+
+		//Reactivate collision modifying the fixture
+		b2FixtureDef temp_fixture;
+		temp_fixture.shape = prev_fixture->GetShape();
+		temp_fixture.density = prev_fixture->GetDensity();
+		temp_fixture.restitution = prev_fixture->GetRestitution();
+		temp_fixture.friction = prev_fixture->GetFriction();
+		temp_fixture.isSensor = false;
+		temp_fixture.userData = prev_fixture->GetUserData();
+		App->physics->SetFixture(temp_fixture, prev_collision_type);
+		actor->GetBody()->body->CreateFixture(&temp_fixture);
+		actor->GetBody()->body->DestroyFixture(prev_fixture);
+	}
+
+	return ret;
+}
+
+// Functionality ================================
+
+// Set Methods ==================================
+
+// Get Methods ==================================
+
+

@@ -211,7 +211,7 @@ void Animated_Particle::Draw()
 	if (animation != nullptr)
 	{
 		const Sprite* sprite = animation->GetCurrentSprite();
-		App->render->CallBlit(animation->GetTexture(), position.x, position.y, sprite->GetFrame(), false, animation->GetSpritesHorizontalFlip(), animation->GetSpritesVerticalFlip(), animation->GetSpritesScale(), sprite->GetZ_cord(), sprite->GetOpacity(), -sprite->GetXpivot(), -sprite->GetYpivot(), animation->GetTexColor());
+		App->render->CallBlit(animation->GetTexture(), position.x, position.y, sprite->GetFrame(), false, animation->GetSpritesHorizontalFlip(), animation->GetSpritesVerticalFlip(), animation->GetSpritesScale(), sprite->GetZ_cord(), sprite->GetOpacity(), -sprite->GetXpivot(), -sprite->GetYpivot(), animation->GetTexColor(),sprite->GetAngle());
 	}
 }
 

@@ -13,7 +13,7 @@
 
 ///Animation Sprite Class -----------------------
 //Constructor ===============
-Sprite::Sprite(const SDL_Rect & frame, const iPoint & pivot, int z_cord, uint opacity) : frame(frame), pivot(pivot), z_cord(z_cord), opacity(opacity)
+Sprite::Sprite(const SDL_Rect & frame, const iPoint & pivot, int z_cord, uint opacity, float angle) : frame(frame), pivot(pivot), z_cord(z_cord), opacity(opacity), angle(angle)
 {
 
 }
@@ -21,6 +21,7 @@ Sprite::Sprite(const SDL_Rect & frame, const iPoint & pivot, int z_cord, uint op
 //Destructor ================
 Sprite::~Sprite()
 {
+
 }
 
 //Functionality =============
@@ -28,21 +29,35 @@ const SDL_Rect * Sprite::GetFrame() const
 {
 	return &frame;
 }
+
 int Sprite::GetXpivot() const
 {
 	return pivot.x;
 }
+
 int Sprite::GetYpivot() const
 {
 	return pivot.y;
 }
+
 int Sprite::GetZ_cord() const
 {
 	return z_cord;
 }
+
 uint Sprite::GetOpacity() const
 {
 	return opacity;
+}
+
+float Sprite::GetAngle() const
+{
+	return angle;
+}
+
+void Sprite::SetAngle(float val)
+{
+	angle = val;
 }
 /// ---------------------------------------------
 
@@ -126,6 +141,15 @@ void Animation::SetSpritesScale(float sprites_sc)
 	sprites_scale = sprites_sc;
 }
 
+void Animation::SetSpritesAngle(float angle)
+{
+	uint size = sprites.size();
+	for (uint k = 0; k < size; k++)
+	{
+		sprites[k].SetAngle(angle);
+	}
+}
+
 SDL_Texture * Animation::GetTexture() const
 {
 	return texture;
@@ -177,7 +201,7 @@ const Sprite* Animation::GetCurrentSprite()
 	return &sprites[(int)current_frame];
 }
 
-const std::vector<Sprite>* Animation::GetAllSprites() const
+const std::vector<Sprite>* Animation::GetAllSprites()const
 {
 	return &sprites;
 }
@@ -807,7 +831,9 @@ bool j1Animator::EntityPlay(Entity* target)
 	}
 
 	//Set the animation of the branch found
-	target->SetAnimation(animation_branch->GetAnimation());
+	Animation* target_anim = target->GetAnimation();
+	if (target_anim != nullptr)RELEASE(target_anim);
+	target->SetAnimation(new Animation(*animation_branch->GetAnimation()));
 	target->GetAnimation()->Reset();
 		
 	return true;

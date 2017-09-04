@@ -12,6 +12,8 @@
     <spawn_cords>
       <crd x="200" y="745"/>
       <crd x="1500" y="745"/>
+      <crd x="3000" y="745"/>
+      <crd x="4800" y="745"/>
     </spawn_cords>
   </spawn>
   <ui wave_anim_duration="3000" bar_anim_add ="1.25"/>

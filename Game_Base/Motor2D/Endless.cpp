@@ -141,9 +141,13 @@ bool Endless::Enable()
 	}
 
 	//Generate portals at spawn coordinates
-	Particle* portal = App->particle_manager->GenerateAnimationParticle(PARTICLE_TYPE::PORTAL_PARTICLE);
-	portal->SetPosition(spawn_coordinates[0].x, spawn_coordinates[0].y);
-
+	uint size = spawn_coordinates.size();
+	for (uint k = 0; k < size; k++)
+	{
+		Particle* portal = App->particle_manager->GenerateAnimationParticle(PARTICLE_TYPE::PORTAL_PARTICLE);
+		portal->SetPosition(spawn_coordinates[k].x, spawn_coordinates[k].y);
+	}
+	
 	//Play scene music
 	App->audio->PlayMusic(MUSIC_ID::MUSIC_IN_GAME);
 
@@ -185,6 +189,8 @@ void Endless::Disable()
 	App->entities_manager->DeleteCurrentEntities();
 
 	active = enabled = base_enabled = false;
+
+	LOG("Endless Disabled");
 }
 
 void Endless::RestartScene()
@@ -340,6 +346,7 @@ bool Endless::Update(float dt)
 	if (spawn_timer.Read() > next_spawn_time && (current_defeat_creatures + current_alive_creatures < next_wave_creatures))
 	{
 		Creature* enemy = App->entities_manager->GenerateCreature(CREATURE_TYPE::BASIC_ENEMY_CREATURE);
+		enemy->worker.AddAction(enemy->worker.GenerateAction(LG_ACTION_TYPE::LG_MAGIC_SPAWN_ACTION, enemy, 3000, 2, 0.1));
 		enemy->SetPosition(spawn_coordinates[0].x, spawn_coordinates[0].y);
 		current_alive_creatures++;
 		next_spawn_time = spawn_rate;

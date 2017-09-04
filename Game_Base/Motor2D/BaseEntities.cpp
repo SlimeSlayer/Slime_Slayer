@@ -34,6 +34,7 @@ Entity::Entity(const Entity & copy, bool generate_body) : entity_type(copy.entit
 //Destructors =========================
 Entity::~Entity()
 {
+	if (current_animation != nullptr)RELEASE(current_animation);
 	if (body != nullptr)RELEASE(body);
 }
 
@@ -65,7 +66,7 @@ void Entity::Draw()
 		{
 			color = ((Stun_Action*)worker.GetCurrentAction())->blit_color;
 		}
-		App->render->CallBlit(current_animation->GetTexture(), x, y, sprite->GetFrame(), false, current_animation->GetSpritesHorizontalFlip(), current_animation->GetSpritesVerticalFlip(), current_animation->GetSpritesScale(), 0, 255, -sprite->GetXpivot(), -sprite->GetYpivot(), color);
+		App->render->CallBlit(current_animation->GetTexture(), x, y, sprite->GetFrame(), false, current_animation->GetSpritesHorizontalFlip(), current_animation->GetSpritesVerticalFlip(), current_animation->GetSpritesScale(), 0, 255, -sprite->GetXpivot(), -sprite->GetYpivot(), color,sprite->GetAngle());
 	}
 }
 
@@ -258,7 +259,7 @@ void Creature::Draw()
 		{
 			color = ((Stun_Action*)worker.GetCurrentAction())->blit_color;
 		}
-		App->render->CallBlit(current_animation->GetTexture(), x, y, sprite->GetFrame(), false, current_animation->GetSpritesHorizontalFlip(), current_animation->GetSpritesVerticalFlip(), current_animation->GetSpritesScale(), 0, 255, -sprite->GetXpivot(), -sprite->GetYpivot(), color);
+		App->render->CallBlit(current_animation->GetTexture(), x, y, sprite->GetFrame(), false, current_animation->GetSpritesHorizontalFlip(), current_animation->GetSpritesVerticalFlip(), current_animation->GetSpritesScale(), 0, 255, -sprite->GetXpivot(), -sprite->GetYpivot(), color,sprite->GetAngle());
 	}
 }
 

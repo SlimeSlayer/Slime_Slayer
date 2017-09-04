@@ -15,7 +15,7 @@ class Sprite
 {
 public:
 
-	Sprite(const SDL_Rect& frame, const iPoint& pivot, int z_cord = 0, uint opacity = 255);
+	Sprite(const SDL_Rect& frame, const iPoint& pivot, int z_cord = 0, uint opacity = 255, float angle = 0.0f);
 	~Sprite();
 
 private:
@@ -24,6 +24,7 @@ private:
 	iPoint			pivot = { 0,0 };
 	int				z_cord = 0;
 	uint			opacity = 255;
+	float			angle = 0.0;
 
 public:
 
@@ -34,7 +35,10 @@ public:
 	int					GetYpivot()const;
 	int					GetZ_cord()const;
 	uint				GetOpacity()const;
+	float				GetAngle()const;
 
+	//Set Methods
+	void				SetAngle(float val);
 };
 /// ---------------------------------------------
 
@@ -86,6 +90,7 @@ public:
 	void	SetSpritesHorizontalFlip(bool sprites_flip);
 	void	SetSpritesVerticalFlip(bool sprites_flip);
 	void	SetSpritesScale(float sprites_sc);
+	void	SetSpritesAngle(float angle);
 
 	//Get Methods -----------
 	SDL_Texture*					GetTexture()const;

@@ -26,7 +26,8 @@ enum LG_ACTION_TYPE
 	LG_BASIC_ATTACK_ACTION,
 	LG_SIMPLE_ATTACK_ACTION,
 	LG_DIE_ACTION,
-	LG_STUN_ACTION
+	LG_STUN_ACTION,
+	LG_MAGIC_SPAWN_ACTION
 };
 
 /// Action --------------------------------------
@@ -225,6 +226,35 @@ public:
 	uint		time = 0;
 	SDL_Color	blit_color = { 255,255,255,255 };
 
+};
+/// ---------------------------------------------
+
+/// Magic_Spawn_Action --------------------------
+class Magic_Spawn_Action : public Action
+{
+public:
+
+	Magic_Spawn_Action();
+	~Magic_Spawn_Action();
+
+public:
+
+	//Game Loop -------------
+	bool Init();
+	bool Execute();
+
+public:
+
+	COLLISION_TYPE	prev_collision_type = COLLISION_TYPE::GHOST_COLLISION;
+	j1Timer			spawn_timer;
+	uint			total_time = 0;
+	uint			flips = 0;
+	float			initial_scale = 0.0;
+	float			final_scale = 0.0;
+
+	float			current_angle = 0.0;
+	float			current_scale = 0.0;
+	float			per_cent = 0.0;
 };
 /// ---------------------------------------------
 

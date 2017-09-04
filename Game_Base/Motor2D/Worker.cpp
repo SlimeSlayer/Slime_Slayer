@@ -133,6 +133,16 @@ Action * Worker::GenerateAction(LG_ACTION_TYPE type, ...)
 		((Stun_Action*)new_act)->time = va_arg(variables, int);
 		((Stun_Action*)new_act)->blit_color = va_arg(variables, SDL_Color);
 		break;
+		
+	case LG_MAGIC_SPAWN_ACTION:
+		//Generate die action
+		new_act = new Magic_Spawn_Action();
+		//Set action stats
+		new_act->actor = va_arg(variables, Entity*);
+		((Magic_Spawn_Action*)new_act)->total_time = va_arg(variables, int);
+		((Magic_Spawn_Action*)new_act)->flips = va_arg(variables, int);
+		((Magic_Spawn_Action*)new_act)->initial_scale = va_arg(variables, double);
+		break;
 	}
 
 	//Return the generated action
@@ -155,5 +165,6 @@ void Worker::AddPriorizedAction(const Action * new_act)
 		actions.push_front(current_action);
 	}
 	current_action = (Action*)new_act;
+	current_action->Init();
 }
 /// ---------------------------------------------
