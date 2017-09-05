@@ -525,7 +525,7 @@ void j1App::LoadPartyData(const char * file)
 void j1App::SaveGeneralData(const char* file)
 {
 	want_to_g_save = true;
-	save_game = file;
+	save_game = std::string(fs->save_directory.c_str()) + std::string(file);
 }
 
 void j1App::SavePartyData(const char * file)

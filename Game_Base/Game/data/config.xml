@@ -105,7 +105,7 @@
   
   <file_system>
     <path>data</path>
-    <save_dir>save/</save_dir>
+    <save_dir>Save_Files</save_dir>
     <general_file>GameSave.xml</general_file>
     <party_file>PartySave.xml</party_file>
   </file_system>

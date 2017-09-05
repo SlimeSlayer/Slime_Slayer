@@ -40,6 +40,11 @@ bool j1FileSystem::Awake(pugi::xml_node& config)
 		AddPath(path.child_value());
 	}
 
+	//Load save / load folders
+	save_directory = config.child("save_dir").child_value();
+	general_save_file = config.child("general_file").child_value();
+	party_save_file = config.child("party_file").child_value();
+
 	// Ask SDL for a write dir
 	char* write_path = SDL_GetPrefPath(App->GetOrganization(), App->GetTitle());
 
@@ -47,18 +52,16 @@ bool j1FileSystem::Awake(pugi::xml_node& config)
 		LOG("File System error while creating write dir: %s\n", PHYSFS_getLastError());
 	else
 	{
-		// We add the writing directory as a reading directory too with speacial mount point
+		// We add the writing directory as a reading directory too with special mount point
 		LOG("Writing directory is %s\n", write_path);
-		AddPath(write_path, save_directory.c_str());
+		if (!AddPath(save_directory.c_str(),write_path))
+		{
+			LOG("Error adding path!");
+		}
 	}
 
 	SDL_free(write_path);
-
-	//Load save / load folders
-	save_directory = config.child("save_dir").child_value();
-	general_save_file = config.child("general_file").child_value();
-	party_save_file = config.child("party_file").child_value();
-
+	
 	return ret;
 }
 

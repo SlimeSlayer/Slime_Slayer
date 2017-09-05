@@ -24,8 +24,8 @@ public:
 	// Called before quitting
 	bool CleanUp();
 	
+	//Save / Load functions
 	bool GeneralSave(pugi::xml_node& node) const;
-
 	bool GeneralLoad(pugi::xml_node& node);
 
 	//Collisions functions

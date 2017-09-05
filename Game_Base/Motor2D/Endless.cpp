@@ -439,6 +439,24 @@ bool Endless::Update(float dt)
 	return true;
 }
 
+bool Endless::PartySave(pugi::xml_node & node) const
+{
+	LOG("Saving Endless data...");
+	//Save endless wave
+	node.append_attribute("wave") = wave;
+
+	LOG("Endless data saved!");
+	return true;
+}
+
+bool Endless::PartyLoad(pugi::xml_node & node)
+{
+	wave = node.attribute("wave").as_uint();
+
+	return true;
+}
+
+// Functionality ================================
 void Endless::CreaturesCount(uint defs)
 {
 	//Rest the defeated creatures to the current ones

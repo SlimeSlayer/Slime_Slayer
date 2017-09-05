@@ -33,6 +33,10 @@ public:
 	// Called each loop iteration
 	bool Update(float dt);
 
+	//Save / Load functions
+	bool PartySave(pugi::xml_node& node) const;
+	bool PartyLoad(pugi::xml_node& node);
+
 private:
 
 	//Creatures spawn data

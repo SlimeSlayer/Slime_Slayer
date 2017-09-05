@@ -544,8 +544,7 @@ bool Magic_Spawn_Action::Init()
 bool Magic_Spawn_Action::Execute()
 {
 	per_cent = (float)spawn_timer.Read()/(float)total_time;
-	LOG("%f", per_cent);
-
+	
 	//Update sprite angle
 	current_angle = 360 * (float)flips * per_cent;
 	actor->GetAnimation()->SetSpritesAngle(current_angle);
