@@ -100,9 +100,6 @@
     <ClCompile Include="Creatures.cpp">
       <Filter>App\Modules\EntitiesManager</Filter>
     </ClCompile>
-    <ClCompile Include="Endless.cpp">
-      <Filter>App\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Actions.cpp">
       <Filter>App\Act_System</Filter>
     </ClCompile>
@@ -129,6 +126,9 @@
     </ClCompile>
     <ClCompile Include="j1Main.cpp">
       <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="Endless.cpp">
+      <Filter>App\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

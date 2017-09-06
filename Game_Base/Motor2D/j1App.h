@@ -234,7 +234,7 @@ public:
 	void	ActiveEndless();
 
 	//Debug booleans
-	bool	collisions_debug = true;
+	bool	collisions_debug = false;
 	bool	ui_debug = false;
 
 };

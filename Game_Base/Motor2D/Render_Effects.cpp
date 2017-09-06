@@ -95,7 +95,7 @@ bool Fade_Effect::Update()
 	}
 	
 	//Check if the alpha has reached the end value
-	bool ret = (MIN(abs(current_alpha - end_alpha), FADE_MARGIN) <= FADE_MARGIN);
+	bool ret = (MIN(abs(current_alpha - end_alpha), FADE_MARGIN) < FADE_MARGIN);
 	if (ret && function_pointer != nullptr)
 	{
 		LOG("PTR!");

@@ -183,7 +183,7 @@ bool j1Render::Update(float dt)
 bool j1Render::PostUpdate()
 {
 	//Vsync -------------------------------------
-	if (App->render->vsync && App->win->fullscreen)
+	if (App->render->vsync)
 	{
 		float delay = 0;
 		float current_time = (float)App->GetCurrentFrameTime();
@@ -216,29 +216,18 @@ bool j1Render::PostUpdate()
 	}
 	// ------------------------------------------
 
-	//Render Filters ----------------------------
-	/*SDL_Surface *shot = SDL_CreateRGBSurface(0, viewport.w, viewport.h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
-	SDL_RenderReadPixels(renderer, &viewport, SDL_PIXELFORMAT_ARGB8888, shot->pixels, shot->pitch);
-	for (uint y = 0; y < viewport.h; y++)
-	{
-		for (uint x = 0; x < viewport.w; x++)
-		{
-			Uint32* dest_pixel = pixels + (y * viewport.w) + x;
-			unsigned char* dest_r = (unsigned char*)dest_pixel;
-			*dest_r = 0;
-		}
-	}*/
-	
-	// ------------------------------------------
-
 	// Render Present ---------------------------
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.b, background.a);
 	SDL_RenderPresent(renderer);
 	// ------------------------------------------
-
-	if (App->render->vsync && !App->win->fullscreen)SDL_GL_SwapWindow(App->win->window);
-
-
+	
+#ifdef _DEBUG
+	if (App->render->vsync && App->render->fullscreen)
+	{
+		SDL_GL_SwapWindow(App->win->window);
+	}
+#endif*/
+	
 	return true;
 }
 

@@ -40,11 +40,6 @@ bool j1FileSystem::Awake(pugi::xml_node& config)
 		AddPath(path.child_value());
 	}
 
-	//Load save / load folders
-	save_directory = config.child("save_dir").child_value();
-	general_save_file = config.child("general_file").child_value();
-	party_save_file = config.child("party_file").child_value();
-
 	// Ask SDL for a write dir
 	char* write_path = SDL_GetPrefPath(App->GetOrganization(), App->GetTitle());
 
@@ -54,11 +49,13 @@ bool j1FileSystem::Awake(pugi::xml_node& config)
 	{
 		// We add the writing directory as a reading directory too with special mount point
 		LOG("Writing directory is %s\n", write_path);
-		if (!AddPath(save_directory.c_str(),write_path))
-		{
-			LOG("Error adding path!");
-		}
+		AddPath(write_path, "");
 	}
+
+	//Load save / load folders
+	save_directory = config.child("save_dir").child_value();
+	general_save_file = config.child("general_file").child_value();
+	party_save_file = config.child("party_file").child_value();
 
 	SDL_free(write_path);
 	
@@ -77,9 +74,10 @@ bool j1FileSystem::AddPath(const char* path_or_zip, const char* mount_point)
 {
 	bool ret = false;
 
-	if(PHYSFS_mount(path_or_zip, mount_point, 1) == 0)
+	if (PHYSFS_mount(path_or_zip, mount_point, 1) == 0)
 		LOG("File System error while adding a path or zip(%s): %s\n", path_or_zip, PHYSFS_getLastError());
 	else
+		LOG("Path added");
 		ret = true;
 
 	return ret;

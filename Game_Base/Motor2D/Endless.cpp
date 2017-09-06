@@ -452,6 +452,41 @@ bool Endless::PartySave(pugi::xml_node & node) const
 bool Endless::PartyLoad(pugi::xml_node & node)
 {
 	wave = node.attribute("wave").as_uint();
+	
+	//Update creatures count
+	next_wave_creatures = ceil(start_creatures * (wave_evolve * (wave + 1)));
+	current_defeat_creatures = 0;
+	//Active/Rest all the related UI
+	anim_alpha = 0.01f;
+	wave_animation = true;
+
+	//Wave str
+	char buffer[6];
+	_itoa(wave, buffer, 10);
+
+	std::string w_str = "Wave ";
+	w_str += buffer;
+	wave_string->SetString(w_str.c_str());
+	wave_string->AdjustBox();
+	wave_string->SetBoxPosition(App->render->viewport.w * 0.5 - wave_string->GetBox()->w * 0.5, App->render->viewport.h * 0.5 - wave_string->GetBox()->h * 0.5 - 50);
+
+	//Percent str
+	float n = floor((wave-1) / effect_waves);
+	float cent_val = MAX(0, (((wave-1) -  n * effect_waves) / wave_progress_bar->GetMaxValue()) * 100);
+	cent_val = (cent_val > (floor(cent_val) + 0.5f)) ? ceil(cent_val) : floor(cent_val);
+	char n_buffer[6];
+	_itoa(cent_val, n_buffer, 10);
+	w_str = n_buffer;
+	w_str += " %";
+
+	wave_percent_string->SetString(w_str.c_str());
+	wave_progress_bar->SetCurrentValue(wave_progress_bar->GetMaxValue() * (cent_val/100));
+	wave_progress_bar->UpdateTexture();
+
+	//Add a delay on the spawn to define the wave
+	next_spawn_time = initial_spawn_time;
+	spawn_timer.Start();
+	anim_timer.Start();
 
 	return true;
 }
@@ -469,7 +504,7 @@ void Endless::CreaturesCount(uint defs)
 		//Update wave
 		wave++;
 		//In boss wave party is autosaved
-		if (wave % effect_waves == 0 && wave > 0)App->SavePartyData(App->fs->party_save_file.c_str());
+		App->SavePartyData(App->fs->party_save_file.c_str());
 		//Update creatures count
 		next_wave_creatures = ceil(start_creatures * (wave_evolve * (wave + 1)));
 		current_defeat_creatures = 0;
