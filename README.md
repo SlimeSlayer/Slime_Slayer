@@ -2,6 +2,14 @@
 A simple game about a pink slime who hates red slimes and is friendly with the green ones.
 This is an endless game where you have to farm and upgrade your slime beating the waves of red slimes.
 
+# Updates v0.6.5
+- Endless Portals added
+- Endless spawn randomized
+- Endless map limited
+- Automatic save every round
+- Automatic load at game start
+- #4 Solved
+
 # Updates v0.6
 - Endless mode base
 - Endless UI
