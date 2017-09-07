@@ -257,6 +257,20 @@ bool j1Player::CleanUp()
 	return true;
 }
 
+// Save / Load functions ========================
+bool j1Player::PartySave(pugi::xml_node & node) const
+{
+	node.append_attribute("money") = avatar->GetMoney();
+	return true;
+}
+
+bool j1Player::PartyLoad(pugi::xml_node & node)
+{
+	avatar->AddMoney(node.attribute("money").as_uint());
+	
+	return true;
+}
+
 // Collisions functions =========================
 void j1Player::OnSensorCollision(PhysBody * A, PhysBody * B)
 {

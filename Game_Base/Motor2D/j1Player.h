@@ -38,6 +38,10 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	//Save / Load functions
+	bool PartySave(pugi::xml_node& node) const;
+	bool PartyLoad(pugi::xml_node& node);
+
 	// Collisions functions
 	void OnSensorCollision(PhysBody* A, PhysBody* B);
 
