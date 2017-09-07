@@ -22,7 +22,8 @@ enum FONT_ID
 	ENEMY_HITPOINTS_FONT,
 	ALLY_HITPOINTS_FONT,
 	EXPERIENCE_FONT,
-	LVL_UP_FONT
+	LVL_UP_FONT,
+	MONEY_FONT
 };
 
 /// Font_Def --------------------------

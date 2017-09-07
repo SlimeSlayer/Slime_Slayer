@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "Creatures.h"
 
 #include "p2Log.h"
@@ -307,6 +309,19 @@ void Player::AddExperience(uint gained_exp)
 	App->player->exp_bar->SetMaxValue(this->GetNextLevelExperience());
 	App->player->exp_bar->SetCurrentValue(this->GetExperience());
 	App->player->exp_bar->UpdateTexture();
+}
+
+void Player::AddMoney(uint val)
+{
+	money += val;
+	if (App->player->money_string != nullptr)
+	{
+		char buffer[9];
+		_itoa((int)money, buffer, 10);
+		std::string str = buffer;
+		str += " $";
+		App->player->money_string->SetString(str.c_str());
+	}
 }
 /// ---------------------------------------------
 

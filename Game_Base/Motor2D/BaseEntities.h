@@ -212,7 +212,7 @@ public:
 	uint				GetRewardExperience()const;
 
 	//Functionality ---------
-	void			AddMoney(uint gained_money);
+	virtual void	AddMoney(uint gained_money);
 	void			DropMoney();
 	void			DropExperience();
 

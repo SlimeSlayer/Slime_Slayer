@@ -1,4 +1,5 @@
 #include "j1Render.h"
+#include "j1Textures.h"
 
 #include "p2Log.h"
 #include "j1App.h"
@@ -235,7 +236,14 @@ bool j1Render::PostUpdate()
 bool j1Render::CleanUp()
 {
 	LOG("Destroying SDL render");
-	SDL_DestroyRenderer(renderer);
+	
+	if (App->tex->textures.size() > 0)
+	{
+		SDL_DestroyRenderer(renderer);
+	}
+
+	LOG("All the textures has been released");
+
 	return true;
 }
 

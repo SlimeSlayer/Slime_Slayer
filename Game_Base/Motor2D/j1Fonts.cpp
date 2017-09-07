@@ -146,6 +146,7 @@ FONT_ID j1Fonts::StrToFontID(const char * str) const
 	if (strcmp("enemy_hitpoints_font", str) == 0)	return ENEMY_HITPOINTS_FONT;
 	if (strcmp("experience_font", str) == 0)		return EXPERIENCE_FONT;
 	if (strcmp("lvl_up_font", str) == 0)			return LVL_UP_FONT;
+	if (strcmp("money_font", str) == 0)				return MONEY_FONT;
 	return NO_FONT;
 }
 

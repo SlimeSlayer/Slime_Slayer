@@ -53,6 +53,7 @@ public:
 	UI_Image*			avatar_icon = nullptr;
 	UI_Progressive_Bar*	life_bar = nullptr;
 	UI_Progressive_Bar*	exp_bar = nullptr;
+	UI_String*			money_string = nullptr;
 
 	//User avatar -----------
 	Player* avatar = nullptr;

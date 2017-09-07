@@ -133,6 +133,7 @@ public:
 	bool ReadyToAttack()const;
 
 	void AddExperience(uint gained_exp);
+	void AddMoney(uint val)final;
 };
 /// ---------------------------------------------
 #endif // !_CREATURES_H_

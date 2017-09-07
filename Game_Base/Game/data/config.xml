@@ -22,6 +22,7 @@
     <font file="fonts/open_sans/OpenSans-Regular.ttf" size="26" id="enemy_hitpoints_font" f_color="255/255/225/255"/>
     <font file="fonts/open_sans/OpenSans-Regular.ttf" size="26" id="experience_font"      f_color="155/255/255/255"/>
     <font file="fonts/open_sans/OpenSans-Regular.ttf" size="40" id="lvl_up_font"          f_color="55/255/125/255"/>
+    <font file="fonts/open_sans/OpenSans-Regular.ttf" size="25" id="money_font"           f_color="255/255/0/255"/>
   </fonts>
 
   <gui>

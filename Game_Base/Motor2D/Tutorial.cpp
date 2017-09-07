@@ -277,12 +277,12 @@ bool Tutorial::CleanUp()
 {
 	LOG("Freeing Tutorial");
 
-	if (front_parallax != nullptr) delete front_parallax;
-	if (mid_parallax != nullptr)delete mid_parallax;
-	if (back_parallax != nullptr)delete back_parallax;
+	if (front_parallax != nullptr) RELEASE(front_parallax);
+	if (mid_parallax != nullptr)RELEASE(mid_parallax);
+	if (back_parallax != nullptr)RELEASE(back_parallax);
 
-	if (floor_collider != nullptr)delete floor_collider;
-	if (end_trigger != nullptr)delete end_trigger;
+	if (floor_collider != nullptr)RELEASE(floor_collider);
+	if (end_trigger != nullptr)RELEASE(end_trigger);
 
 	data_doc.reset();
 

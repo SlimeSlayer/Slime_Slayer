@@ -50,10 +50,15 @@ bool j1Player::Enable()
 	life_bar->SetMaxValue(avatar->GetMaxLife());
 	life_bar->SetCurrentValue(avatar->GetCurrentLife());
 	life_bar->GenerateTexture();
+	
 	//EXP bar
 	exp_bar->SetMaxValue(avatar->GetNextLevelExperience());
 	exp_bar->SetCurrentValue(avatar->GetExperience());
 	exp_bar->GenerateTexture();
+
+	//Money Str
+	money_string->SetString("0 $");
+	money_string->SetBoxPosition(140, 125);
 
 	//Activate Player UI 
 	avatar_ui_branch->Activate();
@@ -137,6 +142,16 @@ bool j1Player::Start()
 	exp_bar->SetVisualLayer(10);
 	exp_bar->SetInputTarget(this);
 	avatar_ui_branch->AddChild(exp_bar);
+	// ------------------------------------------
+
+	// Money String -----------------------------
+	money_string = (UI_String*)App->gui->GenerateUI_Element(UI_TYPE::STRING);
+	Font_Def* f_def = App->font->GetFontByID(FONT_ID::MONEY_FONT);
+	money_string->SetFont(f_def->font);
+	money_string->SetColor(f_def->font_color);
+	money_string->SetVisualLayer(20);
+	money_string->SetInputTarget(this);
+	avatar_ui_branch->AddChild(money_string);
 	// ------------------------------------------
 
 	//Add the built branch at the GUI 
