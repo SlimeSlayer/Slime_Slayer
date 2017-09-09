@@ -50,6 +50,9 @@ private:
 	//Data used during initial load
 	pugi::xml_document data_doc;
 	
+	//Player data -----------
+	uint	extra_live_money = 0;
+
 public:
 
 	//User UI ---------------
@@ -63,6 +66,9 @@ public:
 	Player* avatar = nullptr;
 
 public:
+
+	//Get Methods -----------
+	uint	GetExtraLifeMoney()const;
 
 	//Functionality ---------
 	void PlayerDeath();

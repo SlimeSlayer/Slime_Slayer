@@ -88,7 +88,7 @@ void j1Player::Disable()
 bool j1Player::Awake(pugi::xml_node & node)
 {
 	LOG("Loading Player data document...");
-	//Load player data document
+	//Load player data document -------
 	if (App->fs->LoadXML(node.child("data_doc").attribute("folder").as_string(), &data_doc))
 	{
 		LOG("Player data document correctly loaded!");
@@ -98,6 +98,10 @@ bool j1Player::Awake(pugi::xml_node & node)
 		LOG("Error loading Player data document");
 	}
 
+	//Load player basic data ----------
+	pugi::xml_node stats_node = data_doc.first_child().child("stats");
+	extra_live_money = stats_node.attribute("extra_life_money").as_uint();
+	
 	return true;
 }
 
@@ -289,6 +293,12 @@ void j1Player::OnSensorCollision(PhysBody * A, PhysBody * B)
 			A->entity_related->worker.AddAction(A->entity_related->worker.GenerateAction(LG_ACTION_TYPE::LG_SIMPLE_ATTACK_ACTION, A->entity_related, (Creature*)B->entity_related));
 		}
 	}
+}
+
+//Get Methods ===================================
+uint j1Player::GetExtraLifeMoney() const
+{
+	return extra_live_money;
 }
 
 //Functionality =================================

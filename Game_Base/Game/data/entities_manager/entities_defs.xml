@@ -296,7 +296,7 @@
       vision_range="150"
       vision_sensor_type ="ally_sensor_collision"
       vision_sensor_body ="ally_sensor_body"
-      money="12"
+      money="0"
       experience_scale="1.5"
       next_lvl_experience="2"
       />
@@ -306,7 +306,7 @@
       creature_type ="player_creature"
       life="5"
       attack_hitpoints="1"
-      money="20"
+      money="0"
       />
     <entity
       creature_type ="basic_enemy_creature"

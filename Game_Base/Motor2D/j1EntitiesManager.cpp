@@ -83,6 +83,8 @@ bool j1EntitiesManager::Enable()
 
 void j1EntitiesManager::Disable()
 {
+	LOG("Disabling Entities Manager!");
+
 	// Clean all the creatures definitions ------
 	uint size = creatures_defs.size();
 	for (uint k = 0; k < size; k++)
@@ -127,6 +129,8 @@ void j1EntitiesManager::Disable()
 	current_entities.clear();
 
 	enabled = active = false;
+
+	LOG("Entities manager Disabled!");
 }
 
 bool j1EntitiesManager::Awake(pugi::xml_node & node)
@@ -833,7 +837,7 @@ bool j1EntitiesManager::LevelUpCreature(Creature * target)
 	if (evo_template != nullptr)
 	{
 		/*Life*/			target->SetMaxLife(target->GetMaxLife() + evo_template->life);
-							target->SetCurrentLife(target->GetCurrentLife());
+							target->SetCurrentLife(target->GetMaxLife());
 		/*Attack Points*/	target->SetAttackHitPoints(target->GetAttackHitPoints() + evo_template->attack_hitpoints);
 		/*Money*/			target->AddMoney(evo_template->money);
 	}

@@ -392,7 +392,7 @@ void Creature::DropMoney()
 		//Rest volatile timer for correct timing
 		((Volatile_Item*)coin)->ResetVolatileTimer();
 
-		if (k > 15)break;
+		if (k >= CREATURES_DROP_LIMIT)break;
 	}
 
 	//Reset money value

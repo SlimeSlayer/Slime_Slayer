@@ -3,7 +3,8 @@
 
 #define CREATURES_DROPS_IMPULSE -4
 #define CREATURES_DROPS_RAD 1.5
-	
+#define CREATURES_DROP_LIMIT 20
+
 #include "p2Point.h"
 #include "p2Defs.h"
 #include <string>

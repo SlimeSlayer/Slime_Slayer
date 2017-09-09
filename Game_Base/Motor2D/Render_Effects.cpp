@@ -75,8 +75,8 @@ Fade_Effect::~Fade_Effect()
 // Game Loop ====================================
 bool Fade_Effect::Update()
 {
-	//Check end alpha to avoid timing bug
-	end_alpha > 255 ? end_alpha = 255 : end_alpha < 0.1 ? end_alpha = 0 : end_alpha;
+	//Check current alpha to avoid timing bug
+	current_alpha > 255 ? current_alpha = 255 : current_alpha < 0.1 ? current_alpha = 0 : current_alpha;
 	
 	//Draw a rect over the viewport
 	App->render->DrawQuad(App->render->viewport, color.r, color.g, color.b, current_alpha, true, false);

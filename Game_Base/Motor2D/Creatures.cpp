@@ -314,6 +314,15 @@ void Player::AddExperience(uint gained_exp)
 void Player::AddMoney(uint val)
 {
 	money += val;
+	
+	//If the money is enough to pay a full heal it is paid automatically
+	if (money >= App->player->GetExtraLifeMoney() && App->player->avatar->GetCurrentLife() < App->player->avatar->GetMaxLife())
+	{
+		money -= App->player->GetExtraLifeMoney();
+		App->player->avatar->SetCurrentLife(App->player->avatar->GetMaxLife());
+	}
+
+	//Update player money string
 	if (App->player->money_string != nullptr)
 	{
 		char buffer[9];
