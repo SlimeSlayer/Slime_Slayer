@@ -360,8 +360,11 @@ bool Basic_Attack_Action::Execute()
 	if (attack_timer.Read() > ((Creature*)actor)->GetAttackRate())
 	{
 		//Apply damage
-		target->SetCurrentLife(MAX(target->GetCurrentLife() - ((Creature*)actor)->GetAttackHitPoints(), 0));
-		
+		int cur_life = target->GetCurrentLife();
+		int atk_points = ((Creature*)actor)->GetAttackHitPoints();
+		cur_life > atk_points ? cur_life -= atk_points : cur_life = 0;
+		target->SetCurrentLife(cur_life);
+
 		//Add stun effect at hit target
 		SDL_Color hit_color = { 255,255,255,255 };
 		target->worker.AddPriorizedAction(target->worker.GenerateAction(LG_ACTION_TYPE::LG_STUN_ACTION, target, 50, hit_color));
@@ -403,12 +406,14 @@ bool Simple_Attack_Action::Execute()
 	if (target->GetCurrentLife() == 0)return true;
 
 	//Apply damage to the target
-	uint atk_hitpnts = ((Creature*)actor)->GetAttackHitPoints();
-	int life = target->GetCurrentLife();
-	target->SetCurrentLife(MAX((int)life - (int)atk_hitpnts, 0));
+	//Apply damage
+	int cur_life = target->GetCurrentLife();
+	int atk_points = ((Creature*)actor)->GetAttackHitPoints();
+	cur_life > atk_points ? cur_life -= atk_points : cur_life = 0;
+	target->SetCurrentLife(cur_life);
 
 	//Generate a particle with the damage done
-	App->particle_manager->GenerateTextParticle(target,PARTICLE_TYPE::ENEMY_HITPOINTS_PARTICLE, atk_hitpnts);
+	App->particle_manager->GenerateTextParticle(target,PARTICLE_TYPE::ENEMY_HITPOINTS_PARTICLE, atk_points);
 
 	//If the target is dead call die action
 	if (target->GetCurrentLife() == 0)
